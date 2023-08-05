@@ -1,0 +1,20 @@
+KITS-19: CT_arterial
+MosMedData: HRCT_nocontrast
+LIDC-IDRI: CT
+CT_COLONOGRAPHY: CT
+Chest_X-ray_Abnormalities_Detection: Xray
+CoronaHack_Chest_X-Ray_Dataset: Xray
+ChestX-ray14: Xray
+PadChest: Xray
+Lung_segmentation_from_Chest_X-Rays: Xray
+Brain_Tumor_Classification_MRI: T1_weighted_postCM # occasionally T2_weighted! TODO: check
+Brain_Tumor_Progression: T1_weighted # probably some before CM and some after CM
+Qin_Brain_MRI: T1_weighted_after_CM
+# BRAIN_MRI_SEGMENTATION: 
+CT_ORG: CT
+Stanford_Brain_MET: 
+  '0': T1_weighted_preCM_spin-echo_pre-contrast 
+  '1': T1_weighted_postCM # This one was used to generate the masks
+  '2': T1_gradient_echo_postCM # (using an IR-prepped FSPGR sequence)
+  '3': T2_FLAIR_postCM
+Stanford_COCA: CT
