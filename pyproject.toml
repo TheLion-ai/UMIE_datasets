@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "umie-datasets"
+version = "0.1.0"
+description = ""
+authors = ["a-huli <klaudel.b@gmail.com>"]
+readme = "README.md"
+packages = [{include = "umie_datasets"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pillow = "^10.0.0"
+opencv-python = "^4.8.0.74"
+pyyaml = "^6.0.1"
+untangle = "^1.2.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
