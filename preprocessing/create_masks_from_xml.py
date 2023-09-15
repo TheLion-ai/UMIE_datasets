@@ -65,13 +65,3 @@ def add_blank_masks(source_path="/home/basia/Desktop/Stanford_COCA/"):
             new_path = os.path.join(source_path, 'Masks', img)
             img = np.zeros((512, 512), np.uint8)
             cv2.imwrite(new_path, img)
-
-
-if __name__=="__main__":
-
-    # create_masks_from_xml(
-    #     source_path="/home/basia/Desktop/coca/cocacoronarycalciumandchestcts-2/Gated_release_final/calcium_xml",
-    #     target_path="/home/basia/Desktop/Stanford_COCA/Masks",
-    #     dataset='Stanford_COCA'
-    #     )
-    add_blank_masks()
