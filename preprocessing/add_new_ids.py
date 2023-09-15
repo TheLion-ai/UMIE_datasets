@@ -100,12 +100,3 @@ def add_new_ids(
                     #     # source_file = os.path.join(source_path, study_id, mask_folder_name, file)
                     #     shutil.copy2(file, new_path)
 
-
-if __name__=="__main__":
-    add_new_ids(
-        source_path="/home/basia/Desktop/coca/cocacoronarycalciumandchestcts-2/Gated_release_final",
-        target_path='/home/basia/Desktop/Stanford_COCA',
-        dataset_name='Stanford_COCA',
-        image_folder_name='patient',
-        mask_folder_name='calcium_xml'
-        )
