@@ -54,7 +54,7 @@ def create_masks_from_xml(
             new_path = os.path.join(target_path, f"{filename_prefix}{str(img_id).zfill(4)}.png")
             cv2.imwrite(new_path, img)
 
-def add_blank_masks(source_path="/home/basia/Desktop/Stanford_COCA/"):
+def add_blank_masks():
     extension = "png"
     imgs = glob.glob(f"{os.path.join(source_path, 'Images')}/**/*{extension}", recursive=True)
     imgs = [os.path.basename(img) for img in imgs]
