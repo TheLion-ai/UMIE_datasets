@@ -14,16 +14,16 @@ This reposotory presents a suite of unified scripts to standardize, preprocess, 
 | [Brain Tumor Classification](https://www.kaggle.com/sartajbhuvaji/brain-tumor-classification-mri) | MRI | classification|
 | [Brain Tumor Progression](https://wiki.cancerimagingarchive.net/display/Public/Brain-Tumor-Progression#339481190e2ccc0d07d7455ab87b3ebb625adf48) | MRI | segmentation|
 | [QIN-BRAIN-DSC-MRI](https://wiki.cancerimagingarchive.net/display/Public/QIN-BRAIN-DSC-MRI#21267383b89ada0490e14a66b34d72fe8d9d8a0b) | MRI | segmentation|
-| [COVID-19 Detection X-Ray] (https://www.kaggle.com/darshan1504/covid19-detection-xray-dataset) | XRAY | classification |
-| [Shenzhen Hospital Chest X-ray Set] (https://www.kaggle.com/yoctoman/shcxr-lung-mask)| X-Ray | Segmentation |
-| [Knee Osteoarthritis Dataset with Severity Grading] (https://www.kaggle.com/shashwatwork/knee-osteoarthritis-dataset-with-severity)	|	X-Ray | Classification |
-| [Finding and Measuring Lungs in CT Data]	(https://www.kaggle.com/kmader/finding-lungs-in-ct-data?select=lung_stats.csv)	CT | Segmentation |
-| [Brain CT Images with Intracranial Hemorrhage Masks] (https://www.kaggle.com/vbookshelf/computed-tomography-ct-images)	| CT | Classification |
-| (Liver and Liver Tumor Segmentation)	[https://www.kaggle.com/andrewmvd/lits-png?select=lits_test.csv]	| CT | Classification, Segmentation |
-| (Alzheimer's Dataset)	[https://www.kaggle.com/tourist55/alzheimers-dataset-4-class-of-images]	| MRI | Classification |
-| (Brain MRI Images for Brain Tumor Detection) [https://www.kaggle.com/jjprotube/brain-mri-images-for-brain-tumor-detection] | MRI | Classification |
-| (BrainMetShare) [https://aimi.stanford.edu/brainmetshare] | MRI | Segmentation |
-| (COCA- Coronary Calcium and chest CTs) [https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa] | CT | Segmentation |
+| [COVID-19 Detection X-Ray](https://www.kaggle.com/darshan1504/covid19-detection-xray-dataset) | XRAY | classification |
+| [Shenzhen Hospital Chest X-ray Set](https://www.kaggle.com/yoctoman/shcxr-lung-mask)| X-Ray | Segmentation |
+| [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/shashwatwork/knee-osteoarthritis-dataset-with-severity)	|	X-Ray | Classification |
+| [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/kmader/finding-lungs-in-ct-data?select=lung_stats.csv)	CT | Segmentation |
+| [Brain CT Images with Intracranial Hemorrhage Masks](https://www.kaggle.com/vbookshelf/computed-tomography-ct-images)	| CT | Classification |
+| [Liver and Liver Tumor Segmentation](https://www.kaggle.com/andrewmvd/lits-png?select=lits_test.csv)| CT | Classification, Segmentation |
+| [Alzheimers Dataset](https://www.kaggle.com/tourist55/alzheimers-dataset-4-class-of-images)	| MRI | Classification |
+| [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/jjprotube/brain-mri-images-for-brain-tumor-detection) | MRI | Classification |
+| [BrainMetShare](https://aimi.stanford.edu/brainmetshare) | MRI | Segmentation |
+| [COCA- Coronary Calcium and chest CTs](https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa) | CT | Segmentation |
 
 
 
