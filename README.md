@@ -30,10 +30,11 @@ We trained our model with medical images from 3 different modalities **CT**, **M
 | [Brain Tumor Progression](https://wiki.cancerimagingarchive.net/display/Public/Brain-Tumor-Progression#339481190e2ccc0d07d7455ab87b3ebb625adf48) | MRI | segmentation|
 | [QIN-BRAIN-DSC-MRI](https://wiki.cancerimagingarchive.net/display/Public/QIN-BRAIN-DSC-MRI#21267383b89ada0490e14a66b34d72fe8d9d8a0b) | MRI | segmentation|
 
-Overall we prepared over **500 000** images in **.png** format
-* **CT - 399 202** 
-* **X-Ray - 118 672** 
-* **MRI - 5 020**
+
+Overall we prepared ** 882,774** images in **.png** format
+* **CT - 500k+
+* **X-Ray - 250k+** 
+* **MRI - 100k+**
 
 ### All necessary packages are included in pyproject.toml file.
 
