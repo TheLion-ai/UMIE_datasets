@@ -3,8 +3,9 @@ import os
 import glob
 
 import yaml
+from sklearn.base import BaseEstimator, TransformerMixin
 
-class AddLabelsToFilenames():
+class AddLabelsToFilenames((BaseEstimator, TransformerMixin):):
 
     def __init__(self):
         pass
