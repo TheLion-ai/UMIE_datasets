@@ -54,13 +54,4 @@ def convert_dcm2png(
         cv2.imwrite(image_path.replace('.dcm', '.png'), windowed)
         return windowed
     except:
-        print(f'Error occured while converting {image_path} {ds.is_little_endian}')
-
-if __name__=="__main__":
-    extension = "dcm"
-    path = "/home/basia/Desktop/Stanford_COCA/Images"
-    files = glob.glob(f"{path}/**/*{extension}", recursive=True)
-    for file_path in files:
-        convert_dcm2png(file_path)
-    
-        
+        print(f'Error occured while converting {image_path} {ds.is_little_endian}')        
