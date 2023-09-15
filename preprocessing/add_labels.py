@@ -4,7 +4,23 @@ import glob
 
 import yaml
 
-def add_labels(source_path, target_path, dataset_name, label):
+class AddLabelsToFilenames():
+
+    def __init__(self):
+        pass
+
+    def fit(self, X=None, y=None):
+        return self
+
+    def transform(
+        self,
+        X: str=None,
+        y: str=None,
+        source_path: str="",
+        target_path: str="",
+        dataset_name: str="",
+        label: str=""
+    ):
     """
     Add labels to filenames.
 
