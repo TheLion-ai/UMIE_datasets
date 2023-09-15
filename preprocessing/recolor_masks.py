@@ -46,11 +46,3 @@ def recolor_masks(
             # changing pixel values
             np.place(img, img == source_color, target_color)
             cv2.imwrite(new_path, img)
-
-
-if __name__=="__main__":
-    recolor_masks(
-        source_path="/home/basia/Desktop/BrainMetShare/stanford_release_brainmask/mets_stanford_releaseMask_train",
-        target_path='Masks',
-        mask='brain_metastasis'
-        )
