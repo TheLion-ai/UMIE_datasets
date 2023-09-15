@@ -35,5 +35,5 @@ Overall we prepared over **500 000** images in **.png** format
 * **X-Ray - 118 672** 
 * **MRI - 5 020**
 
-### All necessary packages are included in requirements.txt file
+### All necessary packages are included in pyproject.toml file.
 
