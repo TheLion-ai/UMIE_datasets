@@ -17,7 +17,7 @@ This reposotory presents a suite of unified scripts to standardize, preprocess, 
 | [COVID-19 Detection X-Ray](https://www.kaggle.com/darshan1504/covid19-detection-xray-dataset) | XRAY | classification |
 | [Shenzhen Hospital Chest X-ray Set](https://www.kaggle.com/yoctoman/shcxr-lung-mask)| X-Ray | Segmentation |
 | [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/shashwatwork/knee-osteoarthritis-dataset-with-severity)	|	X-Ray | Classification |
-| [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/kmader/finding-lungs-in-ct-data?select=lung_stats.csv)	CT | Segmentation |
+| [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/kmader/finding-lungs-in-ct-data?select=lung_stats.csv)	| CT | Segmentation |
 | [Brain CT Images with Intracranial Hemorrhage Masks](https://www.kaggle.com/vbookshelf/computed-tomography-ct-images)	| CT | Classification |
 | [Liver and Liver Tumor Segmentation](https://www.kaggle.com/andrewmvd/lits-png?select=lits_test.csv)| CT | Classification, Segmentation |
 | [Alzheimers Dataset](https://www.kaggle.com/tourist55/alzheimers-dataset-4-class-of-images)	| MRI | Classification |
