@@ -15,11 +15,23 @@ from PIL import Image, ImageDraw
 import os
 import PIL.Image
 import plistlib
+from sklearn.base import BaseEstimator, TransformerMixin
 
-def create_masks_from_xml(
-        source_path: str,
-        target_path: str,
-        dataset: str,
+
+class CreateMasksFromXml(BaseEstimator, TransformerMixin):
+
+        def __init__(self):
+                pass
+
+        def fit(self, X=None, y=None):
+                return self
+
+        def transform(
+                self,
+                X: str=None,
+                source_path: str="",
+                target_path: str="",
+                dataset: str="",
 ):
     dataset_uid = yaml.load(open('config/dataset_uid_config.yaml'), Loader=yaml.FullLoader)[dataset]
     dataset_masks = yaml.load(open('config/dataset_masks_config.yaml'), Loader=yaml.FullLoader)[dataset]
@@ -54,14 +66,14 @@ def create_masks_from_xml(
             new_path = os.path.join(target_path, f"{filename_prefix}{str(img_id).zfill(4)}.png")
             cv2.imwrite(new_path, img)
 
-def add_blank_masks():
-    extension = "png"
-    imgs = glob.glob(f"{os.path.join(source_path, 'Images')}/**/*{extension}", recursive=True)
-    imgs = [os.path.basename(img) for img in imgs]
-    masks = glob.glob(f"{os.path.join(source_path, 'Masks')}/**/*{extension}", recursive=True)
-    masks = [os.path.basename(mask) for mask in masks]
-    for img in imgs:
-        if img not in masks:
-            new_path = os.path.join(source_path, 'Masks', img)
-            img = np.zeros((512, 512), np.uint8)
-            cv2.imwrite(new_path, img)
+        def add_blank_masks():
+            extension = "png"
+            imgs = glob.glob(f"{os.path.join(source_path, 'Images')}/**/*{extension}", recursive=True)
+            imgs = [os.path.basename(img) for img in imgs]
+            masks = glob.glob(f"{os.path.join(source_path, 'Masks')}/**/*{extension}", recursive=True)
+            masks = [os.path.basename(mask) for mask in masks]
+            for img in imgs:
+                if img not in masks:
+                    new_path = os.path.join(source_path, 'Masks', img)
+                    img = np.zeros((512, 512), np.uint8)
+                    cv2.imwrite(new_path, img)
