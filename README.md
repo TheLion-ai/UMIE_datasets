@@ -1,6 +1,10 @@
 # UMIE_datasets
 
 This repository presents a suite of unified scripts to standardize, preprocess, and integrate 882,774 images from 20 open-source medical imaging datasets, spanning modalities such as X-ray, CT, and MR. The scripts allow for seamless and fast download of a diverse medical data set. We create a unified set of annotations allowing for merging the datasets together without mislabelling.
+
+
+![Preprocessing_modules](dataset_modules.png)
+
 ## Datasets
 | Dataset | Modality | TASK |
 | :------:| :--------:|:-------:| 
