@@ -11,10 +11,11 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 class AddNewIds(BaseEstimator, TransformerMixin):
 
-        def __init__(
+        def __init__():
                 pass
 
-        def fit(self, X=None, y=None)
+        def fit(self, X=None, y=None):
+                return self
 
         def transform(self,
                 X=None,
