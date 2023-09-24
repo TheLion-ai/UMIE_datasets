@@ -9,24 +9,16 @@ import tqdm
 from sklearn.base import BaseEstimator, TransformerMixin
 
 
-class recolor_masks(BaseEstimator, TransformerMixin):
+class RecolorMasks(BaseEstimator, TransformerMixin):
 
-        def __init__(self):
-                pass
+        def __init__(self, mask_colors_old2new: dict, mask_folder_name: str="Masks", **kwargs):
+            self.mask_colors_old2new = mask_colors_old2new
+            self.mask_folder_name = mask_folder_name
 
         def fit(self, X, y=None):
-                return self
+            return self
 
-        def transform(
-                self,
-                X: str=None,
-                y: str=None,
-                source_path: str,
-                target_path: str,
-                mask: str,
-                extension: str = '.png',
-                source_color: int = 255
-            ):
+        def transform(self, X):
             """
             Recolors masks from default color to the color specified in the config.
             UMIE datasets consists of masks from several opensource datasets. Each type of masks has unique color encoding.
@@ -39,22 +31,16 @@ class recolor_masks(BaseEstimator, TransformerMixin):
                 extension (str): extension of the mask files (only images supported)
                 source_color (int): color of the mask to be changed
             """
+            root_path = os.path.join(os.path.dirname(os.path.dirname(X)), self.mask_folder_name)
+            mask_paths = glob.glob(f"{root_path}/**/*.png", recursive=True)
+            for mask_path in mask_paths:
+                self.recolor_masks(mask_path)
+            return X
         
-            if not os.path.exists(target_path):
-                os.makedirs(target_path)
-        
-            masks_config = yaml.load(open('config/masks_config.yaml'), Loader=yaml.FullLoader)
-            target_color = masks_config[mask]
-        
-            # Searching for images recursively
-            files = glob.glob(f"{source_path}/**/*{extension}", recursive=True)
-        
-        
-            for file in files:
-                file_name = os.path.basename(file)
-                new_path = os.path.join(target_path, file_name)
-                if not os.path.exists(new_path):
-                    img = cv2.imread(file)
-                    # changing pixel values
-                    np.place(img, img == source_color, target_color)
-                    cv2.imwrite(new_path, img)
+
+        def recolor_masks(self, mask_path):
+            mask = cv2.imread(mask_path)
+            # changing pixel values
+            for source_color, target_color in self.mask_colors_old2new.items():
+                np.place(mask, mask == source_color, target_color)
+            cv2.imwrite(mask_path, mask)
