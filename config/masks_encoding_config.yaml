@@ -9,7 +9,7 @@ brain: 50
 brain_metastasis: 60
 parenchyma_0_25: 100
 kidney_tumor: 101
-kidneys: 127
+kidney: 127
 bone: 140
 liver: 150
 bladder: 160
