@@ -1,6 +1,7 @@
+"""Run all pipelines."""
+from pipelines.ct.kits19 import preprocess_kits19
 from pipelines.ct.stanford_coca import preprocess_coca
 from pipelines.mri.stanford_brain_met import preprocess_stanford_brain_met
-from pipelines.ct.kits19 import preprocess_kits19
 
 # preprocess_coca(
 #     source_path="/home/basia/Desktop/coca/cocacoronarycalciumandchestcts-2/Gated_release_final/patient",
@@ -15,8 +16,7 @@ from pipelines.ct.kits19 import preprocess_kits19
 # )
 
 preprocess_kits19(
-    source_path='/home/basia/Desktop/kits19/data',
-    target_path='data/',
-    labels_path='/home/basia/Desktop/kits19/data/kits.json',
+    source_path="/home/basia/Desktop/kits19/data",
+    target_path="data/",
+    labels_path="/home/basia/Desktop/kits19/data/kits.json",
 )
-
