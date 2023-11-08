@@ -1,10 +1,7 @@
 import os
 import glob
-import shutil
-import re
 import nibabel as nib
 
-import yaml
 import numpy as np
 import cv2
 from tqdm import tqdm
