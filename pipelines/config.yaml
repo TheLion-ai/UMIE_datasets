@@ -1,0 +1,26 @@
+---
+# Add local paths to datasets
+ct_org: 
+kits19: 
+MosMed: 
+LIDC: 
+QIN_Brain: 
+Brain_Tumor_Classification: 
+Brain_Tumor_Progression: 
+Chest_X_ray_14: 
+Lung_Segmentation_X_ray: 
+Coronahack: 
+# datasets to be processed
+# (1-process, 0-ignore)
+ct_org_proc: 
+kits19_proc: 
+MosMed_proc: 
+LIDC_proc: 
+QIN_Brain_proc: 
+Brain_Tumor_Classification_proc: 
+Brain_Tumor_Progression_proc: 
+Chest_X_ray_14_proc: 
+Lung_Segmentation_X_ray_proc: 
+Coronahack_proc: 
+# path for saving processed images
+target_path: 
