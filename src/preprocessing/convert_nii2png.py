@@ -1,14 +1,18 @@
+"""Converts nii files to png images with appropriate color encoding."""
 import glob
 import os
+from typing import Callable
 
 import cv2
 import nibabel as nib
 import numpy as np
-from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
 
-class ConvertNii2Png(BaseEstimator, TransformerMixin):
+class ConvertNii2Png(TransformerMixin):
+    """Converts nii files to png images with appropriate color encoding."""
+
     def __init__(
         self,
         target_path: str,
@@ -19,12 +23,28 @@ class ConvertNii2Png(BaseEstimator, TransformerMixin):
         window_width: int,
         image_folder_name: str = "Images",
         mask_folder_name: str = "Masks",
-        img_id_extractor: callable = lambda x: os.path.basename(x),
-        study_id_extractor: callable = lambda x: x,
-        phase_extractor: callable = lambda x: x,
+        img_id_extractor: Callable = lambda x: os.path.basename(x),
+        study_id_extractor: Callable = lambda x: x,
+        phase_extractor: Callable = lambda x: x,
         zfill: int = 3,
-        **kwargs,
+        **kwargs: dict,
     ):
+        """Convert nii files to png images with appropriate color encoding.
+
+        Args:
+            target_path (str): Path to the target folder.
+            dataset_name (str): Name of the dataset.
+            dataset_uid (str): Unique identifier of the dataset.
+            phases (dict): Dictionary with phases and their names.
+            window_center (int): Window center for the images.
+            window_width (int): Window width for the images.
+            image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
+            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
+            img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
+            study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
+            phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
+            zfill (int, optional): Number of zeros to fill the image id. Defaults to 3.
+        """
         self.target_path = target_path
         self.dataset_name = dataset_name
         self.dataset_uid = dataset_uid
@@ -38,23 +58,31 @@ class ConvertNii2Png(BaseEstimator, TransformerMixin):
         self.window_width = window_width
         self.zfill = zfill
 
-    def fit(self, X=None, y=None):
-        return self
-
     def transform(
         self,
-        X,  # img_paths
-    ):
+        X: list,  # img_paths
+    ) -> list:
+        """Convert nii files to png images with appropriate color encoding.
+
+        Args:
+            X (list): List of paths to the images.
+        Returns:
+            list: List of paths to the images with labels.
+        """
         print("Converting nii to png...")
         for img_path in tqdm(X):
             if img_path.endswith(".nii.gz"):
                 self.convert_nii2png(img_path)
         root_path = os.path.dirname(X[0])
-        # TODO: Add f"{root_path}/**/*.png" to all new paths
         new_paths = glob.glob(f"{root_path}/**/*.png", recursive=True)
         return new_paths
 
-    def convert_nii2png(self, img_path):
+    def convert_nii2png(self, img_path: str) -> None:
+        """Convert nii files to png images with appropriate color encoding.
+
+        Args:
+            img_path (str): Path to the image.
+        """
         nii_img = nib.load(img_path)
         nii_data = nii_img.get_fdata()
         slices = nii_data.shape[0]
@@ -71,7 +99,14 @@ class ConvertNii2Png(BaseEstimator, TransformerMixin):
                 img = self._apply_window(img)
             cv2.imwrite(new_path, img)
 
-    def _apply_window(self, pixel_data):
+    def _apply_window(self, pixel_data: np.ndarray) -> np.ndarray:
+        """Apply window to the image.
+
+        Args:
+            pixel_data (np.ndarray): Image data.
+        Returns:
+            np.ndarray: Image data with applied window.
+        """
         # apply window
         pixel_data = np.clip(
             pixel_data,

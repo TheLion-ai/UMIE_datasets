@@ -1,34 +1,38 @@
 """Get file paths of all images from a source directory."""
 import os
 
-from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.base import TransformerMixin
 
 
-class GetFilePaths(BaseEstimator, TransformerMixin):
+class GetFilePaths(TransformerMixin):
     """Get file paths of all images from a source directory."""
 
-    def __init__(self, source_path: str = "", **kwargs):
+    def __init__(self, source_path: str = "", **kwargs: dict):
+        """Get file paths of all images from a source directory.
+
+        Args:
+            source_path (str): Path to the source directory.
+        """
         self.source_path = source_path
         self.omit_conditions = list
 
-    def fit(self, X=None, y=None):
-        return self
-
     def transform(
         self,
-        X="",
-    ):
+        X: list = [],
+    ) -> list:
         """Get file paths of all images from a source directory.
+
         Args:
             X (list): List of paths to the images.
         Returns:
             X (list): List of paths to the images.
         """
-        file_paths = self.get_file_paths(X)
+        file_paths = self.get_file_paths(self.source_path)
         return file_paths
 
-    def get_file_paths(self, source_path: str):
+    def get_file_paths(self, source_path: str) -> list:
         """Get file paths of all images from a source directory.
+
         Args:
             source_path (str): Path to the source directory.
         Returns:

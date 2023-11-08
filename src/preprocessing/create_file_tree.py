@@ -1,10 +1,11 @@
 """Create file tree for dataset."""
 import os
+from typing import Any
 
-from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.base import TransformerMixin
 
 
-class CreateFileTree(BaseEstimator, TransformerMixin):
+class CreateFileTree(TransformerMixin):
     """Create file tree for dataset."""
 
     def __init__(
@@ -15,8 +16,18 @@ class CreateFileTree(BaseEstimator, TransformerMixin):
         phases: dict,
         image_folder_name: str = "Images",
         mask_folder_name: str = "Masks",
-        **kwargs,
+        **kwargs: dict,
     ):
+        """Create file tree for dataset.
+
+        Args:
+            target_path (str): Path to the target folder.
+            dataset_name (str): Name of the dataset.
+            dataset_uid (str): Unique identifier of the dataset.
+            phases (dict): Dictionary with phases and their names.
+            image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
+            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
+        """
         self.target_path = target_path
         self.dataset_name = dataset_name
         self.dataset_uid = dataset_uid
@@ -24,11 +35,9 @@ class CreateFileTree(BaseEstimator, TransformerMixin):
         self.image_folder_name = image_folder_name
         self.mask_folder_name = mask_folder_name
 
-    def fit(self, X=None, y=None):
-        return self
-
-    def transform(self, X):
+    def transform(self, X: list) -> list:
         """Create file tree for dataset.
+
         Args:
             X (list): List of paths to the images.
         Returns:
@@ -37,8 +46,9 @@ class CreateFileTree(BaseEstimator, TransformerMixin):
         self.create_file_tree()
         return X
 
-    def _create_dir(self, *filetree):
+    def _create_dir(self, *filetree: Any) -> None:
         """Create directory if it does not exist.
+
         Args:
             *filetree (list): List of folder paths.
         """
@@ -46,7 +56,7 @@ class CreateFileTree(BaseEstimator, TransformerMixin):
         if not os.path.exists(filetree_path):
             os.makedirs(filetree_path)
 
-    def create_file_tree(self):
+    def create_file_tree(self) -> None:
         """Create file tree for dataset."""
         self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
 

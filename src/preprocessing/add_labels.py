@@ -2,12 +2,13 @@
 import glob
 import json
 import os
+from typing import Callable
 
-from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
 
-class AddLabels(BaseEstimator, TransformerMixin):
+class AddLabels(TransformerMixin):
     """Add labels to the images and masks based on the labels.json file."""
 
     def __init__(
@@ -20,14 +21,32 @@ class AddLabels(BaseEstimator, TransformerMixin):
         window_width: int,
         image_folder_name: str = "Images",
         mask_folder_name: str = "Masks",
-        img_id_extractor: callable = lambda x: os.path.basename(x),
-        study_id_extractor: callable = lambda x: x,
-        phase_extractor: callable = lambda x: x,
+        img_id_extractor: Callable = lambda x: os.path.basename(x),
+        study_id_extractor: Callable = lambda x: x,
+        phase_extractor: Callable = lambda x: x,
         zfill: int = 3,
         labels_path: str = "",
-        get_label: callable = lambda x: [],
-        **kwargs,
+        get_label: Callable = lambda x: [],
+        **kwargs: dict,
     ):
+        """Add labels to the images and masks based on the labels.json file.
+
+        Args:
+            target_path (str): Path to the target folder.
+            dataset_name (str): Name of the dataset.
+            dataset_uid (str): Unique identifier of the dataset.
+            phases (dict): Dictionary with phases and their names.
+            window_center (int): Window center for the images.
+            window_width (int): Window width for the images.
+            image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
+            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
+            img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
+            study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
+            phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
+            zfill (int, optional): Number of zeros to fill the image id. Defaults to 3.
+            labels_path (str, optional): Path to the labels file. Defaults to "".
+            get_label (Callable, optional): Function to get the label. Defaults to lambda x: [].
+        """
         self.target_path = target_path
         self.dataset_name = dataset_name
         self.dataset_uid = dataset_uid
@@ -40,17 +59,15 @@ class AddLabels(BaseEstimator, TransformerMixin):
         self.window_center = window_center
         self.window_width = window_width
         self.zfill = zfill
-        self.labels_path = (labels_path,)
+        self.labels_path = labels_path
         self.get_label = get_label
-
-    def fit(self, X=None, y=None):
-        return self
 
     def transform(
         self,
-        X,  # img_paths
-    ):
+        X: list,  # img_paths
+    ) -> list:
         """Add labels to the images and masks.
+
         Args:
             X (list): List of paths to the images.
         Returns:
@@ -65,12 +82,12 @@ class AddLabels(BaseEstimator, TransformerMixin):
         for img_path in tqdm(X):
             self.add_labels(img_path, labels_list)
         root_path = os.path.dirname(X[0])
-        # TODO: Add f"{root_path}/**/*.png" to all new paths
         new_paths = glob.glob(f"{root_path}/**/*.png", recursive=True)
         return new_paths
 
-    def add_labels(self, img_path, labels_list):
+    def add_labels(self, img_path: str, labels_list: list) -> None:
         """Add labels to the image and mask.
+
         Args:
             img_path (str): Path to the image.
             labels_list (list): List of labels.

@@ -4,25 +4,28 @@ import os
 
 import cv2
 import numpy as np
-from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
 
-class CreateBlankMasks(BaseEstimator, TransformerMixin):
+class CreateBlankMasks(TransformerMixin):
     """Create blank masks for images that don't have masks."""
 
-    def __init__(self, mask_folder_name: str = "Masks", **kwargs):
-        self.mask_folder_name = mask_folder_name
+    def __init__(self, mask_folder_name: str = "Masks", **kwargs: dict):
+        """Create blank masks for images that don't have masks.
 
-    def fit(self, X, y=None):
-        return self
+        Args:
+            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
+        """
+        self.mask_folder_name = mask_folder_name
 
     def transform(
         self,
-        X: str,
+        X: list,
         target_path: str = "",
-    ):
+    ) -> list:
         """Create blank masks for images that don't have masks.
+
         Args:
             X (list): List of paths to the images.
             target_path (str): Path to the target folder.
@@ -41,8 +44,9 @@ class CreateBlankMasks(BaseEstimator, TransformerMixin):
                 self.create_blank_masks(img_path)
         return X
 
-    def create_blank_masks(self, img_path: str):
+    def create_blank_masks(self, img_path: str) -> None:
         """Create blank masks for images that don't have masks.
+
         Args:
             img_path (str): Path to the image.
         """

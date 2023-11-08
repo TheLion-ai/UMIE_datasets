@@ -1,11 +1,15 @@
+"""Copy PNG masks to a new folder structure."""
 import os
 import shutil
+from typing import Callable
 
-from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
 
-class CopyPNGMasks(BaseEstimator, TransformerMixin):
+class CopyPNGMasks(TransformerMixin):
+    """Copy PNG masks to a new folder structure."""
+
     def __init__(
         self,
         target_path: str,
@@ -14,12 +18,26 @@ class CopyPNGMasks(BaseEstimator, TransformerMixin):
         phases: dict,
         image_folder_name: str = "Images",
         mask_folder_name: str = "Masks",
-        img_id_extractor: callable = lambda x: os.path.basename(x),
-        study_id_extractor: callable = lambda x: x,
-        phase_extractor: callable = lambda x: x,
+        img_id_extractor: Callable = lambda x: os.path.basename(x),
+        study_id_extractor: Callable = lambda x: x,
+        phase_extractor: Callable = lambda x: x,
         mask_selector: str = "segmentations",
-        **kwargs,
+        **kwargs: dict,
     ):
+        """Copy PNG masks to a new folder structure.
+
+        Args:
+            target_path (str): Path to the target folder.
+            dataset_name (str): Name of the dataset.
+            dataset_uid (str): Unique identifier of the dataset.
+            phases (dict): Dictionary with phases and their names.
+            image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
+            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
+            img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
+            study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
+            phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
+            mask_selector (str, optional): String to select masks. Defaults to "segmentations".
+        """
         self.target_path = target_path
         self.dataset_name = dataset_name
         self.dataset_uid = dataset_uid
@@ -31,19 +49,28 @@ class CopyPNGMasks(BaseEstimator, TransformerMixin):
         self.phase_extractor = phase_extractor
         self.mask_selector = mask_selector
 
-    def fit(self, X=None, y=None):
-        return self
-
     def transform(
         self,
-        X,  # img_paths
-    ):
+        X: list,  # img_paths
+    ) -> list:
+        """Copy PNG masks to a new folder structure.
+
+        Args:
+            X (list): List of paths to the images.
+        Returns:
+            list: List of paths to the images with labels.
+        """
         print("Copying PNG masks...")
         for img_path in tqdm(X):
             self.copy_png_masks(img_path)
         return X
 
-    def copy_png_masks(self, img_path):
+    def copy_png_masks(self, img_path: str) -> None:
+        """Copy PNG masks to a new folder structure.
+
+        Args:
+            img_path (str): Path to the image.
+        """
         img_id = self.img_id_extractor(img_path)
         study_id = self.study_id_extractor(img_path)
         phase_id = self.phase_extractor(img_path)

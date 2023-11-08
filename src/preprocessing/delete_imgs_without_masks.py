@@ -2,21 +2,28 @@
 import glob
 import os
 
-from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
 
-class DeleteImgsWithoutMasks(BaseEstimator, TransformerMixin):
+class DeleteImgsWithoutMasks(TransformerMixin):
     """Delete images without masks."""
 
-    def __init__(self, mask_folder_name: str = "Masks", **kwargs):
+    def __init__(
+        self,
+        mask_folder_name: str = "Masks",
+        **kwargs: dict,
+    ):
+        """Delete images without masks.
+
+        Args:
+            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
+        """
         self.mask_folder_name = mask_folder_name
 
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X: str):
+    def transform(self, X: str) -> list:
         """Delete images without masks.
+
         Args:
             X (list): List of paths to the images.
         Returns:
@@ -37,8 +44,9 @@ class DeleteImgsWithoutMasks(BaseEstimator, TransformerMixin):
         new_paths = glob.glob(f"{root_path}/*.png", recursive=True)
         return new_paths
 
-    def delete_imgs_without_masks(self, img_path: str):
+    def delete_imgs_without_masks(self, img_path: str) -> None:
         """Delete images without masks.
+
         Args:
             img_path (str): Path to the image.
         """
