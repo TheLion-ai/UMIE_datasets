@@ -1,5 +1,3 @@
-from pipelines.ct.stanford_coca import preprocess_coca
-from pipelines.mri.stanford_brain_met import preprocess_stanford_brain_met
 from pipelines.ct.kits19 import preprocess_kits19
 
 # preprocess_coca(
@@ -15,8 +13,7 @@ from pipelines.ct.kits19 import preprocess_kits19
 # )
 
 preprocess_kits19(
-    source_path='/home/basia/Desktop/kits19/data',
-    target_path='data/',
-    labels_path='/home/basia/Desktop/kits19/data/kits.json',
+    source_path="/home/basia/Desktop/kits19/data",  # TODO: change to the path to the data
+    target_path="data/",
+    labels_path="/home/basia/Desktop/kits19/data/kits.json",
 )
-
