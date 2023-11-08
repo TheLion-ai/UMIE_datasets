@@ -1,4 +1,4 @@
-name: test
+name: Lint, Format and Test
 
 on: pull_request
 
@@ -52,13 +52,12 @@ jobs:
         -   name: Run tests
             run: |
                 source .venv/bin/activate
-                scripts/run_tests.sh
+                bash scripts/run_tests.sh
         -   name: Run formatter
             run: |
                 source .venv/bin/activate
-                scripts/run_formatter.sh
-                -   name: Run formatter
+                bash scripts/run_formatter.sh
         -   name: Run linter
             run: |
                 source .venv/bin/activate
-                scripts/run_linter.sh
+                bash cripts/run_linter.sh
