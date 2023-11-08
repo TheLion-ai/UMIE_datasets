@@ -1,1 +1,7 @@
 data/
+.venv
+.vscode/
+.trunk
+.mypy_cache/
+.pytest_cache/
+.benchmarks/
