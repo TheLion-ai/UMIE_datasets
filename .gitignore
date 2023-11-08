@@ -1,1 +1,7 @@
 data/
+.ruff_cache/
+.vscode
+.venv
+.pytest_cache/
+.mypy_cache/
+.benchmarks
