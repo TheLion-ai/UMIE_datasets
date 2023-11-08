@@ -1,4 +1,4 @@
-"""Change file names to match the format of the rest of the dataset."""
+"""Create file tree for dataset."""
 import glob
 import os
 import re
@@ -10,6 +10,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 
 class CreateFileTree(BaseEstimator, TransformerMixin):
+    """Create file tree for dataset."""
     def __init__(
         self,
         target_path: str,
@@ -31,15 +32,26 @@ class CreateFileTree(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
+        """Create file tree for dataset.
+        Args:
+            X (list): List of paths to the images.
+        Returns:
+            X (list): List of paths to the images.
+        """
         self.create_file_tree()
         return X
 
     def _create_dir(self, *filetree):
+        """Create directory if it does not exist.
+        Args:
+            *filetree (list): List of folder paths.
+        """
         filetree_path = os.path.join(*filetree)
         if not os.path.exists(filetree_path):
             os.makedirs(filetree_path)
 
     def create_file_tree(self):
+        """Create file tree for dataset."""
         self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
 
         if len(self.phases.keys()) > 1:

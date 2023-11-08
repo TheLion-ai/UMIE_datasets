@@ -10,6 +10,7 @@ from tqdm import tqdm
 
 
 class CopyPNGMasks(BaseEstimator, TransformerMixin):
+    """Copy PNG masks to the target folder."""
     def __init__(
         self,
         target_path: str,
@@ -42,13 +43,22 @@ class CopyPNGMasks(BaseEstimator, TransformerMixin):
         self,
         X,  # img_paths
     ):
+        """Copy PNG masks to the target folder.
+        Args:
+            X (list): List of paths to the images.
+        Returns:
+            new_paths (list): List of paths to the images with new ids.
+        """
         print("Copying PNG masks...")
         for img_path in tqdm(X):
             self.copy_png_masks(img_path)
         return X
 
     def copy_png_masks(self, img_path):
-
+        """Copy PNG masks to the target folder.
+        Args:
+            img_path (str): Path to the image.
+        """
         img_id = self.img_id_extractor(img_path)
         study_id = self.study_id_extractor(img_path)
         phase_id = self.phase_extractor(img_path)

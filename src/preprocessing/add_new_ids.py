@@ -1,4 +1,4 @@
-"""Change file names to match the format of the rest of the dataset."""
+"""Change image ids to match the format of the rest of the dataset."""
 import glob
 import os
 import re
@@ -11,6 +11,7 @@ from tqdm import tqdm
 
 
 class AddNewIds(BaseEstimator, TransformerMixin):
+    """Change img ids to match the format of the rest of the dataset."""
     def __init__(
         self,
         target_path: str,
@@ -41,6 +42,12 @@ class AddNewIds(BaseEstimator, TransformerMixin):
         self,
         X,  # img_paths
     ):
+        """Change image ids to match the format of the rest of the dataset.
+        Args:
+            X (list): List of paths to the images.
+        Returns:
+            new_paths (list): List of paths to the images with new ids.
+        """
         print("Adding new ids to the dataset...")
         for img_path in tqdm(X):
             self.add_new_ids(img_path)
@@ -54,7 +61,10 @@ class AddNewIds(BaseEstimator, TransformerMixin):
         return new_paths
 
     def add_new_ids(self, img_path):
-
+        """Change image ids to match the format of the rest of the dataset.
+        Args:
+            img_path (str): Path to the image.
+        """
         img_id = self.img_id_extractor(img_path)
         study_id = self.study_id_extractor(img_path)
 
