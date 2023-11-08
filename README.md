@@ -7,7 +7,7 @@ This repository presents a suite of unified scripts to standardize, preprocess, 
 
 ## Datasets
 | Dataset | Modality | TASK |
-| :------:| :--------:|:-------:|
+| :------:| :--------:|:-------:| 
 | [KITS-19](https://github.com/neheller/kits19)   | CT | classification/segmentation|
 | [MosMedData](https://mosmed.ai/en/) | CT | classification/segmentation|
 | [LIDC-IRI](https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI#) | CT | segmentation|
@@ -34,7 +34,7 @@ This repository presents a suite of unified scripts to standardize, preprocess, 
 # **Data preparation instruction**
 ## Installing requirements
 ```bash
-poetry install
+poetry install 
 ```
 ## Creating the dataset
 Unfortunately due to the copyright restrictions of the source datasets, we can't share the files directly. To obtain the full dataset you have to download the source datasets yourself and run the preprocessing scripts.
@@ -58,18 +58,18 @@ Unfortunately due to the copyright restrictions of the source datasets, we can't
   2. delete files that don't match the others (XRAYS)
   3. use [retrieve_data_from_xml.py](./pipelines/CT/retrieve_data_from_xml.py) to create nodule masks from xmls, add path to directory (line 150)
   4. use [convertLIDC.py](./pipelines/CT/convertLIDC.py), specify source and target paths.
-
+ 
 * **Finding and Measuring Lungs in CT Data**
   1.  Download the dataset from [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/kmader/finding-lungs-in-ct-data?select=lung_stats.csv).
   2.  Use [test_ct_lungs.py](./pipelines/CT/test_ct_lungs.py) to transform the dataset. Set source paths for images and masks, as well as the target paths.
-
+ 
 * **Brain CT Images with Intracranial Hemorrhage Masks**
   1. Download the data from [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/kmader/finding-lungs-in-ct-data?select=lung_stats.csv).
   2. Use [test_ct_brain.py](./pipelines/CT/test_ct_brain.py) to transform the dataset. Specify paths to source images and masks, target images and masks, and a csv file with annotations.
 
 * **Liver and Liver Tumor Segmentation**
   1. Download the dataset from  [Liver and Liver Tumor Segmentation](https://www.kaggle.com/andrewmvd/lits-png?select=lits_test.csv).
-  2. Transform the data with [test_ct_liver.py](./pipelines/CT/test_ct_liver.py).
+  2. Transform the data with [test_ct_liver.py](./pipelines/CT/test_ct_liver.py). 
 
 * **COCA- Coronary Calcium and chest CTs**
   1. Download the dataset from [COCA- Coronary Calcium and chest CTs](https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa). You will need to create an account.
@@ -88,15 +88,15 @@ Unfortunately due to the copyright restrictions of the source datasets, we can't
 * **Brain-Tumor-Progression**
   1. Download [Brain Tumor Progression](https://wiki.cancerimagingarchive.net/display/Public/Brain-Tumor-Progression#339481190e2ccc0d07d7455ab87b3ebb625adf48)  dataset from the cancer imaging archive
   2. Use [converterBrainTumorProgression.py](./pipelines/MRI/converterBrainTumorProgression.py), Specify source and target paths.
-
+ 
 * **Alzheimers Dataset**
   1. Download the dataset from [Alzheimers Dataset](https://www.kaggle.com/tourist55/alzheimers-dataset-4-class-of-images).
   2. Use [test_mri_alzheimer.py](./pipelines/MRI/test_mri_alzheimer.py) to transform the data. Specify source and target directory.
-
+ 
 * **Brain MRI Images for Brain Tumor Detection**
   1. Download the dataset from [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/jjprotube/brain-mri-images-for-brain-tumor-detection).
   2. Use [test_brain_mri.py](./pipelines/MRI/test_brain_mri.py) to transform the datasets.
-
+ 
 *  **BrainMetShare**
   1. Download the data from [BrainMetShare](https://aimi.stanford.edu/brainmetshare). You will need to create an account.
   2. Use [brain_met_share](./pipelines/MRI/brain_met_share.py) to transform the dataset.
@@ -132,7 +132,7 @@ Unfortunately due to the copyright restrictions of the source datasets, we can't
 * **COVID-19 Detection X-Ray**
   1. Download the dataset from [COVID-19 Detection X-Ray](https://www.kaggle.com/darshan1504/covid19-detection-xray-dataset)
   2. Use the script [covid-19_detection_preprocessing.py](./pipelines/X-Ray/covid-19_detection_preprocessing.py) to transform the files. Use dir_1 and dir_d1 parameters to specify source and target paths.
-
+ 
 * **Shenzhen Hospital Chest X-ray Set**
   1. Download the dataset from [Shenzhen Hospital Chest X-ray Set](https://www.kaggle.com/yoctoman/shcxr-lung-mask).
   2. Use the script [test_lung_segmentation.py](./pipelines/X-ray/test_lungs_segmentation.py) to transform the dataset. Set path to source masks and source images, and target images and masks in the marked area.
@@ -140,10 +140,13 @@ Unfortunately due to the copyright restrictions of the source datasets, we can't
 * **Knee Osteoarthritis Dataset with Severity Grading**
     1. Download the dataset from  [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/shashwatwork/knee-osteoarthritis-dataset-with-severity).
     2. Use [knee_images](./pipelines/X-ray/knee_images.py) to transform the dataset. Specify source and target paths.
-
+ 
 To preprocess the dataset that is not among the above, search the preprocessing folder. It contains the reusable steps for changing imaging formats, extracting masks, creating file trees, etc. Go to the config file to check which masks and label encodings are available. Append new labels and mask encodings if needed.
 
 Overall the dataset should have ** 882,774** images in **.png** format
 * **CT - 500k+**
-* **X-Ray - 250k+**
+* **X-Ray - 250k+** 
 * **MRI - 100k+**
+
+
+
