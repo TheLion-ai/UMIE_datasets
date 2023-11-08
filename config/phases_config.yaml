@@ -22,11 +22,11 @@ Brain_Tumor_Progression:
   '0': T1_weighted # probably some before CM and some after CM
 Qin_Brain_MRI:
   '0': T1_weighted_after_CM
-# BRAIN_MRI_SEGMENTATION:
+# BRAIN_MRI_SEGMENTATION: 
 CT_ORG:
   '0': CT
-Stanford_Brain_MET:
-  '0': T1_weighted_preCM_spin-echo_pre-contrast
+Stanford_Brain_MET: 
+  '0': T1_weighted_preCM_spin-echo_pre-contrast 
   '1': T1_weighted_postCM # This one was used to generate the masks
   '2': T1_gradient_echo_postCM # (using an IR-prepped FSPGR sequence)
   '3': T2_FLAIR_postCM

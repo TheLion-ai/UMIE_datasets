@@ -54,10 +54,11 @@ add path to kits.json file
   3. Run script. This will result in unified dataset with masks in new folders
 
 * **Xray CoronaHack -Chest X-Ray-Dataset**
-  1. Download from: https://www.kaggle.com/praveengovi/coronahack-chestxraydataset?select=Chest_xray_Corona_Metadata.csv
+  1. Download from: https://www.kaggle.com/praveengovi/coronahack-chestxraydataset?select=Chest_xray_Corona_Metadata.csv 
   2. Change path variables to downloaded dataset in [coronahack_process.py](./Train_dataset/X_Ray/coronahack_process.py) script
       - dir.append('first_path_to_dataset_folder')
       - dir.append('second_path_to_dataset_folder')
       - dir_csv = '' # path to .csv file with labels
       - dir_d = '' # path to destination folder
   3. Run Script
+
