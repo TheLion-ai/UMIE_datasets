@@ -1,10 +1,12 @@
 """Get file paths of all images from a source directory."""
 import os
+
 from sklearn.base import BaseEstimator, TransformerMixin
 
 
 class GetFilePaths(BaseEstimator, TransformerMixin):
     """Get file paths of all images from a source directory."""
+
     def __init__(self, source_path: str = "", **kwargs):
         self.source_path = source_path
         self.omit_conditions = list
@@ -25,7 +27,6 @@ class GetFilePaths(BaseEstimator, TransformerMixin):
         file_paths = self.get_file_paths(X)
         return file_paths
 
-
     def get_file_paths(self, source_path: str):
         """Get file paths of all images from a source directory.
         Args:
@@ -36,7 +37,7 @@ class GetFilePaths(BaseEstimator, TransformerMixin):
         file_paths = []
         for root, dirnames, filenames in os.walk(source_path):
             for filename in filenames:
-                if filename.startswith('.'):
+                if filename.startswith("."):
                     continue
                 else:
                     file_paths.append(os.path.join(root, filename))

@@ -5,7 +5,6 @@ from sklearn.pipeline import Pipeline
 
 from preprocessing.add_new_ids import AddNewIds
 from preprocessing.convert_dcm2png import ConvertDcm2Png
-from preprocessing.create_blank_masks import CreateBlankMasks
 from preprocessing.create_file_tree import CreateFileTree
 from preprocessing.create_masks_from_xml import CreateMasksFromXML
 from preprocessing.delete_imgs_without_masks import DeleteImgsWithoutMasks
