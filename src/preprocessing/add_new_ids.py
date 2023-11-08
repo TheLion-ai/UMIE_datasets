@@ -1,13 +1,16 @@
-"""Change file names to match the format of the rest of the dataset."""
+"""Change img ids to match the format of the rest of the dataset."""
 import glob
 import os
 import shutil
+from typing import Callable
 
-from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
 
-class AddNewIds(BaseEstimator, TransformerMixin):
+class AddNewIds(TransformerMixin):
+    """Change img ids to match the format of the rest of the dataset."""
+
     def __init__(
         self,
         target_path: str,
@@ -15,12 +18,25 @@ class AddNewIds(BaseEstimator, TransformerMixin):
         dataset_uid: str,
         phases: dict,
         image_folder_name: str = "Images",
-        img_id_extractor: callable = lambda x: os.path.basename(x),
-        study_id_extractor: callable = lambda x: x,
-        phase_extractor: callable = lambda x: x,
+        img_id_extractor: Callable = lambda x: os.path.basename(x),
+        study_id_extractor: Callable = lambda x: x,
+        phase_extractor: Callable = lambda x: x,
         mask_selector: str = "segmentations",
-        **kwargs,
+        **kwargs: dict,
     ):
+        """Change img ids to match the format of the rest of the dataset.
+
+        Args:
+            target_path (str): Path to the target folder.
+            dataset_name (str): Name of the dataset.
+            dataset_uid (str): Unique identifier of the dataset.
+            phases (dict): Dictionary with phases and their names.
+            image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
+            img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
+            study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
+            phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
+            mask_selector (str, optional): String to select masks. Defaults to "segmentations".
+        """
         self.target_path = target_path
         self.dataset_name = dataset_name
         self.dataset_uid = dataset_uid
@@ -31,13 +47,17 @@ class AddNewIds(BaseEstimator, TransformerMixin):
         self.phase_extractor = phase_extractor
         self.mask_selector = mask_selector
 
-    def fit(self, X=None, y=None):
-        return self
-
     def transform(
         self,
-        X,  # img_paths
-    ):
+        X: list,
+    ) -> list:
+        """Change img ids to match the format of the rest of the dataset.
+
+        Args:
+            X (list): List of paths to the images.
+        Returns:
+            list: List of paths to the images with labels.
+        """
         print("Adding new ids to the dataset...")
         for img_path in tqdm(X):
             self.add_new_ids(img_path)
@@ -50,7 +70,12 @@ class AddNewIds(BaseEstimator, TransformerMixin):
         new_paths = glob.glob(f"{root_path}/*.*", recursive=True)
         return new_paths
 
-    def add_new_ids(self, img_path):
+    def add_new_ids(self, img_path: str) -> None:
+        """Change img ids to match the format of the rest of the dataset.
+
+        Args:
+            img_path (str): Path to the image.
+        """
         img_id = self.img_id_extractor(img_path)
         study_id = self.study_id_extractor(img_path)
 

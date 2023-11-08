@@ -6,11 +6,13 @@ import re
 
 import cv2
 import numpy as np
-from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
 
-class CreateMasksFromXML(BaseEstimator, TransformerMixin):
+class CreateMasksFromXML(TransformerMixin):
+    """Converts masks from xml files to png images with appropriate color encoding."""
+
     def __init__(
         self,
         target_path: str,
@@ -22,8 +24,21 @@ class CreateMasksFromXML(BaseEstimator, TransformerMixin):
         target_colors: dict,
         zfill: int = 4,
         mask_folder_name: str = "Masks",
-        **kwargs,
+        **kwargs: dict,
     ):
+        """Convert masks from xml files to png images with appropriate color encoding.
+
+        Args:
+            target_path (str): Path to the target folder.
+            masks_path (str): Path to the folder with masks.
+            dataset_uid (str): Unique identifier of the dataset.
+            dataset_name (str): Name of the dataset.
+            phases (dict): Dictionary with phases and their names.
+            dataset_masks (list): List of masks to create.
+            target_colors (dict): Dictionary with target colors.
+            zfill (int, optional): Number of zeros to fill the image id. Defaults to 4.
+            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
+        """
         self.target_path = target_path
         self.masks_path = masks_path
         self.dataset_uid = dataset_uid
@@ -34,11 +49,9 @@ class CreateMasksFromXML(BaseEstimator, TransformerMixin):
         self.zfill = zfill
         self.mask_folder_name = mask_folder_name
 
-    def fit(self, X=None, y=None):
-        return self
+    def transform(self, X: list) -> list:
+        """Convert masks from xml files to png images with appropriate color encoding.
 
-    def transform(self, X):
-        """Converts masks from xml files to png images with appropriate color encoding.
         Args:
             X (list): List of paths to the images.
         Returns:
@@ -53,12 +66,12 @@ class CreateMasksFromXML(BaseEstimator, TransformerMixin):
     def create_masks_from_xml(
         self,
         mask_path: str,
-    ):
-        """Converts masks from xml files to png images with appropriate color encoding.
+    ) -> None:
+        """Convert masks from xml files to png images with appropriate color encoding.
+
         Args:
             mask_path (str): Path to the mask.
         """
-
         with open(mask_path, mode="rb") as xml_file:
             segmentations = plistlib.load(xml_file)["Images"]
 
