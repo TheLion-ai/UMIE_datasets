@@ -10,6 +10,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 
 class RecolorMasks(BaseEstimator, TransformerMixin):
+    """Recolors masks from default color to the color specified in the config."""
     def __init__(
         self, mask_colors_old2new: dict, mask_folder_name: str = "Masks", **kwargs
     ):
@@ -26,11 +27,9 @@ class RecolorMasks(BaseEstimator, TransformerMixin):
         To find if the mask has encoding, check the config file. If the mask is not in the config, add it.
 
         Args:
-            source_path (str): path to the folder with masks
-            target_path (str): path to the folder where recolored masks will be saved
-            mask (str): name of the mask, check masks config for the list of available masks and add new ones if needed
-            extension (str): extension of the mask files (only images supported)
-            source_color (int): color of the mask to be changed
+            X (list): List of paths to the images.
+        Returns:
+            X (list): List of paths to the images.
         """
         root_path = os.path.join(
             os.path.dirname(os.path.dirname(X)), self.mask_folder_name
@@ -41,6 +40,10 @@ class RecolorMasks(BaseEstimator, TransformerMixin):
         return X
 
     def recolor_masks(self, mask_path):
+        """Recolors masks from default color to the color specified in the config.
+        Args:
+            mask_path (str): Path to the mask.
+        """
         mask = cv2.imread(mask_path)
         # changing pixel values
         for source_color, target_color in self.mask_colors_old2new.items():

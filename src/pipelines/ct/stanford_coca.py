@@ -14,7 +14,6 @@ from preprocessing.get_file_paths import GetFilePaths
 
 def preprocess_coca(source_path: str, target_path: str, masks_path: str):
     """Preprocess the Stanford COCA dataset.
-    You can download the dataset at:
     This function preprocesses the Stanford COCA dataset. It converts the DICOM images to PNG format and creates masks from the XML files.
 
     Args:

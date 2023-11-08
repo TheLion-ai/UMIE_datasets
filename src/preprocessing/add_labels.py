@@ -1,3 +1,4 @@
+"""Add labels to the images and masks based on the labels.json file."""
 import glob
 import json
 import os
@@ -12,6 +13,7 @@ from tqdm import tqdm
 
 
 class AddLabels(BaseEstimator, TransformerMixin):
+    """Add labels to the images and masks based on the labels.json file."""
     def __init__(
         self,
         target_path: str,
@@ -52,6 +54,12 @@ class AddLabels(BaseEstimator, TransformerMixin):
         self,
         X,  # img_paths
     ):
+        """Add labels to the images and masks.
+        Args:
+            X (list): List of paths to the images.
+        Returns:
+            list: List of paths to the images with labels.
+        """
         labels_path_extention = os.path.basename(self.labels_path).split(".")[1]
         if labels_path_extention == "json":
             with open(self.labels_path) as f:
@@ -66,6 +74,11 @@ class AddLabels(BaseEstimator, TransformerMixin):
         return new_paths
 
     def add_labels(self, img_path, labels_list):
+        """Add labels to the image and mask.
+        Args:
+            img_path (str): Path to the image.
+            labels_list (list): List of labels.
+        """
         root_path = os.path.dirname(img_path)
         img_id = os.path.basename(img_path).split(".")[0]
         label_prefix = "-"

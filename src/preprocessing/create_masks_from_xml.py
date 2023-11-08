@@ -1,5 +1,4 @@
 """Converts masks from xml files to png images with appropriate color encoding."""
-
 import glob
 import os
 import plistlib
@@ -9,7 +8,6 @@ import cv2
 import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
 from tqdm import tqdm
-
 
 class CreateMasksFromXML(BaseEstimator, TransformerMixin):
     def __init__(
@@ -39,7 +37,12 @@ class CreateMasksFromXML(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
-
+        """Converts masks from xml files to png images with appropriate color encoding.
+        Args:
+            X (list): List of paths to the images.
+        Returns:
+            X (list): List of paths to the images.
+        """
         print("Creating masks from xml files...")
         mask_paths = glob.glob(f"{self.masks_path}/**/*.xml", recursive=True)
         for mask_path in tqdm(mask_paths):
@@ -50,6 +53,10 @@ class CreateMasksFromXML(BaseEstimator, TransformerMixin):
         self,
         mask_path: str,
     ):
+        """Converts masks from xml files to png images with appropriate color encoding.
+        Args:
+            mask_path (str): Path to the mask.
+        """
 
         with open(mask_path, mode="rb") as xml_file:
             segmentations = plistlib.load(xml_file)["Images"]

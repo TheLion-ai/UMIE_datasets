@@ -1,3 +1,4 @@
+"""Converts nii.gz files to png files."""
 import glob
 import os
 import re
@@ -12,6 +13,7 @@ from tqdm import tqdm
 
 
 class ConvertNii2Png(BaseEstimator, TransformerMixin):
+    """Converts nii.gz files to png files."""
     def __init__(
         self,
         target_path: str,
@@ -48,6 +50,12 @@ class ConvertNii2Png(BaseEstimator, TransformerMixin):
         self,
         X,  # img_paths
     ):
+        """Converts nii.gz files to png files.
+        Args:
+            X (list): List of paths to the images.
+        Returns:
+            new_paths (list): List of paths to the converted images.
+        """
         print("Converting nii to png...")
         for img_path in tqdm(X):
             if img_path.endswith(".nii.gz"):
@@ -58,6 +66,10 @@ class ConvertNii2Png(BaseEstimator, TransformerMixin):
         return new_paths
 
     def convert_nii2png(self, img_path):
+        """Converts nii.gz files to png files.
+        Args:
+            img_path (str): Path to the image.
+        """
         nii_img = nib.load(img_path)
         nii_data = nii_img.get_fdata()
         slices = nii_data.shape[0]
@@ -75,6 +87,12 @@ class ConvertNii2Png(BaseEstimator, TransformerMixin):
             cv2.imwrite(new_path, img)
 
     def _apply_window(self, pixel_data):
+        """Applies window to the image.
+        Args:
+            pixel_data (np.ndarray): Image data.
+        Returns:
+            np.ndarray: Image data with applied window.
+        """
         # apply window
         pixel_data = np.clip(
             pixel_data,

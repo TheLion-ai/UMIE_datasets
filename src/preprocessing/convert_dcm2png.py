@@ -1,3 +1,4 @@
+"""Convert dicom images to png format."""
 import glob
 import os
 
@@ -12,6 +13,7 @@ from tqdm import tqdm
 
 # TODO: Add descriptions
 class ConvertDcm2Png(BaseEstimator, TransformerMixin):
+    """Convert dicom images to png format."""
     def __init__(
         self,
         window_width: int = None,
@@ -27,6 +29,12 @@ class ConvertDcm2Png(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
+        """Convert dicom images to png format.
+        Args:
+            X (list): List of paths to the images.
+        Returns:
+            new_paths (list): List of paths to the converted images.
+        """
         print("Converting dicom to png...")
         for img_path in tqdm(X):
             if img_path.endswith(".dcm"):
@@ -37,6 +45,10 @@ class ConvertDcm2Png(BaseEstimator, TransformerMixin):
         return new_paths
 
     def convert_dcm2png(self, img_path):
+        """Convert dicom images to png format.
+        Args:
+            img_path (str): Path to the image.
+        """
         # iterate over found images
         ds = dcmread(img_path)
         ds = self._convert2little_endian(ds, img_path)
@@ -54,6 +66,13 @@ class ConvertDcm2Png(BaseEstimator, TransformerMixin):
                 os.remove(img_path)
 
     def _convert2little_endian(self, ds, img_path):
+        """Convert dicom image to little endian.
+        Args:
+            ds (pydicom.dataset.FileDataset): Dicom image.
+            img_path (str): Path to the image.
+        Returns:
+            ds (pydicom.dataset.FileDataset): Dicom image.
+        """
         # if image is not little endian implicit convert using gdcmconv
         if ds.is_little_endian == False:
             # convert image to little endian
@@ -65,6 +84,10 @@ class ConvertDcm2Png(BaseEstimator, TransformerMixin):
         return ds
 
     def _get_window_parameters(self, ds):
+        """Get window parameters from dicom image.
+        Args:
+            ds (pydicom.dataset.FileDataset): Dicom image.
+        """
         # Sometimes window center is stored as a list of values, sometimes as a single value
         # If it is a list, we take the first value for simplicity
         if self.window_center is None:
@@ -82,6 +105,13 @@ class ConvertDcm2Png(BaseEstimator, TransformerMixin):
             )
 
     def _apply_window(self, output, ds):
+        """Apply window to the dicom image.
+        Args:
+            output (np.array): Dicom image.
+            ds (pydicom.dataset.FileDataset): Dicom image.
+        Returns:
+            output (np.array): Dicom image.
+        """
         self._get_window_parameters(ds)
         # apply window
         output = np.clip(
