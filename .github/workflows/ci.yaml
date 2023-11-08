@@ -1,9 +1,9 @@
-name: Lint, Format and Test
+name: CI
 
 on: pull_request
 
 jobs:
-    test:
+    lint_format_test:
         runs-on: ubuntu-latest
         steps:
         #----------------------------------------------
@@ -56,8 +56,8 @@ jobs:
         -   name: Run formatter
             run: |
                 source .venv/bin/activate
-                bash scripts/run_formatter.sh
+                bash scripts/run_formatters.sh
         -   name: Run linter
             run: |
                 source .venv/bin/activate
-                bash cripts/run_linter.sh
+                bash scripts/run_linters.sh
