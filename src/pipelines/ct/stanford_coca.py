@@ -3,12 +3,12 @@ import os
 import yaml
 from sklearn.pipeline import Pipeline
 
-from preprocessing.add_new_ids import AddNewIds
-from preprocessing.convert_dcm2png import ConvertDcm2Png
-from preprocessing.create_file_tree import CreateFileTree
-from preprocessing.create_masks_from_xml import CreateMasksFromXML
-from preprocessing.delete_imgs_without_masks import DeleteImgsWithoutMasks
-from preprocessing.get_file_paths import GetFilePaths
+from src.preprocessing.add_new_ids import AddNewIds
+from src.preprocessing.convert_dcm2png import ConvertDcm2Png
+from src.preprocessing.create_file_tree import CreateFileTree
+from src.preprocessing.create_masks_from_xml import CreateMasksFromXML
+from src.preprocessing.delete_imgs_without_masks import DeleteImgsWithoutMasks
+from src.preprocessing.get_file_paths import GetFilePaths
 
 
 def preprocess_coca(source_path: str, target_path: str, masks_path: str):
@@ -36,6 +36,7 @@ def preprocess_coca(source_path: str, target_path: str, masks_path: str):
     )[dataset_name]
 
     mask_colors_old2new = {v: mask_encoding_config[k] for k, v in dataset_masks.items()}
+    target_colors = mask_colors_old2new
 
     params = {
         "target_path": target_path,
@@ -44,6 +45,7 @@ def preprocess_coca(source_path: str, target_path: str, masks_path: str):
         "dataset_uid": dataset_uid,
         "phases": phases,
         "dataset_masks": dataset_masks,
+        "target_colors": target_colors,
         "z-fill": 4,
         "img_id_extractor": lambda x: os.path.basename(x).split("-")[-1],
         "study_id_extractor": lambda x: os.path.basename(

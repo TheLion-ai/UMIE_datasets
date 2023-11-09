@@ -1,10 +1,13 @@
-from pipelines.ct.kits19 import preprocess_kits19
+# from pipelines.ct.kits19 import preprocess_kits19
+from src.pipelines.ct.stanford_coca import preprocess_coca
+from src.pipelines.mri.stanford_brain_met import preprocess_stanford_brain_met
 
-# preprocess_coca(
-#     source_path="/home/basia/Desktop/coca/cocacoronarycalciumandchestcts-2/Gated_release_final/patient",
-#     target_path="./data/",
-#     masks_path="/home/basia/Desktop/coca/cocacoronarycalciumandchestcts-2/Gated_release_final/calcium_xml"
-#
+preprocess_coca(
+    source_path="/home/basia/Desktop/coca/cocacoronarycalciumandchestcts-2/Gated_release_final/patient",
+    target_path="./data/",
+    masks_path="/home/basia/Desktop/coca/cocacoronarycalciumandchestcts-2/Gated_release_final/calcium_xml"
+)
+
 
 # preprocess_stanford_brain_met(
 #     # We use only train set since test set has no masks
@@ -12,8 +15,8 @@ from pipelines.ct.kits19 import preprocess_kits19
 #     target_path='data/',
 # )
 
-preprocess_kits19(
-    source_path="/home/basia/Desktop/kits19/data",  # TODO: change to the path to the data
-    target_path="data/",
-    labels_path="/home/basia/Desktop/kits19/data/kits.json",
-)
+# preprocess_kits19(
+#     source_path="/home/basia/Desktop/kits19/data",  # TODO: change to the path to the data
+#     target_path="data/",
+#     labels_path="/home/basia/Desktop/kits19/data/kits.json",
+# )
