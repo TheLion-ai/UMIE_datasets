@@ -3,12 +3,12 @@ import os
 import yaml
 from sklearn.pipeline import Pipeline
 
-from preprocessing.add_new_ids import AddNewIds
-from preprocessing.convert_dcm2png import ConvertDcm2Png
-from preprocessing.create_file_tree import CreateFileTree
-from preprocessing.create_masks_from_xml import CreateMasksFromXML
-from preprocessing.delete_imgs_without_masks import DeleteImgsWithoutMasks
-from preprocessing.get_file_paths import GetFilePaths
+from src.preprocessing.add_new_ids import AddNewIds
+from src.preprocessing.convert_dcm2png import ConvertDcm2Png
+from src.preprocessing.create_file_tree import CreateFileTree
+from src.preprocessing.create_masks_from_xml import CreateMasksFromXML
+from src.preprocessing.delete_imgs_without_masks import DeleteImgsWithoutMasks
+from src.preprocessing.get_file_paths import GetFilePaths
 
 
 def preprocess_coca(source_path: str, target_path: str, masks_path: str):

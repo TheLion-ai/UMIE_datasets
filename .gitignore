@@ -5,3 +5,6 @@ data/
 .pytest_cache/
 .mypy_cache/
 .benchmarks
+src/pipelines/ct/__pycache__
+src/pipelines/mri/__pycache__
+src/preprocessing/__pycache__
