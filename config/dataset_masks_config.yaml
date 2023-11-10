@@ -5,3 +5,5 @@ Stanford_Brain_MET:
 KITS-19:
   kidney: 1
   kidney_tumor: 2
+Finding_and_Measuring_Lungs_in_CT_Data:
+  lungs: 255

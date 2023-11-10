@@ -32,3 +32,7 @@ Stanford_Brain_MET:
   '3': T2_FLAIR_postCM
 Stanford_COCA:
   '0': CT
+Alzheimers_Dataset:
+  '0': MRI
+Finding_and_Measuring_Lungs_in_CT_Data:
+  '0': CT
