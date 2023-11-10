@@ -3,11 +3,11 @@ import os
 import yaml
 from sklearn.pipeline import Pipeline
 
-from preprocessing.add_new_ids import AddNewIds
-from preprocessing.copy_png_masks import CopyPNGMasks
-from preprocessing.create_file_tree import CreateFileTree
-from preprocessing.get_file_paths import GetFilePaths
-from preprocessing.recolor_masks import RecolorMasks
+from src.preprocessing.add_new_ids import AddNewIds
+from src.preprocessing.copy_png_masks import CopyPNGMasks
+from src.preprocessing.create_file_tree import CreateFileTree
+from src.preprocessing.get_file_paths import GetFilePaths
+from src.preprocessing.recolor_masks import RecolorMasks
 
 
 def preprocess_stanford_brain_met(source_path: str, target_path: str):
