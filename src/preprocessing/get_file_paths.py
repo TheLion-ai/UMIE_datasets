@@ -7,7 +7,7 @@ from sklearn.base import TransformerMixin
 class GetFilePaths(TransformerMixin):
     """Get file paths of all images from a source directory."""
 
-    def __init__(self, source_path: str = "", **kwargs: dict):
+    def __init__(self, source_path: str, **kwargs: dict):
         """Get file paths of all images from a source directory.
 
         Args:
