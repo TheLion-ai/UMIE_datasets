@@ -1,4 +1,5 @@
 """Copy PNG masks to a new folder structure."""
+import glob
 import os
 import shutil
 from typing import Callable
@@ -14,6 +15,7 @@ class CopyPNGMasks(TransformerMixin):
         self,
         target_path: str,
         dataset_name: str,
+        masks_path: str,
         dataset_uid: str,
         phases: dict,
         image_folder_name: str = "Images",
@@ -29,6 +31,7 @@ class CopyPNGMasks(TransformerMixin):
         Args:
             target_path (str): Path to the target folder.
             dataset_name (str): Name of the dataset.
+            masks_path (str): Path to the source folder with masks.
             dataset_uid (str): Unique identifier of the dataset.
             phases (dict): Dictionary with phases and their names.
             image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
@@ -48,6 +51,7 @@ class CopyPNGMasks(TransformerMixin):
         self.study_id_extractor = study_id_extractor
         self.phase_extractor = phase_extractor
         self.mask_selector = mask_selector
+        self.masks_path = masks_path
 
     def transform(
         self,
@@ -61,8 +65,16 @@ class CopyPNGMasks(TransformerMixin):
             list: List of paths to the images with labels.
         """
         print("Copying PNG masks...")
-        for img_path in tqdm(X):
-            self.copy_png_masks(img_path)
+        # for img_path in tqdm(X):
+        #     self.copy_png_masks(img_path)
+        mask_paths = (
+            glob.glob(f"{self.masks_path}/*.tif", recursive=True)
+            + glob.glob(f"{self.masks_path}/*.tiff", recursive=True)
+            + glob.glob(f"{self.masks_path}/*.png", recursive=True)
+        )
+        if mask_paths:
+            for img_path in tqdm(mask_paths):
+                self.copy_png_masks(img_path)
         return X
 
     def copy_png_masks(self, img_path: str) -> None:

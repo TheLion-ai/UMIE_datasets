@@ -4,9 +4,9 @@ import os
 from typing import Callable
 
 import cv2
+import numpy as np
 import PIL
 from PIL import Image, ImageOps
-import numpy as np
 from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
@@ -70,12 +70,22 @@ class ConvertTif2Png(TransformerMixin):
             if img_path.endswith(".tif") or img_path.endswith(".tiff"):
                 self.convert_tif2png(img_path)
 
-        mask_paths = glob.glob(f"{self.masks_path}/*.tif", recursive=True) + \
-                     glob.glob(f"{self.masks_path}/*.tiff", recursive=True)
+        # mask_paths = glob.glob(f"{self.masks_path}/*.tif", recursive=True) + \
+        #              glob.glob(f"{self.masks_path}/*.tiff", recursive=True)
+        # if mask_paths:
+        #     for img_path in tqdm(mask_paths):
+        #         if img_path.endswith(".tif") or img_path.endswith(".tiff"):
+        #             self.convert_tif2png(img_path)
+        # else:
+        #     print("Masks not found.")
+
+        root_path = os.path.join(
+            os.path.dirname(os.path.dirname(X[0])), self.mask_folder_name
+        )
+        mask_paths = glob.glob(f"{root_path}/**/*.tif", recursive=True)
         if mask_paths:
-            for img_path in tqdm(mask_paths):
-                if img_path.endswith(".tif") or img_path.endswith(".tiff"):
-                    self.convert_tif2png(img_path)
+            for mask_path in mask_paths:
+                self.convert_tif2png(mask_path)
         else:
             print("Masks not found.")
 
@@ -90,12 +100,12 @@ class ConvertTif2Png(TransformerMixin):
             img_path (str): Path to the image.
         """
         # changing .tif to .tiff, so images will be readable for PIL
-        if '.tiff' not in img_path:
-            tiff_path = img_path.replace('.tif', '.tiff')
+        if ".tiff" not in img_path:
+            tiff_path = img_path.replace(".tif", ".tiff")
             os.rename(img_path, tiff_path)
             img_path = tiff_path
 
-        png_path = img_path.replace('.tiff', '.png')
+        png_path = img_path.replace(".tiff", ".png")
         try:
             image = PIL.Image.open(img_path)
             invert = True if np.min(np.array(image)) < 0 else False
@@ -105,5 +115,6 @@ class ConvertTif2Png(TransformerMixin):
             if invert:
                 image = PIL.ImageOps.invert(image)
             image.save(png_path, format="png")
+            os.remove(img_path)
         except IOError:
-            print('Not found image')
+            print("Image not found")
