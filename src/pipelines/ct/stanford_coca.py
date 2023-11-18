@@ -36,14 +36,17 @@ def preprocess_coca(source_path: str, target_path: str, masks_path: str):
     )[dataset_name]
 
     mask_colors_old2new = {v: mask_encoding_config[k] for k, v in dataset_masks.items()}
+    target_colors = mask_colors_old2new
 
     params = {
+        "source_path": source_path,
         "target_path": target_path,
         "masks_path": masks_path,
         "dataset_name": dataset_name,
         "dataset_uid": dataset_uid,
         "phases": phases,
         "dataset_masks": dataset_masks,
+        "target_colors": target_colors,
         "z-fill": 4,
         "img_id_extractor": lambda x: os.path.basename(x).split("-")[-1],
         "study_id_extractor": lambda x: os.path.basename(
