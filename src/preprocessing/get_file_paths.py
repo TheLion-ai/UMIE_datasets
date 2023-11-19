@@ -45,4 +45,5 @@ class GetFilePaths(TransformerMixin):
                     continue
                 else:
                     file_paths.append(os.path.join(root, filename))
+        print(file_paths)
         return file_paths

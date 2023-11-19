@@ -1,22 +1,27 @@
-# from pipelines.ct.kits19 import preprocess_kits19
-from src.pipelines.ct.stanford_coca import preprocess_coca
-from src.pipelines.mri.stanford_brain_met import preprocess_stanford_brain_met
+"""Docstring."""
+import yaml
 
-preprocess_coca(
-    source_path="/home/basia/Desktop/coca/cocacoronarycalciumandchestcts-2/Gated_release_final/patient",
-    target_path="./data/",
-    masks_path="/home/basia/Desktop/coca/cocacoronarycalciumandchestcts-2/Gated_release_final/calcium_xml"
-)
+if __name__ == "__main__":
+    """Docstring."""
+    datasets = yaml.load(open("config/runner_config.yaml"), Loader=yaml.FullLoader)
 
+    #  Automatically import and run function {function_name} if source_path is defined
+    #  in config/runner_config.yaml file.
+    for dataset in datasets.keys():
 
-# preprocess_stanford_brain_met(
-#     # We use only train set since test set has no masks
-#     source_path='/home/basia/Desktop/BrainMetShare/stanford_release_brainmask/mets_stanford_releaseMask_train',
-#     target_path='data/',
-# )
+        # Check whether source_path is defined
+        if not datasets[dataset]["args"]["source_path"]:
+            print(f"{dataset} skipped, as no source path found.")
+        else:
+            print(dataset)
 
-# preprocess_kits19(
-#     source_path="/home/basia/Desktop/kits19/data",  # TODO: change to the path to the data
-#     target_path="data/",
-#     labels_path="/home/basia/Desktop/kits19/data/kits.json",
-# )
+            # List arguments
+            args = datasets[dataset]["args"]
+            for argument in args.keys():
+                print(f"{argument}: {args[argument]}")
+
+            # Import preprocessing function
+            exec(datasets[dataset]["import_statement"])
+
+            # Run preprocessing function
+            exec(f"{datasets[dataset]['function_name']}(**args)")

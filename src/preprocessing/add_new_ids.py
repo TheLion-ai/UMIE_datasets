@@ -59,6 +59,7 @@ class AddNewIds(TransformerMixin):
             list: List of paths to the images with labels.
         """
         print("Adding new ids to the dataset...")
+        print("path", X)
         for img_path in tqdm(X):
             self.add_new_ids(img_path)
 
@@ -103,5 +104,7 @@ class AddNewIds(TransformerMixin):
                 new_file_name,
             )
 
-        if not os.path.exists(new_path):
+        if self.target_path in img_path:
+            os.rename(img_path, new_path)
+        elif not os.path.exists(new_path):
             shutil.copy2(img_path, new_path)
