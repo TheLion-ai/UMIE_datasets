@@ -24,3 +24,4 @@ if __name__ == "__main__":
 
             # Run preprocessing function
             exec(f"{datasets[dataset]['function_name']}(**args)")
+

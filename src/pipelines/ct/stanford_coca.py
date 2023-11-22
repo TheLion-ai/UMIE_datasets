@@ -39,6 +39,7 @@ def preprocess_coca(source_path: str, target_path: str, masks_path: str):
     target_colors = mask_colors_old2new
 
     params = {
+        "source_path": source_path,
         "target_path": target_path,
         "masks_path": masks_path,
         "dataset_name": dataset_name,
