@@ -32,8 +32,6 @@ def preprocess_alzheimers(source_path: str, target_path: str) -> None:
     def get_label_alzheimers(img_path: str) -> list:
         return [os.path.basename(os.path.dirname(img_path))]
 
-    # def id_extractor()
-
     params = {
         "source_path": source_path,
         "target_path": target_path,

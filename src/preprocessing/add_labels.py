@@ -78,9 +78,6 @@ class AddLabels(TransformerMixin):
         print("Adding labels...")
         for img_path in tqdm(X):
             self.add_labels(img_path, labels_list)
-        # root_path = os.path.dirname(X[0])
-        # new_paths = glob.glob(f"{root_path}/**/*.png", recursive=True)
-        # return new_paths
 
         root_path = os.path.join(
             self.target_path,
@@ -97,7 +94,6 @@ class AddLabels(TransformerMixin):
             img_path (str): Path to the image.
             labels_list (list): List of labels.
         """
-        # root_path = os.path.dirname(img_path)
         img_id = os.path.basename(img_path).split(".")[0]
         label_prefix = "-"
         if labels_list != []:

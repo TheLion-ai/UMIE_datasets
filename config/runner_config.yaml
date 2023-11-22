@@ -15,5 +15,5 @@ Alzheimers_Dataset:
   import_statement: "from src.pipelines.mri.alzheimers import preprocess_alzheimers"
   function_name: "preprocess_alzheimers"
   args:
-    source_path: "/Users/piotr/Desktop/UMIE/data/Alzheimer_s Dataset"
-    target_path: "/Users/piotr/Desktop/UMIE/processed_data"
+    source_path: ""
+    target_path: "./data/"
