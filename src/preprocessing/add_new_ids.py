@@ -103,5 +103,7 @@ class AddNewIds(TransformerMixin):
                 new_file_name,
             )
 
-        if not os.path.exists(new_path):
+        if self.target_path in img_path:
+            os.rename(img_path, new_path)
+        elif not os.path.exists(new_path):
             shutil.copy2(img_path, new_path)

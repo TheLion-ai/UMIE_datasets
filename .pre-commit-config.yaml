@@ -30,6 +30,7 @@ repos:
         additional_dependencies:
           - types-click
           - types-requests
+          - types-pyyaml == 6.0.12.12
   - repo: https://github.com/PyCQA/pydocstyle
     rev: 6.1.1
     hooks:
