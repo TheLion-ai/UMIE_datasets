@@ -65,8 +65,6 @@ class CopyPNGMasks(TransformerMixin):
             list: List of paths to the images with labels.
         """
         print("Copying PNG masks...")
-        # for img_path in tqdm(X):
-        #     self.copy_png_masks(img_path)
         mask_paths = (
             glob.glob(f"{self.masks_path}/*.tif", recursive=True)
             + glob.glob(f"{self.masks_path}/*.tiff", recursive=True)

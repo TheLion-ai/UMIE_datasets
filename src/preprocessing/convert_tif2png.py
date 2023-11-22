@@ -70,15 +70,6 @@ class ConvertTif2Png(TransformerMixin):
             if img_path.endswith(".tif") or img_path.endswith(".tiff"):
                 self.convert_tif2png(img_path)
 
-        # mask_paths = glob.glob(f"{self.masks_path}/*.tif", recursive=True) + \
-        #              glob.glob(f"{self.masks_path}/*.tiff", recursive=True)
-        # if mask_paths:
-        #     for img_path in tqdm(mask_paths):
-        #         if img_path.endswith(".tif") or img_path.endswith(".tiff"):
-        #             self.convert_tif2png(img_path)
-        # else:
-        #     print("Masks not found.")
-
         root_path = os.path.join(
             os.path.dirname(os.path.dirname(X[0])), self.mask_folder_name
         )
@@ -99,7 +90,7 @@ class ConvertTif2Png(TransformerMixin):
         Args:
             img_path (str): Path to the image.
         """
-        # changing .tif to .tiff, so images will be readable for PIL
+        # Changing .tif to .tiff, so images will be readable for PIL
         if ".tiff" not in img_path:
             tiff_path = img_path.replace(".tif", ".tiff")
             os.rename(img_path, tiff_path)
@@ -109,8 +100,6 @@ class ConvertTif2Png(TransformerMixin):
         try:
             image = PIL.Image.open(img_path)
             invert = True if np.min(np.array(image)) < 0 else False
-            # if np.argmin(np.array(image)) < 0:
-            #     image = PIL.ImageOps.invert(image)
             image = image.convert("L")
             if invert:
                 image = PIL.ImageOps.invert(image)
