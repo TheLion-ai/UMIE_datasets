@@ -29,8 +29,16 @@ def preprocess_alzheimers(source_path: str, target_path: str) -> None:
         dataset_name
     ]
 
+    # Changing labels from dataset to match standard
+    labels_dict = {
+        "MildDemented": "MildDemented",
+        "ModerateDemented": "ModerateDemented",
+        "NonDemented": "good",
+        "VeryMildDemented": "VeryMildDemented",
+    }
+
     def get_label_alzheimers(img_path: str) -> list:
-        return [os.path.basename(os.path.dirname(img_path))]
+        return [labels_dict[os.path.basename(os.path.dirname(img_path))]]
 
     params = {
         "source_path": source_path,
