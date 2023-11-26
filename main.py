@@ -1,8 +1,6 @@
-"""Docstring."""
 import yaml
 
 if __name__ == "__main__":
-    """Docstring."""
     datasets = yaml.load(open("config/runner_config.yaml"), Loader=yaml.FullLoader)
 
     #  Automatically import and run function {function_name} if source_path is defined
@@ -24,4 +22,3 @@ if __name__ == "__main__":
 
             # Run preprocessing function
             exec(f"{datasets[dataset]['function_name']}(**args)")
-
