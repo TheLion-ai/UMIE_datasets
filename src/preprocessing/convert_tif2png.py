@@ -58,7 +58,7 @@ class ConvertTif2Png(TransformerMixin):
         self,
         X: list,  # img_paths
     ) -> list:
-        """Convert nii files to png images with appropriate color encoding.
+        """Convert tif files to png images with appropriate color encoding.
 
         Args:
             X (list): List of paths to the images.
