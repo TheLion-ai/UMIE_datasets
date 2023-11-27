@@ -33,6 +33,7 @@ class AddNewIds(TransformerMixin):
             phases (dict): Dictionary with phases and their names.
             image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
+                                                   If None is returned, image is skipped.
             study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
             mask_selector (str, optional): String to select masks. Defaults to "segmentations".
@@ -78,6 +79,10 @@ class AddNewIds(TransformerMixin):
         """
         img_id = self.img_id_extractor(img_path)
         study_id = self.study_id_extractor(img_path)
+
+        #  Skip image if img_id is None.
+        if img_id is None:
+            return
 
         if len(self.phases.keys()) <= 1:
             new_file_name = f"{self.dataset_uid}_{study_id}_{img_id}"

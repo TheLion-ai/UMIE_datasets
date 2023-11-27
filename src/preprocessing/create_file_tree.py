@@ -27,6 +27,7 @@ class CreateFileTree(TransformerMixin):
             phases (dict): Dictionary with phases and their names.
             image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
+                                              If equal to None, folder will not be created.
         """
         self.target_path = target_path
         self.dataset_name = dataset_name
@@ -71,12 +72,13 @@ class CreateFileTree(TransformerMixin):
                     phase,
                     self.image_folder_name,
                 )
-                self._create_dir(
-                    self.target_path,
-                    f"{self.dataset_uid}_{self.dataset_name}",
-                    phase,
-                    self.mask_folder_name,
-                )
+                if self.mask_folder_name:
+                    self._create_dir(
+                        self.target_path,
+                        f"{self.dataset_uid}_{self.dataset_name}",
+                        phase,
+                        self.mask_folder_name,
+                    )
 
         else:
             self._create_dir(
@@ -84,8 +86,9 @@ class CreateFileTree(TransformerMixin):
                 f"{self.dataset_uid}_{self.dataset_name}",
                 self.image_folder_name,
             )
-            self._create_dir(
-                self.target_path,
-                f"{self.dataset_uid}_{self.dataset_name}",
-                self.mask_folder_name,
-            )
+            if self.mask_folder_name:
+                self._create_dir(
+                    self.target_path,
+                    f"{self.dataset_uid}_{self.dataset_name}",
+                    self.mask_folder_name,
+                )
