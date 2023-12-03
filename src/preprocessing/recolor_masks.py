@@ -33,9 +33,7 @@ class RecolorMasks(TransformerMixin):
         Returns:
             X (list): List of paths to the images.
         """
-        root_path = os.path.join(
-            os.path.dirname(os.path.dirname(X[0])), self.mask_folder_name
-        )
+        root_path = os.path.join(os.path.dirname(os.path.dirname(X[0])), self.mask_folder_name)
         print("Recoloring masks...")
         mask_paths = glob.glob(f"{root_path}/**/*.png", recursive=True)
         for mask_path in mask_paths:
