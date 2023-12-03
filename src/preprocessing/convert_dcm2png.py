@@ -68,15 +68,11 @@ class ConvertDcm2Png(TransformerMixin):
 
         except Exception as e:
             # TODO: add logging
-            print(
-                f"Error {e} occured while converting {img_path} {ds.is_little_endian}"
-            )
+            print(f"Error {e} occured while converting {img_path} {ds.is_little_endian}")
             if self.on_error_remove:
                 os.remove(img_path)
 
-    def _convert2little_endian(
-        self, ds: pydicom.dataset.FileDataset, img_path: str
-    ) -> pydicom.dataset.FileDataset:
+    def _convert2little_endian(self, ds: pydicom.dataset.FileDataset, img_path: str) -> pydicom.dataset.FileDataset:
         """Convert dicom image to little endian.
 
         Args:
@@ -88,7 +84,7 @@ class ConvertDcm2Png(TransformerMixin):
         # if image is not little endian implicit convert using gdcmconv
         if ds.is_little_endian is False:
             # convert image to little endian
-            os.system(f"gdcmconv -w -X -I -i {img_path} -o {img_path}.converted;")
+            os.system(f"gdcmconv -w -X -I -i {img_path} -o {img_path}.converted;")  # noqa: E702,E231
             # Read converted image
             ds = dcmread(f"{img_path}.converted")
             # set property to remove *.converted file at the end
@@ -114,17 +110,13 @@ class ConvertDcm2Png(TransformerMixin):
 
         if self.window_width is None:
             window_width = (
-                int(ds.WindowWidth[0])
-                if type(ds.WindowWidth) == pydicom.multival.MultiValue
-                else int(ds.WindowWidth)
+                int(ds.WindowWidth[0]) if type(ds.WindowWidth) == pydicom.multival.MultiValue else int(ds.WindowWidth)
             )
         else:
             window_width = self.window_width
         return window_center, window_width
 
-    def _apply_window(
-        self, output: np.ndarray, ds: pydicom.dataset.FileDataset
-    ) -> np.ndarray:
+    def _apply_window(self, output: np.ndarray, ds: pydicom.dataset.FileDataset) -> np.ndarray:
         """Apply window to the image.
 
         Args:

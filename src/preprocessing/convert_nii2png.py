@@ -88,10 +88,7 @@ class ConvertNii2Png(TransformerMixin):
         slices = nii_data.shape[0]
         for idx in range(slices):
             root_path = os.path.dirname(img_path)
-            name = (
-                os.path.basename(img_path).split(".")[0]
-                + f"_{str(idx).zfill(self.zfill)}.png"
-            )
+            name = os.path.basename(img_path).split(".")[0] + f"_{str(idx).zfill(self.zfill)}.png"
             new_path = os.path.join(root_path, name)
             # TODO: remove hardcoded names
             img = np.array(nii_data[idx, :, :])
