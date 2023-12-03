@@ -62,9 +62,7 @@ class CreateFileTree(TransformerMixin):
 
         if len(self.phases.keys()) > 1:
             for phase in self.phases.values():
-                self._create_dir(
-                    self.target_path, f"{self.dataset_uid}_{self.dataset_name}", phase
-                )
+                self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}", phase)
                 self._create_dir(
                     self.target_path,
                     f"{self.dataset_uid}_{self.dataset_name}",
