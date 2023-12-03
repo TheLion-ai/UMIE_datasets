@@ -1,3 +1,4 @@
+"""Preprocessing pipeline for the Stanford COCA dataset."""
 import os
 
 import yaml
@@ -11,8 +12,9 @@ from src.preprocessing.delete_imgs_without_masks import DeleteImgsWithoutMasks
 from src.preprocessing.get_file_paths import GetFilePaths
 
 
-def preprocess_coca(source_path: str, target_path: str, masks_path: str):
+def preprocess_coca(source_path: str, target_path: str, masks_path: str) -> None:
     """Preprocess the Stanford COCA dataset.
+
     This function preprocesses the Stanford COCA dataset. It converts the DICOM images to PNG format and creates masks from the XML files.
 
     Args:
@@ -20,7 +22,6 @@ def preprocess_coca(source_path: str, target_path: str, masks_path: str):
         target_path (str): path to the directory where the preprocessed dataset will be saved.
         masks_path (str): path to the directory where the downloaded masks are stored. Location of the "calcium_xml" folder.
     """
-
     dataset_name = "Stanford_COCA"
     dataset_uid = yaml.load(
         open("config/dataset_uid_config.yaml"), Loader=yaml.FullLoader
