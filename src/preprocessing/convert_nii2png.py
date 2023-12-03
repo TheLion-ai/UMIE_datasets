@@ -85,9 +85,7 @@ class ConvertNii2Png(TransformerMixin):
             if img_path.endswith(".nii.gz"):
                 self.convert_nii2png(img_path)
         root_path = os.path.dirname(X[0])
-        new_paths = glob.glob(
-            f"{root_path}/**/{self.img_dcm_prefix}*.png", recursive=True
-        )
+        new_paths = glob.glob(f"{root_path}/**/{self.img_dcm_prefix}*.png", recursive=True)
         return new_paths
 
     def convert_nii2png(self, img_path: str) -> None:
@@ -101,10 +99,7 @@ class ConvertNii2Png(TransformerMixin):
         slices = nii_data.shape[0]
         for idx in range(slices):
             root_path = os.path.dirname(img_path)
-            name = (
-                os.path.basename(img_path).split(".")[0]
-                + f"_{str(idx).zfill(self.zfill)}"
-            )
+            name = os.path.basename(img_path).split(".")[0] + f"_{str(idx).zfill(self.zfill)}.png"
             new_path = os.path.join(root_path, name)
             # TODO: remove hardcoded names
             img = np.array(nii_data[idx, :, :])
