@@ -22,6 +22,8 @@ class CopyPNGMasks(TransformerMixin):
         study_id_extractor: Callable = lambda x: x,
         phase_extractor: Callable = lambda x: x,
         mask_selector: str = "segmentations",
+        img_dicom_prefix: str = "imaging",
+        segmentation_dicom_prefix: str = "segmentation",
         **kwargs: dict,
     ):
         """Copy PNG masks to a new folder structure.
@@ -48,6 +50,8 @@ class CopyPNGMasks(TransformerMixin):
         self.study_id_extractor = study_id_extractor
         self.phase_extractor = phase_extractor
         self.mask_selector = mask_selector
+        self.img_dcm_prefix = img_dicom_prefix
+        self.segmentation_dcm_prefix = segmentation_dicom_prefix
 
     def transform(
         self,
@@ -62,7 +66,10 @@ class CopyPNGMasks(TransformerMixin):
         """
         print("Copying PNG masks...")
         for img_path in tqdm(X):
-            self.copy_png_masks(img_path)
+            mask_path = img_path.replace(
+                self.img_dcm_prefix, self.segmentation_dcm_prefix
+            )
+            self.copy_png_masks(mask_path)
         return X
 
     def copy_png_masks(self, img_path: str) -> None:
@@ -74,21 +81,20 @@ class CopyPNGMasks(TransformerMixin):
         img_id = self.img_id_extractor(img_path)
         study_id = self.study_id_extractor(img_path)
         phase_id = self.phase_extractor(img_path)
-        if phase_id in self.phases.keys():
-            return None
-        elif self.mask_selector not in img_path:
+        # if phase_id in self.phases.keys():
+        #     return None
+        if self.mask_selector not in img_path:
             return None
         else:
             if len(self.phases.keys()) <= 1:
-                new_file_name = f"{self.dataset_uid}_{study_id}_{img_id}"
+                phase_id = 0
+                new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
                 new_path = os.path.join(
                     self.target_path,
                     f"{self.dataset_uid}_{self.dataset_name}",
                     self.mask_folder_name,
                     new_file_name,
                 )
-                if not os.path.exists(new_path):
-                    shutil.copy2(img_path, new_path)
             else:
                 phase_id = self.phase_extractor(img_path)
                 for phase_id in self.phases.keys():
@@ -102,5 +108,5 @@ class CopyPNGMasks(TransformerMixin):
                         new_file_name,
                     )
 
-                    if not os.path.exists(new_path):
-                        shutil.copy2(img_path, new_path)
+            if not os.path.exists(new_path):
+                shutil.copy2(img_path, new_path)

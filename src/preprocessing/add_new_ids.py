@@ -80,7 +80,8 @@ class AddNewIds(TransformerMixin):
         study_id = self.study_id_extractor(img_path)
 
         if len(self.phases.keys()) <= 1:
-            new_file_name = f"{self.dataset_uid}_{study_id}_{img_id}"
+            phase_id = "0"
+            new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
             new_path = os.path.join(
                 self.target_path,
                 f"{self.dataset_uid}_{self.dataset_name}",
@@ -103,5 +104,7 @@ class AddNewIds(TransformerMixin):
                 new_file_name,
             )
 
-        if not os.path.exists(new_path):
+        if not os.path.exists(new_path):  # for img_path in tqdm(X):
+            #     if img_path.endswith(".nii.gz"):
+            #         self.convert_nii2dcm(img_path)
             shutil.copy2(img_path, new_path)

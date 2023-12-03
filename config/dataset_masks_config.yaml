@@ -1,7 +1,7 @@
-Stanford_COCA:
+StanfordCOCA:
   coronary_artery_calcium: 20
-Stanford_Brain_MET:
+StanfordBrainMET:
   brain_metastasis: 255
-KITS-19:
+KITS21:
   kidney: 1
   kidney_tumor: 2

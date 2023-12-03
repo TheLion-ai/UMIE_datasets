@@ -59,8 +59,8 @@ class CreateMasksFromXML(TransformerMixin):
         """
         print("Creating masks from xml files...")
         mask_paths = glob.glob(f"{self.masks_path}/**/*.xml", recursive=True)
-        #TODO Print warning if no xml paths available in path / path empty. 
-        # Make prompt whether to use source_path instead, otherwise skip this step, 
+        # TODO Print warning if no xml paths available in path / path empty.
+        # Make prompt whether to use source_path instead, otherwise skip this step,
         # or whole pipeline. If we skip step, all converted images will be wiped.
         for mask_path in tqdm(mask_paths):
             self.create_masks_from_xml(mask_path)

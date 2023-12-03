@@ -73,37 +73,32 @@ class AddLabels(TransformerMixin):
         Returns:
             list: List of paths to the images with labels.
         """
-        labels_path_extention = os.path.basename(self.labels_path).split(".")[1]
-        if labels_path_extention == "json":
-            with open(self.labels_path) as f:
-                labels_list = json.load(f)
-
         print("Adding labels...")
         for img_path in tqdm(X):
-            self.add_labels(img_path, labels_list)
+            self.add_labels(img_path)
         root_path = os.path.dirname(X[0])
         new_paths = glob.glob(f"{root_path}/**/*.png", recursive=True)
         return new_paths
 
-    def add_labels(self, img_path: str, labels_list: list) -> None:
+    def add_labels(self, img_path: str) -> None:
         """Add labels to the image and mask.
 
         Args:
             img_path (str): Path to the image.
             labels_list (list): List of labels.
         """
-        root_path = os.path.dirname(img_path)
+        img_root_path = os.path.dirname(img_path)
         img_id = os.path.basename(img_path).split(".")[0]
         label_prefix = "-"
-        labels = self.get_labels(img_path)
-        labels_str = "".join([label_prefix + label for label in labels])
-        new_name = f"{img_id}{labels_str}.png"
-        os.rename(img_path, os.path.join(root_path, new_name))
+        labels = self.get_label(img_path)
+        if labels:
+            labels_str = "".join([label_prefix + label for label in labels])
+            new_name = f"{img_id}{labels_str}.png"
+            os.rename(img_path, os.path.join(img_root_path, new_name))
 
-        root_path = os.path.dirname(os.path.dirname(img_path))
-        mask_path = os.path.join(root_path, self.mask_folder_name, img_id)
-        if os.path.exists(mask_path):
-            os.rename(
-                mask_path,
-                f"{root_path}/{self.mask_folder_name}/{img_id}{labels_str}.png",
-            )
+            root_path = os.path.dirname(os.path.dirname(img_path))
+            mask_path = os.path.join(root_path, self.mask_folder_name, f"{img_id}.png")
+            if os.path.exists(mask_path):
+                os.rename(
+                    mask_path, os.path.join(root_path, self.mask_folder_name, new_name)
+                )
