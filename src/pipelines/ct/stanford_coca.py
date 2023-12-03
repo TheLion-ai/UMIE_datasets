@@ -8,7 +8,7 @@ from src.preprocessing.add_new_ids import AddNewIds
 from src.preprocessing.convert_dcm2png import ConvertDcm2Png
 from src.preprocessing.create_file_tree import CreateFileTree
 from src.preprocessing.create_masks_from_xml import CreateMasksFromXML
-from src.preprocessing.delete_imgs_without_masks import DeleteImgsWithoutMasks
+from src.preprocessing.delete_imgs_with_no_annotations import DeleteImgsWithoutMasks
 from src.preprocessing.get_file_paths import GetFilePaths
 
 
