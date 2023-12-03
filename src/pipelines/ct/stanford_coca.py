@@ -1,3 +1,4 @@
+"""Preprocessing pipeline for the Stanford COCA dataset."""
 import os
 
 import yaml
@@ -11,8 +12,9 @@ from src.preprocessing.delete_imgs_without_masks import DeleteImgsWithoutMasks
 from src.preprocessing.get_file_paths import GetFilePaths
 
 
-def preprocess_coca(source_path: str, target_path: str, masks_path: str):
+def preprocess_coca(source_path: str, target_path: str, masks_path: str) -> None:
     """Preprocess the Stanford COCA dataset.
+
     This function preprocesses the Stanford COCA dataset. It converts the DICOM images to PNG format and creates masks from the XML files.
 
     Args:
@@ -20,20 +22,11 @@ def preprocess_coca(source_path: str, target_path: str, masks_path: str):
         target_path (str): path to the directory where the preprocessed dataset will be saved.
         masks_path (str): path to the directory where the downloaded masks are stored. Location of the "calcium_xml" folder.
     """
-
     dataset_name = "Stanford_COCA"
-    dataset_uid = yaml.load(
-        open("config/dataset_uid_config.yaml"), Loader=yaml.FullLoader
-    )[dataset_name]
-    phases = yaml.load(open("config/phases_config.yaml"), Loader=yaml.FullLoader)[
-        dataset_name
-    ]
-    mask_encoding_config = yaml.load(
-        open("config/masks_encoding_config.yaml"), Loader=yaml.FullLoader
-    )
-    dataset_masks = yaml.load(
-        open("config/dataset_masks_config.yaml"), Loader=yaml.FullLoader
-    )[dataset_name]
+    dataset_uid = yaml.load(open("config/dataset_uid_config.yaml"), Loader=yaml.FullLoader)[dataset_name]
+    phases = yaml.load(open("config/phases_config.yaml"), Loader=yaml.FullLoader)[dataset_name]
+    mask_encoding_config = yaml.load(open("config/masks_encoding_config.yaml"), Loader=yaml.FullLoader)
+    dataset_masks = yaml.load(open("config/dataset_masks_config.yaml"), Loader=yaml.FullLoader)[dataset_name]
 
     mask_colors_old2new = {v: mask_encoding_config[k] for k, v in dataset_masks.items()}
     target_colors = mask_colors_old2new
@@ -49,9 +42,7 @@ def preprocess_coca(source_path: str, target_path: str, masks_path: str):
         "target_colors": target_colors,
         "z-fill": 4,
         "img_id_extractor": lambda x: os.path.basename(x).split("-")[-1],
-        "study_id_extractor": lambda x: os.path.basename(
-            os.path.dirname(os.path.dirname(x))
-        ),
+        "study_id_extractor": lambda x: os.path.basename(os.path.dirname(os.path.dirname(x))),
         "mask_colors_old2new": mask_colors_old2new,
     }
 

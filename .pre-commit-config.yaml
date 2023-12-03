@@ -9,11 +9,12 @@ repos:
     rev: 22.6.0
     hooks:
       - id: black
+        args: [--line-length=120]
   - repo: https://github.com/PyCQA/flake8
     rev: 5.0.2
     hooks:
       - id: flake8
-        args: ["--ignore=E501,F401,W503"]
+        args: ["--ignore=E501,F401,W503", "--max-line-length=120"]
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v0.971
     hooks:
@@ -30,6 +31,7 @@ repos:
         additional_dependencies:
           - types-click
           - types-requests
+          - types-pyyaml
   - repo: https://github.com/PyCQA/pydocstyle
     rev: 6.1.1
     hooks:
