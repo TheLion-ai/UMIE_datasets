@@ -1,3 +1,4 @@
+"""Preprocessing pipeline for the Stanford Brain MET dataset."""
 import os
 
 import yaml
@@ -10,13 +11,14 @@ from src.preprocessing.get_file_paths import GetFilePaths
 from src.preprocessing.recolor_masks import RecolorMasks
 
 
-def preprocess_stanford_brain_met(source_path: str, target_path: str):
+def preprocess_stanford_brain_met(source_path: str, target_path: str) -> None:
     """Preprocess the Stanford Brain MET dataset.
+
     Args:
         source_path (str): Path to the source directory.
         target_path (str): Path to the target directory.
     """
-    dataset_name = "Stanford_Brain_MET"
+    dataset_name = "StanfordBrainMET"
     dataset_uid = yaml.load(
         open("config/dataset_uid_config.yaml"), Loader=yaml.FullLoader
     )[dataset_name]

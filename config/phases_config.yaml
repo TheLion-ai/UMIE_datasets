@@ -1,4 +1,4 @@
-KITS-19:
+KITS21:
   '0': CT_arterial
 MosMedData:
   '0': HRCT_nocontrast
@@ -25,10 +25,10 @@ Qin_Brain_MRI:
 # BRAIN_MRI_SEGMENTATION:
 CT_ORG:
   '0': CT
-Stanford_Brain_MET:
+StanfordBrainMET:
   '0': T1_weighted_preCM_spin-echo_pre-contrast
   '1': T1_weighted_postCM # This one was used to generate the masks
   '2': T1_gradient_echo_postCM # (using an IR-prepped FSPGR sequence)
   '3': T2_FLAIR_postCM
-Stanford_COCA:
+StanfordCOCA:
   '0': CT

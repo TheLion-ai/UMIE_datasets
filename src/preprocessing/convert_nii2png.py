@@ -1,11 +1,16 @@
 """Converts nii files to png images with appropriate color encoding."""
+import datetime
 import glob
 import os
+import tempfile
 from typing import Callable
 
 import cv2
 import nibabel as nib
 import numpy as np
+import pydicom
+from pydicom.dataset import Dataset, FileDataset, FileMetaDataset
+from pydicom.uid import UID
 from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
@@ -27,6 +32,8 @@ class ConvertNii2Png(TransformerMixin):
         study_id_extractor: Callable = lambda x: x,
         phase_extractor: Callable = lambda x: x,
         zfill: int = 3,
+        img_dicom_prefix: str = "imaging",
+        segmentation_dicom_prefix: str = "segmentation",
         **kwargs: dict,
     ):
         """Convert nii files to png images with appropriate color encoding.
@@ -44,6 +51,8 @@ class ConvertNii2Png(TransformerMixin):
             study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
             zfill (int, optional): Number of zeros to fill the image id. Defaults to 3.
+            img_dicom_prefix (str, optional): Prefix for the dicom file with images. Defaults to "imaging".
+            segmentation_dicom_prefix (str, optional): Prefix for the dicom file with segmentations. Defaults to "segmentation".
         """
         self.target_path = target_path
         self.dataset_name = dataset_name
@@ -57,6 +66,8 @@ class ConvertNii2Png(TransformerMixin):
         self.window_center = window_center
         self.window_width = window_width
         self.zfill = zfill
+        self.img_dcm_prefix = img_dicom_prefix
+        self.segmentation_dcm_prefix = segmentation_dicom_prefix
 
     def transform(
         self,
@@ -74,7 +85,9 @@ class ConvertNii2Png(TransformerMixin):
             if img_path.endswith(".nii.gz"):
                 self.convert_nii2png(img_path)
         root_path = os.path.dirname(X[0])
-        new_paths = glob.glob(f"{root_path}/**/*.png", recursive=True)
+        new_paths = glob.glob(
+            f"{root_path}/**/{self.img_dcm_prefix}*.png", recursive=True
+        )
         return new_paths
 
     def convert_nii2png(self, img_path: str) -> None:
@@ -90,14 +103,15 @@ class ConvertNii2Png(TransformerMixin):
             root_path = os.path.dirname(img_path)
             name = (
                 os.path.basename(img_path).split(".")[0]
-                + f"_{str(idx).zfill(self.zfill)}.png"
+                + f"_{str(idx).zfill(self.zfill)}"
             )
             new_path = os.path.join(root_path, name)
             # TODO: remove hardcoded names
             img = np.array(nii_data[idx, :, :])
-            if "segmentation" not in new_path:
+            if self.segmentation_dcm_prefix not in new_path:
                 img = self._apply_window(img)
-            cv2.imwrite(new_path, img)
+
+            cv2.imwrite(f"{new_path}.png", img)
 
     def _apply_window(self, pixel_data: np.ndarray) -> np.ndarray:
         """Apply window to the image.
