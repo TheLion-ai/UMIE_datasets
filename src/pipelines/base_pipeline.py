@@ -17,6 +17,7 @@ class PathArgs:
     source_path: str
     target_path: str
     labels_path: Optional[str]
+    masks_path: Optional[str]
 
 
 @dataclass

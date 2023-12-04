@@ -2,6 +2,8 @@
 from abc import abstractmethod
 
 from src.pipelines.kits21 import KITS21Pipeline
+from src.pipelines.stanford_brain_met import StanfordBrainMETPipeline
+from src.pipelines.stanford_coca import StanfordCOCAPipeline
 
 datasets = [
     KITS21Pipeline(
@@ -10,7 +12,20 @@ datasets = [
             "target_path": "./data/",
             "labels_path": "/home/basia/kits_dummy/kits.json",
         },
-    )
+    ),
+    StanfordCOCAPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": "./data/",
+            "masks_path": "",
+        },
+    ),
+    StanfordBrainMETPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": "./data/",
+        },
+    ),
 ]
 
 
