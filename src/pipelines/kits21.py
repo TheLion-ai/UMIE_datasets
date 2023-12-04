@@ -10,16 +10,14 @@ import numpy as np
 
 from src.constants import MASK_FOLDER_NAME
 from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
-from src.preprocessing.add_labels import AddLabels
-from src.preprocessing.add_new_ids import AddNewIds
-from src.preprocessing.convert_nii2png import ConvertNii2Png
-from src.preprocessing.copy_png_masks import CopyPNGMasks
-from src.preprocessing.create_file_tree import CreateFileTree
-from src.preprocessing.delete_imgs_with_no_annotations import (
-    DeleteImgsWithNoAnnotations,
-)
-from src.preprocessing.get_file_paths import GetFilePaths
-from src.preprocessing.recolor_masks import RecolorMasks
+from src.steps.add_labels import AddLabels
+from src.steps.add_new_ids import AddNewIds
+from src.steps.convert_nii2png import ConvertNii2Png
+from src.steps.copy_png_masks import CopyPNGMasks
+from src.steps.create_file_tree import CreateFileTree
+from src.steps.delete_imgs_with_no_annotations import DeleteImgsWithNoAnnotations
+from src.steps.get_file_paths import GetFilePaths
+from src.steps.recolor_masks import RecolorMasks
 
 
 @dataclass
