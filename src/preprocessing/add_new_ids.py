@@ -21,7 +21,7 @@ class AddNewIds(TransformerMixin):
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         study_id_extractor: Callable = lambda x: x,
         phase_extractor: Callable = lambda x: x,
-        mask_selector: str = "segmentations",
+        segmentation_dcm_prefix: str = "segmentations",
         **kwargs: dict,
     ):
         """Change img ids to match the format of the rest of the dataset.
@@ -35,7 +35,7 @@ class AddNewIds(TransformerMixin):
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
             study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
-            mask_selector (str, optional): String to select masks. Defaults to "segmentations".
+            segmentation_dcm_prefix (str, optional): String to select masks. Defaults to "segmentations".
         """
         self.target_path = target_path
         self.dataset_name = dataset_name
@@ -45,7 +45,7 @@ class AddNewIds(TransformerMixin):
         self.img_id_extractor = img_id_extractor
         self.study_id_extractor = study_id_extractor
         self.phase_extractor = phase_extractor
-        self.mask_selector = mask_selector
+        self.segmentation_dcm_prefix = segmentation_dcm_prefix
 
     def transform(
         self,
@@ -92,7 +92,7 @@ class AddNewIds(TransformerMixin):
             phase_id = self.phase_extractor(img_path)
             if phase_id not in self.phases.keys():
                 return None
-            elif self.mask_selector in img_path:
+            elif self.segmentation_dcm_prefix in img_path:
                 return None
             phase_name = self.phases[phase_id]
             new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
