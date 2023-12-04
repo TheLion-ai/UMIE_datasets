@@ -62,7 +62,9 @@ class BasePipeline:
         phases = yaml.load(open("config/phases_config.yaml"), Loader=yaml.FullLoader)[self.name]
         mask_encoding_config = yaml.load(open("config/masks_encoding_config.yaml"), Loader=yaml.FullLoader)
         dataset_masks = yaml.load(open("config/dataset_masks_config.yaml"), Loader=yaml.FullLoader)[self.name]
-        mask_colors_old2new = {v: mask_encoding_config[k] for k, v in dataset_masks.items()}
+        mask_colors_old2new = {
+            v: mask_encoding_config[k] for k, v in dataset_masks.items()
+        }  # TODO: change name to target_colors
 
         cfg_args = {
             "dataset_name": self.name,
