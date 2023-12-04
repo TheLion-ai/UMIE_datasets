@@ -1,13 +1,10 @@
 """Base pipeline class."""
 import json
 import os
-import re
 from abc import abstractmethod
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-import cv2
-import numpy as np
 import yaml
 from sklearn.base import TransformerMixin
 from sklearn.pipeline import Pipeline
@@ -41,11 +38,11 @@ class DatasetArgs:
 class BasePipeline:
     """Base pipeline class."""
 
-    name: str
-    steps: list[tuple[str, TransformerMixin]]
     path_args: PathArgs
+    name: str
     dataset_args: DatasetArgs
-    args: dict = {}
+    steps: list[tuple[str, TransformerMixin]]
+    args: dict = field(default_factory=lambda: {})
 
     def __post_init__(self) -> None:
         """Post initialization actions."""
