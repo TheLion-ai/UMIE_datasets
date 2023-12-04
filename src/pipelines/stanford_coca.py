@@ -8,7 +8,7 @@ from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_dcm2png import ConvertDcm2Png
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.create_masks_from_xml import CreateMasksFromXML
-from src.steps.delete_imgs_with_no_annotations import DeleteImgsWithoutMasks
+from src.steps.delete_imgs_with_no_annotations import DeleteImgsWithNoAnnotations
 from src.steps.get_file_paths import GetFilePaths
 
 
@@ -26,7 +26,7 @@ class StanfordCOCAPipeline(BasePipeline):
             ("create_masks_from_xml", CreateMasksFromXML),
             # Choose either to create blank masks or delete images without masks
             # ("create_blank_masks", CreateBlankMasks),
-            ("delete_imgs_without_masks", DeleteImgsWithoutMasks),
+            ("delete_imgs_without_masks", DeleteImgsWithNoAnnotations),
         ],
     )
     dataset_args: DatasetArgs = DatasetArgs(
