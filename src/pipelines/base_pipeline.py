@@ -5,9 +5,15 @@ from abc import abstractmethod
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-import yaml
 from sklearn.base import TransformerMixin
 from sklearn.pipeline import Pipeline
+
+from config import (
+    dataset_masks_config,
+    dataset_uids_config,
+    mask_encodings_config,
+    phases_config,
+)
 
 
 @dataclass
@@ -58,12 +64,11 @@ class BasePipeline:
 
     def load_config(self) -> None:
         """Load configuration."""
-        dataset_uid = yaml.load(open("config/dataset_uid_config.yaml"), Loader=yaml.FullLoader)[self.name]
-        phases = yaml.load(open("config/phases_config.yaml"), Loader=yaml.FullLoader)[self.name]
-        mask_encoding_config = yaml.load(open("config/masks_encoding_config.yaml"), Loader=yaml.FullLoader)
-        dataset_masks = yaml.load(open("config/dataset_masks_config.yaml"), Loader=yaml.FullLoader)[self.name]
+        dataset_uid = dataset_uids_config.dataset_uids[self.name]
+        phases = phases_config.phases[self.name]
+        dataset_masks = dataset_masks_config.dataset_masks[self.name]
         mask_colors_old2new = {
-            v: mask_encoding_config[k] for k, v in dataset_masks.items()
+            v: mask_encodings_config.mask_encodings[k] for k, v in dataset_masks.items()
         }  # TODO: change name to target_colors
 
         cfg_args = {
