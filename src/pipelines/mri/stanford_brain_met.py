@@ -11,6 +11,22 @@ from src.preprocessing.get_file_paths import GetFilePaths
 from src.preprocessing.recolor_masks import RecolorMasks
 
 
+class StanfordBrainMETPipeline(Pipeline):
+    """Preprocessing pipeline for the Stanford Brain MET dataset."""
+
+    def __init__(self, **kwargs: dict):
+        """Preprocessing pipeline for the Stanford Brain MET dataset."""
+        super().__init__(
+            steps=[
+                ("create_file_tree", CreateFileTree(**kwargs)),
+                ("get_file_paths", GetFilePaths(**kwargs)),
+                ("copy_png_masks", CopyPNGMasks(**kwargs)),
+                ("add_new_ids", AddNewIds(**kwargs)),
+                ("recolor_masks", RecolorMasks(**kwargs)),
+            ]
+        )
+
+
 def preprocess_stanford_brain_met(source_path: str, target_path: str) -> None:
     """Preprocess the Stanford Brain MET dataset.
 

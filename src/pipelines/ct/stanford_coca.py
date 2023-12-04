@@ -12,6 +12,25 @@ from src.preprocessing.delete_imgs_with_no_annotations import DeleteImgsWithoutM
 from src.preprocessing.get_file_paths import GetFilePaths
 
 
+class StanfordCOCAPipeline(Pipeline):
+    """Preprocessing pipeline for the Stanford COCA dataset."""
+
+    def __init__(self, **kwargs: dict):
+        """Preprocessing pipeline for the Stanford COCA dataset."""
+        super().__init__(
+            steps=[
+                ("get_file_paths", GetFilePaths(**kwargs)),
+                ("create_file_tree", CreateFileTree(**kwargs)),
+                ("add_new_ids", AddNewIds(**kwargs)),
+                ("convert_dcm2png", ConvertDcm2Png(**kwargs)),
+                ("create_masks_from_xml", CreateMasksFromXML(**kwargs)),
+                # Choose either to create blank masks or delete images without masks
+                # ("create_blank_masks", CreateBlankMasks(**kwargs)),
+                ("delete_imgs_without_masks", DeleteImgsWithoutMasks(**kwargs)),
+            ]
+        )
+
+
 def preprocess_coca(source_path: str, target_path: str, masks_path: str) -> None:
     """Preprocess the Stanford COCA dataset.
 
@@ -40,7 +59,7 @@ def preprocess_coca(source_path: str, target_path: str, masks_path: str) -> None
         "phases": phases,
         "dataset_masks": dataset_masks,
         "target_colors": target_colors,
-        "z-fill": 4,
+        "zfill": 4,
         "img_id_extractor": lambda x: os.path.basename(x).split("-")[-1],
         "study_id_extractor": lambda x: os.path.basename(os.path.dirname(os.path.dirname(x))),
         "mask_colors_old2new": mask_colors_old2new,

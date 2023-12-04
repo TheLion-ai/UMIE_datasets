@@ -21,7 +21,6 @@ class CopyPNGMasks(TransformerMixin):
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         study_id_extractor: Callable = lambda x: x,
         phase_extractor: Callable = lambda x: x,
-        mask_selector: str = "segmentations",
         img_dicom_prefix: str = "imaging",
         segmentation_dicom_prefix: str = "segmentation",
         **kwargs: dict,
@@ -38,7 +37,7 @@ class CopyPNGMasks(TransformerMixin):
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
             study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
-            mask_selector (str, optional): String to select masks. Defaults to "segmentations".
+            segmentation_dcm_prefix (str, optional): String to select masks. Defaults to "segmentations".
         """
         self.target_path = target_path
         self.dataset_name = dataset_name
@@ -49,7 +48,6 @@ class CopyPNGMasks(TransformerMixin):
         self.img_id_extractor = img_id_extractor
         self.study_id_extractor = study_id_extractor
         self.phase_extractor = phase_extractor
-        self.mask_selector = mask_selector
         self.img_dcm_prefix = img_dicom_prefix
         self.segmentation_dcm_prefix = segmentation_dicom_prefix
 
@@ -66,9 +64,7 @@ class CopyPNGMasks(TransformerMixin):
         """
         print("Copying PNG masks...")
         for img_path in tqdm(X):
-            mask_path = img_path.replace(
-                self.img_dcm_prefix, self.segmentation_dcm_prefix
-            )
+            mask_path = img_path.replace(self.img_dcm_prefix, self.segmentation_dcm_prefix)
             self.copy_png_masks(mask_path)
         return X
 
@@ -83,7 +79,7 @@ class CopyPNGMasks(TransformerMixin):
         phase_id = self.phase_extractor(img_path)
         # if phase_id in self.phases.keys():
         #     return None
-        if self.mask_selector not in img_path:
+        if self.segmentation_dcm_prefix not in img_path:
             return None
         else:
             if len(self.phases.keys()) <= 1:
