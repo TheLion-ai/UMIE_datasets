@@ -1,0 +1,23 @@
+"""How to denote each mask in UMIE."""
+mask_encodings = {
+    "background": 0,
+    "malignancy1": 3,
+    "malignancy2": 6,
+    "malignancy3": 9,
+    "malignancy4": 12,
+    "malignancy5": 15,
+    "coronary_artery_calcium": 20,
+    "brain": 50,
+    "brain_metastasis": 60,
+    "parenchyma_0_25": 100,
+    "kidney_tumor": 101,
+    "kidney": 127,
+    "bone": 140,
+    "liver": 150,
+    "bladder": 160,
+    "lungs": 170,
+    "normal_appearing_cerebral_cortex": 180,
+    "arteliar_input_function": 190,
+    "normal_appearing white matter": 200,
+    "brain_tumor": 255,
+}
