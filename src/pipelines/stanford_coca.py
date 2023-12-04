@@ -4,12 +4,12 @@ from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
-from src.preprocessing.add_new_ids import AddNewIds
-from src.preprocessing.convert_dcm2png import ConvertDcm2Png
-from src.preprocessing.create_file_tree import CreateFileTree
-from src.preprocessing.create_masks_from_xml import CreateMasksFromXML
-from src.preprocessing.delete_imgs_with_no_annotations import DeleteImgsWithoutMasks
-from src.preprocessing.get_file_paths import GetFilePaths
+from src.steps.add_new_ids import AddNewIds
+from src.steps.convert_dcm2png import ConvertDcm2Png
+from src.steps.create_file_tree import CreateFileTree
+from src.steps.create_masks_from_xml import CreateMasksFromXML
+from src.steps.delete_imgs_with_no_annotations import DeleteImgsWithoutMasks
+from src.steps.get_file_paths import GetFilePaths
 
 
 @dataclass

@@ -4,11 +4,11 @@ from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
-from src.preprocessing.add_new_ids import AddNewIds
-from src.preprocessing.copy_png_masks import CopyPNGMasks
-from src.preprocessing.create_file_tree import CreateFileTree
-from src.preprocessing.get_file_paths import GetFilePaths
-from src.preprocessing.recolor_masks import RecolorMasks
+from src.steps.add_new_ids import AddNewIds
+from src.steps.copy_png_masks import CopyPNGMasks
+from src.steps.create_file_tree import CreateFileTree
+from src.steps.get_file_paths import GetFilePaths
+from src.steps.recolor_masks import RecolorMasks
 
 
 @dataclass

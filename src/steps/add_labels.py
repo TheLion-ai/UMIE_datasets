@@ -99,6 +99,4 @@ class AddLabels(TransformerMixin):
             root_path = os.path.dirname(os.path.dirname(img_path))
             mask_path = os.path.join(root_path, self.mask_folder_name, f"{img_id}.png")
             if os.path.exists(mask_path):
-                os.rename(
-                    mask_path, os.path.join(root_path, self.mask_folder_name, new_name)
-                )
+                os.rename(mask_path, os.path.join(root_path, self.mask_folder_name, new_name))
