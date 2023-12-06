@@ -15,7 +15,7 @@ from src.steps.recolor_masks import RecolorMasks
 class StanfordBrainMETPipeline(BasePipeline):
     """Preprocessing pipeline for the Stanford Brain MET dataset."""
 
-    name: str = field(default="Stanford_Brain_MET")
+    name: str = field(default="StanfordBrainMET")
     steps: list = field(
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
