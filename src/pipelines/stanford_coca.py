@@ -16,7 +16,7 @@ from src.steps.get_file_paths import GetFilePaths
 class StanfordCOCAPipeline(BasePipeline):
     """Preprocessing pipeline for the Stanford COCA dataset."""
 
-    name: str = field(default="Stanford_COCA")  # dataset name used in configs
+    name: str = field(default="StanfordCOCA")  # dataset name used in configs
     steps: list = field(
         default_factory=lambda: [
             ("get_file_paths", GetFilePaths),
