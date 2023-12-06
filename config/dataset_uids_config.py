@@ -2,7 +2,7 @@
 dataset_uids = {
     "KITS21": "00",
     "MosMedData": "01",
-    "LIDC-IDRI": "02",
+    "LidcIdri": "02",
     "CT_COLONOGRAPHY": "03",
     "Chest_X-ray_Abnormalities_Detection": "04",
     "CoronaHack_Chest_X-Ray_Dataset": "05",
