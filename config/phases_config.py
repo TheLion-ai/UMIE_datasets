@@ -6,7 +6,7 @@ phases = {
     "MosMedData": {
         "0": "HRCT_nocontrast",
     },
-    "LIDC-IDRI": {
+    "LidcIdri": {
         "0": "CT",
     },
     "CT_COLONOGRAPHY": {
