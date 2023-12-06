@@ -77,8 +77,7 @@ class CopyPNGMasks(TransformerMixin):
         img_id = self.img_id_extractor(img_path)
         study_id = self.study_id_extractor(img_path)
         phase_id = self.phase_extractor(img_path)
-        # if phase_id in self.phases.keys():
-        #     return None
+        # TODO: remove duplicate code from add_new_ids.py, Move this step to add_new_ids???
         if self.segmentation_dcm_prefix not in img_path:
             return None
         phase_id = self.phase_extractor(img_path)
