@@ -4,6 +4,7 @@ from abc import abstractmethod
 from src.pipelines.coronahack_chest_xray import CoronahackChestXrayPipeline
 from src.pipelines.kits21 import KITS21Pipeline
 from src.pipelines.lidcidri import LidcIdriPipeline
+from src.pipelines.lidcidri import LidcIdriPipeline
 from src.pipelines.stanford_brain_met import StanfordBrainMETPipeline
 from src.pipelines.stanford_coca import StanfordCOCAPipeline
 
