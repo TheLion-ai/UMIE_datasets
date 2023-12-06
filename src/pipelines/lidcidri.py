@@ -1,10 +1,10 @@
 """Preprocessing pipeline for the LIDC-IDRI dataset."""
-import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from src.pipelines.base_pipeline import BasePipeline, DatasetArgs, XmlKeys
 from src.steps.add_new_ids import AddNewIds
+from src.steps.convert_dcm2png import ConvertDcm2Png
 from src.steps.convert_dcm2png import ConvertDcm2Png
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.create_masks_from_xml import CreateMasksFromXML
