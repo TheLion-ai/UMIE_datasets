@@ -55,5 +55,5 @@ class CreateBlankMasks(TransformerMixin):
 
         new_path = os.path.dirname(os.path.dirname(img_path))
         new_path = os.path.join(new_path, self.mask_folder_name, img_name)
-        mask = np.zeros(img.shape, np.uint8)
+        mask = np.zeros(img.shape, np.uint8)  # Create a black mask
         cv2.imwrite(new_path, mask)

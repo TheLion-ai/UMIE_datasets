@@ -12,17 +12,17 @@ class RecolorMasks(TransformerMixin):
 
     def __init__(
         self,
-        mask_colors_old2new: dict,
+        mask_colors_source2target: dict,
         mask_folder_name: str = "Masks",
         **kwargs: dict,
     ):
         """Recolors masks from default color to the color specified in the config.
 
         Args:
-            mask_colors_old2new (dict): Dictionary with old and new colors.
+            mask_colors_source2target (dict): Dictionary with old and new colors.
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
         """
-        self.mask_colors_old2new = mask_colors_old2new
+        self.mask_colors_source2target = mask_colors_source2target
         self.mask_folder_name = mask_folder_name
 
     def transform(self, X: list) -> list:
@@ -48,6 +48,6 @@ class RecolorMasks(TransformerMixin):
         """
         mask = cv2.imread(mask_path)
         # changing pixel values
-        for source_color, target_color in self.mask_colors_old2new.items():
+        for source_color, target_color in self.mask_colors_source2target.items():
             np.place(mask, mask == source_color, target_color)
         cv2.imwrite(mask_path, mask)

@@ -28,7 +28,7 @@ phases = {
         "0": "Xray",
     },
     "Brain_Tumor_Classification_MRI": {
-        "0": "T1_weighted_postCM",  # occasionally T2_weighted! TODO: check
+        "0": "T1_weighted_postCM",  # occasionally T2_weighted! TODO: check when this dataset is implemented
     },
     "Brain_Tumor_Progression": {
         "0": "T1_weighted",  # probably some before CM and some after CM

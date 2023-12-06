@@ -73,16 +73,14 @@ class BasePipeline:
         # Dict with masks and the source colors encoding
         dataset_masks = dataset_masks_config.dataset_masks[self.name]
         # Dict with source colors of masks and the target colors mapping
-        mask_colors_old2new = {
-            v: mask_encodings_config.mask_encodings[k] for k, v in dataset_masks.items()
-        }  # TODO: change name to target_colors
+        mask_colors_source2target = {v: mask_encodings_config.mask_encodings[k] for k, v in dataset_masks.items()}
         # Dict with args extracted from the dataset config
         cfg_args = {
             "dataset_name": self.name,
             "dataset_uid": dataset_uid,
             "phases": phases,
             "dataset_masks": dataset_masks,
-            "mask_colors_old2new": mask_colors_old2new,
+            "mask_colors_source2target": mask_colors_source2target,
         }
         # Update args with the config args
         self.args = dict(**self.path_args, **cfg_args)

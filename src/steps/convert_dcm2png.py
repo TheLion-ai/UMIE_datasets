@@ -67,7 +67,6 @@ class ConvertDcm2Png(TransformerMixin):
             cv2.imwrite(new_path, output)
 
         except Exception as e:
-            # TODO: add logging
             print(f"Error {e} occured while converting {img_path} {ds.is_little_endian}")
             if self.on_error_remove:
                 os.remove(img_path)

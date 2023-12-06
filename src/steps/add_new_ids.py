@@ -78,7 +78,7 @@ class AddNewIds(TransformerMixin):
         study_id = self.study_id_extractor(img_path)
         phase_id = self.phase_extractor(img_path)
         if phase_id not in self.phases.keys():
-            raise ValueError(f"Phase {phase_id} not found in the phases dictionary.")
+            raise ValueError(f"Phase {phase_id} not in the phases dictionary.")
         elif self.segmentation_dcm_prefix in img_path:
             return None
         phase_name = self.phases[phase_id]

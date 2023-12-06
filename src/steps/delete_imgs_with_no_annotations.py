@@ -58,9 +58,11 @@ class DeleteImgsWithNoAnnotations(TransformerMixin):
             no_label = True
         if img_name not in self.mask_names:
             if no_label:
+                # If there is no mask and no label
                 os.remove(img_path)
         # If there is a mask but it is empty
         elif np.unique(cv2.imread(mask_path)).shape[0] == 1:
             if no_label:
+                # If there is a blank mask and no label
                 os.remove(img_path)
                 os.remove(mask_path)
