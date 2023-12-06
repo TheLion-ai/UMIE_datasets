@@ -62,12 +62,8 @@ class AddNewIds(TransformerMixin):
         for img_path in tqdm(X):
             self.add_new_ids(img_path)
 
-        root_path = os.path.join(
-            self.target_path,
-            f"{self.dataset_uid}_{self.dataset_name}",
-            self.image_folder_name,
-        )
-        new_paths = glob.glob(f"{root_path}/*.*", recursive=True)
+        root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
+        new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
         return new_paths
 
     def add_new_ids(self, img_path: str) -> None:
@@ -76,33 +72,24 @@ class AddNewIds(TransformerMixin):
         Args:
             img_path (str): Path to the image.
         """
+        # Extract relevant information from the source path
+        # The logic of the extraction functions depends on the dataset
         img_id = self.img_id_extractor(img_path)
         study_id = self.study_id_extractor(img_path)
-
-        if len(self.phases.keys()) <= 1:
-            phase_id = "0"
-            new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
-            new_path = os.path.join(
-                self.target_path,
-                f"{self.dataset_uid}_{self.dataset_name}",
-                self.image_folder_name,
-                new_file_name,
-            )
-        else:
-            phase_id = self.phase_extractor(img_path)
-            if phase_id not in self.phases.keys():
-                return None
-            elif self.segmentation_dcm_prefix in img_path:
-                return None
-            phase_name = self.phases[phase_id]
-            new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
-            new_path = os.path.join(
-                self.target_path,
-                f"{self.dataset_uid}_{self.dataset_name}",
-                phase_name,
-                self.image_folder_name,
-                new_file_name,
-            )
+        phase_id = self.phase_extractor(img_path)
+        if phase_id not in self.phases.keys():
+            raise ValueError(f"Phase {phase_id} not in the phases dictionary.")
+        elif self.segmentation_dcm_prefix in img_path:
+            return None
+        phase_name = self.phases[phase_id]
+        new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
+        new_path = os.path.join(
+            self.target_path,
+            f"{self.dataset_uid}_{self.dataset_name}",
+            phase_name,
+            self.image_folder_name,
+            new_file_name,
+        )
 
         if not os.path.exists(new_path):  # for img_path in tqdm(X):
             #     if img_path.endswith(".nii.gz"):

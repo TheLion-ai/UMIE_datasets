@@ -16,7 +16,7 @@ from src.steps.get_file_paths import GetFilePaths
 class StanfordCOCAPipeline(BasePipeline):
     """Preprocessing pipeline for the Stanford COCA dataset."""
 
-    name: str = field(default="Stanford_COCA")
+    name: str = field(default="StanfordCOCA")  # dataset name used in configs
     steps: list = field(
         default_factory=lambda: [
             ("get_file_paths", GetFilePaths),
@@ -31,11 +31,14 @@ class StanfordCOCAPipeline(BasePipeline):
     )
     dataset_args: DatasetArgs = DatasetArgs(
         zfill=4,
+        # Image id is in the source file name after the last underscore
         img_id_extractor=lambda x: os.path.basename(x).split("-")[-1],
+        # Study name is the folder two levels above the image
         study_id_extractor=lambda x: os.path.basename(os.path.dirname(os.path.dirname(x))),
     )
 
     def __post_init__(self) -> None:
         """Post initialization actions."""
         super().__post_init__()
+        # Add dataset specific arguments to the pipeline arguments
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.dataset_args))

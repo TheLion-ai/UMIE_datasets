@@ -1,4 +1,4 @@
-"""Labels form all of the datasets."""
+"""Labels fromm all of the datasets."""
 labels = {
     0: "good",
     1: "Atelectasis",
@@ -13,7 +13,7 @@ labels = {
     10: "Edema",
     11: "Emphysema",
     12: "Fibrosis",
-    13: "Pleural_Thickening",
+    13: "PleuralThickening",
     14: "Hernia",
     15: "Parenchyma",
     16: "Kidney",

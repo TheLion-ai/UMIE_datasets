@@ -85,7 +85,7 @@ class ConvertNii2Png(TransformerMixin):
             if img_path.endswith(".nii.gz"):
                 self.convert_nii2png(img_path)
         root_path = os.path.dirname(X[0])
-        new_paths = glob.glob(f"{root_path}/**/{self.img_dcm_prefix}*.png", recursive=True)
+        new_paths = glob.glob(os.path.join(root_path, f"**/{self.img_dcm_prefix}*.png"), recursive=True)
         return new_paths
 
     def convert_nii2png(self, img_path: str) -> None:
@@ -101,12 +101,11 @@ class ConvertNii2Png(TransformerMixin):
             root_path = os.path.dirname(img_path)
             name = os.path.basename(img_path).split(".")[0] + f"_{str(idx).zfill(self.zfill)}.png"
             new_path = os.path.join(root_path, name)
-            # TODO: remove hardcoded names
             img = np.array(nii_data[idx, :, :])
             if self.segmentation_dcm_prefix not in new_path:
                 img = self._apply_window(img)
 
-            cv2.imwrite(f"{new_path}.png", img)
+            cv2.imwrite(new_path, img)
 
     def _apply_window(self, pixel_data: np.ndarray) -> np.ndarray:
         """Apply window to the image.
