@@ -1,4 +1,4 @@
-"""Mask values for each dataset."""
+"""Source color values of masks for each dataset."""
 dataset_masks = {
     "StanfordCOCA": {
         "coronary_artery_calcium": 20,
