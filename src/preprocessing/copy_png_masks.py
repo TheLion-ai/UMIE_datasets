@@ -1,4 +1,5 @@
 """Copy PNG masks to a new folder structure."""
+import glob
 import os
 import shutil
 from typing import Callable
@@ -14,6 +15,7 @@ class CopyPNGMasks(TransformerMixin):
         self,
         target_path: str,
         dataset_name: str,
+        masks_path: str,
         dataset_uid: str,
         phases: dict,
         image_folder_name: str = "Images",
@@ -29,6 +31,7 @@ class CopyPNGMasks(TransformerMixin):
         Args:
             target_path (str): Path to the target folder.
             dataset_name (str): Name of the dataset.
+            masks_path (str): Path to source folder with masks
             dataset_uid (str): Unique identifier of the dataset.
             phases (dict): Dictionary with phases and their names.
             image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
@@ -40,6 +43,7 @@ class CopyPNGMasks(TransformerMixin):
         """
         self.target_path = target_path
         self.dataset_name = dataset_name
+        self.masks_path = masks_path
         self.dataset_uid = dataset_uid
         self.phases = phases
         self.image_folder_name = image_folder_name
@@ -61,8 +65,25 @@ class CopyPNGMasks(TransformerMixin):
             list: List of paths to the images with labels.
         """
         print("Copying PNG masks...")
-        for img_path in tqdm(X):
-            self.copy_png_masks(img_path)
+        # for img_path in tqdm(X):
+        #     self.copy_png_masks(img_path)
+        # mask_paths = (
+        #     glob.glob(f"{self.masks_path}/*.tif", recursive=True)
+        #     + glob.glob(f"{self.masks_path}/*.tiff", recursive=True)
+        #     + glob.glob(f"{self.masks_path}/*.png", recursive=True)
+        #     + glob.glob(f"{self.masks_path}/*.jpg", recursive=True)
+        #     + glob.glob(f"{self.masks_path}/*.jpeg", recursive=True)
+        # )
+        mask_paths = []
+        for root, dirnames, filenames in os.walk(self.masks_path):
+            for filename in filenames:
+                if filename.startswith("."):
+                    continue
+                else:
+                    mask_paths.append(os.path.join(root, filename))
+        if mask_paths:
+            for img_path in tqdm(mask_paths):
+                self.copy_png_masks(img_path)
         return X
 
     def copy_png_masks(self, img_path: str) -> None:
@@ -72,15 +93,16 @@ class CopyPNGMasks(TransformerMixin):
             img_path (str): Path to the image.
         """
         img_id = self.img_id_extractor(img_path)
-        study_id = self.study_id_extractor(img_path)
-        phase_id = self.phase_extractor(img_path)
-        if phase_id in self.phases.keys():
-            return None
-        elif self.mask_selector not in img_path:
+        if self.mask_selector in img_id:
+            img_id = img_id.replace(self.mask_selector, "")
+        # if phase_id in self.phases.keys():
+        #     return None
+        if self.mask_selector not in img_path:
             return None
         else:
             if len(self.phases.keys()) <= 1:
-                new_file_name = f"{self.dataset_uid}_{study_id}_{img_id}"
+                # new_file_name = f"{self.dataset_uid}_{study_id}_{img_id}"
+                new_file_name = img_id
                 new_path = os.path.join(
                     self.target_path,
                     f"{self.dataset_uid}_{self.dataset_name}",
@@ -92,15 +114,17 @@ class CopyPNGMasks(TransformerMixin):
             else:
                 phase_id = self.phase_extractor(img_path)
                 for phase_id in self.phases.keys():
-                    phase_name = self.phases[phase_id]
-                    new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
-                    new_path = os.path.join(
-                        self.target_path,
-                        f"{self.dataset_uid}_{self.dataset_name}",
-                        phase_name,
-                        self.mask_folder_name,
-                        new_file_name,
-                    )
+                    if phase_id == self.phase_extractor(img_path):
+                        phase_name = self.phases[phase_id]
+                        # new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
+                        new_file_name = img_id
+                        new_path = os.path.join(
+                            self.target_path,
+                            f"{self.dataset_uid}_{self.dataset_name}",
+                            phase_name,
+                            self.mask_folder_name,
+                            new_file_name,
+                        )
 
-                    if not os.path.exists(new_path):
-                        shutil.copy2(img_path, new_path)
+                        if not os.path.exists(new_path):
+                            shutil.copy2(img_path, new_path)

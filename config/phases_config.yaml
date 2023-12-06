@@ -32,3 +32,6 @@ Stanford_Brain_MET:
   '3': T2_FLAIR_postCM
 Stanford_COCA:
   '0': CT
+Brain_with_hemorrhage:
+  '0': Bone
+  '1': Brain

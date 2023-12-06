@@ -7,6 +7,8 @@ from typing import Callable
 from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
+from ..utils.get_images_target_paths import get_images_paths
+
 
 class AddNewIds(TransformerMixin):
     """Change img ids to match the format of the rest of the dataset."""
@@ -22,6 +24,7 @@ class AddNewIds(TransformerMixin):
         study_id_extractor: Callable = lambda x: x,
         phase_extractor: Callable = lambda x: x,
         mask_selector: str = "segmentations",
+        mask_folder_name: str = "Masks",
         **kwargs: dict,
     ):
         """Change img ids to match the format of the rest of the dataset.
@@ -36,6 +39,7 @@ class AddNewIds(TransformerMixin):
             study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
             mask_selector (str, optional): String to select masks. Defaults to "segmentations".
+            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
         """
         self.target_path = target_path
         self.dataset_name = dataset_name
@@ -46,6 +50,7 @@ class AddNewIds(TransformerMixin):
         self.study_id_extractor = study_id_extractor
         self.phase_extractor = phase_extractor
         self.mask_selector = mask_selector
+        self.mask_folder_name = mask_folder_name
 
     def transform(
         self,
@@ -62,12 +67,13 @@ class AddNewIds(TransformerMixin):
         for img_path in tqdm(X):
             self.add_new_ids(img_path)
 
-        root_path = os.path.join(
+        new_paths = get_images_paths(
+            self.phases,
             self.target_path,
-            f"{self.dataset_uid}_{self.dataset_name}",
+            self.dataset_uid,
+            self.dataset_name,
             self.image_folder_name,
         )
-        new_paths = glob.glob(f"{root_path}/*.*", recursive=True)
         return new_paths
 
     def add_new_ids(self, img_path: str) -> None:
@@ -104,4 +110,15 @@ class AddNewIds(TransformerMixin):
             )
 
         if not os.path.exists(new_path):
-            shutil.copy2(img_path, new_path)
+            if self.target_path in img_path:
+                os.rename(img_path, new_path)
+            else:
+                shutil.copy2(img_path, new_path)
+
+        root_path = os.path.dirname(os.path.dirname(new_path))
+        mask_path = os.path.join(root_path, self.mask_folder_name, img_id)
+        if os.path.exists(mask_path):
+            os.rename(
+                mask_path,
+                f"{root_path}/{self.mask_folder_name}/{new_file_name}",
+            )
