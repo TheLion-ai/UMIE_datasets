@@ -1,10 +1,10 @@
 """Preprocessing pipeline for the LIDC-IDRI dataset."""
-import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
 from src.steps.add_new_ids import AddNewIds
+from src.steps.convert_dcm2png import ConvertDcm2Png
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.get_file_paths import GetFilePaths
 
@@ -18,10 +18,14 @@ class LidcIdriPipeline(BasePipeline):
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
             ("get_file_paths", GetFilePaths),
+            ("convert_dcm2png", ConvertDcm2Png),
             ("add_new_ids", AddNewIds),
         ]
     )
-    dataset_args: DatasetArgs = DatasetArgs()
+    dataset_args: DatasetArgs = DatasetArgs(
+        window_center=-550,
+        window_width=2000,
+    )
 
     def __post_init__(self) -> None:
         """Post initialization actions."""
