@@ -39,7 +39,7 @@ class GetFilePaths(TransformerMixin):
             file_paths (list): List of paths to the images.
         """
         file_paths = []
-        for root, dirnames, filenames in os.walk(source_path):
+        for root, _, filenames in os.walk(source_path):
             for filename in filenames:
                 if filename.startswith("."):
                     continue
