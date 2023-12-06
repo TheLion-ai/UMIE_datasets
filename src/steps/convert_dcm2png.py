@@ -47,7 +47,7 @@ class ConvertDcm2Png(TransformerMixin):
                 self.convert_dcm2png(img_path)
 
         root_path = os.path.dirname(X[0])
-        new_paths = glob.glob(f"{root_path}/*.png", recursive=True)
+        new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
         return new_paths
 
     def convert_dcm2png(self, img_path: str) -> None:

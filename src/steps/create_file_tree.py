@@ -60,30 +60,17 @@ class CreateFileTree(TransformerMixin):
         """Create file tree for dataset."""
         self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
 
-        if len(self.phases.keys()) > 1:
-            for phase in self.phases.values():
-                self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}", phase)
-                self._create_dir(
-                    self.target_path,
-                    f"{self.dataset_uid}_{self.dataset_name}",
-                    phase,
-                    self.image_folder_name,
-                )
-                self._create_dir(
-                    self.target_path,
-                    f"{self.dataset_uid}_{self.dataset_name}",
-                    phase,
-                    self.mask_folder_name,
-                )
-
-        else:
+        for phase in self.phases.values():
+            self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}", phase)
             self._create_dir(
                 self.target_path,
                 f"{self.dataset_uid}_{self.dataset_name}",
+                phase,
                 self.image_folder_name,
             )
             self._create_dir(
                 self.target_path,
                 f"{self.dataset_uid}_{self.dataset_name}",
+                phase,
                 self.mask_folder_name,
             )

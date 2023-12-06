@@ -46,8 +46,8 @@ class KITS21Pipeline(BasePipeline):
         img_id_extractor=lambda x: os.path.basename(x).split("_")[-1],  #
         # Study id is the folder name of all images in the study
         study_id_extractor=lambda x: os.path.basename((os.path.dirname(x))).split("_")[-1],
-        # Windows of abddominal cavity CTs
-        window_center=50,
+        phase_extractor=lambda x: "0",  # All images are from the same phase
+        window_center=50,  # Window of abddominal cavity CTs
         window_width=400,
         img_dcm_prefix="imaging",  # prefix of the source image file names
         segmentation_dcm_prefix="segmentation",  # prefix of the source mask file names
