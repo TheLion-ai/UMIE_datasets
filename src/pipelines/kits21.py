@@ -8,7 +8,7 @@ from typing import Any
 import cv2
 import numpy as np
 
-from config import mask_encodings_config
+from config import dataset_masks_config
 from src.constants import MASK_FOLDER_NAME
 from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
 from src.steps.add_labels import AddLabels
@@ -94,7 +94,7 @@ class KITS21Pipeline(BasePipeline):
     def __post_init__(self) -> None:
         """Post initialization actions."""
         super().__post_init__()
-        kidney_tumor_encoding = mask_encodings_config[self.name]["kidney_tumor"]
+        kidney_tumor_encoding = dataset_masks_config.dataset_masks[self.name]["kidney_tumor"]
         # Load labels from the labels file
         self.labels_list = self.load_labels_from_path()
         # Add get_label function to the dataset_args
