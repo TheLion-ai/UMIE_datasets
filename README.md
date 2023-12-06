@@ -10,7 +10,7 @@ This repository presents a suite of unified scripts to standardize, preprocess, 
 | :------:| :--------:|:-------:|
 | [KITS-19](https://github.com/neheller/kits19)   | CT | classification/segmentation|
 | [MosMedData](https://mosmed.ai/en/) | CT | classification/segmentation|
-| [LIDC-IRI](https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI#) | CT | segmentation|
+| [LIDC-IRI](https://wiki.cancerimagingarchive.net/pages/viewpage.action?pageId=1966254) | CT | segmentation|
 | [CT-ORG](https://wiki.cancerimagingarchive.net/display/Public/CT-ORG%3A+CT+volumes+with+multiple+organ+segmentations) | CT | segmentation|
 | [Chest X-ray](https://nihcc.app.box.com/v/ChestXray-NIHCC/folder/36938765345) | XRAY | classification|
 | [CoronaHack](https://www.kaggle.com/praveengovi/coronahack-chest-xraydataset?select=Chest_xray_Corona_Metadata.csv) | XRAY | classification|
@@ -54,7 +54,7 @@ Unfortunately due to the copyright restrictions of the source datasets, we can't
   3. You can also use these scripts for the KITS-21 dataset but not for KITS-23. KITS-23 has not released the labels for kidney tumor labels.
 
 * **LIDC-IDRI**
-  1. Download [LIDC-IDRI](https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI#)dataset from the cancer imaging archive
+  1. Download [LIDC-IDRI](https://wiki.cancerimagingarchive.net/pages/viewpage.action?pageId=1966254)dataset from the cancer imaging archive
   2. delete files that don't match the others (XRAYS)
   3. use [retrieve_data_from_xml.py](./pipelines/CT/retrieve_data_from_xml.py) to create nodule masks from xmls, add path to directory (line 150)
   4. use [convertLIDC.py](./pipelines/CT/convertLIDC.py), specify source and target paths.
