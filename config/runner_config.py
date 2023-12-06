@@ -13,17 +13,17 @@ datasets = [
             "labels_path": "/home/basia/kits_dummy/kits.json",
         },
     ),
-    StanfordCOCAPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": "./data/",
-            "masks_path": "",
-        },
-    ),
-    StanfordBrainMETPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": "./data/",
-        },
-    ),
+    # StanfordCOCAPipeline(
+    #     path_args={
+    #         "source_path": "",
+    #         "target_path": "./data/",
+    #         "masks_path": "",
+    #     },
+    # ),
+    # StanfordBrainMETPipeline(
+    #     path_args={
+    #         "source_path": "",
+    #         "target_path": "./data/",
+    #     },
+    # ),
 ]
