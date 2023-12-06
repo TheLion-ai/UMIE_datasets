@@ -77,32 +77,20 @@ class CopyPNGMasks(TransformerMixin):
         img_id = self.img_id_extractor(img_path)
         study_id = self.study_id_extractor(img_path)
         phase_id = self.phase_extractor(img_path)
-        # if phase_id in self.phases.keys():
-        #     return None
+        # TODO: remove duplicate code from add_new_ids.py, Move this step to add_new_ids???
         if self.segmentation_dcm_prefix not in img_path:
             return None
-        else:
-            if len(self.phases.keys()) <= 1:
-                phase_id = 0
-                new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
-                new_path = os.path.join(
-                    self.target_path,
-                    f"{self.dataset_uid}_{self.dataset_name}",
-                    self.mask_folder_name,
-                    new_file_name,
-                )
-            else:
-                phase_id = self.phase_extractor(img_path)
-                for phase_id in self.phases.keys():
-                    phase_name = self.phases[phase_id]
-                    new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
-                    new_path = os.path.join(
-                        self.target_path,
-                        f"{self.dataset_uid}_{self.dataset_name}",
-                        phase_name,
-                        self.mask_folder_name,
-                        new_file_name,
-                    )
+        phase_id = self.phase_extractor(img_path)
+        for phase_id in self.phases.keys():
+            phase_name = self.phases[phase_id]
+            new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
+            new_path = os.path.join(
+                self.target_path,
+                f"{self.dataset_uid}_{self.dataset_name}",
+                phase_name,
+                self.mask_folder_name,
+                new_file_name,
+            )
 
-            if not os.path.exists(new_path):
-                shutil.copy2(img_path, new_path)
+        if not os.path.exists(new_path):
+            shutil.copy2(img_path, new_path)

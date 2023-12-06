@@ -15,7 +15,7 @@ from src.steps.recolor_masks import RecolorMasks
 class StanfordBrainMETPipeline(BasePipeline):
     """Preprocessing pipeline for the Stanford Brain MET dataset."""
 
-    name: str = field(default="Stanford_Brain_MET")
+    name: str = field(default="StanfordBrainMET")  # dataset name used in configs
     steps: list = field(
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
@@ -27,11 +27,14 @@ class StanfordBrainMETPipeline(BasePipeline):
     )
     dataset_args: DatasetArgs = DatasetArgs(
         zfill=3,
+        # Study name is the folder two levels above the image
         study_id_extractor=lambda x: os.path.basename(os.path.dirname(os.path.dirname(x))).split("_")[-1],
+        # Phase name is the folder one level above the image
         phase_extractor=lambda x: os.path.basename(os.path.dirname(x)),
     )
 
     def __post_init__(self) -> None:
         """Post initialization actions."""
         super().__post_init__()
+        # Add dataset specific arguments to the pipeline arguments
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.dataset_args))

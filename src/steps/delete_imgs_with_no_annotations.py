@@ -41,7 +41,7 @@ class DeleteImgsWithNoAnnotations(TransformerMixin):
 
         # Create new list of paths after the deletion
         root_path = os.path.dirname(X[0])
-        new_paths = glob.glob(f"{root_path}/*.png", recursive=True)
+        new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
         return new_paths
 
     def delete_imgs_with_no_annotations(self, img_path: str, root_path: str) -> None:
@@ -58,9 +58,11 @@ class DeleteImgsWithNoAnnotations(TransformerMixin):
             no_label = True
         if img_name not in self.mask_names:
             if no_label:
+                # If there is no mask and no label
                 os.remove(img_path)
         # If there is a mask but it is empty
         elif np.unique(cv2.imread(mask_path)).shape[0] == 1:
             if no_label:
+                # If there is a blank mask and no label
                 os.remove(img_path)
                 os.remove(mask_path)
