@@ -14,7 +14,7 @@ class GetFilePaths(TransformerMixin):
             source_path (str): Path to the source directory.
         """
         self.source_path = source_path
-        self.omit_conditions = list
+        self.omit_conditions = list  # TODO: add conditions to omit, e.g. non imaging files
 
     def transform(
         self,
