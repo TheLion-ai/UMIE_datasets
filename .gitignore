@@ -8,4 +8,4 @@ data/
 src/pipelines/ct/__pycache__
 src/pipelines/mri/__pycache__
 src/preprocessing/__pycache__
-src/preprocessing/__pycache__/
+src/utils/__pycache__
