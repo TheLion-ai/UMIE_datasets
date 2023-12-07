@@ -20,17 +20,8 @@ class ConvertNii2Png(TransformerMixin):
 
     def __init__(
         self,
-        target_path: str,
-        dataset_name: str,
-        dataset_uid: str,
-        phases: dict,
         window_center: int,
         window_width: int,
-        image_folder_name: str = "Images",
-        mask_folder_name: str = "Masks",
-        img_id_extractor: Callable = lambda x: os.path.basename(x),
-        study_id_extractor: Callable = lambda x: x,
-        phase_extractor: Callable = lambda x: x,
         zfill: int = 3,
         img_dicom_prefix: str = "imaging",
         segmentation_dicom_prefix: str = "segmentation",
@@ -39,14 +30,8 @@ class ConvertNii2Png(TransformerMixin):
         """Convert nii files to png images with appropriate color encoding.
 
         Args:
-            target_path (str): Path to the target folder.
-            dataset_name (str): Name of the dataset.
-            dataset_uid (str): Unique identifier of the dataset.
-            phases (dict): Dictionary with phases and their names.
             window_center (int): Window center for the images.
             window_width (int): Window width for the images.
-            image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
-            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
             study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
@@ -54,15 +39,6 @@ class ConvertNii2Png(TransformerMixin):
             img_dicom_prefix (str, optional): Prefix for the dicom file with images. Defaults to "imaging".
             segmentation_dicom_prefix (str, optional): Prefix for the dicom file with segmentations. Defaults to "segmentation".
         """
-        self.target_path = target_path
-        self.dataset_name = dataset_name
-        self.dataset_uid = dataset_uid
-        self.phases = phases
-        self.image_folder_name = image_folder_name
-        self.mask_folder_name = mask_folder_name
-        self.img_id_extractor = img_id_extractor
-        self.study_id_extractor = study_id_extractor
-        self.phase_extractor = phase_extractor
         self.window_center = window_center
         self.window_width = window_width
         self.zfill = zfill
