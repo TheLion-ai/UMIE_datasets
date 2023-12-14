@@ -498,6 +498,35 @@ files = [
 ]
 
 [[package]]
+name = "nibabel"
+version = "5.1.0"
+description = "Access a multitude of neuroimaging data formats"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "nibabel-5.1.0-py3-none-any.whl", hash = "sha256:b3deb8130c835b9d26e80880b0d5e443d9e3f30972b3b0302dd2fafa3ca629f8"},
+    {file = "nibabel-5.1.0.tar.gz", hash = "sha256:ce73ca5e957209e7219a223cb71f77235c9df2acf4d3f27f861ba38e9481ac53"},
+]
+
+[package.dependencies]
+numpy = ">=1.19"
+packaging = ">=17"
+
+[package.extras]
+all = ["nibabel[dev,dicomfs,doc,minc2,spm,style,test,zstd]"]
+dev = ["gitpython", "nibabel[style]", "twine"]
+dicom = ["pydicom (>=1.0.0)"]
+dicomfs = ["nibabel[dicom]", "pillow"]
+doc = ["matplotlib (>=1.5.3)", "numpydoc", "sphinx (>=5.3,<6.0)", "texext", "tomli"]
+doctest = ["nibabel[doc,test]"]
+minc2 = ["h5py"]
+spm = ["scipy"]
+style = ["blue", "flake8", "isort"]
+test = ["coverage", "pytest (!=5.3.4)", "pytest-cov", "pytest-doctestplus", "pytest-httpserver", "pytest-xdist"]
+typing = ["importlib-resources", "mypy", "pydicom", "pytest", "pyzstd", "types-pillow", "types-setuptools"]
+zstd = ["pyzstd (>=0.14.3)"]
+
+[[package]]
 name = "nodeenv"
 version = "1.8.0"
 description = "Node.js virtual environment builder"
@@ -720,6 +749,23 @@ files = [
 
 [package.dependencies]
 wcwidth = "*"
+
+[[package]]
+name = "pyaml"
+version = "23.9.7"
+description = "PyYAML-based module to produce a bit more pretty and readable YAML-serialized data"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pyaml-23.9.7-py3-none-any.whl", hash = "sha256:fdb4c111b676d2381d1aa88c378fcde46c167575dfd688e656977a77075b692c"},
+    {file = "pyaml-23.9.7.tar.gz", hash = "sha256:581ea4e99f0e308864407e04c03c609241aefa3a15dfba8964da7644baf3b217"},
+]
+
+[package.dependencies]
+PyYAML = "*"
+
+[package.extras]
+anchors = ["unidecode"]
 
 [[package]]
 name = "pydicom"
@@ -1127,4 +1173,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "a42b161494e2a36816d67e5a46bc298494463b1b0870ff29389b6be5065deb8b"
+content-hash = "b9b6bae167de43f07de9d48f70d4e3c7da07128b9b5d291b5ad00e7c578115ed"
