@@ -5,4 +5,4 @@ data/
 .pytest_cache/
 .mypy_cache/
 .benchmarks
-/**/__pycache__
+**/__pycache__/
