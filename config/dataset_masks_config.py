@@ -10,4 +10,5 @@ dataset_masks = {
         "kidney": 1,
         "kidney_tumor": 2,
     },
+    "CoronaHack_Chest_X-Ray_Dataset": {},
 }
