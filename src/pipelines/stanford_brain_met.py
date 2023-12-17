@@ -25,12 +25,14 @@ class StanfordBrainMETPipeline(BasePipeline):
             ("recolor_masks", RecolorMasks),
         ]
     )
-    dataset_args: DatasetArgs = DatasetArgs(
-        zfill=3,
-        # Study name is the folder two levels above the image
-        study_id_extractor=lambda x: os.path.basename(os.path.dirname(os.path.dirname(x))).split("_")[-1],
-        # Phase name is the folder one level above the image
-        phase_extractor=lambda x: os.path.basename(os.path.dirname(x)),
+    dataset_args: DatasetArgs = field(
+        default_factory=lambda: DatasetArgs(
+            zfill=3,
+            # Study name is the folder two levels above the image
+            study_id_extractor=lambda x: os.path.basename(os.path.dirname(os.path.dirname(x))).split("_")[-1],
+            # Phase name is the folder one level above the image
+            phase_extractor=lambda x: os.path.basename(os.path.dirname(x)),
+        )
     )
 
     def __post_init__(self) -> None:

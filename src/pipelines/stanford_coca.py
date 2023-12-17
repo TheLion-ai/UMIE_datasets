@@ -29,12 +29,14 @@ class StanfordCOCAPipeline(BasePipeline):
             ("delete_imgs_without_masks", DeleteImgsWithNoAnnotations),
         ],
     )
-    dataset_args: DatasetArgs = DatasetArgs(
-        zfill=4,
-        # Image id is in the source file name after the last underscore
-        img_id_extractor=lambda x: os.path.basename(x).split("-")[-1],
-        # Study name is the folder two levels above the image
-        study_id_extractor=lambda x: os.path.basename(os.path.dirname(os.path.dirname(x))),
+    dataset_args: DatasetArgs = field(
+        default_factory=lambda: DatasetArgs(
+            zfill=4,
+            # Image id is in the source file name after the last underscore
+            img_id_extractor=lambda x: os.path.basename(x).split("-")[-1],
+            # Study name is the folder two levels above the image
+            study_id_extractor=lambda x: os.path.basename(os.path.dirname(os.path.dirname(x))),
+        )
     )
 
     def __post_init__(self) -> None:
