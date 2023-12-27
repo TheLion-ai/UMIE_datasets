@@ -14,8 +14,8 @@ class CreateFileTree(TransformerMixin):
         dataset_name: str,
         dataset_uid: str,
         phases: dict,
-        image_folder_name: str = "Images",
-        mask_folder_name: str = "Masks",
+        image_folder_name: str | None = "Images",
+        mask_folder_name: str | None = "Masks",
         **kwargs: dict,
     ):
         """Create file tree for dataset.
@@ -25,8 +25,12 @@ class CreateFileTree(TransformerMixin):
             dataset_name (str): Name of the dataset.
             dataset_uid (str): Unique identifier of the dataset.
             phases (dict): Dictionary with phases and their names.
-            image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
-            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
+            image_folder_name (str | None, optional): Name of the folder with images.
+                                                      Defaults to "Images". If None,
+                                                      folder is not created.
+            mask_folder_name (str | None, optional): Name of the folder with masks.
+                                                     Defaults to "Masks". If None,
+                                                     folder is not created.
         """
         self.target_path = target_path
         self.dataset_name = dataset_name
@@ -62,15 +66,19 @@ class CreateFileTree(TransformerMixin):
 
         for phase in self.phases.values():
             self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}", phase)
-            self._create_dir(
-                self.target_path,
-                f"{self.dataset_uid}_{self.dataset_name}",
-                phase,
-                self.image_folder_name,
-            )
-            self._create_dir(
-                self.target_path,
-                f"{self.dataset_uid}_{self.dataset_name}",
-                phase,
-                self.mask_folder_name,
-            )
+
+            if self.image_folder_name:
+                self._create_dir(
+                    self.target_path,
+                    f"{self.dataset_uid}_{self.dataset_name}",
+                    phase,
+                    self.image_folder_name,
+                )
+
+            if self.mask_folder_name:
+                self._create_dir(
+                    self.target_path,
+                    f"{self.dataset_uid}_{self.dataset_name}",
+                    phase,
+                    self.mask_folder_name,
+                )

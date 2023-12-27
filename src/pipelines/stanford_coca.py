@@ -39,8 +39,7 @@ class StanfordCOCAPipeline(BasePipeline):
         )
     )
 
-    def __post_init__(self) -> None:
+    def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        super().__post_init__()
         # Add dataset specific arguments to the pipeline arguments
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.dataset_args))

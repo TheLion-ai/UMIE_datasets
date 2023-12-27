@@ -68,7 +68,7 @@ class KITS21Pipeline(BasePipeline):
             img_path (str): Path to the image.
 
         Returns:
-            list: List of labels.
+            list: List of labels for specific image.
         """
         img_id = os.path.basename(img_path)
         root_path = os.path.dirname(os.path.dirname(img_path))
@@ -93,12 +93,8 @@ class KITS21Pipeline(BasePipeline):
             return labels
         return []
 
-    def __post_init__(self) -> None:
+    def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        super().__post_init__()
-        # TODO when fixed remove workaround that skips post init when no source path
-        if not self.path_args["source_path"]:
-            return
         kidney_tumor_encoding = dataset_masks_config.dataset_masks[self.name]["kidney_tumor"]
         # Load labels from the labels file
         self.labels_list = self.load_labels_from_path()
