@@ -9,9 +9,9 @@ from src.pipelines.stanford_coca import StanfordCOCAPipeline
 datasets = [
     KITS21Pipeline(
         path_args={
-            "source_path": "/home/basia/kits_dummy",
+            "source_path": "",
             "target_path": "./data/",
-            "labels_path": "/home/basia/kits_dummy/kits.json",
+            "labels_path": "",
         },
     ),
     StanfordCOCAPipeline(
@@ -29,9 +29,9 @@ datasets = [
     ),
     LidcIdriPipeline(
         path_args={
-            "source_path": "",
+            "source_path": "/home/basia/Desktop/manifest-1600709154662/LIDC-IDRI/LIDC-IDRI-0002",
             "target_path": "./data/",
-            "masks_path": "",
+            "masks_path": "/home/basia/Desktop/manifest-1600709154662/LIDC-IDRI/LIDC-IDRI-0002",
         },
     ),
 ]

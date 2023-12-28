@@ -3,11 +3,12 @@ import os
 import shutil
 from typing import Callable
 
-from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
+from src.steps.base_step import BaseStep
 
-class CopyPNGMasks(TransformerMixin):
+
+class CopyPNGMasks(BaseStep):
     """Copy PNG masks to a new folder structure."""
 
     def __init__(

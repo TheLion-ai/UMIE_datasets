@@ -4,11 +4,12 @@ import os
 
 import cv2
 import numpy as np
-from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
+from src.steps.base_step import BaseStep
 
-class DeleteImgsWithNoAnnotations(TransformerMixin):
+
+class DeleteImgsWithNoAnnotations(BaseStep):
     """Delete images without masks."""
 
     def __init__(

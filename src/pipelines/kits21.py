@@ -94,6 +94,8 @@ class KITS21Pipeline(BasePipeline):
     def __post_init__(self) -> None:
         """Post initialization actions."""
         super().__post_init__()
+        if not self.path_args["source_path"]:
+            return
         kidney_tumor_encoding = dataset_masks_config.dataset_masks[self.name]["kidney_tumor"]
         # Load labels from the labels file
         self.labels_list = self.load_labels_from_path()

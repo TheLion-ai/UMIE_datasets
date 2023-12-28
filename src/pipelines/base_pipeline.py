@@ -35,12 +35,29 @@ class DatasetArgs:
         x
     )  # function to extract image id from the image path
     study_id_extractor: Optional[Callable] = lambda x: x  # function to extract study id from the image path
-    phase_extractor: Optional[Callable] = lambda: "0"  # function to extract phase from the image path
+    phase_extractor: Optional[Callable] = lambda x: "0"  # function to extract phase from the image path
     window_center: Optional[int] = None  # value used to process DICOM images
     window_width: Optional[int] = None  # value used to process DICOM images
     get_label: Optional[Callable] = None  # function to get label for the individual image
     img_dcm_prefix: Optional[str] = None  # prefix of the source image file names
     segmentation_dcm_prefix: Optional[str] = None  # prefix of the source mask file names
+    use_siuid_as_index: Optional[bool] = False  # whether to use SOPInstanceUID as image id
+
+
+@dataclass
+class XmlKeys:
+    """XML keys. They are used for dataset specific XML parsing."""
+
+    study: str = ""  # name of the main key in the XML file that contains all the annotations for the study
+    annotator: str = ""  # some xml files have multiple annotators, this is the key of the annotator in the XML file
+    obj: str = ""  # key containing individual object annotations that spread accross multiple images in the XML file
+    slice: str = ""  # key containing individual image annotations in the XML file
+    slice_id: str = ""  # key of the image id in the XML file
+    roi: str = ""  # key of the ROI in the XML file
+    inclusion: str = ""  # key stating if we should include roi in the XML file
+    point: str = ""  # key of the point in the XML file
+    x: str = ""  # key of the x coordinate in the XML file
+    y: str = ""  # key of the y coordinate in the XML file
 
 
 @dataclass  # type: ignore[misc]
@@ -52,6 +69,7 @@ class BasePipeline:
     dataset_args: DatasetArgs  # arguments passed to sklearn pipeline required to process a specific dataset
     steps: list[tuple[str, TransformerMixin]]
     args: dict = field(default_factory=lambda: {})
+    xml_keys: Optional[XmlKeys] = XmlKeys()
 
     def __post_init__(self) -> None:
         """Prepare args for the pipeline."""

@@ -2,10 +2,10 @@
 import os
 from typing import Any
 
-from sklearn.base import TransformerMixin
+from src.steps.base_step import BaseStep
 
 
-class CreateFileTree(TransformerMixin):
+class CreateFileTree(BaseStep):
     """Create file tree for dataset."""
 
     def __init__(

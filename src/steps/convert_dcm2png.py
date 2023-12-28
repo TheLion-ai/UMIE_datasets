@@ -7,19 +7,21 @@ import numpy as np
 import pydicom
 import pydicom.pixel_data_handlers.util as ddh
 from pydicom import dcmread
-from sklearn.base import TransformerMixin
 from tqdm import tqdm
+
+from src.steps.base_step import BaseStep
 
 
 # TODO: Add descriptions
-class ConvertDcm2Png(TransformerMixin):
+class ConvertDcm2Png(BaseStep):
     """Converts dicom files to png images with appropriate color encoding."""
 
     def __init__(
         self,
         window_width: int = None,
         window_center: int = None,
-        on_error_remove: bool = True,
+        on_error_remove: bool = False,
+        use_siuid_as_index: bool = False,
         **kwargs: dict,
     ):
         """Convert dicom files to png images with appropriate color encoding.
@@ -28,10 +30,12 @@ class ConvertDcm2Png(TransformerMixin):
             window_width (int, optional): Window width. Defaults to None.
             window_center (int, optional): Window center. Defaults to None.
             on_error_remove (bool, optional): Remove image if error occurs. Defaults to True.
+            use_siuid_as_index (bool, optional): Use StudyInstanceUID as img index. Defaults to False.
         """
         self.window_width = window_width
         self.window_center = window_center
         self.on_error_remove = on_error_remove
+        self.use_siuid_as_index = use_siuid_as_index
 
     def transform(self, X: list) -> list:
         """Convert dicom files to png images with appropriate color encoding.
@@ -63,7 +67,9 @@ class ConvertDcm2Png(TransformerMixin):
             output = ddh.apply_modality_lut(ds.pixel_array, ds)
             # if window parameters are provided use it to remove redundant data
             output = self._apply_window(output, ds)
-            new_path = img_path.replace(".dcm", ".png")
+            img_path.replace(".dcm", ".png")
+            if self.use_siuid_as_index:
+                new_path = os.path.dirname(img_path) + f"/{ds.SOPInstanceUID}.png"
             cv2.imwrite(new_path, output)
 
         except Exception as e:

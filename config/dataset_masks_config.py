@@ -10,5 +10,7 @@ dataset_masks = {
         "kidney": 1,
         "kidney_tumor": 2,
     },
-    "LidcIdri": {},
+    "LidcIdri": {
+        "nodule": 255,
+    },
 }

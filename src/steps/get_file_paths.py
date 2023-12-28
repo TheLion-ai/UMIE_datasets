@@ -1,10 +1,10 @@
 """Get file paths of all images from a source directory."""
 import os
 
-from sklearn.base import TransformerMixin
+from src.steps.base_step import BaseStep
 
 
-class GetFilePaths(TransformerMixin):
+class GetFilePaths(BaseStep):
     """Get file paths of all images from a source directory."""
 
     def __init__(self, source_path: str, **kwargs: dict):
