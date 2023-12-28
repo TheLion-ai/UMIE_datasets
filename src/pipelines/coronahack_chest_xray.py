@@ -1,19 +1,14 @@
 """Preprocessing pipeline for Coronahack Chest XRay dataset."""
 import os
 from dataclasses import asdict, dataclass, field
-from functools import partial
 from typing import Any
 
 import pandas
-import yaml
-from sklearn.pipeline import Pipeline
 
 from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
-from src.steps.convert_dcm2png import ConvertDcm2Png
 from src.steps.create_file_tree import CreateFileTree
-from src.steps.create_masks_from_xml import CreateMasksFromXML
 from src.steps.delete_imgs_with_no_annotations import DeleteImgsWithNoAnnotations
 from src.steps.get_file_paths import GetFilePaths
 
