@@ -4,11 +4,12 @@ import os
 
 import cv2
 import numpy as np
-from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
+from src.steps.base_step import BaseStep
 
-class CreateBlankMasks(TransformerMixin):
+
+class CreateBlankMasks(BaseStep):
     """Create blank masks for images that don't have masks."""
 
     def __init__(self, mask_folder_name: str = "Masks", **kwargs: dict):

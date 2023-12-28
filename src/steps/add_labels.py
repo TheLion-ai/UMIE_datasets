@@ -4,11 +4,12 @@ import json
 import os
 from typing import Callable
 
-from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
+from src.steps.base_step import BaseStep
 
-class AddLabels(TransformerMixin):
+
+class AddLabels(BaseStep):
     """Add labels to the images and masks based on the function for mapping the images with annotations specified by the pipeline."""
 
     def __init__(

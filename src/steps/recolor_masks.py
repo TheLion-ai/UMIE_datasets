@@ -4,10 +4,11 @@ import os
 
 import cv2
 import numpy as np
-from sklearn.base import TransformerMixin
+
+from src.steps.base_step import BaseStep
 
 
-class RecolorMasks(TransformerMixin):
+class RecolorMasks(BaseStep):
     """Recolors masks from default color to the color specified in the config."""
 
     def __init__(
