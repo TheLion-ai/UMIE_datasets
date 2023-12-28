@@ -40,17 +40,19 @@ class KITS21Pipeline(BasePipeline):
             ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ]
     )
-    dataset_args: DatasetArgs = DatasetArgs(
-        zfill=2,
-        # Image id is in the source file name after the last underscore
-        img_id_extractor=lambda x: os.path.basename(x).split("_")[-1],  #
-        # Study id is the folder name of all images in the study
-        study_id_extractor=lambda x: os.path.basename((os.path.dirname(x))).split("_")[-1],
-        phase_extractor=lambda x: "0",  # All images are from the same phase
-        window_center=50,  # Window of abddominal cavity CTs
-        window_width=400,
-        img_prefix="imaging",  # prefix of the source image file names
-        segmentation_prefix="segmentation",  # prefix of the source mask file names
+    dataset_args: DatasetArgs = field(
+        default_factory=lambda: DatasetArgs(
+            zfill=2,
+            # Image id is in the source file name after the last underscore
+            img_id_extractor=lambda x: os.path.basename(x).split("_")[-1],  #
+            # Study id is the folder name of all images in the study
+            study_id_extractor=lambda x: os.path.basename((os.path.dirname(x))).split("_")[-1],
+            phase_extractor=lambda x: "0",  # All images are from the same phase
+            window_center=50,  # Window of abddominal cavity CTs
+            window_width=400,
+            img_dcm_prefix="imaging",  # prefix of the source image file names
+            segmentation_dcm_prefix="segmentation",  # prefix of the source mask file names
+        )
     )
 
     def get_label(
@@ -66,7 +68,7 @@ class KITS21Pipeline(BasePipeline):
             img_path (str): Path to the image.
 
         Returns:
-            list: List of labels.
+            list: List of labels for specific image.
         """
         img_id = os.path.basename(img_path)
         root_path = os.path.dirname(os.path.dirname(img_path))
@@ -91,9 +93,8 @@ class KITS21Pipeline(BasePipeline):
             return labels
         return []
 
-    def __post_init__(self) -> None:
+    def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        super().__post_init__()
         kidney_tumor_encoding = dataset_masks_config.dataset_masks[self.name]["kidney_tumor"]
         # Load labels from the labels file
         self.labels_list = self.load_labels_from_path()

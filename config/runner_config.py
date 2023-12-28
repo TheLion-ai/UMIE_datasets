@@ -17,7 +17,7 @@ datasets = [
     KITS21Pipeline(
         path_args={
             "source_path": "",
-            "target_path": "",
+            "target_path": "./data/",
             "labels_path": "",
         },
     ),

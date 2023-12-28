@@ -21,8 +21,8 @@ class CopyMasks(TransformerMixin):
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         study_id_extractor: Callable = lambda x: x,
         phase_extractor: Callable = lambda x: x,
-        img_dcm_prefix: str = "imaging",
-        segmentation_dcm_prefix: str = "segmentation",
+        img_prefix: str = "imaging",
+        segmentation_prefix: str = "segmentation",
         mask_selector: str = "segmentations",
         **kwargs: dict,
     ):
@@ -38,7 +38,7 @@ class CopyMasks(TransformerMixin):
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
             study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
-            segmentation_dcm_prefix (str, optional): String to select masks. Defaults to "segmentations".
+            segmentation_prefix (str, optional): String to select masks. Defaults to "segmentations".
             mask_selector (str, optional): String to distinguish between images and masks. Defaults to "segmentations".
         """
         self.target_path = target_path
@@ -50,8 +50,8 @@ class CopyMasks(TransformerMixin):
         self.img_id_extractor = img_id_extractor
         self.study_id_extractor = study_id_extractor
         self.phase_extractor = phase_extractor
-        self.img_dcm_prefix = img_dcm_prefix
-        self.segmentation_dcm_prefix = segmentation_dcm_prefix
+        self.img_prefix = img_prefix
+        self.segmentation_prefix = segmentation_prefix
         self.mask_selector = mask_selector
 
     def transform(
@@ -68,8 +68,8 @@ class CopyMasks(TransformerMixin):
         print("Copying PNG masks...")
         for img_path in tqdm(X):
             # mask_path = img_path.replace(self.img_prefix, self.segmentation_prefix)
-            path_el = img_path.rsplit(self.img_dcm_prefix, 1)
-            mask_path = self.segmentation_dcm_prefix.join(path_el)
+            path_el = img_path.rsplit(self.img_prefix, 1)
+            mask_path = self.segmentation_prefix.join(path_el)
             if os.path.exists(mask_path):
                 self.copy_masks(mask_path)
         return X
