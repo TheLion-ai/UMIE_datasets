@@ -14,6 +14,7 @@ from config import (
     mask_encodings_config,
     phases_config,
 )
+from src.constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
 
 
 @dataclass
@@ -30,6 +31,8 @@ class PathArgs:
 class DatasetArgs:
     """Dataset arguments. These arguments are dataset specific."""
 
+    image_folder_name: Optional[str] = IMG_FOLDER_NAME  # name of folder, where images will be stored
+    mask_folder_name: Optional[str | None] = MASK_FOLDER_NAME  # name of folder, where masks will be stored
     zfill: Optional[int] = None  # number of digits to pad the image id with
     img_id_extractor: Optional[Callable] = lambda x: os.path.basename(
         x
@@ -40,7 +43,7 @@ class DatasetArgs:
     window_width: Optional[int] = None  # value used to process DICOM images
     get_label: Optional[Callable] = None  # function to get label for the individual image
     img_dcm_prefix: Optional[str] = None  # prefix of the source image file names
-    segmentation_dcm_prefix: Optional[str] = None  # prefix of the source mask file names
+    segmentation_dcm_prefix: Optional[str] = "segmentation"  # prefix of the source mask file names
 
 
 @dataclass  # type: ignore[misc]
@@ -56,6 +59,10 @@ class BasePipeline:
     def __post_init__(self) -> None:
         """Prepare args for the pipeline."""
         self.load_config()
+
+        # Run prepare_pipeline only if source path exists.
+        if self.args["source_path"]:
+            self.prepare_pipeline()
 
     @property
     def pipeline(self) -> None:
@@ -91,13 +98,18 @@ class BasePipeline:
         Returns:
             list: List of labels and annotations.
         """
-        labels_path_extention = os.path.basename(self.args["labels_path"]).split(".")[1]
-        if labels_path_extention == "json":
+        labels_path_extension = os.path.basename(self.args["labels_path"]).split(".")[1]
+        if labels_path_extension == "json":
             with open(self.args["labels_path"]) as f:
                 labels_list = json.load(f)
                 return labels_list
         else:
-            raise NotImplementedError(f"Labels path extention {labels_path_extention} is not supported.")
+            raise NotImplementedError(f"Labels path extention {labels_path_extension} is not supported.")
+
+    @abstractmethod
+    def prepare_pipeline(self) -> None:
+        """Prepare pipeline. Function is called in __post_init__ if source path exists."""
+        return
 
     @abstractmethod
     def get_label(self) -> list:
