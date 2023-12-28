@@ -1,4 +1,5 @@
 """Preprocessing pipeline for the LIDC-IDRI dataset."""
+import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 

@@ -12,7 +12,9 @@ datasets = [
     KITS21Pipeline(
         path_args={
             "source_path": "",
+            "source_path": "",
             "target_path": "./data/",
+            "labels_path": "",
             "labels_path": "",
         },
     ),
@@ -31,7 +33,7 @@ datasets = [
     ),
     CoronahackChestXrayPipeline(
         path_args={
-            "source_path": "",
+            "source_path": "/home/basia/Desktop/manifest-1600709154662/LIDC-IDRI/LIDC-IDRI-0002",
             "target_path": "./data/",
         },
     ),
