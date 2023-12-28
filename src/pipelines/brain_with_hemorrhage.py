@@ -11,7 +11,7 @@ from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_jpg2png import ConvertJpg2Png
-from src.steps.copy_png_masks import CopyPNGMasks
+from src.steps.copy_masks import CopyMasks
 from src.steps.create_blank_masks import CreateBlankMasks
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.get_file_paths import GetFilePaths
@@ -28,7 +28,7 @@ class BrainWithHemorrhagePipeline(BasePipeline):
         default_factory=lambda: [
             ("get_file_paths", GetFilePaths),
             ("create_file_tree", CreateFileTree),
-            ("copy_masks", CopyPNGMasks),
+            ("copy_masks", CopyMasks),
             ("convert_jpg2png", ConvertJpg2Png),
             ("masks_to_binary_colors", MasksToBinaryColors),
             ("recolor_masks", RecolorMasks),
@@ -43,9 +43,8 @@ class BrainWithHemorrhagePipeline(BasePipeline):
     dataset_args: DatasetArgs = DatasetArgs(
         # Study id is the folder name of all images in the study
         study_id_extractor=lambda x: os.path.basename((os.path.dirname(x))).split("_")[-1],
-        phase_extractor=lambda x: "0",  # All images are from the same phase
-        img_dcm_prefix=".",  # prefix of the source image file names
-        segmentation_dcm_prefix="_HGE_Seg.",  # prefix of the source mask file names
+        img_prefix=".",  # prefix of the source image file names
+        segmentation_prefix="_HGE_Seg.",  # prefix of the source mask file names
         mask_selector="_HGE_Seg",
         image_folder_name="Images",
         mask_folder_name="Masks",
@@ -61,10 +60,11 @@ class BrainWithHemorrhagePipeline(BasePipeline):
 
     def phase_brain_with_hemorrhage(self, img_path: str) -> str:
         """Retrieve image phase from path."""
-        if (
-            os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(img_path))))
-            == self.path_args["target_path"]
-        ):
+        # if (
+        #     os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(img_path))))
+        #     == self.path_args["target_path"]
+        # ):
+        if self.path_args["target_path"] in img_path:
             phase_name = os.path.basename(os.path.dirname(os.path.dirname(img_path)))
         else:
             phase_name = os.path.basename(os.path.dirname(img_path))
@@ -89,9 +89,8 @@ class BrainWithHemorrhagePipeline(BasePipeline):
             else:
                 return ["good"]
 
-    def __post_init__(self) -> None:
+    def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        super().__post_init__()
         self.dataset_args.img_id_extractor = self.img_id_brain_with_hemorrhage
         self.dataset_args.phase_extractor = self.phase_brain_with_hemorrhage
 

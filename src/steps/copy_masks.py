@@ -7,7 +7,7 @@ from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
 
-class CopyPNGMasks(TransformerMixin):
+class CopyMasks(TransformerMixin):
     """Copy PNG masks to a new folder structure."""
 
     def __init__(
@@ -67,14 +67,14 @@ class CopyPNGMasks(TransformerMixin):
         """
         print("Copying PNG masks...")
         for img_path in tqdm(X):
-            # mask_path = img_path.replace(self.img_dcm_prefix, self.segmentation_dcm_prefix)
+            # mask_path = img_path.replace(self.img_prefix, self.segmentation_prefix)
             path_el = img_path.rsplit(self.img_dcm_prefix, 1)
             mask_path = self.segmentation_dcm_prefix.join(path_el)
             if os.path.exists(mask_path):
-                self.copy_png_masks(mask_path)
+                self.copy_masks(mask_path)
         return X
 
-    def copy_png_masks(self, img_path: str) -> None:
+    def copy_masks(self, img_path: str) -> None:
         """Copy PNG masks to a new folder structure.
 
         Args:

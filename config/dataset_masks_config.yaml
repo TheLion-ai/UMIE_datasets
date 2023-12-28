@@ -1,9 +1,0 @@
-Stanford_COCA:
-  coronary_artery_calcium: 20
-Stanford_Brain_MET:
-  brain_metastasis: 255
-KITS-19:
-  kidney: 1
-  kidney_tumor: 2
-Brain_with_hemorrhage:
-  hemorrhage: 255
