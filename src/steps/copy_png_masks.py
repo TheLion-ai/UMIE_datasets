@@ -37,7 +37,8 @@ class CopyPNGMasks(TransformerMixin):
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
             study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
-            segmentation_dcm_prefix (str, optional): String to select masks. Defaults to "segmentations".
+            img_dicom_prefix (str, optional): String to select source images. Defaults to "imaging".
+            segmentation_dicom_prefix (str, optional): String to select masks. Defaults to "segmentations".
         """
         self.target_path = target_path
         self.dataset_name = dataset_name
