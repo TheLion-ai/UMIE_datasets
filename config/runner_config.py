@@ -10,7 +10,7 @@ datasets = [
     BrainWithHemorrhagePipeline(
         path_args={
             "source_path": "",
-            "target_path": "",
+            "target_path": "./data/",
             "masks_path": "",
         },
     ),

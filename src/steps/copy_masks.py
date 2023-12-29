@@ -67,7 +67,6 @@ class CopyMasks(TransformerMixin):
         """
         print("Copying PNG masks...")
         for img_path in tqdm(X):
-            # mask_path = img_path.replace(self.img_prefix, self.segmentation_prefix)
             path_el = img_path.rsplit(self.img_prefix, 1)
             mask_path = self.segmentation_prefix.join(path_el)
             if os.path.exists(mask_path):
@@ -89,7 +88,6 @@ class CopyMasks(TransformerMixin):
         for phase_id in self.phases.keys():
             if phase_id == self.phase_extractor(img_path):
                 phase_name = self.phases[phase_id]
-                # new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
                 new_file_name = img_id
                 new_path = os.path.join(
                     self.target_path,
