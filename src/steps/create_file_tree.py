@@ -14,8 +14,8 @@ class CreateFileTree(TransformerMixin):
         dataset_name: str,
         dataset_uid: str,
         phases: dict,
-        image_folder_name: str | None = "Images",
-        mask_folder_name: str | None = "Masks",
+        image_folder_name: str = "Images",
+        mask_folder_name: str = "Masks",
         **kwargs: dict,
     ):
         """Create file tree for dataset.

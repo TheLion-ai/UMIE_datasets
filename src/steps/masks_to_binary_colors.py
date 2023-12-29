@@ -21,8 +21,8 @@ class MasksToBinaryColors(TransformerMixin):
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         mask_folder_name: str = "Masks",
         image_folder_name: str = "Images",
-        img_dcm_prefix: str = "imaging",
-        segmentation_dcm_prefix: str = "segmentation",
+        img_prefix: str = "imaging",
+        segmentation_prefix: str = "segmentation",
         **kwargs: dict,
     ):
         """Recolors masks from default color to the color specified in the config.
@@ -30,7 +30,7 @@ class MasksToBinaryColors(TransformerMixin):
         Args:
             mask_colors_old2new (dict): Dictionary with old and new colors.
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
-            segmentation_dcm_prefix (str, optional): String to select masks. Defaults to "segmentations".
+            segmentation_prefix (str, optional): String to select masks. Defaults to "segmentations".
         """
         self.target_path = target_path
         self.dataset_name = dataset_name
@@ -39,8 +39,8 @@ class MasksToBinaryColors(TransformerMixin):
         self.img_id_extractor = img_id_extractor
         self.mask_folder_name = mask_folder_name
         self.image_folder_name = image_folder_name
-        self.img_dcm_prefix = img_dcm_prefix
-        self.segmentation_dcm_prefix = segmentation_dcm_prefix
+        self.img_prefix = img_prefix
+        self.segmentation_prefix = segmentation_prefix
 
     def transform(self, X: list) -> list:
         """Recolors masks from default color to the color specified in the config.

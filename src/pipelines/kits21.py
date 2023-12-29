@@ -50,8 +50,8 @@ class KITS21Pipeline(BasePipeline):
             phase_extractor=lambda x: "0",  # All images are from the same phase
             window_center=50,  # Window of abddominal cavity CTs
             window_width=400,
-            img_dcm_prefix="imaging",  # prefix of the source image file names
-            segmentation_dcm_prefix="segmentation",  # prefix of the source mask file names
+            img_prefix="imaging",  # prefix of the source image file names
+            segmentation_prefix="segmentation",  # prefix of the source mask file names
         )
     )
 

@@ -84,7 +84,7 @@ class CopyMasks(TransformerMixin):
         # TODO: remove duplicate code from add_new_ids.py, Move this step to add_new_ids???
         if self.mask_selector in img_id:
             img_id = img_id.replace(self.mask_selector, "")
-        if self.segmentation_dcm_prefix not in img_path:
+        if self.segmentation_prefix not in img_path:
             return None
         for phase_id in self.phases.keys():
             if phase_id == self.phase_extractor(img_path):

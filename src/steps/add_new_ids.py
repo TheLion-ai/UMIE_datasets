@@ -22,7 +22,7 @@ class AddNewIds(TransformerMixin):
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         study_id_extractor: Callable = lambda x: x,
         phase_extractor: Callable = lambda x: x,
-        segmentation_dcm_prefix: str = "segmentations",
+        segmentation_prefix: str = "segmentations",
         **kwargs: dict,
     ):
         """Change img ids to match the format of the rest of the dataset.
@@ -37,7 +37,7 @@ class AddNewIds(TransformerMixin):
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
             study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
-            segmentation_dcm_prefix (str, optional): String to select masks. Defaults to "segmentations".
+            segmentation_prefix (str, optional): String to select masks. Defaults to "segmentations".
         """
         self.target_path = target_path
         self.dataset_name = dataset_name
@@ -48,7 +48,7 @@ class AddNewIds(TransformerMixin):
         self.img_id_extractor = img_id_extractor
         self.study_id_extractor = study_id_extractor
         self.phase_extractor = phase_extractor
-        self.segmentation_dcm_prefix = segmentation_dcm_prefix
+        self.segmentation_prefix = segmentation_prefix
 
     def transform(
         self,
@@ -82,7 +82,7 @@ class AddNewIds(TransformerMixin):
         phase_id = self.phase_extractor(img_path)
         if phase_id not in self.phases.keys():
             raise ValueError(f"Phase {phase_id} not in the phases dictionary.")
-        elif self.segmentation_dcm_prefix in img_path:
+        elif self.segmentation_prefix in img_path:
             return None
         elif img_id is None or phase_id is None:
             # Mechanism for skipping images
