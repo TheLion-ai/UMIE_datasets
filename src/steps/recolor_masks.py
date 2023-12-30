@@ -45,7 +45,7 @@ class RecolorMasks(TransformerMixin):
         # Robust to multiple modalities and lack of masks for some images
         root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
         mask_paths = glob.glob(os.path.join(root_path, f"**/{self.mask_folder_name}/*.png"), recursive=True)
-
+        print("Recoloring masks...")
         for mask_path in mask_paths:
             if os.path.exists(mask_path):
                 self.recolor_masks(mask_path)

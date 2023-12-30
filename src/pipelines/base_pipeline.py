@@ -32,7 +32,7 @@ class DatasetArgs:
     """Dataset arguments. These arguments are dataset specific."""
 
     image_folder_name: Optional[str] = IMG_FOLDER_NAME  # name of folder, where images will be stored
-    mask_folder_name: Optional[str] = MASK_FOLDER_NAME  # name of folder, where masks will be stored
+    mask_folder_name: Optional[str | None] = MASK_FOLDER_NAME  # name of folder, where masks will be stored
     zfill: Optional[int] = None  # number of digits to pad the image id with
     img_id_extractor: Optional[Callable] = lambda x: os.path.basename(
         x

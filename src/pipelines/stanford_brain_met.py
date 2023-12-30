@@ -20,7 +20,7 @@ class StanfordBrainMETPipeline(BasePipeline):
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
             ("get_file_paths", GetFilePaths),
-            ("copy_png_masks", CopyMasks),
+            ("copy_masks", CopyMasks),
             ("add_new_ids", AddNewIds),
             ("recolor_masks", RecolorMasks),
         ]

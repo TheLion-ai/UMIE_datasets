@@ -18,8 +18,8 @@ class AddLabels(TransformerMixin):
         dataset_name: str,
         dataset_uid: str,
         phases: dict,
-        image_folder_name: str = "Images",
-        mask_folder_name: str = "Masks",
+        image_folder_name: str,
+        mask_folder_name: str,
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         study_id_extractor: Callable = lambda x: x,
         phase_extractor: Callable = lambda x: x,
@@ -89,7 +89,7 @@ class AddLabels(TransformerMixin):
         if labels:
             # Add labels to the image path
             labels_str = "".join([label_prefix + label for label in labels])
-            new_file_name = f"{img_id}{labels_str}.png"
+            new_file_name = f"{img_id}_{labels_str}.png"
 
             phase_id = self.phase_extractor(img_path)
             if phase_id not in self.phases.keys():

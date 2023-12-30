@@ -40,14 +40,17 @@ class BrainWithHemorrhagePipeline(BasePipeline):
             # ("delete_imgs_without_masks", DeleteImgsWithoutMasks),
         ]
     )
-    dataset_args: DatasetArgs = DatasetArgs(
-        # Study id is the folder name of all images in the study
-        study_id_extractor=lambda x: os.path.basename((os.path.dirname(x))).split("_")[-1],
-        img_prefix=".",  # prefix of the source image file names
-        segmentation_prefix="_HGE_Seg.",  # prefix of the source mask file names
-        mask_selector="_HGE_Seg",
-        image_folder_name="Images",
-        mask_folder_name="Masks",
+
+    dataset_args: DatasetArgs = field(
+        default_factory=lambda: DatasetArgs(
+            # Study id is the folder name of all images in the study
+            study_id_extractor=lambda x: os.path.basename((os.path.dirname(x))).split("_")[-1],
+            img_prefix=".",  # prefix of the source image file names
+            segmentation_prefix="_HGE_Seg.",  # prefix of the source mask file names
+            mask_selector="_HGE_Seg",
+            image_folder_name="Images",
+            mask_folder_name="Masks",
+        )
     )
 
     def img_id_brain_with_hemorrhage(self, img_path: str) -> str:
