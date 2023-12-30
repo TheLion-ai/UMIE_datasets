@@ -36,9 +36,9 @@ datasets = [
     ),
     BrainWithHemorrhagePipeline(
         path_args={
-            "source_path": "/Users/piotr/Desktop/UMIE/data/computed-tomography-images-for-intracranial-hemorrhage-detection-and-segmentation-1.0.0/Patients_CT",
-            "target_path": "/Users/piotr/Desktop/UMIE/processed_data",
-            "masks_path": "/Users/piotr/Desktop/UMIE/data/computed-tomography-images-for-intracranial-hemorrhage-detection-and-segmentation-1.0.0/Patients_CT",
+            "source_path": "",
+            "target_path": "./data/",
+            "masks_path": "",
         },
     ),
 ]
