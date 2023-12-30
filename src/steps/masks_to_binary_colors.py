@@ -18,11 +18,11 @@ class MasksToBinaryColors(TransformerMixin):
         dataset_name: str,
         dataset_uid: str,
         phases: dict,
+        mask_folder_name: str,
+        image_folder_name: str,
+        img_prefix: str,
+        segmentation_prefix: str,
         img_id_extractor: Callable = lambda x: os.path.basename(x),
-        mask_folder_name: str = "Masks",
-        image_folder_name: str = "Images",
-        img_prefix: str = "imaging",
-        segmentation_prefix: str = "segmentation",
         **kwargs: dict,
     ):
         """Recolors masks from default color to the color specified in the config.

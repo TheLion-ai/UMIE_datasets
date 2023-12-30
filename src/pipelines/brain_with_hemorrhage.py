@@ -48,12 +48,10 @@ class BrainWithHemorrhagePipeline(BasePipeline):
             img_prefix=".",  # prefix of the source image file names
             segmentation_prefix="_HGE_Seg.",  # prefix of the source mask file names
             mask_selector="_HGE_Seg",
-            image_folder_name="Images",
-            mask_folder_name="Masks",
         )
     )
 
-    def img_id_brain_with_hemorrhage(self, img_path: str) -> str:
+    def img_id_extractor(self, img_path: str) -> str:
         """Retrieve image id from path."""
         if self.path_args["source_path"] in img_path:
             return os.path.basename(os.path.dirname(os.path.dirname(img_path))) + os.path.basename(img_path)
@@ -61,12 +59,8 @@ class BrainWithHemorrhagePipeline(BasePipeline):
             return os.path.basename(img_path)
         return ""
 
-    def phase_brain_with_hemorrhage(self, img_path: str) -> str:
+    def phase_extractor(self, img_path: str) -> str:
         """Retrieve image phase from path."""
-        # if (
-        #     os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(img_path))))
-        #     == self.path_args["target_path"]
-        # ):
         if self.path_args["target_path"] in img_path:
             phase_name = os.path.basename(os.path.dirname(os.path.dirname(img_path)))
         else:
@@ -94,8 +88,8 @@ class BrainWithHemorrhagePipeline(BasePipeline):
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        self.dataset_args.img_id_extractor = self.img_id_brain_with_hemorrhage
-        self.dataset_args.phase_extractor = self.phase_brain_with_hemorrhage
+        self.dataset_args.img_id_extractor = self.img_id_extractor
+        self.dataset_args.phase_extractor = self.phase_extractor
 
         # Add get_label function to the dataset_args
         self.dataset_args.get_label = partial(self.get_label)
