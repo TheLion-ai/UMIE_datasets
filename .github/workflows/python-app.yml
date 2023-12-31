@@ -25,5 +25,5 @@ jobs:
     - name: Install Poetry dependecies
       run: poetry install
     
-    - name: Run tests
-      run: source ./scripts/run_tests.sh
+    - name: Run pytest tests
+      run: poetry run pytest tests
