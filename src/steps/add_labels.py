@@ -2,7 +2,6 @@
 import glob
 import json
 import os
-import shutil
 from typing import Callable
 
 from sklearn.base import TransformerMixin
@@ -18,6 +17,8 @@ class AddLabels(TransformerMixin):
         dataset_name: str,
         dataset_uid: str,
         phases: dict,
+        window_center: int,
+        window_width: int,
         image_folder_name: str,
         mask_folder_name: str,
         img_id_extractor: Callable = lambda x: os.path.basename(x),
@@ -35,6 +36,8 @@ class AddLabels(TransformerMixin):
             dataset_name (str): Name of the dataset.
             dataset_uid (str): Unique identifier of the dataset.
             phases (dict): Dictionary with phases and their names.
+            window_center (int): Window center for the images.
+            window_width (int): Window width for the images.
             image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
@@ -53,6 +56,8 @@ class AddLabels(TransformerMixin):
         self.img_id_extractor = img_id_extractor
         self.study_id_extractor = study_id_extractor
         self.phase_extractor = phase_extractor
+        self.window_center = window_center
+        self.window_width = window_width
         self.zfill = zfill
         self.labels_path = labels_path
         self.get_label = get_label
@@ -82,34 +87,18 @@ class AddLabels(TransformerMixin):
             img_path (str): Path to the image.
             labels_list (list): List of labels.
         """
-        img_id_full = self.img_id_extractor(img_path)
-        img_id = img_id_full.split(".")[0]
+        img_root_path = os.path.dirname(img_path)
+        img_id = os.path.basename(img_path).split(".")[0]
         label_prefix = "-"  # each label in the target file name is prefixed with this character
         labels = self.get_label(img_path)
         if labels:
             # Add labels to the image path
             labels_str = "".join([label_prefix + label for label in labels])
-            new_file_name = f"{img_id}_{labels_str}.png"
-
-            phase_id = self.phase_extractor(img_path)
-            if phase_id not in self.phases.keys():
-                return None
-            phase_name = self.phases[phase_id]
-            new_path = os.path.join(
-                self.target_path,
-                f"{self.dataset_uid}_{self.dataset_name}",
-                phase_name,
-                self.image_folder_name,
-                new_file_name,
-            )
-
-            if not os.path.exists(new_path):
-                if self.target_path in img_path:
-                    os.rename(img_path, new_path)
-                else:
-                    shutil.copy2(img_path, new_path)
-
+            new_name = f"{img_id}_{labels_str}.png"
+            os.rename(img_path, os.path.join(img_root_path, new_name))
             # Add labels to the mask path
-            mask_path = img_path.replace(self.image_folder_name, self.mask_folder_name)
-            if os.path.exists(mask_path):
-                os.rename(mask_path, os.path.join(os.path.dirname(mask_path), new_file_name))
+            root_path = os.path.dirname(os.path.dirname(img_path))
+            if self.mask_folder_name:
+                mask_path = os.path.join(root_path, self.mask_folder_name, f"{img_id}.png")
+                if os.path.exists(mask_path):
+                    os.rename(mask_path, os.path.join(root_path, self.mask_folder_name, new_name))

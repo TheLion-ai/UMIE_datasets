@@ -32,8 +32,8 @@ class BrainWithHemorrhagePipeline(BasePipeline):
             ("convert_jpg2png", ConvertJpg2Png),
             ("masks_to_binary_colors", MasksToBinaryColors),
             ("recolor_masks", RecolorMasks),
-            ("add_labels", AddLabels),
             ("add_new_ids", AddNewIds),
+            ("add_labels", AddLabels),
             # Choose either to create blank masks or delete images without masks
             # Recommended to create blank masks because only about 10% images have masks.
             ("create_blank_masks", CreateBlankMasks),
@@ -44,7 +44,7 @@ class BrainWithHemorrhagePipeline(BasePipeline):
     dataset_args: DatasetArgs = field(
         default_factory=lambda: DatasetArgs(
             # Study id is the folder name of all images in the study
-            study_id_extractor=lambda x: os.path.basename((os.path.dirname(x))).split("_")[-1],
+            study_id_extractor=lambda x: "",
             img_prefix=".",  # prefix of the source image file names
             segmentation_prefix="_HGE_Seg.",  # prefix of the source mask file names
             mask_selector="_HGE_Seg",
