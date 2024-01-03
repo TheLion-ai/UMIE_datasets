@@ -21,8 +21,8 @@ class ConvertJpg2Png(TransformerMixin):
         dataset_name: str,
         dataset_uid: str,
         phases: dict,
-        image_folder_name: str = "Images",
-        mask_folder_name: str = "Masks",
+        image_folder_name: str,
+        mask_folder_name: str,
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         phase_extractor: Callable = lambda x: x,
         **kwargs: dict,
@@ -81,7 +81,7 @@ class ConvertJpg2Png(TransformerMixin):
         return new_paths
 
     def convert_jpg2png(self, img_path: str) -> None:
-        """Convert tif files to png images.
+        """Convert jpg to png images.
 
         Args:
             img_path (str): Path to the image.
