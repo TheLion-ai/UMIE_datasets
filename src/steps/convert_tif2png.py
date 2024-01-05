@@ -22,8 +22,8 @@ class ConvertTif2Png(TransformerMixin):
         dataset_name: str,
         dataset_uid: str,
         phases: dict,
-        image_folder_name: str = "Images",
-        mask_folder_name: str = "Masks",
+        image_folder_name: str,
+        mask_folder_name: str,
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         phase_extractor: Callable = lambda x: x,
         study_id_extractor: Callable = lambda x: x,
@@ -70,8 +70,6 @@ class ConvertTif2Png(TransformerMixin):
             if img_path.endswith(".tif") or img_path.endswith(".tiff"):
                 self.convert_tif2png(img_path)
 
-        # root_path = os.path.join(os.path.dirname(os.path.dirname(X[0])), self.mask_folder_name)
-        # mask_paths = glob.glob(f"{root_path}/**/*.tif", recursive=True)
         root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
         mask_paths = glob.glob(
             os.path.join(root_path, f"**/{self.mask_folder_name}/*.tif"), recursive=True
@@ -95,20 +93,17 @@ class ConvertTif2Png(TransformerMixin):
         if self.mask_folder_name not in img_path:
 
             phase_id = self.phase_extractor(img_path)
-            img_id = self.img_id_extractor(img_path)
-            study_id = self.study_id_extractor(img_path)
             if phase_id not in self.phases.keys():
                 return None
             phase_name = self.phases[phase_id]
-            new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
-            new_file_name = new_file_name.replace(".tif", ".tiff")
+            png_filename = self.img_id_extractor(img_path).replace(".tif", ".tiff")
             # Changing .tif to .tiff, so images will be readable for PIL
             tiff_path = os.path.join(
                 self.target_path,
                 f"{self.dataset_uid}_{self.dataset_name}",
                 phase_name,
                 self.image_folder_name,
-                new_file_name,
+                png_filename,
             )
             shutil.copy2(img_path, tiff_path)
             new_path = tiff_path.replace(".tiff", ".png")

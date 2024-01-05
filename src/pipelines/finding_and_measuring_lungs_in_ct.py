@@ -8,15 +8,11 @@ from typing import Any
 import cv2
 import numpy as np
 
-from config import dataset_masks_config
-from src.constants import MASK_FOLDER_NAME
 from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
-from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_tif2png import ConvertTif2Png
-from src.steps.copy_png_masks import CopyPNGMasks
+from src.steps.copy_masks import CopyMasks
 from src.steps.create_file_tree import CreateFileTree
-from src.steps.delete_imgs_with_no_annotations import DeleteImgsWithNoAnnotations
 from src.steps.get_file_paths import GetFilePaths
 from src.steps.recolor_masks import RecolorMasks
 
@@ -30,31 +26,40 @@ class FindingAndMeasuringLungsInCTPipeline(BasePipeline):
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
             ("get_file_paths", GetFilePaths),
-            ("copy_png_masks", CopyPNGMasks),
+            ("copy_png_masks", CopyMasks),
             ("convert_tif2png", ConvertTif2Png),
             ("recolor_masks", RecolorMasks),
             ("add_new_ids", AddNewIds),
         ]
     )
-    dataset_args: DatasetArgs = DatasetArgs(
-        # Image id is in the source file name after the last underscore
-        img_id_extractor=lambda x: os.path.basename(x).split("_")[-3] + os.path.basename(x).split("_")[-1],  #
-        # Study id is the folder name of all images in the study
-        study_id_extractor=lambda x: os.path.basename((os.path.dirname(os.path.dirname(x)))).split("_")[-1],
-        phase_extractor=lambda x: "0",  # All images are from the same phase
-        image_folder_name="Images",
-        mask_folder_name="Masks",
-        img_dcm_prefix="images",  # prefix of the source image file names
-        segmentation_dcm_prefix="masks",  # prefix of the source mask file names
+    dataset_args: DatasetArgs = field(
+        default_factory=lambda: DatasetArgs(
+            # Study id is the folder name of all images in the study
+            study_id_extractor=lambda x: os.path.basename((os.path.dirname(os.path.dirname(x)))).split("_")[-1],
+            phase_extractor=lambda x: "0",  # All images are from the same phase
+            image_folder_name="Images",
+            mask_folder_name="Masks",
+            img_prefix="images",  # prefix of the source image file names
+            segmentation_prefix="masks",  # prefix of the source mask file names
+        )
     )
 
-    def get_img_id(self, img_path: os.PathLike) -> str:
+    def study_id_extractor(self, img_path: os.PathLike) -> str:
         """Get study ID for dataset."""
         folder = self.path_args["source_path"]
         return os.path.basename((os.path.dirname(folder))).split("_")[-1]
 
+    def img_id_extractor(self, img_path: str) -> str:
+        """Retrieve image id from path."""
+        if self.path_args["source_path"] in img_path or self.path_args["masks_path"] in img_path:
+            return os.path.basename(img_path).split("_")[-3] + os.path.basename(img_path).split("_")[-1]
+        if self.path_args["target_path"] in img_path:
+            return os.path.basename(img_path)
+        return ""
+
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        self.dataset_args.study_id_extractor = lambda x: self.get_img_id(x)
+        self.dataset_args.study_id_extractor = lambda x: self.study_id_extractor(x)
+        self.dataset_args.img_id_extractor = lambda x: self.img_id_extractor(x)
         # Add dataset specific arguments to the pipeline arguments
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.dataset_args))
