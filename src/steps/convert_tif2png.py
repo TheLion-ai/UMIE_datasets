@@ -96,8 +96,9 @@ class ConvertTif2Png(TransformerMixin):
             if phase_id not in self.phases.keys():
                 return None
             phase_name = self.phases[phase_id]
-            png_filename = self.img_id_extractor(img_path).replace(".tif", ".tiff")
             # Changing .tif to .tiff, so images will be readable for PIL
+            png_filename = self.img_id_extractor(img_path).replace(".tif", ".tiff")
+            # Copy tiff image to target directory
             tiff_path = os.path.join(
                 self.target_path,
                 f"{self.dataset_uid}_{self.dataset_name}",
@@ -108,28 +109,22 @@ class ConvertTif2Png(TransformerMixin):
             shutil.copy2(img_path, tiff_path)
             new_path = tiff_path.replace(".tiff", ".png")
             try:
-                image = PIL.Image.open(img_path)
-                invert = True if np.min(np.array(image)) < 0 else False
-                image = image.convert("L")
-                if invert:
-                    image = PIL.ImageOps.invert(image)
-                image.save(new_path, format="png")
-                os.remove(tiff_path)
-            except IOError:
-                print("Image not found")
-        else:
-            new_path = img_path.replace(".tif", ".png").replace(".tiff", ".png")
-            try:
                 # Change .tif to .tiff, so images will be readable for PIL
                 tiff_path = img_path.replace(".tif", ".tiff")
                 os.rename(img_path, tiff_path)
                 img_path = tiff_path
-                image = PIL.Image.open(img_path)
-                invert = True if np.min(np.array(image)) < 0 else False
-                image = image.convert("L")
-                if invert:
-                    image = PIL.ImageOps.invert(image)
-                image.save(new_path, format="png")
-                os.remove(img_path)
             except IOError:
                 print("Image not found")
+        else:
+            new_path = img_path.replace(".tif", ".png").replace(".tiff", ".png")
+        # Image conversion
+        try:
+            image = PIL.Image.open(img_path)
+            invert = True if np.min(np.array(image)) < 0 else False
+            image = image.convert("L")
+            if invert:
+                image = PIL.ImageOps.invert(image)
+            image.save(new_path, format="png")
+            os.remove(img_path)
+        except IOError:
+            print("Image not found")
