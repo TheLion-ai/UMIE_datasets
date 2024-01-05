@@ -32,7 +32,7 @@ class DatasetArgs:
     """Dataset arguments. These arguments are dataset specific."""
 
     image_folder_name: Optional[str] = IMG_FOLDER_NAME  # name of folder, where images will be stored
-    mask_folder_name: Optional[str] = MASK_FOLDER_NAME  # name of folder, where masks will be stored
+    mask_folder_name: Optional[str | None] = MASK_FOLDER_NAME  # name of folder, where masks will be stored
     zfill: Optional[int] = None  # number of digits to pad the image id with
     img_id_extractor: Optional[Callable] = lambda x: os.path.basename(
         x
@@ -43,7 +43,7 @@ class DatasetArgs:
     window_width: Optional[int] = None  # value used to process DICOM images
     get_label: Optional[Callable] = None  # function to get label for the individual image
     img_dcm_prefix: Optional[str] = None  # prefix of the source image file names
-    segmentation_dcm_prefix: Optional[str] = "segmentation"  # prefix of the source mask file names
+    segmentation_prefix: Optional[str] = "segmentation"  # prefix of the source mask file names
 
 
 @dataclass  # type: ignore[misc]

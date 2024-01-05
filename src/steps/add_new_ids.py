@@ -90,6 +90,9 @@ class AddNewIds(TransformerMixin):
             raise ValueError(f"Phase {phase_id} not in the phases dictionary.")
         elif self.segmentation_dcm_prefix in img_path:
             return None
+        elif img_id is None or phase_id is None:
+            # Mechanism for skipping images
+            return None
         phase_name = self.phases[phase_id]
         new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
         if self.mask_folder_name in img_path:
