@@ -1,24 +1,13 @@
-import yaml
+"""Main script to run dataset preprocessing pipelines."""
 
-if __name__ == "__main__":
-    datasets = yaml.load(open("config/runner_config.yaml"), Loader=yaml.FullLoader)
+from config.runner_config import datasets
 
-    #  Automatically import and run function {function_name} if source_path is defined
-    #  in config/runner_config.yaml file.
-    for dataset in datasets.keys():
-        # Check whether source_path is defined
-        if not datasets[dataset]["args"]["source_path"]:
-            print(f"{dataset} skipped, as no source path found.")
-        else:
-            print(dataset)
-
-            # List arguments
-            args = datasets[dataset]["args"]
-            for argument in args.keys():
-                print(f"{argument}: {args[argument]}")
-
-            # Import preprocessing function
-            exec(datasets[dataset]["import_statement"])
-
-            # Run preprocessing function
-            exec(f"{datasets[dataset]['function_name']}(**args)")
+for dataset in datasets:
+    # Check whether source_path is defined
+    if not dataset.args["source_path"]:
+        print(f"{dataset.name} skipped, as no source path found.")
+    else:
+        print(dataset.name)
+        pipeline = dataset.pipeline
+        pipeline.transform(dataset.args["source_path"])
+        print(f"{dataset.name} done.")
