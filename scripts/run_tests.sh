@@ -1,1 +1,1 @@
-poetry run pytest tests
+poetry run pytest testing/tests
