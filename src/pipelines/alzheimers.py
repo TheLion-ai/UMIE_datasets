@@ -15,7 +15,6 @@ from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_jpg2png import ConvertJpg2Png
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.get_file_paths import GetFilePaths
-from src.steps.recolor_masks import RecolorMasks
 
 
 @dataclass
@@ -44,15 +43,7 @@ class AlzheimersPipeline(BasePipeline):
 
     def img_id_extractor(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        # if self.path_args["source_path"] in img_path:
-        #     return os.path.basename(img_path)
-        # if self.path_args["target_path"] in img_path:
-        #     return os.path.basename(img_path)
         return os.path.basename(img_path)
-        # return ""
-
-    # Get labels from folder names in source directory
-    # source_dir_file_paths = GetFilePaths(self.args.source_path).get_file_paths(self.args.source_path)
 
     # Changing labels from dataset (folders names) to match standard
     labels_dict = {
@@ -74,4 +65,3 @@ class AlzheimersPipeline(BasePipeline):
         self.dataset_args.get_label = lambda x: self.get_label(x)
         # Add dataset specific arguments to the pipeline arguments
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.dataset_args))
-        self.a = 3

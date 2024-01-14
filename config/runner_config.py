@@ -36,8 +36,8 @@ datasets = [
     ),
     AlzheimersPipeline(
         path_args={
-            "source_path": "/Users/piotr/Desktop/UMIE/data/Alzheimer_s Dataset",
-            "target_path": "/Users/piotr/Desktop/UMIE/processed_data",
+            "source_path": "",
+            "target_path": "./data/",
         },
     ),
 ]
