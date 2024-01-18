@@ -37,7 +37,7 @@ class AlzheimersPipeline(BasePipeline):
             study_id_extractor=lambda x: "",
             phase_extractor=lambda x: "0",  # All images are from the same phase
             image_folder_name="Images",
-            mask_folder_name="Masks",
+            mask_folder_name=None,
         )
     )
 

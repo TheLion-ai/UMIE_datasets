@@ -87,7 +87,7 @@ class ConvertJpg2Png(TransformerMixin):
             img_path (str): Path to the image.
         """
         png_filename = self.img_id_extractor(img_path).replace(".jpg", ".png").replace(".jpeg", ".png")
-        if self.mask_folder_name not in img_path:
+        if not self.mask_folder_name or self.mask_folder_name not in img_path:
             phase_id = self.phase_extractor(img_path)
             if phase_id not in self.phases.keys():
                 return None
