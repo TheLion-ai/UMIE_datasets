@@ -97,7 +97,10 @@ class ConvertTif2Png(TransformerMixin):
                 return None
             phase_name = self.phases[phase_id]
             # Changing .tif to .tiff, so images will be readable for PIL
-            png_filename = self.img_id_extractor(img_path).replace(".tif", ".tiff")
+            if self.img_id_extractor(img_path).endswith(".tif"):
+                png_filename = self.img_id_extractor(img_path).replace(".tif", ".tiff")
+            else:
+                png_filename = self.img_id_extractor(img_path)
             # Copy tiff image to target directory
             tiff_path = os.path.join(
                 self.target_path,
@@ -108,23 +111,26 @@ class ConvertTif2Png(TransformerMixin):
             )
             shutil.copy2(img_path, tiff_path)
             new_path = tiff_path.replace(".tiff", ".png")
-            try:
-                # Change .tif to .tiff, so images will be readable for PIL
-                tiff_path = img_path.replace(".tif", ".tiff")
-                os.rename(img_path, tiff_path)
-                img_path = tiff_path
-            except IOError:
-                print("Image not found")
+            # if img_path.endswith(".tif"):
+            #     try:
+            #         # Change .tif to .tiff, so images will be readable for PIL
+            #         tiff_path = img_path.replace(".tif", ".tiff")
+            #         os.rename(img_path, tiff_path)
+            #         img_path = tiff_path
+            #     except IOError:
+            #         print("Image not found")
         else:
             new_path = img_path.replace(".tif", ".png").replace(".tiff", ".png")
+            tiff_path = img_path
         # Image conversion
         try:
-            image = PIL.Image.open(img_path)
+            image = PIL.Image.open(tiff_path)
             invert = True if np.min(np.array(image)) < 0 else False
             image = image.convert("L")
             if invert:
                 image = PIL.ImageOps.invert(image)
             image.save(new_path, format="png")
-            os.remove(img_path)
+            if self.target_path in tiff_path:
+                os.remove(tiff_path)
         except IOError:
             print("Image not found")

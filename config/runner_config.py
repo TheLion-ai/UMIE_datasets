@@ -26,9 +26,9 @@ datasets = [
     ),
     FindingAndMeasuringLungsInCTPipeline(
         path_args={
-            "source_path": "/Users/piotr/Desktop/UMIE/data/archive/2d_images",
-            "target_path": "/Users/piotr/Desktop/UMIE/processed_data",
-            "masks_path": "/Users/piotr/Desktop/UMIE/data/archive/2d_masks",
+            "source_path": "",
+            "target_path": "./data/",
+            "masks_path": "",
         },
     ),
     StanfordBrainMETPipeline(
