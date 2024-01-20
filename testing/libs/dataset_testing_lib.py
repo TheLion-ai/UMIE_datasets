@@ -18,8 +18,6 @@ class DatasetTestingLibrary:
         # Make sure lists have the same order
         expected_file_tree.sort()
         current_file_tree.sort()
-        print(expected_file_tree)
-        print(current_file_tree)
 
         return True if expected_file_tree == current_file_tree else False
 

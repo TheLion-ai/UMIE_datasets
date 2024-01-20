@@ -1,10 +1,11 @@
-"""Preprocessing pipeline for Finding_and_Measuring_Lungs_in_CT_Data dataset."""
+"""Preprocessing pipeline for Alzheimers dataset."""
+import fnmatch
 import glob
 import os
 import re
 from dataclasses import asdict, dataclass, field
 from functools import partial
-from typing import Any
+from typing import Any, List
 
 import cv2
 import numpy as np
@@ -33,8 +34,6 @@ class AlzheimersPipeline(BasePipeline):
     )
     dataset_args: DatasetArgs = field(
         default_factory=lambda: DatasetArgs(
-            # Study id is the folder name of all images in the study
-            study_id_extractor=lambda x: "",
             phase_extractor=lambda x: "0",  # All images are from the same phase
             image_folder_name="Images",
             mask_folder_name=None,
@@ -43,7 +42,11 @@ class AlzheimersPipeline(BasePipeline):
 
     def img_id_extractor(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        return os.path.basename(img_path)
+        replace_dic = {"(": "", ")": "", " ": ""}
+        img_id = os.path.basename(img_path)
+        for char in replace_dic.keys():
+            img_id = img_id.replace(char, replace_dic[char])
+        return img_id
 
     # Changing labels from dataset (folders names) to match standard
     labels_dict = {
@@ -52,16 +55,22 @@ class AlzheimersPipeline(BasePipeline):
         "NonDemented": "good",
         "VeryMildDemented": "VeryMildDemented",
     }
+    files_source: list[str] = field(default_factory=list)
 
     def get_label(self, img_path: str) -> list:
-        """Get label for file."""
+        """Get label for file. Label is a name of folder in source directory."""
         filename_source = os.path.basename(img_path).split("_")[-1].replace(".png", ".jpg")
-        file_source_path = glob.glob(os.path.join(self.args["source_path"], f"**/{filename_source}"), recursive=True)[0]
+        file_source_path = [path for path in self.files_source if filename_source in path][0]
         return [self.labels_dict[os.path.basename(os.path.dirname(file_source_path))]]
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
         self.dataset_args.img_id_extractor = lambda x: self.img_id_extractor(x)
+        self.dataset_args.study_id_extractor = lambda x: self.img_id_extractor(x).replace(".png", "")
+        # List of paths to files in source directory with changed names. It will be later used to get labels.
+        self.files_source = glob.glob(os.path.join(self.args["source_path"], "**"), recursive=True)
+        self.files_source = [name.replace("(", "").replace(")", "").replace(" ", "") for name in self.files_source]
+
         self.dataset_args.get_label = lambda x: self.get_label(x)
         # Add dataset specific arguments to the pipeline arguments
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.dataset_args))

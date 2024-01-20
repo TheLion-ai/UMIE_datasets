@@ -1,5 +1,5 @@
 """
-test_coronahack.
+test_check_alzheimers.
 
 Objective:
 This test checks whether Pipeline for Alzheimer's dataset runs correctly.
