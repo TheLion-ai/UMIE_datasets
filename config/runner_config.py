@@ -1,6 +1,7 @@
 """Config file with the paths to the datasets and their parameters. The user defines the paths and parameters here for the datasets of his interest."""
 from abc import abstractmethod
 
+from src.constants import TARGET_PATH
 from src.pipelines.coronahack_chest_xray import CoronahackChestXrayPipeline
 from src.pipelines.finding_and_measuring_lungs_in_ct import (
     FindingAndMeasuringLungsInCTPipeline,
@@ -27,7 +28,7 @@ datasets = [
     FindingAndMeasuringLungsInCTPipeline(
         path_args={
             "source_path": "",
-            "target_path": "./data/",
+            "target_path": TARGET_PATH,
             "masks_path": "",
         },
     ),

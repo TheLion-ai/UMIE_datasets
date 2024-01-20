@@ -1,5 +1,5 @@
 """
-test_coronahack.
+test_lungs_in_ct.
 
 Objective:
 This test checks whether Pipeline for Lungs In CT dataset runs correctly.
@@ -21,7 +21,7 @@ target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/17_LungsInCT/ou
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/17_LungsInCT/expected_output")
 
 
-def test_run_coronahack():
+def test_run_lungs_in_ct():
     """Test to verify, that there are no exceptions while running pipeline."""
     dataset = FindingAndMeasuringLungsInCTPipeline(
         path_args={
