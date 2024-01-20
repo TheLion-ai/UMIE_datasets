@@ -60,7 +60,7 @@ class AlzheimersPipeline(BasePipeline):
     def get_label(self, img_path: str) -> list:
         """Get label for file. Label is a name of folder in source directory."""
         filename_source = os.path.basename(img_path).split("_")[-1].replace(".png", ".jpg")
-        file_source_path = [path for path in self.files_source if filename_source in path][0]
+        file_source_path = [path for path in self.files_source if filename_source == os.path.basename(path)][0]
         return [self.labels_dict[os.path.basename(os.path.dirname(file_source_path))]]
 
     def prepare_pipeline(self) -> None:
