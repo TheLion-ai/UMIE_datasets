@@ -43,8 +43,6 @@ class BrainWithHemorrhagePipeline(BasePipeline):
 
     dataset_args: DatasetArgs = field(
         default_factory=lambda: DatasetArgs(
-            # Study id is the folder name of all images in the study
-            study_id_extractor=lambda x: "",
             img_prefix=".",  # prefix of the source image file names
             segmentation_prefix="_HGE_Seg.",  # prefix of the source mask file names
             mask_selector="_HGE_Seg",
@@ -88,7 +86,8 @@ class BrainWithHemorrhagePipeline(BasePipeline):
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        self.dataset_args.img_id_extractor = self.img_id_extractor
+        self.dataset_args.img_id_extractor = lambda x: self.img_id_extractor(x)
+        self.dataset_args.study_id_extractor = lambda x: self.img_id_extractor(x).replace(".png", "")
         self.dataset_args.phase_extractor = self.phase_extractor
 
         # Add get_label function to the dataset_args

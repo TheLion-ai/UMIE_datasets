@@ -21,8 +21,6 @@ class AddLabels(TransformerMixin):
         window_width: int,
         image_folder_name: str,
         mask_folder_name: str,
-        img_id_extractor: Callable = lambda x: os.path.basename(x),
-        study_id_extractor: Callable = lambda x: x,
         phase_extractor: Callable = lambda x: x,
         zfill: int = 3,
         labels_path: str = "",
@@ -53,8 +51,6 @@ class AddLabels(TransformerMixin):
         self.phases = phases
         self.image_folder_name = image_folder_name
         self.mask_folder_name = mask_folder_name
-        self.img_id_extractor = img_id_extractor
-        self.study_id_extractor = study_id_extractor
         self.phase_extractor = phase_extractor
         self.window_center = window_center
         self.window_width = window_width
