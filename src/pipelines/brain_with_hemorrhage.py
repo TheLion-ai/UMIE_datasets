@@ -54,7 +54,15 @@ class BrainWithHemorrhagePipeline(BasePipeline):
         if self.path_args["source_path"] in img_path:
             return os.path.basename(os.path.dirname(os.path.dirname(img_path))) + os.path.basename(img_path)
         if self.path_args["target_path"] in img_path:
-            return os.path.basename(img_path)
+            return os.path.basename(img_path)[3:]
+        return ""
+
+    def study_id_extractor(self, img_path: str) -> str:
+        """Retrieve image id from path."""
+        if self.path_args["source_path"] in img_path:
+            return os.path.basename(os.path.dirname(os.path.dirname(img_path)))
+        if self.path_args["target_path"] in img_path:
+            return os.path.basename(img_path)[:3]
         return ""
 
     def phase_extractor(self, img_path: str) -> str:
@@ -87,7 +95,7 @@ class BrainWithHemorrhagePipeline(BasePipeline):
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
         self.dataset_args.img_id_extractor = lambda x: self.img_id_extractor(x)
-        self.dataset_args.study_id_extractor = lambda x: self.img_id_extractor(x).replace(".png", "")
+        self.dataset_args.study_id_extractor = lambda x: self.study_id_extractor(x)
         self.dataset_args.phase_extractor = self.phase_extractor
 
         # Add get_label function to the dataset_args
