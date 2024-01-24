@@ -44,17 +44,20 @@ class FindingAndMeasuringLungsInCTPipeline(BasePipeline):
         )
     )
 
-    def study_id_extractor(self, img_path: os.PathLike) -> str:
+    def study_id_extractor(self, img_path: str) -> str:
         """Get study ID for dataset."""
-        folder = self.path_args["source_path"]
-        return os.path.basename((os.path.dirname(folder))).split("_")[-1]
+        if self.path_args["source_path"] in img_path or self.path_args["masks_path"] in img_path:
+            return os.path.basename(img_path).split("_")[-3]
+        if self.path_args["target_path"] in img_path:
+            return os.path.basename(img_path)[:4]
+        return ""
 
     def img_id_extractor(self, img_path: str) -> str:
         """Retrieve image id from path."""
         if self.path_args["source_path"] in img_path or self.path_args["masks_path"] in img_path:
             return os.path.basename(img_path).split("_")[-3] + os.path.basename(img_path).split("_")[-1]
         if self.path_args["target_path"] in img_path:
-            return os.path.basename(img_path)
+            return "0"
         return ""
 
     def prepare_pipeline(self) -> None:
