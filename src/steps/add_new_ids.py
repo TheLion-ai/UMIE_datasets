@@ -87,6 +87,8 @@ class AddNewIds(TransformerMixin):
         elif img_id is None or phase_id is None:
             # Mechanism for skipping images
             return None
+        if ".png" not in img_id:
+            img_id = img_id + ".png"
         phase_name = self.phases[phase_id]
         new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
         new_path = os.path.join(
