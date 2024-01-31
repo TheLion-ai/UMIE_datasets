@@ -51,4 +51,7 @@ phases = {
     "StanfordCOCA": {
         "0": "CT",
     },
+    "Alzheimers_Dataset": {
+        "0": "MRI",
+    },
 }

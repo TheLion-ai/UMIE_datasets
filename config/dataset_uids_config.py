@@ -16,4 +16,5 @@ dataset_uids = {
     "CT_ORG": "13",
     "StanfordBrainMET": "14",
     "StanfordCOCA": "15",
+    "Alzheimers_Dataset": "16",
 }
