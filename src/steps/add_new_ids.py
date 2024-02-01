@@ -1,9 +1,11 @@
 """Change img ids to match the format of the rest of the dataset."""
+import csv
 import glob
 import os
 import shutil
 from typing import Callable
 
+import numpy as np
 from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
@@ -49,6 +51,8 @@ class AddNewIds(TransformerMixin):
         self.study_id_extractor = study_id_extractor
         self.phase_extractor = phase_extractor
         self.segmentation_prefix = segmentation_prefix
+        self.segmentation_prefix = segmentation_prefix
+        self.paths_data = np.array([])
 
     def transform(
         self,
@@ -62,8 +66,16 @@ class AddNewIds(TransformerMixin):
             list: List of paths to the images with labels.
         """
         print("Adding new ids to the dataset...")
+        if os.path.exists(os.path.join(self.target_path, "source_paths.csv")):
+            self.paths_data = np.array(list(csv.reader(open(os.path.join(self.target_path, "source_paths.csv")))))
+
         for img_path in tqdm(X):
             self.add_new_ids(img_path)
+
+        if os.path.exists(os.path.join(self.target_path, "source_paths.csv")):
+            with open(os.path.join(self.target_path, "source_paths.csv"), "w") as temp_file:
+                writer = csv.writer(temp_file)
+                writer.writerows(list(self.paths_data))
 
         root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
         new_paths = glob.glob(os.path.join(root_path, f"**/{self.image_folder_name}/*.png"), recursive=True)
@@ -87,10 +99,14 @@ class AddNewIds(TransformerMixin):
         elif img_id is None or phase_id is None:
             # Mechanism for skipping images
             return None
-        if ".png" not in img_id:
-            img_id = img_id + ".png"
         phase_name = self.phases[phase_id]
         new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
+        old_filename = os.path.splitext(os.path.basename(img_path))[0]
+        # update file names in temporary csv file data
+        if len(self.paths_data) > 0 and old_filename in self.paths_data[:, 0]:
+            self.paths_data[:, 0][self.paths_data[:, 0] == old_filename] = new_file_name
+        if ".png" not in new_file_name:
+            new_file_name = new_file_name + ".png"
         new_path = os.path.join(
             self.target_path,
             f"{self.dataset_uid}_{self.dataset_name}",

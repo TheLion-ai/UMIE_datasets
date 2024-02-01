@@ -63,7 +63,7 @@ class ConvertJpg2Png(TransformerMixin):
         """
         print("Converting jpg to png...")
         for img_path in tqdm(X):
-            if img_path.endswith(".jpg") or img_path.endswith(".jpeg"):
+            if img_path.endswith(".jpg") or img_path.endswith(".jpeg") or img_path.endswith(".JPG"):
                 self.convert_jpg2png(img_path)
 
         root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
@@ -87,6 +87,8 @@ class ConvertJpg2Png(TransformerMixin):
             img_path (str): Path to the image.
         """
         png_filename = self.img_id_extractor(img_path).replace(".jpg", ".png").replace(".jpeg", ".png")
+        if ".png" not in png_filename:
+            png_filename = png_filename + ".png"
         if not self.mask_folder_name or self.mask_folder_name not in img_path:
             phase_id = self.phase_extractor(img_path)
             if phase_id not in self.phases.keys():

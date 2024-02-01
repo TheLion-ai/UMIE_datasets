@@ -12,4 +12,5 @@ dataset_masks = {
     },
     "CoronaHack_Chest_X-Ray_Dataset": {},
     "Alzheimers_Dataset": {},
+    "Brain_Tumor_Detection": {},
 }

@@ -54,4 +54,7 @@ phases = {
     "Alzheimers_Dataset": {
         "0": "MRI",
     },
+    "Brain_Tumor_Detection": {
+        "0": "MRI",
+    },
 }
