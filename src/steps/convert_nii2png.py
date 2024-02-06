@@ -20,6 +20,7 @@ class ConvertNii2Png(TransformerMixin):
 
     def __init__(
         self,
+        source_path: str,
         target_path: str,
         dataset_name: str,
         dataset_uid: str,
@@ -39,6 +40,7 @@ class ConvertNii2Png(TransformerMixin):
         """Convert nii files to png images with appropriate color encoding.
 
         Args:
+            source_path (str): Path to source folder.
             target_path (str): Path to the target folder.
             dataset_name (str): Name of the dataset.
             dataset_uid (str): Unique identifier of the dataset.
@@ -54,6 +56,7 @@ class ConvertNii2Png(TransformerMixin):
             img_dicom_prefix (str, optional): Prefix for the dicom file with images. Defaults to "imaging".
             segmentation_dicom_prefix (str, optional): Prefix for the dicom file with segmentations. Defaults to "segmentation".
         """
+        self.source_path = source_path
         self.target_path = target_path
         self.dataset_name = dataset_name
         self.dataset_uid = dataset_uid
@@ -85,9 +88,9 @@ class ConvertNii2Png(TransformerMixin):
             raise ValueError("No list of files provided.")
         for img_path in tqdm(X):
             if img_path.endswith(".nii.gz"):
-                self.convert_nii2png(img_path)
-        root_path = os.path.dirname(X[0])
-        new_paths = glob.glob(os.path.join(root_path, f"**/{self.img_dcm_prefix}*.png"), recursive=True)
+                if self.segmentation_dcm_prefix in img_path or self.img_dcm_prefix in img_path:
+                    self.convert_nii2png(img_path)
+        new_paths = glob.glob(os.path.join(self.source_path, f"**/{self.img_dcm_prefix}*.png"), recursive=True)
         return new_paths
 
     def convert_nii2png(self, img_path: str) -> None:

@@ -68,7 +68,8 @@ class CopyPNGMasks(TransformerMixin):
             raise ValueError("No list of files provided.")
         for img_path in tqdm(X):
             mask_path = img_path.replace(self.img_dcm_prefix, self.segmentation_dcm_prefix)
-            self.copy_png_masks(mask_path)
+            if os.path.exists(mask_path):
+                self.copy_png_masks(mask_path)
         return X
 
     def copy_png_masks(self, img_path: str) -> None:

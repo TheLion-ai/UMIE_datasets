@@ -55,6 +55,6 @@ def test_stanford_coca_verify_images_correct():
         pytest.fail("Stanford COCA pipeline created image contents different than expected.")
 
 
-def test_clean_up_coronahack():
+def test_clean_up_stanford_coca():
     """Removes output folder with it's contents."""
     DatasetTestingLibrary.clean_up(target_path)
