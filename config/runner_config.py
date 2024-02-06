@@ -17,9 +17,9 @@ datasets = [
     ),
     StanfordCOCAPipeline(
         path_args={
-            "source_path": "",
+            "source_path": "",  # Path to Gated_release_final/patient
             "target_path": TARGET_PATH,
-            "masks_path": "",
+            "masks_path": "",  # Path to Gated_release_final/calcium_xml
         },
     ),
     StanfordBrainMETPipeline(

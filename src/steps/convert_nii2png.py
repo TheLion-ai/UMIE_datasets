@@ -81,6 +81,8 @@ class ConvertNii2Png(TransformerMixin):
             list: List of paths to the images with labels.
         """
         print("Converting nii to png...")
+        if len(X) == 0:
+            raise ValueError("No list of files provided.")
         for img_path in tqdm(X):
             if img_path.endswith(".nii.gz"):
                 self.convert_nii2png(img_path)

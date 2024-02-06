@@ -21,9 +21,9 @@ class StanfordCOCAPipeline(BasePipeline):
         default_factory=lambda: [
             ("get_file_paths", GetFilePaths),
             ("create_file_tree", CreateFileTree),
-            ("add_new_ids", AddNewIds),
             ("convert_dcm2png", ConvertDcm2Png),
             ("create_masks_from_xml", CreateMasksFromXML),
+            ("add_new_ids", AddNewIds),
             # Choose either to create blank masks or delete images without masks
             # ("create_blank_masks", CreateBlankMasks),
             ("delete_imgs_without_masks", DeleteImgsWithNoAnnotations),

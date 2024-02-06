@@ -21,7 +21,7 @@ class CreateMasksFromXML(TransformerMixin):
         dataset_name: str,
         phases: dict,
         dataset_masks: list,
-        target_colors: dict,
+        mask_colors_source2target: dict,
         zfill: int = 4,
         mask_folder_name: str = "Masks",
         **kwargs: dict,
@@ -35,7 +35,7 @@ class CreateMasksFromXML(TransformerMixin):
             dataset_name (str): Name of the dataset.
             phases (dict): Dictionary with phases and their names.
             dataset_masks (list): List of masks to create.
-            target_colors (dict): Dictionary with target colors.
+            mask_colors_source2target (dict): Dictionary with target colors.
             zfill (int, optional): Number of zeros to fill the image id. Defaults to 4.
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
         """
@@ -45,7 +45,7 @@ class CreateMasksFromXML(TransformerMixin):
         self.dataset_name = dataset_name
         self.phases = phases
         self.dataset_masks = dataset_masks
-        self.target_colors = target_colors
+        self.mask_colors_source2target = mask_colors_source2target
         self.zfill = zfill
         self.mask_folder_name = mask_folder_name
 
@@ -79,9 +79,8 @@ class CreateMasksFromXML(TransformerMixin):
             segmentations = plistlib.load(xml_file)["Images"]
 
         study_id = os.path.basename(mask_path).split(".")[0]
-        print(study_id)
 
-        pattern = r"[-+]?\d*\.\d+|\d+"
+        pattern = r"[-+]?\d*\.\d+|\d+"  # Extract numbers from string
         for segmentation in segmentations:
             img_id = segmentation["ImageIndex"]
             img = np.zeros((512, 512), np.uint8)
@@ -93,19 +92,17 @@ class CreateMasksFromXML(TransformerMixin):
                         x, y = float(x), float(y)
                         x, y = int(x), int(y)
                         points.append([x, y])
-                    if len(self.target_colors.keys()) <= 1:
-                        color = list(self.target_colors.values())[0]
+                    # TODO: add case when there is more than one color
+                    color = list(self.mask_colors_source2target.values())[0]
                     cv2.fillPoly(img, [np.array(points)], (color))
 
-            for phase in self.phases.keys():
-                if len(self.phases.keys()) <= 1:
-                    filename_prefix = f"{self.dataset_uid}_{study_id}"
-                else:
-                    filename_prefix = f"{self.dataset_uid}_{study_id}_{phase}"
+            for phase_id, phase_name in self.phases.items():
+                filename_prefix = f"{self.dataset_uid}_{phase_id}_{study_id}"
 
                 new_path = os.path.join(
                     self.target_path,
                     f"{self.dataset_uid}_{self.dataset_name}",
+                    phase_name,
                     self.mask_folder_name,
                     f"{filename_prefix}_{str(img_id).zfill(self.zfill)}.png",
                 )

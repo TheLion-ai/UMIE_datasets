@@ -74,6 +74,8 @@ class AddLabels(TransformerMixin):
             list: List of paths to the images with labels.
         """
         print("Adding labels...")
+        if len(X) == 0:
+            raise ValueError("No list of files provided.")
         for img_path in tqdm(X):
             self.add_labels(img_path)
         root_path = os.path.dirname(X[0])
