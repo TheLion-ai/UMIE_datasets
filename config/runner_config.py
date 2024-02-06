@@ -10,9 +10,9 @@ from src.pipelines.stanford_coca import StanfordCOCAPipeline
 datasets = [
     KITS23Pipeline(
         path_args={
-            "source_path": "/home/basia/Desktop/UMIE_source/kits23_test",  # Path to the dataset directory in KITS23 repo
+            "source_path": "",  # Path to the dataset directory in KITS23 repo
             "target_path": TARGET_PATH,
-            "labels_path": "/home/basia/Desktop/UMIE_source/kits23_test/kits23.json",  # Path to kits.json
+            "labels_path": "",  # Path to kits.json
         },
     ),
     StanfordCOCAPipeline(
