@@ -77,8 +77,7 @@ class AddLabels(TransformerMixin):
         if len(X) == 0:
             raise ValueError("No list of files provided.")
         for img_path in tqdm(X):
-            if "-" not in img_path:
-                self.add_labels(img_path)
+            self.add_labels(img_path)
         root_path = os.path.dirname(X[0])
         new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
         return new_paths
@@ -94,6 +93,8 @@ class AddLabels(TransformerMixin):
         img_id = os.path.basename(img_path).split(".")[0]
         label_prefix = "-"  # each label in the target file name is prefixed with this character
         labels = self.get_label(img_path)
+        if "-" in img_id:  # if the labels are already added
+            return
         if labels:
             # Add labels to the image path
             labels_str = "".join([label_prefix + label for label in labels])
