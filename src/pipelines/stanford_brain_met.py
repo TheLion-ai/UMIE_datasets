@@ -7,7 +7,6 @@ from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
 from src.steps.add_new_ids import AddNewIds
 from src.steps.copy_png_masks import CopyPNGMasks
 from src.steps.create_file_tree import CreateFileTree
-from src.steps.delete_temp_png import DeleteTempPng
 from src.steps.get_file_paths import GetFilePaths
 from src.steps.recolor_masks import RecolorMasks
 
@@ -24,7 +23,6 @@ class StanfordBrainMETPipeline(BasePipeline):
             ("copy_png_masks", CopyPNGMasks),
             ("add_new_ids", AddNewIds),
             ("recolor_masks", RecolorMasks),
-            ("delete_temp_png", DeleteTempPng),
         ]
     )
     dataset_args: DatasetArgs = field(
