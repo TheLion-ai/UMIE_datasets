@@ -12,7 +12,7 @@ datasets = [
         path_args={
             "source_path": "",  # Path to the dataset directory in KITS23 repo
             "target_path": TARGET_PATH,
-            "labels_path": "",  # Path to kits.json
+            "labels_path": "",  # Path to kits23.json
         },
     ),
     StanfordCOCAPipeline(
