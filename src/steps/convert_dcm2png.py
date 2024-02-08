@@ -17,7 +17,6 @@ class ConvertDcm2Png(TransformerMixin):
 
     def __init__(
         self,
-        source_path: str,
         window_width: int = None,
         window_center: int = None,
         on_error_remove: bool = True,
@@ -26,12 +25,10 @@ class ConvertDcm2Png(TransformerMixin):
         """Convert dicom files to png images with appropriate color encoding.
 
         Args:
-            source_path (str): Path to the source directory containing DICOM files.
             window_width (int, optional): Window width. Defaults to None.
             window_center (int, optional): Window center. Defaults to None.
             on_error_remove (bool, optional): Remove image if error occurs. Defaults to True.
         """
-        self.source_path = source_path
         self.window_width = window_width
         self.window_center = window_center
         self.on_error_remove = on_error_remove
@@ -45,13 +42,11 @@ class ConvertDcm2Png(TransformerMixin):
             X (list): List of paths to the images.
         """
         print("Converting dicom to png...")
-        if len(X) == 0:
-            raise ValueError("No list of files provided.")
         for img_path in tqdm(X):
             if img_path.endswith(".dcm"):
                 self.convert_dcm2png(img_path)
 
-        root_path = self.source_path
+        root_path = os.path.dirname(X[0])
         new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
         return new_paths
 

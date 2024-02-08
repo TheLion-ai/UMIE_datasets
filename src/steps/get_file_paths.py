@@ -43,6 +43,6 @@ class GetFilePaths(TransformerMixin):
             for filename in filenames:
                 if filename.startswith("."):
                     continue
-                elif filename.lower().endswith((".png", ".jpg", ".jpeg", ".nii.gz", ".dcm")):
+                else:
                     file_paths.append(os.path.join(root, filename))
         return file_paths

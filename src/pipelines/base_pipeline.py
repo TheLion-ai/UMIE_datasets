@@ -38,7 +38,7 @@ class DatasetArgs:
         x
     )  # function to extract image id from the image path
     study_id_extractor: Optional[Callable] = lambda x: x  # function to extract study id from the image path
-    phase_extractor: Optional[Callable] = lambda x: "0"  # function to extract phase from the image path
+    phase_extractor: Optional[Callable] = lambda: "0"  # function to extract phase from the image path
     window_center: Optional[int] = None  # value used to process DICOM images
     window_width: Optional[int] = None  # value used to process DICOM images
     get_label: Optional[Callable] = None  # function to get label for the individual image
