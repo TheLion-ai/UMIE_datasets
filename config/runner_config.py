@@ -13,33 +13,33 @@ datasets = [
     KITS21Pipeline(
         path_args={
             "source_path": "",
-            "target_path": "./data/",
+            "target_path": TARGET_PATH,
             "labels_path": "",
         },
     ),
     StanfordCOCAPipeline(
         path_args={
             "source_path": "",
-            "target_path": "./data/",
+            "target_path": TARGET_PATH,
             "masks_path": "",
         },
     ),
     StanfordBrainMETPipeline(
         path_args={
             "source_path": "",
-            "target_path": "./data/",
+            "target_path": TARGET_PATH,
         },
     ),
     CoronahackChestXrayPipeline(
         path_args={
             "source_path": "",
-            "target_path": "./data/",
+            "target_path": TARGET_PATH,
         },
     ),
     AlzheimersPipeline(
         path_args={
-            "source_path": "/Users/piotr/Desktop/UMIE/data/Alzheimer_s Dataset",
-            "target_path": "/Users/piotr/Desktop/UMIE/processed_data",
+            "source_path": "",
+            "target_path": TARGET_PATH,
         },
     ),
     BrainTumorDetectionPipeline(
