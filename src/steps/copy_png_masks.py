@@ -64,12 +64,9 @@ class CopyPNGMasks(TransformerMixin):
             list: List of paths to the images with labels.
         """
         print("Copying PNG masks...")
-        if len(X) == 0:
-            raise ValueError("No list of files provided.")
         for img_path in tqdm(X):
             mask_path = img_path.replace(self.img_dcm_prefix, self.segmentation_dcm_prefix)
-            if os.path.exists(mask_path):
-                self.copy_png_masks(mask_path)
+            self.copy_png_masks(mask_path)
         return X
 
     def copy_png_masks(self, img_path: str) -> None:
