@@ -11,7 +11,6 @@ mask_encodings = {
     "brain_metastasis": 60,
     "parenchyma_0_25": 100,
     "kidney_tumor": 101,
-    "kidney_cyst": 102,
     "kidney": 127,
     "bone": 140,
     "liver": 150,
