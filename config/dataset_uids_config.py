@@ -1,6 +1,6 @@
 """Unique identifiers for datasets."""
 dataset_uids = {
-    "KITS23": "00",
+    "KITS21": "00",
     "MosMedData": "01",
     "LIDC-IDRI": "02",
     "CT_COLONOGRAPHY": "03",
@@ -16,4 +16,8 @@ dataset_uids = {
     "CT_ORG": "13",
     "StanfordBrainMET": "14",
     "StanfordCOCA": "15",
+    "Alzheimers_Dataset": "16",
+    "Finding_and_Measuring_Lungs_in_CT_Data": "17",
+    "Brain_Tumor_Detection": "18",
+    "Brain_with_hemorrhage": "19",
 }

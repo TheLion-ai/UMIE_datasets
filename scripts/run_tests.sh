@@ -1,1 +1,1 @@
-poetry run pytest testing/tests
+coverage run -m pytest tests/

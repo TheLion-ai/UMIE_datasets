@@ -46,4 +46,5 @@ labels = {
     43: "spindlecellneoplasm",
     44: "urothelial",
     45: "wilms",
+    46: "hemorrhage",
 }

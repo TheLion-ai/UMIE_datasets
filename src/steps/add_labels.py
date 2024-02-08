@@ -21,8 +21,6 @@ class AddLabels(TransformerMixin):
         window_width: int,
         image_folder_name: str,
         mask_folder_name: str,
-        img_id_extractor: Callable = lambda x: os.path.basename(x),
-        study_id_extractor: Callable = lambda x: x,
         phase_extractor: Callable = lambda x: x,
         zfill: int = 3,
         labels_path: str = "",
@@ -53,8 +51,6 @@ class AddLabels(TransformerMixin):
         self.phases = phases
         self.image_folder_name = image_folder_name
         self.mask_folder_name = mask_folder_name
-        self.img_id_extractor = img_id_extractor
-        self.study_id_extractor = study_id_extractor
         self.phase_extractor = phase_extractor
         self.window_center = window_center
         self.window_width = window_width
@@ -74,12 +70,10 @@ class AddLabels(TransformerMixin):
             list: List of paths to the images with labels.
         """
         print("Adding labels...")
-        if len(X) == 0:
-            raise ValueError("No list of files provided.")
         for img_path in tqdm(X):
             self.add_labels(img_path)
-        root_path = os.path.dirname(X[0])
-        new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
+        root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
+        new_paths = glob.glob(os.path.join(root_path, f"**/{self.image_folder_name}/*.png"), recursive=True)
         return new_paths
 
     def add_labels(self, img_path: str) -> None:
@@ -93,8 +87,6 @@ class AddLabels(TransformerMixin):
         img_id = os.path.basename(img_path).split(".")[0]
         label_prefix = "-"  # each label in the target file name is prefixed with this character
         labels = self.get_label(img_path)
-        if "-" in img_id:  # if the labels are already added
-            return
         if labels:
             # Add labels to the image path
             labels_str = "".join([label_prefix + label for label in labels])
