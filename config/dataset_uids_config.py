@@ -1,6 +1,6 @@
 """Unique identifiers for datasets."""
 dataset_uids = {
-    "KITS21": "00",
+    "KITS23": "00",
     "MosMedData": "01",
     "LIDC-IDRI": "02",
     "CT_COLONOGRAPHY": "03",

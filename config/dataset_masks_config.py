@@ -6,10 +6,7 @@ dataset_masks = {
     "StanfordBrainMET": {
         "brain_metastasis": 255,
     },
-    "KITS21": {
-        "kidney": 1,
-        "kidney_tumor": 2,
-    },
+    "KITS23": {"kidney": 1, "kidney_tumor": 2, "kidney_cyst": 3},
     "CoronaHack_Chest_X-Ray_Dataset": {},
     "Alzheimers_Dataset": {},
     "Brain_Tumor_Detection": {},
