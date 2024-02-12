@@ -2,7 +2,7 @@
 test_coronahack.
 
 Objective:
-This test checks whether Pipeline for Coronahack dataset runs correctly.
+This test checks whether the Pipeline for Coronahack dataset runs correctly.
 """
 
 import glob

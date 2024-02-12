@@ -1,4 +1,4 @@
-"""Preprocessing pipeline for KITS21 dataset."""
+"""Preprocessing pipeline for KITS23 dataset."""
 import os
 import re
 from dataclasses import asdict, dataclass, field
@@ -14,30 +14,32 @@ from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_nii2png import ConvertNii2Png
-from src.steps.copy_masks import CopyMasks
+from src.steps.copy_png_masks import CopyPNGMasks
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.delete_imgs_with_no_annotations import DeleteImgsWithNoAnnotations
+from src.steps.delete_temp_png import DeleteTempPng
 from src.steps.get_file_paths import GetFilePaths
 from src.steps.recolor_masks import RecolorMasks
 
 
 @dataclass
-class KITS21Pipeline(BasePipeline):
-    """Preprocessing pipeline for KITS21 dataset."""
+class KITS23Pipeline(BasePipeline):
+    """Preprocessing pipeline for KITS23 dataset."""
 
-    name: str = field(default="KITS21")  # dataset name used in configs
+    name: str = field(default="KITS23")  # dataset name used in configs
     steps: list = field(
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
             ("get_file_paths", GetFilePaths),
             ("convert_nii2png", ConvertNii2Png),
-            ("copy_png_masks", CopyMasks),
+            ("copy_png_masks", CopyPNGMasks),
             ("add_new_ids", AddNewIds),
             ("recolor_masks", RecolorMasks),
             ("add_labels", AddLabels),
             # Choose either to create blank masks or delete images without masks
-            # ("create_blank_masks", CreateBlankMasks(**kwargs)),
+            # ("create_blank_masks", CreateBlankMasks),
             ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
+            ("delete_temp_png", DeleteTempPng),
         ]
     )
     dataset_args: DatasetArgs = field(
@@ -50,8 +52,8 @@ class KITS21Pipeline(BasePipeline):
             phase_extractor=lambda x: "0",  # All images are from the same phase
             window_center=50,  # Window of abddominal cavity CTs
             window_width=400,
-            img_prefix="imaging",  # prefix of the source image file names
-            segmentation_prefix="segmentation",  # prefix of the source mask file names
+            img_dcm_prefix="imaging",  # prefix of the source image file names
+            segmentation_dcm_prefix="segmentation",  # prefix of the source mask file names
         )
     )
 
