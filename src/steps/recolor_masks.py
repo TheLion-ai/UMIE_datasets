@@ -5,6 +5,7 @@ import os
 import cv2
 import numpy as np
 from sklearn.base import TransformerMixin
+from tqdm import tqdm
 
 
 class RecolorMasks(TransformerMixin):
@@ -33,10 +34,12 @@ class RecolorMasks(TransformerMixin):
         Returns:
             X (list): List of paths to the images.
         """
+        if len(X) == 0:
+            raise ValueError("No list of files provided.")
         root_path = os.path.join(os.path.dirname(os.path.dirname(X[0])), self.mask_folder_name)
         print("Recoloring masks...")
         mask_paths = glob.glob(f"{root_path}/**/*.png", recursive=True)
-        for mask_path in mask_paths:
+        for mask_path in tqdm(mask_paths):
             self.recolor_masks(mask_path)
         return X
 

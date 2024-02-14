@@ -40,7 +40,7 @@ class DatasetTestingLibrary:
 
             diff = cv2.subtract(expected_image, current_image)
 
-            if np.sum(diff) != 0:
+            if np.any(diff):
                 return False
 
         return True

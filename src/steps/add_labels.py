@@ -76,6 +76,8 @@ class AddLabels(TransformerMixin):
             list: List of paths to the images with labels.
         """
         print("Adding labels...")
+        if len(X) == 0:
+            raise ValueError("No list of files provided.")
         if os.path.exists(os.path.join(self.target_path, "source_paths.csv")):
             self.paths_data = dict(list(csv.reader(open(os.path.join(self.target_path, "source_paths.csv")))))
         for img_path in tqdm(X):
@@ -94,6 +96,8 @@ class AddLabels(TransformerMixin):
         img_root_path = os.path.dirname(img_path)
         img_id = os.path.basename(img_path).split(".")[0]
         label_prefix = "-"  # each label in the target file name is prefixed with this character
+        if "-" in img_id:  # if the labels are already added
+            return
         if os.path.exists(os.path.join(self.target_path, "source_paths.csv")):
             labels = self.get_label(self.paths_data[img_id])
         else:

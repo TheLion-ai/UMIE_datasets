@@ -39,7 +39,7 @@ class CoronahackChestXrayPipeline(BasePipeline):
         )
     )
 
-    def get_img_id(self, img_path: os.PathLike, add_extension: bool) -> str | None:
+    def get_img_id(self, img_path: os.PathLike) -> str | None:
         """Get image name based on its path.
 
         Args:
@@ -56,11 +56,7 @@ class CoronahackChestXrayPipeline(BasePipeline):
             # File not present in csv, or is csv
             return None
 
-        if not add_extension:
-            # Used as study_id_extractor
-            return img_row["id"].values[0]
-
-        return f'{img_row["id"].values[0]}.png'
+        return img_row["id"].values[0]
 
     def get_label(
         self,
@@ -76,8 +72,8 @@ class CoronahackChestXrayPipeline(BasePipeline):
                          or None if no are present.
         """
         img_name = os.path.split(img_path)[-1]
-        img_id = img_name.split("_")[2]
-        img_row = self.metadata.loc[self.metadata["id"] == int(img_id)]
+        study_id = img_name.split("_")[2]
+        img_row = self.metadata.loc[self.metadata["id"] == int(study_id)]
 
         if img_row["Label"].values[0] == "Normal":
             label = "good"
@@ -99,8 +95,8 @@ class CoronahackChestXrayPipeline(BasePipeline):
         self.metadata = pandas.read_csv(metadata_csv_path)
         self.metadata.rename(columns={"Unnamed: 0": "id"}, inplace=True)
 
-        self.dataset_args.img_id_extractor = lambda x: self.get_img_id(x, True)
-        self.dataset_args.study_id_extractor = lambda x: self.get_img_id(x, False)
+        self.dataset_args.img_id_extractor = lambda x: "0.png"
+        self.dataset_args.study_id_extractor = lambda x: self.get_img_id(x)
         self.dataset_args.get_label = self.get_label
 
         # Add dataset specific arguments to the pipeline arguments
