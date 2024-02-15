@@ -19,8 +19,8 @@ class AddNewIds(TransformerMixin):
         dataset_name: str,
         dataset_uid: str,
         phases: dict,
-        image_folder_name: str,
         mask_folder_name: str,
+        image_folder_name: str,
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         study_id_extractor: Callable = lambda x: x,
         phase_extractor: Callable = lambda x: x,
@@ -98,7 +98,7 @@ class AddNewIds(TransformerMixin):
             raise ValueError(f"Phase {phase_id} not in the phases dictionary.")
         elif self.segmentation_prefix in img_path:
             return None
-        elif img_id is None or phase_id is None:
+        elif img_id is None or study_id is None or phase_id is None:
             # Mechanism for skipping images
             return None
         phase_name = self.phases[phase_id]
