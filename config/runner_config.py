@@ -6,21 +6,21 @@ from src.pipelines.coronahack_chest_xray import CoronahackChestXrayPipeline
 from src.pipelines.finding_and_measuring_lungs_in_ct import (
     FindingAndMeasuringLungsInCTPipeline,
 )
-from src.pipelines.kits21 import KITS21Pipeline
+from src.pipelines.kits23 import KITS23Pipeline
 from src.pipelines.stanford_brain_met import StanfordBrainMETPipeline
 from src.pipelines.stanford_coca import StanfordCOCAPipeline
 
 datasets = [
-    KITS21Pipeline(
+    KITS23Pipeline(
         path_args={
-            "source_path": "",
+            "source_path": "",  # Path to the dataset directory in KITS23 repo
             "target_path": TARGET_PATH,
-            "labels_path": "",
+            "labels_path": "",  # Path to kits23.json
         },
     ),
     StanfordCOCAPipeline(
         path_args={
-            "source_path": "",
+            "source_path": "",  # Path to Gated_release_final/patient
             "target_path": TARGET_PATH,
             "masks_path": "",
         },

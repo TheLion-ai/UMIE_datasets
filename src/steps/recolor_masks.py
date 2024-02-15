@@ -1,11 +1,11 @@
 """Recolors masks from default color to the color specified in the config."""
 import glob
 import os
-from typing import Callable
 
 import cv2
 import numpy as np
 from sklearn.base import TransformerMixin
+from tqdm import tqdm
 
 
 class RecolorMasks(TransformerMixin):
@@ -17,8 +17,7 @@ class RecolorMasks(TransformerMixin):
         dataset_name: str,
         dataset_uid: str,
         mask_colors_source2target: dict,
-        mask_folder_name: str,
-        img_id_extractor: Callable = lambda x: os.path.basename(x),
+        mask_folder_name: str = "Masks",
         **kwargs: dict,
     ):
         """Recolors masks from default color to the color specified in the config.
@@ -32,7 +31,6 @@ class RecolorMasks(TransformerMixin):
         self.dataset_uid = dataset_uid
         self.mask_colors_source2target = mask_colors_source2target
         self.mask_folder_name = mask_folder_name
-        self.img_id_extractor = img_id_extractor
 
     def transform(self, X: list) -> list:
         """Recolors masks from default color to the color specified in the config.
@@ -42,6 +40,8 @@ class RecolorMasks(TransformerMixin):
         Returns:
             X (list): List of paths to the images.
         """
+        if len(X) == 0:
+            raise ValueError("No list of files provided.")
         # Robust to multiple modalities and lack of masks for some images
         root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
         mask_paths = glob.glob(os.path.join(root_path, f"**/{self.mask_folder_name}/*.png"), recursive=True)

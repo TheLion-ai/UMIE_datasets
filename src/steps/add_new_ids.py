@@ -62,6 +62,8 @@ class AddNewIds(TransformerMixin):
             list: List of paths to the images with labels.
         """
         print("Adding new ids to the dataset...")
+        if len(X) == 0:
+            raise ValueError("No list of files provided.")
         for img_path in tqdm(X):
             self.add_new_ids(img_path)
 
@@ -84,7 +86,7 @@ class AddNewIds(TransformerMixin):
             raise ValueError(f"Phase {phase_id} not in the phases dictionary.")
         elif self.segmentation_prefix in img_path:
             return None
-        elif img_id is None or phase_id is None:
+        elif img_id is None or study_id is None or phase_id is None:
             # Mechanism for skipping images
             return None
         if ".png" not in img_id:

@@ -66,6 +66,8 @@ class CopyMasks(TransformerMixin):
             list: List of paths to the images with labels.
         """
         print("Copying masks...")
+        if len(X) == 0:
+            raise ValueError("No list of files provided.")
         for img_path in tqdm(X):
             path_el = img_path.rsplit(self.img_prefix, 1)
             mask_path = self.segmentation_prefix.join(path_el)

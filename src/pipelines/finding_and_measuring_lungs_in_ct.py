@@ -41,6 +41,7 @@ class FindingAndMeasuringLungsInCTPipeline(BasePipeline):
             mask_folder_name="Masks",
             img_prefix="images",  # prefix of the source image file names
             segmentation_prefix="masks",  # prefix of the source mask file names
+            mask_selector="2d_masks",
         )
     )
 

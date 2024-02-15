@@ -1,7 +1,7 @@
 """Which phases are present in which datasets and how to encode them."""
 phases = {
-    "KITS21": {
-        "0": "CT_arterial",
+    "KITS23": {
+        "0": "CT",  # Arterial or nephrogenic
     },
     "MosMedData": {
         "0": "HRCT_nocontrast",

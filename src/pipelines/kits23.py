@@ -1,4 +1,4 @@
-"""Preprocessing pipeline for KITS21 dataset."""
+"""Preprocessing pipeline for KITS23 dataset."""
 import os
 import re
 from dataclasses import asdict, dataclass, field
@@ -17,15 +17,16 @@ from src.steps.convert_nii2png import ConvertNii2Png
 from src.steps.copy_masks import CopyMasks
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.delete_imgs_with_no_annotations import DeleteImgsWithNoAnnotations
+from src.steps.delete_temp_png import DeleteTempPng
 from src.steps.get_file_paths import GetFilePaths
 from src.steps.recolor_masks import RecolorMasks
 
 
 @dataclass
-class KITS21Pipeline(BasePipeline):
-    """Preprocessing pipeline for KITS21 dataset."""
+class KITS23Pipeline(BasePipeline):
+    """Preprocessing pipeline for KITS23 dataset."""
 
-    name: str = field(default="KITS21")  # dataset name used in configs
+    name: str = field(default="KITS23")  # dataset name used in configs
     steps: list = field(
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
@@ -36,8 +37,9 @@ class KITS21Pipeline(BasePipeline):
             ("recolor_masks", RecolorMasks),
             ("add_labels", AddLabels),
             # Choose either to create blank masks or delete images without masks
-            # ("create_blank_masks", CreateBlankMasks(**kwargs)),
+            # ("create_blank_masks", CreateBlankMasks),
             ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
+            ("delete_temp_png", DeleteTempPng),
         ]
     )
     dataset_args: DatasetArgs = field(
