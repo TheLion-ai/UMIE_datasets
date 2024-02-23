@@ -16,4 +16,5 @@ dataset_uids = {
     "CT_ORG": "13",
     "StanfordBrainMET": "14",
     "StanfordCOCA": "15",
+    "Covid19_Detection": "22",
 }

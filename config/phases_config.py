@@ -51,4 +51,7 @@ phases = {
     "StanfordCOCA": {
         "0": "CT",
     },
+    "Covid19_Detection": {
+        "0": "Xray",
+    },
 }
