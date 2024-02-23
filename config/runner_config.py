@@ -3,7 +3,9 @@ from abc import abstractmethod
 
 from src.constants import TARGET_PATH
 from src.pipelines.coronahack_chest_xray import CoronahackChestXrayPipeline
+from src.pipelines.covid19_detection import Covid19Detection
 from src.pipelines.kits23 import KITS23Pipeline
+from src.pipelines.knee_osteoarthritis import KneeOsteoarthritisPipeline
 from src.pipelines.stanford_brain_met import StanfordBrainMETPipeline
 from src.pipelines.stanford_coca import StanfordCOCAPipeline
 
@@ -32,6 +34,12 @@ datasets = [
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,
+        },
+    ),
+    KneeOsteoarthritisPipeline(
+        path_args={
+            "source_path": "/Users/piotr/Desktop/UMIE/data/Knee_Osteoarthritis",
+            "target_path": "/Users/piotr/Desktop/UMIE/processed_data",
         },
     ),
 ]

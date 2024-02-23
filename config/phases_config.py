@@ -51,4 +51,7 @@ phases = {
     "StanfordCOCA": {
         "0": "CT",
     },
+    "Knee_Osteoarthritis": {
+        "0": "Xray",
+    },
 }

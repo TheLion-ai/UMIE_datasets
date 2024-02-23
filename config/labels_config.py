@@ -46,4 +46,8 @@ labels = {
     43: "spindlecellneoplasm",
     44: "urothelial",
     45: "wilms",
+    46: "DoubtfulOsteoarthritis",
+    47: "MinimalOsteoarthritis",
+    48: "ModerateOsteoarthritis",
+    49: "SevereOsteoarthritis",
 }
