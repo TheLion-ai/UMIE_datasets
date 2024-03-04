@@ -44,25 +44,25 @@ class Covid19Detection(BasePipeline):
         )
     )
     ids_dict_val = {
-        "Normal": "0",
-        "BacterialPneumonia": "1",
-        "ViralPneumonia": "2",
-        "COVID-19": "3",
+        "Normal": "000",
+        "BacterialPneumonia": "111",
+        "ViralPneumonia": "222",
+        "COVID-19": "333",
     }
     ids_dict_non_aug = {
-        "Normal": "4",
-        "BacterialPneumonia": "5",
-        "ViralPneumonia": "6",
-        "COVID-19": "7",
+        "Normal": "444",
+        "BacterialPneumonia": "555",
+        "ViralPneumonia": "666",
+        "COVID-19": "777",
     }
 
     def get_study_id(self, img_path: str) -> str:
         """Get study id with added postfix depending on source location to prevent repeated names."""
         img_id = os.path.basename(img_path)
         img_basename = os.path.splitext(img_id)[0]
-        if "ValData" in img_basename:
+        if "ValData" in img_path:
             study_id = img_basename + self.ids_dict_val[os.path.basename(os.path.dirname(img_path))]
-        elif "NonAugmentedTrain" in img_basename:
+        elif "NonAugmentedTrain" in img_path:
             study_id = img_basename + self.ids_dict_non_aug[os.path.basename(os.path.dirname(img_path))]
         else:
             study_id = img_basename
@@ -73,10 +73,11 @@ class Covid19Detection(BasePipeline):
         if self.path_args["source_path"] in img_path:
             return self.get_study_id(img_path)
         if self.path_args["target_path"] in img_path:
-            img_id = os.path.basename(img_path)
-            img_basename = os.path.splitext(img_id)[0]
-            img_id = img_basename[:-1]
-            return img_id
+            study_id = os.path.basename(img_path)
+            img_basename = os.path.splitext(study_id)[0]
+            study_id = img_basename[:-1]
+            study_id = study_id.replace("_", "")
+            return study_id
         return ""
 
     def img_id_extractor(self, img_path: str) -> str:
