@@ -37,8 +37,8 @@ datasets = [
     ),
     Covid19Detection(
         path_args={
-            "source_path": "/Users/piotr/Desktop/UMIE/data/covid19_detection",
-            "target_path": "/Users/piotr/Desktop/UMIE/processed_data",
+            "source_path": "",
+            "target_path": TARGET_PATH,
         },
     ),
 ]
