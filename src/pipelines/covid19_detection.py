@@ -7,9 +7,6 @@ from dataclasses import asdict, dataclass, field
 from functools import partial
 from typing import Any, List
 
-import cv2
-import numpy as np
-
 from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds

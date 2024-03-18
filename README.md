@@ -131,7 +131,8 @@ Unfortunately due to the copyright restrictions of the source datasets, we can't
 
 * **COVID-19 Detection X-Ray**
   1. Download the dataset from [COVID-19 Detection X-Ray](https://www.kaggle.com/darshan1504/covid19-detection-xray-dataset)
-  2. Use the script [covid-19_detection_preprocessing.py](./pipelines/X-Ray/covid-19_detection_preprocessing.py) to transform the files. Use dir_1 and dir_d1 parameters to specify source and target paths.
+  2. Delete TrainData folder from downloaded data (it consists augmented images)
+  3. Use the script [covid-19_detection_preprocessing.py](./pipelines/X-Ray/covid-19_detection_preprocessing.py) to transform the files. Use dir_1 and dir_d1 parameters to specify source and target paths.
 
 * **Shenzhen Hospital Chest X-ray Set**
   1. Download the dataset from [Shenzhen Hospital Chest X-ray Set](https://www.kaggle.com/yoctoman/shcxr-lung-mask).
