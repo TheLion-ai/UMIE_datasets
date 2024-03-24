@@ -1,4 +1,5 @@
 """Labels fromm all of the datasets."""
+
 labels = {
     0: "good",
     1: "Atelectasis",

@@ -1,4 +1,5 @@
 """Preprocessing pipeline for Coronahack Chest XRay dataset."""
+
 import os
 from dataclasses import asdict, dataclass, field
 from functools import partial

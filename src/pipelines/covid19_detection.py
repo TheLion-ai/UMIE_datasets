@@ -1,4 +1,5 @@
 """Preprocessing pipeline for Covid 19 detection dataset."""
+
 import fnmatch
 import glob
 import os

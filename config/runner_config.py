@@ -1,4 +1,5 @@
 """Config file with the paths to the datasets and their parameters. The user defines the paths and parameters here for the datasets of his interest."""
+
 from abc import abstractmethod
 
 from src.constants import TARGET_PATH

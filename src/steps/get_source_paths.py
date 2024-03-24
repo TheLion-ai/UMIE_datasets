@@ -1,4 +1,5 @@
 """Temporary store paths to images in source directory and their new names."""
+
 import csv
 import os
 import tempfile
