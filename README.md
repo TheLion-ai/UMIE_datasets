@@ -2,7 +2,6 @@
 
 This repository presents a suite of unified scripts to standardize, preprocess, and integrate 882,774 images from 20 open-source medical imaging datasets, spanning modalities such as X-ray, CT, and MR. The scripts allow for seamless and fast download of a diverse medical data set. We create a unified set of annotations allowing for merging the datasets together without mislabelling.
 
-
 ![Preprocessing_modules](dataset_modules.png)
 
 ## Datasets
@@ -28,7 +27,6 @@ This repository presents a suite of unified scripts to standardize, preprocess, 
 | [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/jjprotube/brain-mri-images-for-brain-tumor-detection) | MRI | Classification |
 | [BrainMetShare](https://aimi.stanford.edu/brainmetshare) | MRI | Segmentation |
 | [COCA- Coronary Calcium and chest CTs](https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa) | CT | Segmentation |
-
 
 
 # **Data preparation instruction**
