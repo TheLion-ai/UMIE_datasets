@@ -65,7 +65,7 @@ class AddNewIds(TransformerMixin):
             self.add_new_ids(img_path)
 
         root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
-        new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
+        new_paths = glob.glob(os.path.join(root_path, f"**/{self.image_folder_name}/*.png"), recursive=True)
         return new_paths
 
     def add_new_ids(self, img_path: str) -> None:
