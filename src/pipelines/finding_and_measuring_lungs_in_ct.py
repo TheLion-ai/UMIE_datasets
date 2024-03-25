@@ -47,6 +47,8 @@ class FindingAndMeasuringLungsInCTPipeline(BasePipeline):
 
     def study_id_extractor(self, img_path: str) -> str:
         """Get study ID for dataset."""
+        # Getting study id depends on location of the file.
+        # Study_id is retrieved in a different way when image already is moved to target directory with new name.
         if self.path_args["source_path"] in img_path or self.path_args["masks_path"] in img_path:
             return os.path.basename(img_path).split("_")[-3]
         if self.path_args["target_path"] in img_path:
@@ -55,6 +57,7 @@ class FindingAndMeasuringLungsInCTPipeline(BasePipeline):
 
     def img_id_extractor(self, img_path: str) -> str:
         """Retrieve image id from path."""
+        # Each study has only 1 image in this dataset
         return "0"
 
     def prepare_pipeline(self) -> None:
