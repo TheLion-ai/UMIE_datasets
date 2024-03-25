@@ -77,6 +77,8 @@ class ChestXray14Pipeline(BasePipeline):
         img_name = os.path.split(img_path)[-1]
         img_id = img_name.split("_")
         img_id = f"{img_id[4]}_{img_id[5]}"
+        if ".png" not in img_id:
+            img_id += ".png"
         img_row = self.metadata.loc[self.metadata["Image Index"] == img_id]
         if "|" in img_row["Finding Labels"].values[0]:
             return [label for label in img_row["Finding Labels"].values[0].split("|")]
