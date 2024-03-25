@@ -11,19 +11,27 @@ from tqdm import tqdm
 class CreateBlankMasks(TransformerMixin):
     """Create blank masks for images that don't have masks."""
 
-    def __init__(self, mask_folder_name: str = "Masks", **kwargs: dict):
+    def __init__(
+        self,
+        dataset_name: str,
+        dataset_uid: str,
+        mask_folder_name: str = "Masks",
+        target_path: str = "",
+        **kwargs: dict,
+    ):
         """Create blank masks for images that don't have masks.
 
         Args:
+            dataset_name (str): Name of the dataset.
+            dataset_uid (str): Unique identifier of the dataset.
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
         """
         self.mask_folder_name = mask_folder_name
+        self.target_path = target_path
+        self.dataset_name = dataset_name
+        self.dataset_uid = dataset_uid
 
-    def transform(
-        self,
-        X: list,
-        target_path: str = "",
-    ) -> list:
+    def transform(self, X: list) -> list:
         """Create blank masks for images that don't have masks.
 
         Args:
@@ -33,7 +41,9 @@ class CreateBlankMasks(TransformerMixin):
             X (list): List of paths to the images.
         """
         mask_paths = glob.glob(
-            f"{os.path.join(target_path, self.mask_folder_name)}/**/*.png",
+            os.path.join(
+                self.target_path, f"**/{self.dataset_uid}_{self.dataset_name}/**/{self.mask_folder_name}/*.png"
+            ),
             recursive=True,
         )
         mask_names = [os.path.basename(mask) for mask in mask_paths]
