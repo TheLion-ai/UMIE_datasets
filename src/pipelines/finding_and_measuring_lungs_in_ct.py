@@ -26,8 +26,8 @@ class FindingAndMeasuringLungsInCTPipeline(BasePipeline):
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
             ("get_file_paths", GetFilePaths),
-            ("copy_png_masks", CopyMasks),
             ("convert_tif2png", ConvertTif2Png),
+            ("copy_png_masks", CopyMasks),
             ("recolor_masks", RecolorMasks),
             ("add_new_ids", AddNewIds),
         ]
@@ -55,11 +55,7 @@ class FindingAndMeasuringLungsInCTPipeline(BasePipeline):
 
     def img_id_extractor(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        if self.path_args["source_path"] in img_path or self.path_args["masks_path"] in img_path:
-            return os.path.basename(img_path).split("_")[-3] + os.path.basename(img_path).split("_")[-1]
-        if self.path_args["target_path"] in img_path:
-            return "0"
-        return ""
+        return "0"
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""

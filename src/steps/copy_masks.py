@@ -75,6 +75,7 @@ class CopyMasks(TransformerMixin):
                 self.copy_masks(mask_path)
         return X
 
+    #
     def copy_masks(self, img_path: str) -> None:
         """Copy PNG masks to a new folder structure.
 
@@ -82,6 +83,7 @@ class CopyMasks(TransformerMixin):
             img_path (str): Path to the image.
         """
         img_id = self.img_id_extractor(img_path)
+        study_id = self.study_id_extractor(img_path)
         # TODO: remove duplicate code from add_new_ids.py, Move this step to add_new_ids???
         if self.mask_selector in img_id:
             img_id = img_id.replace(self.mask_selector, "")
@@ -90,7 +92,9 @@ class CopyMasks(TransformerMixin):
         for phase_id in self.phases.keys():
             if phase_id == self.phase_extractor(img_path):
                 phase_name = self.phases[phase_id]
-                new_file_name = img_id
+                new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
+                if "." not in new_file_name:
+                    new_file_name = new_file_name + ".png"
                 new_path = os.path.join(
                     self.target_path,
                     f"{self.dataset_uid}_{self.dataset_name}",

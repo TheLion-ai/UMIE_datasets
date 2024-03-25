@@ -17,6 +17,7 @@ class ConvertTif2Png(TransformerMixin):
 
     def __init__(
         self,
+        source_path: str,
         target_path: str,
         masks_path: str,
         dataset_name: str,
@@ -24,6 +25,7 @@ class ConvertTif2Png(TransformerMixin):
         phases: dict,
         image_folder_name: str,
         mask_folder_name: str,
+        mask_selector: str,
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         phase_extractor: Callable = lambda x: x,
         study_id_extractor: Callable = lambda x: x,
@@ -32,6 +34,7 @@ class ConvertTif2Png(TransformerMixin):
         """Convert tif files to png images.
 
         Args:
+            source_path (str): Path to the source folder.
             target_path (str): Path to the target folder.
             masks_path (str): Path to the source folder with masks.
             dataset_name (str): Name of the dataset.
@@ -39,10 +42,12 @@ class ConvertTif2Png(TransformerMixin):
             phases (dict): Dictionary with phases and their names.
             image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
+            mask_selector (str): Phrase included only in masks paths.
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
             study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
         """
+        self.source_path = source_path
         self.target_path = target_path
         self.masks_path = masks_path
         self.dataset_name = dataset_name
@@ -50,6 +55,7 @@ class ConvertTif2Png(TransformerMixin):
         self.phases = phases
         self.image_folder_name = image_folder_name
         self.mask_folder_name = mask_folder_name
+        self.mask_selector = mask_selector
         self.img_id_extractor = img_id_extractor
         self.phase_extractor = phase_extractor
         self.study_id_extractor = study_id_extractor
@@ -70,18 +76,23 @@ class ConvertTif2Png(TransformerMixin):
             if img_path.endswith(".tif") or img_path.endswith(".tiff"):
                 self.convert_tif2png(img_path)
 
-        root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
-        mask_paths = glob.glob(
-            os.path.join(root_path, f"**/{self.mask_folder_name}/*.tif"), recursive=True
-        ) + glob.glob(os.path.join(root_path, f"**/{self.mask_folder_name}/*.tiff"), recursive=True)
+        mask_paths = []
+        for root, _, filenames in os.walk(self.masks_path):
+            for filename in filenames:
+                if filename.startswith("."):
+                    continue
+                else:
+                    path = os.path.join(root, filename)
+                    # Verify if file is not a mask
+                    if self.mask_selector in path:
+                        mask_paths.append(path)
         if mask_paths:
             for mask_path in mask_paths:
                 self.convert_tif2png(mask_path)
         else:
             print("Masks not found.")
 
-        root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
-        new_paths = glob.glob(os.path.join(root_path, f"**/{self.image_folder_name}/*.png"), recursive=True)
+        new_paths = glob.glob(os.path.join(self.source_path, "**/*.png"), recursive=True)
         return new_paths
 
     def convert_tif2png(self, img_path: str) -> None:
@@ -110,15 +121,8 @@ class ConvertTif2Png(TransformerMixin):
                 png_filename,
             )
             shutil.copy2(img_path, tiff_path)
-            new_path = tiff_path.replace(".tiff", ".png")
-            # if img_path.endswith(".tif"):
-            #     try:
-            #         # Change .tif to .tiff, so images will be readable for PIL
-            #         tiff_path = img_path.replace(".tif", ".tiff")
-            #         os.rename(img_path, tiff_path)
-            #         img_path = tiff_path
-            #     except IOError:
-            #         print("Image not found")
+
+            new_path = img_path.replace(".tif", ".png").replace(".tiff", ".png")
         else:
             new_path = img_path.replace(".tif", ".png").replace(".tiff", ".png")
             tiff_path = img_path
