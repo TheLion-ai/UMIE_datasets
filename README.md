@@ -236,5 +236,3 @@ To modify and debug the app, [development in containers](https://davidefiocco.gi
 ```bash
 run_tests.sh
 ```
-
-
