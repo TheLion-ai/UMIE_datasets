@@ -1,9 +1,54 @@
 # UMIE_datasets
 
-This repository presents a suite of unified scripts to standardize, preprocess, and integrate 882,774 images from 20 open-source medical imaging datasets, spanning modalities such as X-ray, CT, and MR. The scripts allow for seamless and fast download of a diverse medical data set. We create a unified set of annotations allowing for merging the datasets together without mislabelling.
+<!-- Badges -->
+<p>
+  <a href="https://github.com/TheLion-ai/UMIE_datasets/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/TheLion-ai/UMIE_datasets" alt="contributors" />
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/github/last-commit/TheLion-ai/UMIE_datasets" alt="last update" />
+  </a>
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+    <img src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg" alt="license" />
+  </a>
+
+</p>
+
+<!-- Table of Contents -->
+
+
+<!-- About the Project -->
+## 🤩 About the Project
+```
+Warning: This project is currently in alpha stage and may be subject to major changes
+```
+
+This repository presents a suite of unified scripts to standardize, preprocess, and integrate 882,774 images from 20 open-source medical imaging datasets, spanning modalities such as X-ray, CT, and MR. The scripts allow for seamless and fast download of a diverse medical data set. We create a unified set of annotations allowing for merging the datasets together without mislabelling. Each dataset is preprocessed with a custom sklearn pipeline. The pipeline steps are reusable across the datasets. The code was designed so that preorocessing a new dataset is simple and requires only reusing the available pipeline steps with customization performed through setting the appropriate values of the pipeline params.
+
+The labels and segmentation masks were unified to be compliant with RadLex ontology.
 
 
 ![Preprocessing_modules](dataset_modules.png)
+
+<!-- TechStack -->
+### :space_invader: Tech Stack
+
+<details>
+  <summary>Frontend</summary>
+  <ul>
+    <li><a href="https://streamlit.io/">Streamlit</a></li>
+  </ul>
+</details>
+
+<details>
+  <summary>Backend</summary>
+  <ul>
+    <li><a href="https://www.python.org/">Python</a></li>
+    <li><a href="https://python.langchain.com/">Langchain</a></li>
+    <li><a href="https://fastapi.tiangolo.com/">FastAPI</a></li>
+  </ul>
+</details>
+
 
 ## Datasets
 | Dataset | Modality | TASK |
@@ -147,3 +192,49 @@ Overall the dataset should have ** 882,774** images in **.png** format
 * **CT - 500k+**
 * **X-Ray - 250k+**
 * **MRI - 100k+**
+
+
+<!-- Contributing -->
+## :wave: Contributors
+
+<a href="https://github.com/TheLion-ai/UMIE_datasets/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=TheLion-ai/UMIE_datasets" />
+</a>
+
+<!-- Contact -->
+## :handshake: Contact
+
+[Barbara Klaudel](https://www.linkedin.com/in/barbara-klaudel/)
+
+[TheLion.AI](https://www.linkedin.com/company/53394525/)
+
+
+# Development
+## Pre-commits
+Install pre-commits
+https://pre-commit.com/#installation
+
+If you are using VS-code install the extention https://marketplace.visualstudio.com/items?itemName=MarkLarah.pre-commit-vscode
+
+To make a dry-run of the pre-commits to see if your code passes run
+```
+pre-commit run --all-files
+```
+
+
+## Adding python packages
+Dependencies are handeled by `poetry` framework, to add new dependency run
+```
+poetry add <package_name>
+```
+
+## Debugging
+
+To modify and debug the app, [development in containers](https://davidefiocco.github.io/debugging-containers-with-vs-code) can be useful .
+
+## Testing
+```bash
+run_tests.sh
+```
+
+
