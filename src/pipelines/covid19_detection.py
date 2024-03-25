@@ -41,12 +41,17 @@ class Covid19Detection(BasePipeline):
             mask_folder_name=None,
         )
     )
+    # Images in the dataset has non-unique ids between classes and folders.
+    # Dictionaries below are used to make them unique across whole dataset.
+
+    # Ids added to image names in ValData folder based on their classes
     ids_dict_val = {
         "Normal": "000",
         "BacterialPneumonia": "111",
         "ViralPneumonia": "222",
         "COVID-19": "333",
     }
+    # Ids added to image names in NonAugmentedTrain folder based on their classes
     ids_dict_non_aug = {
         "Normal": "444",
         "BacterialPneumonia": "555",
@@ -69,8 +74,11 @@ class Covid19Detection(BasePipeline):
     def study_id_extractor(self, img_path: str) -> str:
         """Extract study id from img path."""
         if self.path_args["source_path"] in img_path:
+            # If image is read from source directory, the function get_study_id() is used to get unique study id for
+            # the image.
             return self.get_study_id(img_path)
         if self.path_args["target_path"] in img_path:
+            # If image is already in target directory, the study_id is retrieved from its name
             study_id = os.path.basename(img_path)
             img_basename = os.path.splitext(study_id)[0]
             study_id = img_basename[:-1]
@@ -81,10 +89,12 @@ class Covid19Detection(BasePipeline):
     def img_id_extractor(self, img_path: str) -> str:
         """Retrieve image id from path."""
         if self.path_args["source_path"] in img_path:
+            # In intermediate steps study id is also included in img_id to unify images
             img_id = "0"
             img_id = self.study_id_extractor(img_path) + img_id
             return img_id
         if self.path_args["target_path"] in img_path:
+            # Finally img_ids are set to 0 because each study has only 1 image in this dataset.
             img_id = "0"
             return img_id
         return ""

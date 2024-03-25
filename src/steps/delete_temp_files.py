@@ -32,6 +32,8 @@ class DeleteTempFiles(TransformerMixin):
         Returns:
             X (list): List of paths to the images.
         """
-        os.remove(os.path.join(self.target_path, "source_paths.csv"))
+        source_paths_file = os.path.join(self.target_path, "source_paths.csv")
+        if os.path.exists(source_paths_file):
+            os.remove(source_paths_file)
 
         return X
