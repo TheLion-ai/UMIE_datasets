@@ -51,4 +51,4 @@ def test_kits23_verify_images_correct():
 
 def test_clean_up_kits23():
     """Removes output folder with it's contents."""
-    # DatasetTestingLibrary.clean_up(target_path)
+    DatasetTestingLibrary.clean_up(target_path)
