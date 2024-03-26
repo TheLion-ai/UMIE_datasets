@@ -14,7 +14,8 @@ from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_nii2png import ConvertNii2Png
-from src.steps.copy_png_masks import CopyPNGMasks
+from src.steps.copy_masks import CopyMasks
+from src.steps.create_blank_masks import CreateBlankMasks
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.delete_imgs_with_no_annotations import DeleteImgsWithNoAnnotations
 from src.steps.delete_temp_png import DeleteTempPng
@@ -32,13 +33,13 @@ class KITS23Pipeline(BasePipeline):
             ("create_file_tree", CreateFileTree),
             ("get_file_paths", GetFilePaths),
             ("convert_nii2png", ConvertNii2Png),
-            ("copy_png_masks", CopyPNGMasks),
+            ("copy_png_masks", CopyMasks),
             ("add_new_ids", AddNewIds),
             ("recolor_masks", RecolorMasks),
             ("add_labels", AddLabels),
             # Choose either to create blank masks or delete images without masks
-            # ("create_blank_masks", CreateBlankMasks),
-            ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
+            ("create_blank_masks", CreateBlankMasks),
+            # ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
             ("delete_temp_png", DeleteTempPng),
         ]
     )

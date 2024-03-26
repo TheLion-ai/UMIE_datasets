@@ -45,16 +45,18 @@ class BrainTumorDetectionPipeline(BasePipeline):
         )
     )
 
-    # Dictionary used to replace characters in file names to get study_id
+    # Dictionary used to replace characters in file names to get numerical study_id
     ids_dict = {" ": "0", "n": "1", "o": "2", "N": "3", "Y": "4"}
 
     def img_id_extractor(self, img_path: str) -> str:
         """Extract study id from img path."""
         if self.path_args["source_path"] in img_path:
+            # temporary img_id containing information about study_id and img_id
             img_id = os.path.basename(img_path)
             img_basename = os.path.splitext(img_id)[0]
             return img_basename
         if self.path_args["target_path"] in img_path:
+            # final img_id equal 0, because each study has only 1 image in this dataset
             return "0"
         return ""
 
@@ -63,8 +65,10 @@ class BrainTumorDetectionPipeline(BasePipeline):
         if self.path_args["source_path"] in img_path:
             return ""
         if self.path_args["target_path"] in img_path:
+            # final study_id retrieved from temporary image identifier
             img_id = os.path.basename(img_path)
             img_basename = os.path.splitext(img_id)[0]
+            # study id based on ids in source dataset, with replaced non-numerical characters
             for id in self.ids_dict.keys():
                 img_basename = img_basename.replace(id, self.ids_dict[id])
             return img_basename
