@@ -1,4 +1,5 @@
 """Converts masks from xml files to png images with appropriate color encoding."""
+
 import glob
 import os
 import plistlib

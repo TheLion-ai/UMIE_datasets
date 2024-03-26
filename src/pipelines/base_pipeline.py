@@ -1,4 +1,5 @@
 """Base pipeline class."""
+
 import json
 import os
 from abc import abstractmethod

@@ -1,8 +1,10 @@
 """Config file with the paths to the datasets and their parameters. The user defines the paths and parameters here for the datasets of his interest."""
+
 from abc import abstractmethod
 
 from src.constants import TARGET_PATH
 from src.pipelines.coronahack_chest_xray import CoronahackChestXrayPipeline
+from src.pipelines.covid19_detection import Covid19Detection
 from src.pipelines.kits23 import KITS23Pipeline
 from src.pipelines.stanford_brain_met import StanfordBrainMETPipeline
 from src.pipelines.stanford_coca import StanfordCOCAPipeline
@@ -29,6 +31,12 @@ datasets = [
         },
     ),
     CoronahackChestXrayPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+        },
+    ),
+    Covid19Detection(
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,

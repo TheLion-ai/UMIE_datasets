@@ -1,4 +1,5 @@
 """Copy PNG masks to a new folder structure."""
+
 import os
 import shutil
 from typing import Callable

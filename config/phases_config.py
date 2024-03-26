@@ -1,4 +1,5 @@
 """Which phases are present in which datasets and how to encode them."""
+
 phases = {
     "KITS23": {
         "0": "CT",  # Arterial or nephrogenic
@@ -50,5 +51,8 @@ phases = {
     },
     "StanfordCOCA": {
         "0": "CT",
+    },
+    "Covid19_Detection": {
+        "0": "Xray",
     },
 }

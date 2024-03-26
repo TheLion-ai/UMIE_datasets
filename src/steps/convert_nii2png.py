@@ -1,4 +1,5 @@
 """Converts nii files to png images with appropriate color encoding."""
+
 import datetime
 import glob
 import os
