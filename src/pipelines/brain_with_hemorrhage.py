@@ -28,8 +28,8 @@ class BrainWithHemorrhagePipeline(BasePipeline):
         default_factory=lambda: [
             ("get_file_paths", GetFilePaths),
             ("create_file_tree", CreateFileTree),
-            ("copy_masks", CopyMasks),
             ("convert_jpg2png", ConvertJpg2Png),
+            ("copy_masks", CopyMasks),
             ("masks_to_binary_colors", MasksToBinaryColors),
             ("recolor_masks", RecolorMasks),
             ("add_new_ids", AddNewIds),
@@ -51,14 +51,11 @@ class BrainWithHemorrhagePipeline(BasePipeline):
 
     def img_id_extractor(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        if self.path_args["source_path"] in img_path:
-            return os.path.basename(os.path.dirname(os.path.dirname(img_path))) + os.path.basename(img_path)
-        if self.path_args["target_path"] in img_path:
-            return os.path.basename(img_path)[3:]
-        return ""
+        return os.path.basename(img_path)
 
     def study_id_extractor(self, img_path: str) -> str:
         """Retrieve image id from path."""
+        # Study id is name of parent folder of images in source directory
         if self.path_args["source_path"] in img_path:
             return os.path.basename(os.path.dirname(os.path.dirname(img_path)))
         if self.path_args["target_path"] in img_path:
@@ -67,6 +64,7 @@ class BrainWithHemorrhagePipeline(BasePipeline):
 
     def phase_extractor(self, img_path: str) -> str:
         """Retrieve image phase from path."""
+        # Phase is the name of folder 2 levels above image in source directory
         if self.path_args["target_path"] in img_path:
             phase_name = os.path.basename(os.path.dirname(os.path.dirname(img_path)))
         else:
@@ -76,6 +74,7 @@ class BrainWithHemorrhagePipeline(BasePipeline):
 
     def get_label(self, img_path: str) -> list:
         """Get image label based on path."""
+        # If there is a mask associated with the image in a source directory, then the label is 'hemorrhage'
         if self.path_args["target_path"] in img_path:
             mask_path = img_path.replace(self.dataset_args.image_folder_name, self.dataset_args.mask_folder_name)
             if os.path.exists(mask_path):
@@ -83,14 +82,8 @@ class BrainWithHemorrhagePipeline(BasePipeline):
             else:
                 return ["good"]
         else:
-            dir = os.path.dirname(img_path)
-            name = os.path.basename(img_path)
-            name, ext = os.path.splitext(name)
-            mask_path = os.path.join(dir, name + "_HGE_Seg" + ext)
-            if os.path.exists(mask_path):
-                return ["hemorrhage"]
-            else:
-                return ["good"]
+            # incorrect images directory for invoking get_label
+            return []
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
