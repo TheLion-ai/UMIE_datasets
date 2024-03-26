@@ -43,8 +43,9 @@ class DatasetArgs:
     window_center: Optional[int] = None  # value used to process DICOM images
     window_width: Optional[int] = None  # value used to process DICOM images
     get_label: Optional[Callable] = None  # function to get label for the individual image
-    img_dcm_prefix: Optional[str] = None  # prefix of the source image file names
-    segmentation_dcm_prefix: Optional[str] = "segmentation"  # prefix of the source mask file names
+    img_prefix: Optional[str] = None  # prefix of the source image file names
+    segmentation_prefix: Optional[str] = "segmentation"  # prefix of the source mask file names
+    mask_selector: Optional[str] = "segmentations"  # string included only in masks names
 
 
 @dataclass  # type: ignore[misc]

@@ -55,4 +55,10 @@ phases = {
     "Covid19_Detection": {
         "0": "Xray",
     },
+    "Alzheimers_Dataset": {
+        "0": "MRI",
+    },
+    "Finding_and_Measuring_Lungs_in_CT_Data": {
+        "0": "CT",
+    },
 }

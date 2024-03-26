@@ -6,7 +6,7 @@ from typing import Any
 
 from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
 from src.steps.add_new_ids import AddNewIds
-from src.steps.copy_png_masks import CopyPNGMasks
+from src.steps.copy_masks import CopyMasks
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.get_file_paths import GetFilePaths
 from src.steps.recolor_masks import RecolorMasks
@@ -21,7 +21,7 @@ class StanfordBrainMETPipeline(BasePipeline):
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
             ("get_file_paths", GetFilePaths),
-            ("copy_png_masks", CopyPNGMasks),
+            ("copy_png_masks", CopyMasks),
             ("add_new_ids", AddNewIds),
             ("recolor_masks", RecolorMasks),
         ]
