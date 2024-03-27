@@ -43,13 +43,17 @@ class AlzheimersPipeline(BasePipeline):
             mask_folder_name=None,
         )
     )
+    # Images in the dataset has non-unique ids between classes and folders.
+    # Dictionaries below are used to make them unique across whole dataset.
 
+    # Ids added to image names in 'test' folder based on their classes
     ids_dict_test = {
         "NonDemented": "0",
         "VeryMildDemented": "1",
         "MildDemented": "2",
         "ModerateDemented": "3",
     }
+    # Ids added to image names in 'train' folder based on their classes
     ids_dict_train = {
         "nonDem": "000",
         "verymildDem": "111",
@@ -66,6 +70,7 @@ class AlzheimersPipeline(BasePipeline):
             study_id = re.split(pattern, basename)[1]
         else:
             study_id = "0"
+        # images are named in a different way in folders train and test in source directory
         if "train" in img_path:
             for id in self.ids_dict_train.keys():
                 basename = basename.replace(id, self.ids_dict_train[id])
@@ -80,8 +85,11 @@ class AlzheimersPipeline(BasePipeline):
     def study_id_extractor(self, img_path: str) -> str:
         """Extract study id from img path."""
         if self.path_args["source_path"] in img_path:
+            # If image is read from source directory, the function get_study_id() is used to get unique study id for
+            # the image.
             return self.get_study_id(img_path)
         if self.path_args["target_path"] in img_path:
+            # If image is already in target directory, the study_id is retrieved from its name
             img_id = os.path.basename(img_path)
             img_basename = os.path.splitext(img_id)[0]
             img_id = img_basename[:-2]
@@ -91,6 +99,7 @@ class AlzheimersPipeline(BasePipeline):
     def img_id_extractor(self, img_path: str) -> str:
         """Retrieve image id from path."""
         if self.path_args["source_path"] in img_path:
+            # In intermediate steps study id is also included in img_id to unify images
             img_id = os.path.basename(img_path)
             if "train" in img_path:
                 img_id = "00"
@@ -99,6 +108,7 @@ class AlzheimersPipeline(BasePipeline):
             img_id = self.get_study_id(img_path) + img_id
             return img_id
         if self.path_args["target_path"] in img_path:
+            # Finally img_ids are set to 0 because each study has only 1 image in this dataset
             img_id = os.path.basename(img_path)
             img_basename = os.path.splitext(img_id)[0]
             img_id = img_basename[-2:]
