@@ -104,5 +104,4 @@ class CopyMasks(TransformerMixin):
                 )
 
                 if not os.path.exists(new_path):
-                    print("copied mask: ", new_path)
                     shutil.copy2(img_path, new_path)
