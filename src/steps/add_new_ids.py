@@ -51,7 +51,6 @@ class AddNewIds(TransformerMixin):
         self.study_id_extractor = study_id_extractor
         self.phase_extractor = phase_extractor
         self.segmentation_prefix = segmentation_prefix
-        self.segmentation_prefix = segmentation_prefix
         self.paths_data = np.array([])
 
     def transform(
@@ -123,7 +122,7 @@ class AddNewIds(TransformerMixin):
             else:
                 shutil.copy2(img_path, new_path)
 
-        if self.mask_folder_name is not None:
+        if self.mask_folder_name is not None and self.image_folder_name in img_path:
             mask_path = img_path.replace(self.image_folder_name, self.mask_folder_name)
             if os.path.exists(mask_path):
                 os.rename(mask_path, os.path.join(os.path.dirname(mask_path), new_file_name))

@@ -9,7 +9,7 @@ from tqdm import tqdm
 
 
 class CopyMasks(TransformerMixin):
-    """Copy PNG masks to a new folder structure."""
+    """Copy masks to a new folder structure."""
 
     def __init__(
         self,

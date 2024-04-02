@@ -51,10 +51,16 @@ phases = {
     "StanfordCOCA": {
         "0": "CT",
     },
+    "Brain_Tumor_Detection": {
+        "0": "MRI",
+    },
+    "Covid19_Detection": {
+        "0": "Xray",
+    },
     "Alzheimers_Dataset": {
         "0": "MRI",
     },
-    "Brain_Tumor_Detection": {
-        "0": "MRI",
+    "Finding_and_Measuring_Lungs_in_CT_Data": {
+        "0": "CT",
     },
 }

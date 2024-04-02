@@ -33,7 +33,7 @@ class KITS23Pipeline(BasePipeline):
             ("create_file_tree", CreateFileTree),
             ("get_file_paths", GetFilePaths),
             ("convert_nii2png", ConvertNii2Png),
-            ("copy_png_masks", CopyMasks),
+            ("copy_masks", CopyMasks),
             ("add_new_ids", AddNewIds),
             ("recolor_masks", RecolorMasks),
             ("add_labels", AddLabels),

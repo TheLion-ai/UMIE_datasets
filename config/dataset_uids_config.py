@@ -18,4 +18,6 @@ dataset_uids = {
     "StanfordCOCA": "15",
     "Brain_Tumor_Detection": "20",
     "Alzheimers_Dataset": "16",
+    "Finding_and_Measuring_Lungs_in_CT_Data": "17",
+    "Covid19_Detection": "22",
 }
