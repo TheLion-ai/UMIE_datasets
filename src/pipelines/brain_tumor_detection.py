@@ -16,6 +16,7 @@ from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_jpg2png import ConvertJpg2Png
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.delete_temp_files import DeleteTempFiles
+from src.steps.delete_temp_png import DeleteTempPng
 from src.steps.get_file_paths import GetFilePaths
 from src.steps.get_source_paths import GetSourcePaths
 
@@ -34,6 +35,7 @@ class BrainTumorDetectionPipeline(BasePipeline):
             ("add_new_ids", AddNewIds),
             ("add_new_ids", AddLabels),
             ("delete_temp_files", DeleteTempFiles),
+            ("delete_temp_png", DeleteTempPng),
         ]
     )
     dataset_args: DatasetArgs = field(
@@ -42,6 +44,7 @@ class BrainTumorDetectionPipeline(BasePipeline):
             image_folder_name="Images",
             mask_folder_name=None,
             img_id_extractor=lambda x: 0,
+            img_prefix="",
         )
     )
 
@@ -50,29 +53,36 @@ class BrainTumorDetectionPipeline(BasePipeline):
 
     def img_id_extractor(self, img_path: str) -> str:
         """Extract study id from img path."""
-        if self.path_args["source_path"] in img_path:
-            # temporary img_id containing information about study_id and img_id
-            img_id = os.path.basename(img_path)
-            img_basename = os.path.splitext(img_id)[0]
-            return img_basename
-        if self.path_args["target_path"] in img_path:
-            # final img_id equal 0, because each study has only 1 image in this dataset
-            return "0"
-        return ""
+        # if self.path_args["source_path"] in img_path:
+        #     # temporary img_id containing information about study_id and img_id
+        #     img_id = os.path.basename(img_path)
+        #     img_basename = os.path.splitext(img_id)[0]
+        #     return img_basename
+        # if self.path_args["target_path"] in img_path:
+        #     # final img_id equal 0, because each study has only 1 image in this dataset
+        #     return "0"
+        # return ""
+        return "0"
 
     def study_id_extractor(self, img_path: str) -> str:
         """Extract study id from img path."""
-        if self.path_args["source_path"] in img_path:
-            return ""
-        if self.path_args["target_path"] in img_path:
-            # final study_id retrieved from temporary image identifier
-            img_id = os.path.basename(img_path)
-            img_basename = os.path.splitext(img_id)[0]
-            # study id based on ids in source dataset, with replaced non-numerical characters
-            for id in self.ids_dict.keys():
-                img_basename = img_basename.replace(id, self.ids_dict[id])
-            return img_basename
-        return ""
+        # if self.path_args["source_path"] in img_path:
+        #     return ""
+        # if self.path_args["target_path"] in img_path:
+        #     # final study_id retrieved from temporary image identifier
+        #     img_id = os.path.basename(img_path)
+        #     img_basename = os.path.splitext(img_id)[0]
+        #     # study id based on ids in source dataset, with replaced non-numerical characters
+        #     for id in self.ids_dict.keys():
+        #         img_basename = img_basename.replace(id, self.ids_dict[id])
+        #     return img_basename
+        # return ""
+        img_id = os.path.basename(img_path)
+        img_basename = os.path.splitext(img_id)[0]
+        # study id based on ids in source dataset, with replaced non-numerical characters
+        for id in self.ids_dict.keys():
+            img_basename = img_basename.replace(id, self.ids_dict[id])
+        return img_basename
 
     def get_label(self, img_path: str) -> list:
         """Get label for file. Label is a name of folder in source directory."""

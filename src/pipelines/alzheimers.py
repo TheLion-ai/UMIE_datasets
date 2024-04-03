@@ -15,6 +15,7 @@ from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_jpg2png import ConvertJpg2Png
 from src.steps.create_file_tree import CreateFileTree
+from src.steps.delete_temp_png import DeleteTempPng
 from src.steps.get_file_paths import GetFilePaths
 
 
@@ -30,6 +31,7 @@ class AlzheimersPipeline(BasePipeline):
             ("convert_jpg2png", ConvertJpg2Png),
             ("add_new_ids", AddNewIds),
             ("add_new_ids", AddLabels),
+            ("delete_temp_png", DeleteTempPng),
         ]
     )
     dataset_args: DatasetArgs = field(
@@ -37,15 +39,21 @@ class AlzheimersPipeline(BasePipeline):
             phase_extractor=lambda x: "0",  # All images are from the same phase
             image_folder_name="Images",
             mask_folder_name=None,
+            img_prefix="",
         )
     )
 
+    # Filenames in source directory are not unique, so additional id is added to each study_id, based on parent folder
+    # name to make them unique across the whole dataset.
+
+    # Ids added to study id based on the name of parent folder name for a 'test' source directory.
     ids_dict_test = {
         "NonDemented": "0",
         "VeryMildDemented": "1",
         "MildDemented": "2",
         "ModerateDemented": "3",
     }
+    # Ids added to study id based on the name of parent folder name for a 'train' source directory.
     ids_dict_train = {
         "nonDem": "000",
         "verymildDem": "111",
@@ -54,14 +62,16 @@ class AlzheimersPipeline(BasePipeline):
     }
     inv_ids_dict_train = {v: k for k, v in ids_dict_train.items()}
 
-    def get_study_id(self, img_path: str) -> str:
-        """Retrieve image id from path."""
+    def study_id_extractor(self, img_path: str) -> str:
+        """Extract study id from img path."""
         basename = os.path.splitext(os.path.basename(img_path))[0]
+        # If brackets exist in filename, then study id is within them, else it is 0.
         if "(" in basename:
             pattern = r"[()]"
             study_id = re.split(pattern, basename)[1]
         else:
             study_id = "0"
+        # Add identifier based on folder name to make new file name unique across dataset
         if "train" in img_path:
             for id in self.ids_dict_train.keys():
                 basename = basename.replace(id, self.ids_dict_train[id])
@@ -73,36 +83,16 @@ class AlzheimersPipeline(BasePipeline):
             study_id = folder + study_id
         return study_id
 
-    def study_id_extractor(self, img_path: str) -> str:
-        """Extract study id from img path."""
-        if self.path_args["source_path"] in img_path:
-            return self.get_study_id(img_path)
-        if self.path_args["target_path"] in img_path:
-            img_id = os.path.basename(img_path)
-            img_basename = os.path.splitext(img_id)[0]
-            img_id = img_basename[:-2]
-            return img_id
-        return ""
-
     def img_id_extractor(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        if self.path_args["source_path"] in img_path:
-            img_id = os.path.basename(img_path)
-            ext = os.path.splitext(img_id)[1]
-            if "train" in img_path:
-                img_id = "00"
-            else:
-                img_id = img_id[:2]
-            img_id = img_id + ext
-            img_id = self.get_study_id(img_path) + img_id
-            return img_id
-        if self.path_args["target_path"] in img_path:
-            img_id = os.path.basename(img_path)
-            img_basename = os.path.splitext(img_id)[0]
-            ext = os.path.splitext(img_id)[1]
-            img_id = img_basename[-2:] + ext
-            return img_id
-        return ""
+        img_id = os.path.basename(img_path)
+        ext = os.path.splitext(img_id)[1]
+        if "train" in img_path:
+            img_id = "00"
+        else:
+            img_id = img_id[:2]
+        img_id = img_id + ext
+        return img_id
 
     def reverse_filename(self, img_path: str) -> str:
         """Convert image target name to name in source directory."""

@@ -102,10 +102,10 @@ class AddNewIds(TransformerMixin):
             return None
         phase_name = self.phases[phase_id]
         new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
-        old_filename = os.path.splitext(os.path.basename(img_path))[0]
         # update file names in temporary csv file data
-        if len(self.paths_data) > 0 and old_filename in self.paths_data[:, 0]:
-            self.paths_data[:, 0][self.paths_data[:, 0] == old_filename] = new_file_name
+        temporary_id = f"{phase_id}_{study_id}_{img_id}"
+        if len(self.paths_data) > 0 and temporary_id in self.paths_data[:, 0]:
+            self.paths_data[:, 0][self.paths_data[:, 0] == temporary_id] = new_file_name
         if ".png" not in new_file_name:
             new_file_name = new_file_name + ".png"
         new_path = os.path.join(
