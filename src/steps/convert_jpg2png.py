@@ -84,9 +84,6 @@ class ConvertJpg2Png(TransformerMixin):
             print("Masks not found.")
 
         # Get paths to all images after conversion
-        # root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
-        # new_paths = glob.glob(os.path.join(root_path, f"**/{self.image_folder_name}/*.png"), recursive=True)
-
         new_paths = glob.glob(os.path.join(self.source_path, f"**/{self.img_prefix}*.png"), recursive=True)
         return new_paths
 
@@ -96,30 +93,6 @@ class ConvertJpg2Png(TransformerMixin):
         Args:
             img_path (str): Path to the image.
         """
-        # png_filename = self.img_id_extractor(img_path).replace(".jpg", ".png").replace(".jpeg", ".png").replace(".JPG", ".png")
-        # if ".png" not in png_filename:
-        #     png_filename = png_filename + ".png"
-        # if not self.mask_folder_name or self.mask_folder_name not in img_path:
-        #     phase_id = self.phase_extractor(img_path)
-        #     if phase_id not in self.phases.keys():
-        #         return None
-        #     phase_name = self.phases[phase_id]
-        #     # Path for image after conversion
-        #     new_path = os.path.join(
-        #         self.target_path,
-        #         f"{self.dataset_uid}_{self.dataset_name}",
-        #         phase_name,
-        #         self.image_folder_name,
-        #         png_filename,
-        #     )
-        #     try:
-        #         # Open image and save with new extension
-        #         image = PIL.Image.open(img_path)
-        #         image.save(new_path, format="png")
-        #     except IOError:
-        #         print("Image not found")
-        # else:
-
         # Path for image after conversion
         new_path = img_path.replace(".jpg", ".png").replace(".jpeg", ".png").replace(".JPG", ".png")
         try:

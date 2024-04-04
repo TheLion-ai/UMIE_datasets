@@ -6,3 +6,4 @@ data/
 .mypy_cache/
 .benchmarks
 **/__pycache__/
+.DS_Store

@@ -106,7 +106,7 @@ class ConvertDcm2Png(TransformerMixin):
         if self.window_center is None:
             window_center = (
                 int(ds.WindowCenter[0])
-                if type(ds.WindowCenter) == pydicom.multival.MultiValue
+                if type(ds.WindowCenter) is pydicom.multival.MultiValue
                 else int(ds.WindowCenter)
             )
         else:
@@ -114,7 +114,7 @@ class ConvertDcm2Png(TransformerMixin):
 
         if self.window_width is None:
             window_width = (
-                int(ds.WindowWidth[0]) if type(ds.WindowWidth) == pydicom.multival.MultiValue else int(ds.WindowWidth)
+                int(ds.WindowWidth[0]) if type(ds.WindowWidth) is pydicom.multival.MultiValue else int(ds.WindowWidth)
             )
         else:
             window_width = self.window_width

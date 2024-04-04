@@ -1,4 +1,5 @@
 """Labels fromm all of the datasets."""
+
 labels = {
     0: "good",
     1: "Atelectasis",
@@ -46,4 +47,5 @@ labels = {
     43: "spindlecellneoplasm",
     44: "urothelial",
     45: "wilms",
+    46: "covid19",
 }
