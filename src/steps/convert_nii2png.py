@@ -34,8 +34,8 @@ class ConvertNii2Png(TransformerMixin):
         study_id_extractor: Callable = lambda x: x,
         phase_extractor: Callable = lambda x: x,
         zfill: int = 3,
-        img_dicom_prefix: str = "imaging",
-        segmentation_dicom_prefix: str = "segmentation",
+        img_prefix: str = "imaging",
+        segmentation_prefix: str = "segmentation",
         **kwargs: dict,
     ):
         """Convert nii files to png images with appropriate color encoding.
@@ -54,7 +54,7 @@ class ConvertNii2Png(TransformerMixin):
             study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
             zfill (int, optional): Number of zeros to fill the image id. Defaults to 3.
-            img_dicom_prefix (str, optional): Prefix for the dicom file with images. Defaults to "imaging".
+            img_dicom_prefix (str, optional): Prefix for the file with images. Defaults to "imaging".
             segmentation_dicom_prefix (str, optional): Prefix for the dicom file with segmentations. Defaults to "segmentation".
         """
         self.source_path = source_path
@@ -70,8 +70,8 @@ class ConvertNii2Png(TransformerMixin):
         self.window_center = window_center
         self.window_width = window_width
         self.zfill = zfill
-        self.img_dcm_prefix = img_dicom_prefix
-        self.segmentation_dcm_prefix = segmentation_dicom_prefix
+        self.img_dcm_prefix = img_prefix
+        self.segmentation_dcm_prefix = segmentation_prefix
 
     def transform(
         self,

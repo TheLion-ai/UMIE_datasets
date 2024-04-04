@@ -1,5 +1,4 @@
 """Delete temporary files."""
-
 import csv
 import os
 import tempfile

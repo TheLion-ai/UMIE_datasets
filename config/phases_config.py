@@ -52,6 +52,9 @@ phases = {
     "StanfordCOCA": {
         "0": "CT",
     },
+    "Brain_Tumor_Detection": {
+        "0": "MRI",
+    },
     "Covid19_Detection": {
         "0": "Xray",
     },

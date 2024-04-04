@@ -1,5 +1,4 @@
 """Add labels to the images and masks based on the labels.json file. The step requires the pipeline to specify the function for mapping the images with annotations."""
-
 import csv
 import glob
 import json
@@ -102,7 +101,7 @@ class AddLabels(TransformerMixin):
         if os.path.exists(os.path.join(self.target_path, "source_paths.csv")):
             labels = self.get_label(self.paths_data[img_id])
         else:
-            labels = self.get_label(img_id)
+            labels = self.get_label(img_path)
         if labels:
             # Add labels to the image path
             labels_str = "".join([label_prefix + label for label in labels])

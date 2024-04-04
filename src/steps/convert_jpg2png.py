@@ -1,5 +1,4 @@
 """Converts jpg and jpeg files to png images."""
-
 import glob
 import os
 from typing import Callable
@@ -17,6 +16,7 @@ class ConvertJpg2Png(TransformerMixin):
 
     def __init__(
         self,
+        source_path: str,
         target_path: str,
         dataset_name: str,
         dataset_uid: str,
@@ -26,11 +26,13 @@ class ConvertJpg2Png(TransformerMixin):
         masks_path: str = None,
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         phase_extractor: Callable = lambda x: x,
+        img_prefix: str = "",
         **kwargs: dict,
     ):
         """Convert jpg files to png images.
 
         Args:
+            source_path (str): Path to source folder.
             target_path (str): Path to the target folder.
             masks_path (str): Path to the source folder with masks.
             dataset_name (str): Name of the dataset.
@@ -40,7 +42,9 @@ class ConvertJpg2Png(TransformerMixin):
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
+            img_prefix (str, optional): Prefix for the file with images.
         """
+        self.source_path = source_path
         self.target_path = target_path
         self.masks_path = masks_path
         self.dataset_name = dataset_name
@@ -50,6 +54,7 @@ class ConvertJpg2Png(TransformerMixin):
         self.mask_folder_name = mask_folder_name
         self.img_id_extractor = img_id_extractor
         self.phase_extractor = phase_extractor
+        self.img_prefix = img_prefix
 
     def transform(
         self,
@@ -65,6 +70,7 @@ class ConvertJpg2Png(TransformerMixin):
         print("Converting jpg to png...")
         for img_path in tqdm(X):
             if img_path.endswith(".jpg") or img_path.endswith(".jpeg") or img_path.endswith(".JPG"):
+                # Convert each jpg or jpeg file to png
                 self.convert_jpg2png(img_path)
 
         root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
@@ -77,8 +83,8 @@ class ConvertJpg2Png(TransformerMixin):
         else:
             print("Masks not found.")
 
-        root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
-        new_paths = glob.glob(os.path.join(root_path, f"**/{self.image_folder_name}/*.png"), recursive=True)
+        # Get paths to all images after conversion
+        new_paths = glob.glob(os.path.join(self.source_path, f"**/{self.img_prefix}*.png"), recursive=True)
         return new_paths
 
     def convert_jpg2png(self, img_path: str) -> None:
@@ -87,31 +93,12 @@ class ConvertJpg2Png(TransformerMixin):
         Args:
             img_path (str): Path to the image.
         """
-        png_filename = self.img_id_extractor(img_path).replace(".jpg", ".png").replace(".jpeg", ".png")
-        if ".png" not in png_filename:
-            png_filename = png_filename + ".png"
-        if not self.mask_folder_name or self.mask_folder_name not in img_path:
-            phase_id = self.phase_extractor(img_path)
-            if phase_id not in self.phases.keys():
-                return None
-            phase_name = self.phases[phase_id]
-            new_path = os.path.join(
-                self.target_path,
-                f"{self.dataset_uid}_{self.dataset_name}",
-                phase_name,
-                self.image_folder_name,
-                png_filename,
-            )
-            try:
-                image = PIL.Image.open(img_path)
-                image.save(new_path, format="png")
-            except IOError:
-                print("Image not found")
-        else:
-            new_path = img_path.replace(".jpg", ".png").replace(".jpeg", ".png")
-            try:
-                image = PIL.Image.open(img_path)
-                image.save(new_path, format="png")
-                os.remove(img_path)
-            except IOError:
-                print("Image not found")
+        # Path for image after conversion
+        new_path = img_path.replace(".jpg", ".png").replace(".jpeg", ".png").replace(".JPG", ".png")
+        try:
+            # Open image, save with new extension and remove old file
+            image = PIL.Image.open(img_path)
+            image.save(new_path, format="png")
+            # os.remove(img_path)
+        except IOError:
+            print("Image not found")
