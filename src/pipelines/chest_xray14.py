@@ -8,6 +8,7 @@ import pandas
 import yaml
 from sklearn.pipeline import Pipeline
 
+from config.labels_config import labels
 from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
@@ -74,6 +75,7 @@ class ChestXray14Pipeline(BasePipeline):
             list | None: List of labels for specific image,
                          or None if no are present.
         """
+        label_to_id = {value: key for key, value in labels.items()}
         img_name = os.path.split(img_path)[-1]
         img_id = img_name.split("_")
         img_id = f"{img_id[4]}_{img_id[5]}"
@@ -81,8 +83,8 @@ class ChestXray14Pipeline(BasePipeline):
             img_id += ".png"
         img_row = self.metadata.loc[self.metadata["Image Index"] == img_id]
         if "|" in img_row["Finding Labels"].values[0]:
-            return [label for label in img_row["Finding Labels"].values[0].split("|")]
-        return [img_row["Finding Labels"].values[0]]
+            return [label_to_id.get(label, "good") for label in img_row["Finding Labels"].values[0].split("|")]
+        return [label_to_id.get(img_row["Finding Labels"].values[0], "good")]
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
