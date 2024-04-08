@@ -83,8 +83,15 @@ class ChestXray14Pipeline(BasePipeline):
             img_id += ".png"
         img_row = self.metadata.loc[self.metadata["Image Index"] == img_id]
         if "|" in img_row["Finding Labels"].values[0]:
-            return [label_to_id.get(label, "good") for label in img_row["Finding Labels"].values[0].split("|")]
-        return [label_to_id.get(img_row["Finding Labels"].values[0], "good")]
+            found_labels = [label for label in img_row["Finding Labels"].values[0].split("|")]
+        else:
+            found_labels = [img_row["Finding Labels"].values[0]]
+        for label in found_labels:
+            if "_" in label:
+                label = "".join(split_label.capitalize() for split_label in label.split("_"))
+            if label == "No Findings":
+                label = "good"
+        return [label_to_id.get(label, "Label_not_found") for label in found_labels]
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
