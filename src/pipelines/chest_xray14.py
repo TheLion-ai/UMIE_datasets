@@ -1,4 +1,4 @@
-"""Preprocessing pipeline for Coronahack Chest XRay dataset."""
+"""Preprocessing pipeline for ChestX-ray14 dataset."""
 import os
 from dataclasses import asdict, dataclass, field
 from functools import partial
@@ -75,23 +75,18 @@ class ChestXray14Pipeline(BasePipeline):
             list | None: List of labels for specific image,
                          or None if no are present.
         """
-        label_to_id = {value: key for key, value in labels.items()}
         img_name = os.path.split(img_path)[-1]
         img_id = img_name.split("_")
         img_id = f"{img_id[4]}_{img_id[5]}"
         if ".png" not in img_id:
             img_id += ".png"
         img_row = self.metadata.loc[self.metadata["Image Index"] == img_id]
-        if "|" in img_row["Finding Labels"].values[0]:
-            found_labels = [label for label in img_row["Finding Labels"].values[0].split("|")]
-        else:
-            found_labels = [img_row["Finding Labels"].values[0]]
+        found_labels = [label for label in img_row["Finding Labels"].values[0].split("|")]
         for label in found_labels:
-            if "_" in label:
-                label = "".join(split_label.capitalize() for split_label in label.split("_"))
+            label = "".join(split_label.capitalize() for split_label in label.split("_"))
             if label == "No Findings":
                 label = "good"
-        return [label_to_id.get(label, "Label_not_found") for label in found_labels]
+        return found_labels
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""

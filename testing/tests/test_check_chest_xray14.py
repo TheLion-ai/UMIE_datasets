@@ -18,7 +18,7 @@ target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/06_ChestX-ray14
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/06_ChestX-ray14/expected_output")
 
 
-def test_run_coronahack():
+def test_run_chestx_ray14():
     """Test to verify, that there are no exceptions while running pipeline."""
     dataset = ChestXray14Pipeline(
         path_args={
@@ -33,7 +33,7 @@ def test_run_coronahack():
         pytest.fail(f'Trying to run ChestX-ray14 pipeline raised an exception: "{e}"')
 
 
-def test_coronahack_verify_file_tree():
+def test_chestx_ray14_verify_file_tree():
     """Test to verify if file tree is as expected."""
     expected_file_tree = glob.glob(f"{str(expected_output_path)}/**", recursive=True)
     current_file_tree = glob.glob(f"{str(target_path)}/**", recursive=True)
@@ -42,7 +42,7 @@ def test_coronahack_verify_file_tree():
         pytest.fail("ChestX-ray14 pipeline created file tree different than expected.")
 
 
-def test_coronahack_verify_images_correct():
+def test_chestx_ray14_verify_images_correct():
     """Test to verify whether all images have contents as expected."""
     expected_file_tree = glob.glob(f"{str(expected_output_path)}/**/*.png", recursive=True)
     current_file_tree = glob.glob(f"{str(target_path)}/**/*.png", recursive=True)
@@ -51,6 +51,6 @@ def test_coronahack_verify_images_correct():
         pytest.fail("ChestX-ray14 pipeline created image contents different than expected.")
 
 
-def test_clean_up_coronahack():
+def test_clean_up_chestx_ray14():
     """Removes output folder with it's contents."""
     DatasetTestingLibrary.clean_up(target_path)
