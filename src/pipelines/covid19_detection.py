@@ -14,6 +14,7 @@ from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_jpg2png import ConvertJpg2Png
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.delete_temp_files import DeleteTempFiles
+from src.steps.delete_temp_png import DeleteTempPng
 from src.steps.get_file_paths import GetFilePaths
 from src.steps.get_source_paths import GetSourcePaths
 
@@ -32,6 +33,7 @@ class Covid19Detection(BasePipeline):
             ("add_new_ids", AddNewIds),
             ("add_new_ids", AddLabels),
             ("delete_temp_files", DeleteTempFiles),
+            ("delete_temp_png", DeleteTempPng),
         ]
     )
     dataset_args: DatasetArgs = field(
@@ -39,6 +41,7 @@ class Covid19Detection(BasePipeline):
             phase_extractor=lambda x: "0",  # All images are from the same phase
             image_folder_name="Images",
             mask_folder_name=None,
+            img_prefix="",
         )
     )
     # Images in the dataset has non-unique ids between classes and folders.
@@ -59,7 +62,7 @@ class Covid19Detection(BasePipeline):
         "COVID-19": "777",
     }
 
-    def get_study_id(self, img_path: str) -> str:
+    def study_id_extractor(self, img_path: str) -> str:
         """Get study id with added postfix depending on source location to prevent repeated names."""
         img_id = os.path.basename(img_path)
         img_basename = os.path.splitext(img_id)[0]
@@ -69,35 +72,12 @@ class Covid19Detection(BasePipeline):
             study_id = img_basename + self.ids_dict_non_aug[os.path.basename(os.path.dirname(img_path))]
         else:
             study_id = img_basename
+        study_id = study_id.replace("_", "")
         return study_id
 
-    def study_id_extractor(self, img_path: str) -> str:
-        """Extract study id from img path."""
-        if self.path_args["source_path"] in img_path:
-            # If image is read from source directory, the function get_study_id() is used to get unique study id for
-            # the image.
-            return self.get_study_id(img_path)
-        if self.path_args["target_path"] in img_path:
-            # If image is already in target directory, the study_id is retrieved from its name
-            study_id = os.path.basename(img_path)
-            img_basename = os.path.splitext(study_id)[0]
-            study_id = img_basename[:-1]
-            study_id = study_id.replace("_", "")
-            return study_id
-        return ""
-
     def img_id_extractor(self, img_path: str) -> str:
-        """Retrieve image id from path."""
-        if self.path_args["source_path"] in img_path:
-            # In intermediate steps study id is also included in img_id to unify images
-            img_id = "0"
-            img_id = self.study_id_extractor(img_path) + img_id
-            return img_id
-        if self.path_args["target_path"] in img_path:
-            # Finally img_ids are set to 0 because each study has only 1 image in this dataset.
-            img_id = "0"
-            return img_id
-        return ""
+        """In this dataset only one image exists for each study."""
+        return "0"
 
     # Changing labels from dataset (folders names) to match standard
     labels_dict = {
