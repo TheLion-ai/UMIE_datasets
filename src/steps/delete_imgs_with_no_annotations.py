@@ -1,4 +1,5 @@
 """Delete images without masks."""
+
 import glob
 import os
 
@@ -68,4 +69,5 @@ class DeleteImgsWithNoAnnotations(TransformerMixin):
                 if no_label:
                     # If there is a blank mask and no label
                     os.remove(img_path)
-                    os.remove(mask_path)
+                    if os.path.exists(mask_path):
+                        os.remove(mask_path)

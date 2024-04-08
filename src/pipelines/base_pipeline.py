@@ -1,4 +1,5 @@
 """Base pipeline class."""
+
 import json
 import os
 from abc import abstractmethod
@@ -38,12 +39,13 @@ class DatasetArgs:
         x
     )  # function to extract image id from the image path
     study_id_extractor: Optional[Callable] = lambda x: x  # function to extract study id from the image path
-    phase_extractor: Optional[Callable] = lambda: "0"  # function to extract phase from the image path
+    phase_extractor: Optional[Callable] = lambda x: "0"  # function to extract phase from the image path
     window_center: Optional[int] = None  # value used to process DICOM images
     window_width: Optional[int] = None  # value used to process DICOM images
     get_label: Optional[Callable] = None  # function to get label for the individual image
-    img_dcm_prefix: Optional[str] = None  # prefix of the source image file names
-    segmentation_dcm_prefix: Optional[str] = "segmentation"  # prefix of the source mask file names
+    img_prefix: Optional[str] = None  # prefix of the source image file names
+    segmentation_prefix: Optional[str] = "segmentation"  # prefix of the source mask file names
+    mask_selector: Optional[str] = "segmentations"  # string included only in masks names
 
 
 @dataclass  # type: ignore[misc]
@@ -108,7 +110,7 @@ class BasePipeline:
 
     @abstractmethod
     def prepare_pipeline(self) -> None:
-        """Prepare pipeline. Function is called in __post_init__ if source path exists."""
+        """Prepare pipeline. Function is called in post initialization if source path exists."""
         return
 
     @abstractmethod

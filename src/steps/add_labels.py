@@ -1,4 +1,5 @@
 """Add labels to the images and masks based on the labels.json file. The step requires the pipeline to specify the function for mapping the images with annotations."""
+import csv
 import glob
 import json
 import os
@@ -61,6 +62,7 @@ class AddLabels(TransformerMixin):
         self.zfill = zfill
         self.labels_path = labels_path
         self.get_label = get_label
+        self.paths_data: dict[str, str] = {}
 
     def transform(
         self,
@@ -74,6 +76,10 @@ class AddLabels(TransformerMixin):
             list: List of paths to the images with labels.
         """
         print("Adding labels...")
+        if len(X) == 0:
+            raise ValueError("No list of files provided.")
+        if os.path.exists(os.path.join(self.target_path, "source_paths.csv")):
+            self.paths_data = dict(list(csv.reader(open(os.path.join(self.target_path, "source_paths.csv")))))
         for img_path in tqdm(X):
             self.add_labels(img_path)
         root_path = os.path.dirname(X[0])
@@ -90,7 +96,12 @@ class AddLabels(TransformerMixin):
         img_root_path = os.path.dirname(img_path)
         img_id = os.path.basename(img_path).split(".")[0]
         label_prefix = "-"  # each label in the target file name is prefixed with this character
-        labels = self.get_label(img_path)
+        if "-" in img_id:  # if the labels are already added
+            return
+        if os.path.exists(os.path.join(self.target_path, "source_paths.csv")):
+            labels = self.get_label(self.paths_data[img_id])
+        else:
+            labels = self.get_label(img_path)
         if labels:
             # Add labels to the image path
             labels_str = "".join([label_prefix + label for label in labels])
