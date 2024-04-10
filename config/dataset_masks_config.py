@@ -1,4 +1,5 @@
 """Source color values of masks for each dataset."""
+
 dataset_masks = {
     "StanfordCOCA": {
         "coronary_artery_calcium": 20,
@@ -10,5 +11,11 @@ dataset_masks = {
     "CoronaHack_Chest_X-Ray_Dataset": {},
     "Brain_with_hemorrhage": {
         "hemorrhage": 255,
+    },
+    "Alzheimers_Dataset": {},
+    "Brain_Tumor_Detection": {},
+    "Covid19_Detection": {},
+    "Finding_and_Measuring_Lungs_in_CT_Data": {
+        "lungs": 255,
     },
 }

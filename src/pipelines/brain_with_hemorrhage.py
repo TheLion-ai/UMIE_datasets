@@ -14,6 +14,8 @@ from src.steps.convert_jpg2png import ConvertJpg2Png
 from src.steps.copy_masks import CopyMasks
 from src.steps.create_blank_masks import CreateBlankMasks
 from src.steps.create_file_tree import CreateFileTree
+from src.steps.delete_temp_files import DeleteTempFiles
+from src.steps.delete_temp_png import DeleteTempPng
 from src.steps.get_file_paths import GetFilePaths
 from src.steps.masks_to_binary_colors import MasksToBinaryColors
 from src.steps.recolor_masks import RecolorMasks
@@ -28,8 +30,9 @@ class BrainWithHemorrhagePipeline(BasePipeline):
         default_factory=lambda: [
             ("get_file_paths", GetFilePaths),
             ("create_file_tree", CreateFileTree),
-            ("convert_jpg2png", ConvertJpg2Png),
             ("copy_masks", CopyMasks),
+            ("convert_jpg2png", ConvertJpg2Png),
+            # ("copy_masks", CopyMasks),
             ("masks_to_binary_colors", MasksToBinaryColors),
             ("recolor_masks", RecolorMasks),
             ("add_new_ids", AddNewIds),
@@ -38,6 +41,8 @@ class BrainWithHemorrhagePipeline(BasePipeline):
             # Recommended to create blank masks because only about 10% images have masks.
             ("create_blank_masks", CreateBlankMasks),
             # ("delete_imgs_without_masks", DeleteImgsWithoutMasks),
+            ("delete_temp_files", DeleteTempFiles),
+            ("delete_temp_png", DeleteTempPng),
         ]
     )
 

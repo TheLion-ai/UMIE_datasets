@@ -1,4 +1,5 @@
 """How to denote each mask in UMIE."""
+
 mask_encodings = {
     "background": 0,
     "malignancy1": 3,

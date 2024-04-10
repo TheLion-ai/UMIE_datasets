@@ -1,9 +1,9 @@
 """Add labels to the images and masks based on the labels.json file. The step requires the pipeline to specify the function for mapping the images with annotations."""
-
 import csv
 import glob
 import json
 import os
+from pathlib import Path
 from typing import Callable
 
 from sklearn.base import TransformerMixin
@@ -83,6 +83,9 @@ class AddLabels(TransformerMixin):
             self.paths_data = dict(list(csv.reader(open(os.path.join(self.target_path, "source_paths.csv")))))
         for img_path in tqdm(X):
             self.add_labels(img_path)
+        # root_path = os.path.dirname(os.path.dirname(X[0]))
+        # root_path = Path(X[0]).parents[2]
+        # new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
         root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
         new_paths = glob.glob(os.path.join(root_path, f"**/{self.image_folder_name}/*.png"), recursive=True)
         return new_paths

@@ -1,4 +1,5 @@
 """Base pipeline class."""
+
 import json
 import os
 from abc import abstractmethod
@@ -109,7 +110,7 @@ class BasePipeline:
 
     @abstractmethod
     def prepare_pipeline(self) -> None:
-        """Prepare pipeline. Function is called in __post_init__ if source path exists."""
+        """Prepare pipeline. Function is called in post initialization if source path exists."""
         return
 
     @abstractmethod

@@ -1,4 +1,4 @@
-"""Copy PNG masks to a new folder structure."""
+"""Copy masks to a new folder structure."""
 
 import os
 import shutil
@@ -9,7 +9,7 @@ from tqdm import tqdm
 
 
 class CopyMasks(TransformerMixin):
-    """Copy PNG masks to a new folder structure."""
+    """Copy masks to a new folder structure."""
 
     def __init__(
         self,
@@ -76,6 +76,7 @@ class CopyMasks(TransformerMixin):
                 self.copy_masks(mask_path)
         return X
 
+    #
     def copy_masks(self, img_path: str) -> None:
         """Copy PNG masks to a new folder structure.
 

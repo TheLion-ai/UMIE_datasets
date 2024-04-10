@@ -1,4 +1,5 @@
 """Which phases are present in which datasets and how to encode them."""
+
 phases = {
     "KITS23": {
         "0": "CT",  # Arterial or nephrogenic
@@ -49,6 +50,18 @@ phases = {
         "3": "T2_FLAIR_postCM",
     },
     "StanfordCOCA": {
+        "0": "CT",
+    },
+    "Brain_Tumor_Detection": {
+        "0": "MRI",
+    },
+    "Covid19_Detection": {
+        "0": "Xray",
+    },
+    "Alzheimers_Dataset": {
+        "0": "MRI",
+    },
+    "Finding_and_Measuring_Lungs_in_CT_Data": {
         "0": "CT",
     },
     "Brain_with_hemorrhage": {

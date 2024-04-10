@@ -1,4 +1,5 @@
 """Recolors masks from default color to the color specified in the config."""
+
 import glob
 import os
 

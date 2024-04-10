@@ -1,4 +1,5 @@
 """Preprocessing pipeline for Coronahack Chest XRay dataset."""
+
 import os
 from dataclasses import asdict, dataclass, field
 from functools import partial
@@ -27,6 +28,7 @@ class CoronahackChestXrayPipeline(BasePipeline):
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
             ("get_file_paths", GetFilePaths),
+            # add_new_ids is used here to also add labels
             ("add_new_ids", AddNewIds),
             ("add_labels", AddLabels),
             ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
