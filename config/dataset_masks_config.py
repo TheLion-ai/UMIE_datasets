@@ -18,4 +18,5 @@ dataset_masks = {
     "Finding_and_Measuring_Lungs_in_CT_Data": {
         "lungs": 255,
     },
+    "ChestX-ray14": {},
 }
