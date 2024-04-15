@@ -84,7 +84,7 @@ class ConvertJpg2Png(TransformerMixin):
             print("Masks not found.")
 
         # Get paths to all images after conversion
-        new_paths = glob.glob(os.path.join(self.source_path, f"**/{self.img_prefix}*.png"), recursive=True)
+        new_paths = glob.glob(os.path.join(self.source_path, f"**/*{self.img_prefix}*png"), recursive=True)
         return new_paths
 
     def convert_jpg2png(self, img_path: str) -> None:
@@ -99,6 +99,7 @@ class ConvertJpg2Png(TransformerMixin):
             # Open image, save with new extension and remove old file
             image = PIL.Image.open(img_path)
             image.save(new_path, format="png")
-            # os.remove(img_path)
+            if self.mask_folder_name and self.mask_folder_name in img_path:
+                os.remove(img_path)
         except IOError:
             print("Image not found")

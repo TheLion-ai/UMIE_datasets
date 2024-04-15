@@ -10,6 +10,7 @@ mask_encodings = {
     "coronary_artery_calcium": 20,
     "brain": 50,
     "brain_metastasis": 60,
+    "hemorrhage": 70,
     "parenchyma_0_25": 100,
     "kidney_tumor": 101,
     "kidney_cyst": 102,
