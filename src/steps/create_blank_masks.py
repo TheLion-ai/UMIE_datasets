@@ -47,6 +47,7 @@ class CreateBlankMasks(TransformerMixin):
             ),
             recursive=True,
         )
+
         mask_names = [os.path.basename(mask) for mask in mask_paths]
         print("Creating blank masks...")
         for img_path in tqdm(X):

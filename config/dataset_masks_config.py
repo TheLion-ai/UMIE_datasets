@@ -9,6 +9,9 @@ dataset_masks = {
     },
     "KITS23": {"kidney": 1, "kidney_tumor": 2, "kidney_cyst": 3},
     "CoronaHack_Chest_X-Ray_Dataset": {},
+    "Brain_with_hemorrhage": {
+        "hemorrhage": 255,
+    },
     "Alzheimers_Dataset": {},
     "Brain_Tumor_Detection": {},
     "Covid19_Detection": {},

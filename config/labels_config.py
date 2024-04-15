@@ -48,4 +48,5 @@ labels = {
     44: "urothelial",
     45: "wilms",
     46: "covid19",
+    47: "hemorrhage",
 }

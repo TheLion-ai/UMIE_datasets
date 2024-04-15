@@ -64,4 +64,8 @@ phases = {
     "Finding_and_Measuring_Lungs_in_CT_Data": {
         "0": "CT",
     },
+    "Brain_with_hemorrhage": {
+        "0": "Bone",
+        "1": "Brain",
+    },
 }
