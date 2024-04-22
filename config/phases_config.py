@@ -68,4 +68,7 @@ phases = {
         "0": "Bone",
         "1": "Brain",
     },
+    "Liver_And_Liver_Tumor": {
+        "0": "CT",
+    },
 }
