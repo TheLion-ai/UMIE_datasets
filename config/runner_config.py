@@ -77,9 +77,9 @@ datasets = [
     ),
     LiverAndLiverTumorPipeline(
         path_args={
-            "source_path": "/Users/piotr/Desktop/UMIE/data/liver_and_liver_tumor/dataset_6/dataset_6",
-            "target_path": "/Users/piotr/Desktop/UMIE/processed_data",
-            "masks_path": "/Users/piotr/Desktop/UMIE/data/liver_and_liver_tumor/dataset_6/dataset_6",
+            "source_path": "",
+            "target_path": TARGET_PATH,
+            "masks_path": "",
         },
     ),
 ]
