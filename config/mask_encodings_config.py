@@ -16,7 +16,7 @@ mask_encodings = {
     "kidney_cyst": 102,
     "kidney": 127,
     "bone": 140,
-    "liver_tumor": 148,
+    "liver_tumor": 145,
     "liver": 150,
     "bladder": 160,
     "lungs": 170,

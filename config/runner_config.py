@@ -12,6 +12,7 @@ from src.pipelines.finding_and_measuring_lungs_in_ct import (
     FindingAndMeasuringLungsInCTPipeline,
 )
 from src.pipelines.kits23 import KITS23Pipeline
+from src.pipelines.liver_and_liver_tumor_pipeline import LiverAndLiverTumorPipeline
 from src.pipelines.stanford_brain_met import StanfordBrainMETPipeline
 from src.pipelines.stanford_coca import StanfordCOCAPipeline
 
@@ -72,6 +73,13 @@ datasets = [
             "source_path": "",
             "target_path": TARGET_PATH,
             "masks_path": "",
+        },
+    ),
+    LiverAndLiverTumorPipeline(
+        path_args={
+            "source_path": "/Users/piotr/Desktop/UMIE/data/liver_and_liver_tumor/dataset_6/dataset_6",
+            "target_path": "/Users/piotr/Desktop/UMIE/processed_data",
+            "masks_path": "/Users/piotr/Desktop/UMIE/data/liver_and_liver_tumor/dataset_6/dataset_6",
         },
     ),
 ]
