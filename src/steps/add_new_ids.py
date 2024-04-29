@@ -74,7 +74,7 @@ class AddNewIds(TransformerMixin):
             self.add_new_ids(img_path)
 
         if os.path.exists(os.path.join(self.target_path, "source_paths.csv")):
-            with open(os.path.join(self.target_path, "source_paths.csv"), "w") as temp_file:
+            with open(os.path.join(self.target_path, "source_paths.csv"), "w", newline="") as temp_file:
                 writer = csv.writer(temp_file)
                 writer.writerows(list(self.paths_data))
 
