@@ -19,4 +19,5 @@ dataset_masks = {
         "lungs": 255,
     },
     "Liver_And_Liver_Tumor": {"liver": 1, "liver_tumor": 1},
+    "ChestX-ray14": {},
 }

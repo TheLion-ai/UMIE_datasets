@@ -48,7 +48,7 @@ class GetSourcePaths(TransformerMixin):
         for img_path in tqdm(X):
             self.get_source_paths(img_path)
 
-        with open(os.path.join(self.target_path, "source_paths.csv"), "w") as temp_file:
+        with open(os.path.join(self.target_path, "source_paths.csv"), "w", newline="") as temp_file:
             writer = csv.writer(temp_file)
             paths_data = np.transpose(np.vstack([list(self.paths_dict.keys()), list(self.paths_dict.values())]), (1, 0))
             writer.writerows(list(paths_data))
