@@ -46,6 +46,7 @@ class DatasetArgs:
     img_prefix: Optional[str] = None  # prefix of the source image file names
     segmentation_prefix: Optional[str] = "segmentation"  # prefix of the source mask file names
     mask_selector: Optional[str] = "segmentations"  # string included only in masks names
+    multiple_masks_selector: Optional[dict] = None  # dict including mask selector and its meaning for each mask
 
 
 @dataclass  # type: ignore[misc]
@@ -81,6 +82,8 @@ class BasePipeline:
         phases = phases_config.phases[self.name]
         # Dict with masks and the source colors encoding
         dataset_masks = dataset_masks_config.dataset_masks[self.name]
+        # Dict with target masks colors encoding
+        mask_encodings = mask_encodings_config.mask_encodings
         # Dict with source colors of masks and the target colors mapping
         mask_colors_source2target = {v: mask_encodings_config.mask_encodings[k] for k, v in dataset_masks.items()}
         # Dict with args extracted from the dataset config
@@ -89,6 +92,7 @@ class BasePipeline:
             "dataset_uid": dataset_uid,
             "phases": phases,
             "dataset_masks": dataset_masks,
+            "mask_encodings": mask_encodings,
             "mask_colors_source2target": mask_colors_source2target,
         }
         # Update args with the config args
