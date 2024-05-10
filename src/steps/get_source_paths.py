@@ -17,7 +17,9 @@ class GetSourcePaths(TransformerMixin):
         source_path: str,
         target_path: str,
         img_id_extractor: Callable = lambda x: os.path.basename(x),
-        **kwargs: dict
+        study_id_extractor: Callable = lambda x: os.path.basename(x),
+        phase_extractor: Callable = lambda x: os.path.basename(x),
+        **kwargs: dict,
     ):
         """Temporary store paths to images in source directory and their new names.
 
@@ -28,6 +30,8 @@ class GetSourcePaths(TransformerMixin):
         self.target_path = target_path
         self.omit_conditions = list
         self.img_id_extractor = img_id_extractor
+        self.study_id_extractor = study_id_extractor
+        self.phase_extractor = phase_extractor
         self.paths_dict: dict[str, str] = {}
 
     def transform(
@@ -44,7 +48,7 @@ class GetSourcePaths(TransformerMixin):
         for img_path in tqdm(X):
             self.get_source_paths(img_path)
 
-        with open(os.path.join(self.target_path, "source_paths.csv"), "w") as temp_file:
+        with open(os.path.join(self.target_path, "source_paths.csv"), "w", newline="") as temp_file:
             writer = csv.writer(temp_file)
             paths_data = np.transpose(np.vstack([list(self.paths_dict.keys()), list(self.paths_dict.values())]), (1, 0))
             writer.writerows(list(paths_data))
@@ -60,4 +64,7 @@ class GetSourcePaths(TransformerMixin):
             file_paths (list): List of paths to the images.
         """
         img_id = self.img_id_extractor(img_path)
-        self.paths_dict[img_id] = img_path
+        study_id = self.study_id_extractor(img_path)
+        phase_id = self.phase_extractor(img_path)
+        # Save source path using temporary image id, which consists of phase_id, study_id and img_id
+        self.paths_dict[f"{phase_id}_{study_id}_{img_id}"] = img_path

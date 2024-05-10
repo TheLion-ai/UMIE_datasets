@@ -3,6 +3,7 @@ import csv
 import glob
 import json
 import os
+from pathlib import Path
 from typing import Callable
 
 from sklearn.base import TransformerMixin
@@ -82,8 +83,11 @@ class AddLabels(TransformerMixin):
             self.paths_data = dict(list(csv.reader(open(os.path.join(self.target_path, "source_paths.csv")))))
         for img_path in tqdm(X):
             self.add_labels(img_path)
-        root_path = os.path.dirname(X[0])
-        new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
+        # root_path = os.path.dirname(os.path.dirname(X[0]))
+        # root_path = Path(X[0]).parents[2]
+        # new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
+        root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
+        new_paths = glob.glob(os.path.join(root_path, f"**/{self.image_folder_name}/*.png"), recursive=True)
         return new_paths
 
     def add_labels(self, img_path: str) -> None:
@@ -101,7 +105,7 @@ class AddLabels(TransformerMixin):
         if os.path.exists(os.path.join(self.target_path, "source_paths.csv")):
             labels = self.get_label(self.paths_data[img_id])
         else:
-            labels = self.get_label(img_id)
+            labels = self.get_label(img_path)
         if labels:
             # Add labels to the image path
             labels_str = "".join([label_prefix + label for label in labels])

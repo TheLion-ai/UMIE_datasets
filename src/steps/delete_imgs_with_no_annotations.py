@@ -1,4 +1,5 @@
 """Delete images without masks."""
+
 import glob
 import os
 

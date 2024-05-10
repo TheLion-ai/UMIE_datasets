@@ -51,7 +51,6 @@ class AddNewIds(TransformerMixin):
         self.study_id_extractor = study_id_extractor
         self.phase_extractor = phase_extractor
         self.segmentation_prefix = segmentation_prefix
-        self.segmentation_prefix = segmentation_prefix
         self.paths_data = np.array([])
 
     def transform(
@@ -75,7 +74,7 @@ class AddNewIds(TransformerMixin):
             self.add_new_ids(img_path)
 
         if os.path.exists(os.path.join(self.target_path, "source_paths.csv")):
-            with open(os.path.join(self.target_path, "source_paths.csv"), "w") as temp_file:
+            with open(os.path.join(self.target_path, "source_paths.csv"), "w", newline="") as temp_file:
                 writer = csv.writer(temp_file)
                 writer.writerows(list(self.paths_data))
 
@@ -103,10 +102,10 @@ class AddNewIds(TransformerMixin):
             return None
         phase_name = self.phases[phase_id]
         new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
-        old_filename = os.path.splitext(os.path.basename(img_path))[0]
         # update file names in temporary csv file data
-        if len(self.paths_data) > 0 and old_filename in self.paths_data[:, 0]:
-            self.paths_data[:, 0][self.paths_data[:, 0] == old_filename] = new_file_name
+        temporary_id = f"{phase_id}_{study_id}_{img_id}"
+        if len(self.paths_data) > 0 and temporary_id in self.paths_data[:, 0]:
+            self.paths_data[:, 0][self.paths_data[:, 0] == temporary_id] = new_file_name
         if ".png" not in new_file_name:
             new_file_name = new_file_name + ".png"
         new_path = os.path.join(
@@ -123,7 +122,7 @@ class AddNewIds(TransformerMixin):
             else:
                 shutil.copy2(img_path, new_path)
 
-        if self.mask_folder_name is not None:
+        if self.mask_folder_name is not None and self.image_folder_name in img_path:
             mask_path = img_path.replace(self.image_folder_name, self.mask_folder_name)
             if os.path.exists(mask_path):
                 os.rename(mask_path, os.path.join(os.path.dirname(mask_path), new_file_name))

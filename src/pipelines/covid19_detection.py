@@ -1,4 +1,5 @@
-"""Preprocessing pipeline for Alzheimers dataset."""
+"""Preprocessing pipeline for Covid 19 detection dataset."""
+
 import fnmatch
 import glob
 import os
@@ -7,24 +8,22 @@ from dataclasses import asdict, dataclass, field
 from functools import partial
 from typing import Any, List
 
-import cv2
-import numpy as np
-
 from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_jpg2png import ConvertJpg2Png
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.delete_temp_files import DeleteTempFiles
+from src.steps.delete_temp_png import DeleteTempPng
 from src.steps.get_file_paths import GetFilePaths
 from src.steps.get_source_paths import GetSourcePaths
 
 
 @dataclass
 class Covid19Detection(BasePipeline):
-    """Preprocessing pipeline for Alzheimers dataset."""
+    """Preprocessing pipeline for Covid 19 detection dataset."""
 
-    name: str = field(default="Alzheimers_Dataset")  # dataset name used in configs
+    name: str = field(default="Covid19_Detection")  # dataset name used in configs
     steps: list = field(
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
@@ -34,6 +33,7 @@ class Covid19Detection(BasePipeline):
             ("add_new_ids", AddNewIds),
             ("add_new_ids", AddLabels),
             ("delete_temp_files", DeleteTempFiles),
+            ("delete_temp_png", DeleteTempPng),
         ]
     )
     dataset_args: DatasetArgs = field(
@@ -41,76 +41,51 @@ class Covid19Detection(BasePipeline):
             phase_extractor=lambda x: "0",  # All images are from the same phase
             image_folder_name="Images",
             mask_folder_name=None,
+            img_prefix="",
         )
     )
+    # Images in the dataset has non-unique ids between classes and folders.
+    # Dictionaries below are used to make them unique across whole dataset.
 
-    ids_dict_test = {
-        "NonDemented": "0",
-        "VeryMildDemented": "1",
-        "MildDemented": "2",
-        "ModerateDemented": "3",
+    # Ids added to image names in ValData folder based on their classes
+    ids_dict_val = {
+        "Normal": "000",
+        "BacterialPneumonia": "111",
+        "ViralPneumonia": "222",
+        "COVID-19": "333",
     }
-    ids_dict_train = {
-        "nonDem": "000",
-        "verymildDem": "111",
-        "mildDem": "222",
-        "moderateDem": "333",
+    # Ids added to image names in NonAugmentedTrain folder based on their classes
+    ids_dict_non_aug = {
+        "Normal": "444",
+        "BacterialPneumonia": "555",
+        "ViralPneumonia": "666",
+        "COVID-19": "777",
     }
-    inv_ids_dict_train = {v: k for k, v in ids_dict_train.items()}
-
-    def get_study_id(self, img_path: str) -> str:
-        """Retrieve image id from path."""
-        basename = os.path.splitext(os.path.basename(img_path))[0]
-        if "(" in basename:
-            pattern = r"[()]"
-            study_id = re.split(pattern, basename)[1]
-        else:
-            study_id = "0"
-        if "train" in img_path:
-            for id in self.ids_dict_train.keys():
-                basename = basename.replace(id, self.ids_dict_train[id])
-            study_id = study_id + basename
-        else:
-            folder = os.path.basename(os.path.dirname(img_path))
-            for id in self.ids_dict_test.keys():
-                folder = folder.replace(id, self.ids_dict_test[id])
-            study_id = folder + study_id
-        return study_id
 
     def study_id_extractor(self, img_path: str) -> str:
-        """Extract study id from img path."""
-        if self.path_args["source_path"] in img_path:
-            return self.get_study_id(img_path)
-        if self.path_args["target_path"] in img_path:
-            img_id = os.path.basename(img_path)
-            img_basename = os.path.splitext(img_id)[0]
-            img_id = img_basename[:-2]
-            return img_id
-        return ""
+        """Get study id with added postfix depending on source location to prevent repeated names."""
+        img_id = os.path.basename(img_path)
+        img_basename = os.path.splitext(img_id)[0]
+        if "ValData" in img_path:
+            study_id = img_basename + self.ids_dict_val[os.path.basename(os.path.dirname(img_path))]
+        elif "NonAugmentedTrain" in img_path:
+            study_id = img_basename + self.ids_dict_non_aug[os.path.basename(os.path.dirname(img_path))]
+        else:
+            study_id = img_basename
+        study_id = study_id.replace("_", "")
+        return study_id
 
     def img_id_extractor(self, img_path: str) -> str:
-        """Retrieve image id from path."""
-        if self.path_args["source_path"] in img_path:
-            img_id = os.path.basename(img_path)
-            if "train" in img_path:
-                img_id = "00"
-            else:
-                img_id = img_id[:2]
-            img_id = self.get_study_id(img_path) + img_id
-            return img_id
-        if self.path_args["target_path"] in img_path:
-            img_id = os.path.basename(img_path)
-            img_basename = os.path.splitext(img_id)[0]
-            img_id = img_basename[-2:]
-            return img_id
-        return ""
+        """In this dataset only one image exists for each study."""
+        return "0"
 
     # Changing labels from dataset (folders names) to match standard
     labels_dict = {
-        "MildDemented": "MildDemented",
-        "ModerateDemented": "ModerateDemented",
-        "NonDemented": "good",
-        "VeryMildDemented": "VeryMildDemented",
+        "Normal": "good",
+        "BacterialPneumonia": "PneumoniaBacteria",
+        "ViralPneumonia": "PneumoniaVirus",
+        "COVID-19": "covid19",
+        "OversampledAugmentedCOVID-19": "covid19",
     }
 
     def get_label(self, img_path: str) -> list:

@@ -1,4 +1,5 @@
 """Source color values of masks for each dataset."""
+
 dataset_masks = {
     "StanfordCOCA": {
         "coronary_artery_calcium": 20,
@@ -8,5 +9,15 @@ dataset_masks = {
     },
     "KITS23": {"kidney": 1, "kidney_tumor": 2, "kidney_cyst": 3},
     "CoronaHack_Chest_X-Ray_Dataset": {},
-    "Knee_Osteoarthritis": {},
+    "Brain_with_hemorrhage": {
+        "hemorrhage": 255,
+    },
+    "Alzheimers_Dataset": {},
+    "Brain_Tumor_Detection": {},
+    "Covid19_Detection": {},
+    "Finding_and_Measuring_Lungs_in_CT_Data": {
+        "lungs": 255,
+    },
+    "Liver_And_Liver_Tumor": {"liver": 1, "liver_tumor": 1},
+    "ChestX-ray14": {},
 }
