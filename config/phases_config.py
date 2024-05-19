@@ -71,4 +71,7 @@ phases = {
     "Liver_And_Liver_Tumor": {
         "0": "CT",
     },
+    "Knee_Osteoarthritis": {
+        "0": "Xray",
+    },
 }

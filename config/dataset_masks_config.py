@@ -20,4 +20,5 @@ dataset_masks = {
     },
     "Liver_And_Liver_Tumor": {"liver": 1, "liver_tumor": 1},
     "ChestX-ray14": {},
+    "Knee_Osteoarthritis": {},
 }

@@ -44,23 +44,15 @@ class KneeOsteoarthritisPipeline(BasePipeline):
 
     def study_id_extractor(self, img_path: str) -> str:
         """Extract study id from img path."""
-        if self.path_args["source_path"] in img_path:
-            return os.path.splitext(os.path.basename(img_path))[0]
-        if self.path_args["target_path"] in img_path:
-            img_id = os.path.basename(img_path)
-            img_basename = os.path.splitext(img_id)[0]
-            img_id = img_basename[:-2]
-            return img_id
-        return ""
+        # replace letters and delete underscore from filenames
+        # letters can't be deleted because they make names unique
+        study_id = os.path.splitext(os.path.basename(img_path))[0].replace("R", "0").replace("L", "1").replace("_", "")
+        study_id = study_id + os.path.basename(os.path.dirname(img_path))
+        return study_id
 
     def img_id_extractor(self, img_path: str) -> str:
-        """Retrieve image id from path."""
-        if self.path_args["target_path"] in img_path:
-            return "0"
-        elif self.path_args["source_path"] in img_path:
-            img_id = os.path.splitext(os.path.basename(img_path))[0]
-            return img_id
-        return ""
+        """Each study has only 1 image."""
+        return "0"
 
     # Changing labels from dataset (folders names) to match standard
     labels_dict = {
@@ -73,7 +65,8 @@ class KneeOsteoarthritisPipeline(BasePipeline):
 
     def get_label(self, img_path: str) -> list:
         """Get label for file. Label is a name of folder in source directory."""
-        return [self.labels_dict[os.path.basename(os.path.dirname(img_path))]]
+        class_key = os.path.basename(os.path.dirname(img_path))
+        return [self.labels_dict[class_key]]
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
