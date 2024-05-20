@@ -44,7 +44,7 @@ class GetFilePaths(TransformerMixin):
         file_paths = []
         for root, _, filenames in os.walk(source_path):
             for filename in filenames:
-                if filename.startswith("."):
+                if filename.startswith(".") or filename.endswith(".db"):
                     continue
                 else:
                     path = os.path.join(root, filename)
