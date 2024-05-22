@@ -49,4 +49,8 @@ labels = {
     45: "wilms",
     46: "covid19",
     47: "hemorrhage",
+    48: "DoubtfulOsteoarthritis",
+    49: "MinimalOsteoarthritis",
+    50: "ModerateOsteoarthritis",
+    51: "SevereOsteoarthritis",
 }

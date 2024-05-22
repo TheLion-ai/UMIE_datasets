@@ -23,4 +23,5 @@ dataset_uids = {
     "Brain_with_hemorrhage": "19",
     "Covid19_Detection": "22",
     "Liver_And_Liver_Tumor": "23",
+    "Knee_Osteoarthritis": "24",
 }
