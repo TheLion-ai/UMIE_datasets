@@ -8,7 +8,7 @@ import pandas
 import yaml
 from sklearn.pipeline import Pipeline
 
-from config.labels_config import labels
+from config.labels import labels
 from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
