@@ -1,9 +1,7 @@
 """Delete temporary PNG files created by other steps in the source directory. Use with caution some source data may already be in the PNG format."""
 
 import glob
-import json
 import os
-from typing import Callable
 
 from sklearn.base import TransformerMixin
 from tqdm import tqdm

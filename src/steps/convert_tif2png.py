@@ -4,10 +4,8 @@ import os
 import shutil
 from typing import Callable
 
-import cv2
 import numpy as np
 import PIL
-from PIL import Image, ImageOps
 from sklearn.base import TransformerMixin
 from tqdm import tqdm
 

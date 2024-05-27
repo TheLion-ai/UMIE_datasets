@@ -2,19 +2,14 @@
 
 import os
 from dataclasses import asdict, dataclass, field
-from functools import partial
 from typing import Any
 
-import pandas
-import yaml
-from sklearn.pipeline import Pipeline
+import pandas as pd
 
-from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
+from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
-from src.steps.convert_dcm2png import ConvertDcm2Png
 from src.steps.create_file_tree import CreateFileTree
-from src.steps.create_masks_from_xml import CreateMasksFromXML
 from src.steps.delete_imgs_with_no_annotations import DeleteImgsWithNoAnnotations
 from src.steps.get_file_paths import GetFilePaths
 
@@ -34,8 +29,8 @@ class CoronahackChestXrayPipeline(BasePipeline):
             ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ]
     )
-    dataset_args: DatasetArgs = field(
-        default_factory=lambda: DatasetArgs(
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
             zfill=4, phase_extractor=lambda x: "0", mask_folder_name=None  # All images are from the same phase
         )
     )
@@ -93,12 +88,12 @@ class CoronahackChestXrayPipeline(BasePipeline):
         """Post initialization actions."""
         # Read metadata csv
         metadata_csv_path = os.path.join(self.args["source_path"], "Chest_xray_Corona_Metadata.csv")
-        self.metadata = pandas.read_csv(metadata_csv_path)
+        self.metadata = pd.read_csv(metadata_csv_path)
         self.metadata.rename(columns={"Unnamed: 0": "id"}, inplace=True)
 
-        self.dataset_args.img_id_extractor = lambda x: "0.png"
-        self.dataset_args.study_id_extractor = lambda x: self.get_img_id(x)
-        self.dataset_args.get_label = self.get_label
+        self.pipeline_args.img_id_extractor = lambda x: "0.png"
+        self.pipeline_args.study_id_extractor = lambda x: self.get_img_id(x)
+        self.pipeline_args.get_label = self.get_label
 
         # Add dataset specific arguments to the pipeline arguments
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.dataset_args))
+        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

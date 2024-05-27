@@ -1,7 +1,6 @@
 """Get file paths of all images from a source directory."""
 
 import os
-
 from sklearn.base import TransformerMixin
 
 

@@ -6,7 +6,6 @@ import os
 import cv2
 import numpy as np
 from sklearn.base import TransformerMixin
-from tqdm import tqdm
 
 
 class RecolorMasks(TransformerMixin):
@@ -17,20 +16,20 @@ class RecolorMasks(TransformerMixin):
         target_path: str,
         dataset_name: str,
         dataset_uid: str,
-        mask_colors_source2target: dict,
+        mask_source_color2target: dict,
         mask_folder_name: str = "Masks",
         **kwargs: dict,
     ):
         """Recolors masks from default color to the color specified in the config.
 
         Args:
-            mask_colors_source2target (dict): Dictionary with old and new colors.
+            mask_source_color2target (dict): Dictionary with old and new colors.
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
         """
         self.target_path = target_path
         self.dataset_name = dataset_name
         self.dataset_uid = dataset_uid
-        self.mask_colors_source2target = mask_colors_source2target
+        self.mask_source_color2target = mask_source_color2target
         self.mask_folder_name = mask_folder_name
 
     def transform(self, X: list) -> list:
@@ -60,6 +59,6 @@ class RecolorMasks(TransformerMixin):
         """
         mask = cv2.imread(mask_path)
         # changing pixel values
-        for source_color, target_color in self.mask_colors_source2target.items():
+        for source_color, target_color in self.mask_source_color2target.items():
             np.place(mask, mask == source_color, target_color)
         cv2.imwrite(mask_path, mask)

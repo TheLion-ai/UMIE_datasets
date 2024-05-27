@@ -1,12 +1,6 @@
 """Delete temporary files."""
-import csv
 import os
-import tempfile
-from typing import Callable
-
-import numpy as np
 from sklearn.base import TransformerMixin
-from tqdm import tqdm
 
 
 class DeleteTempFiles(TransformerMixin):

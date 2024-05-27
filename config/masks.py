@@ -15,7 +15,7 @@ class Mask:
 
 
 
-Background=  Mask(id=0, color=0, radlex_id="")
+Background = Mask(id=0, color=0, radlex_id="")
 Kidney = Mask(id=1, color=1, radlex_id="RID205", source_names={"KITS23": ["kidney"],
                                                                "CT-ORG": ["Kidney"]})
 Neoplasm = Mask(id=2, color=2, radlex_id="RID3957", source_names={"KITS23": ["kidney tumor"],
@@ -32,6 +32,7 @@ Nodule = Mask(id=10, color=10, radlex_id="RID3875", source_names={"LIDC-IDRI": [
 Lesion = Mask(id=11, color=11, radlex_id="RID38780", source_names={"LIDC-IDRI": ["Non-nodule>=3mm"]}) #That is not a nodule
 CalciumScore = Mask(id=12, color=12, radlex_id="RID28808", source_names={"Stanford_COCA": ["coronary_artery_calcium"]})
 Metastasis = Mask(id=13, color=13, radlex_id="RID5231", source_names={"StanfordBrainMET": ["brain_metastasis"]})
+Hemorrhage = Mask(id=14, color=14, radlex_id="RID4700", source_names={"Brain_with_hemorrhage": ["brain_hemorrhage"]})
 
 # """How to denote each mask in UMIE."""
 

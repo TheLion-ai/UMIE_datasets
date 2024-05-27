@@ -9,12 +9,7 @@ from typing import Callable, Optional
 from sklearn.base import TransformerMixin
 from sklearn.pipeline import Pipeline
 
-from config import (
-    dataset_masks_config,
-    dataset_uids_config,
-    mask_encodings_config,
-    phases_config,
-)
+from config.dataset_config import DatasetArgs
 from src.constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
 
 
@@ -29,7 +24,7 @@ class PathArgs:
 
 
 @dataclass
-class DatasetArgs:
+class PipelineArgs:
     """Dataset arguments. These arguments are dataset specific."""
 
     image_folder_name: Optional[str] = IMG_FOLDER_NAME  # name of folder, where images will be stored
@@ -55,7 +50,8 @@ class BasePipeline:
 
     path_args: PathArgs  # arguments passed to the pipeline, user defines them at each run of the pipeline
     name: str  # name of the dataset
-    dataset_args: DatasetArgs  # arguments passed to sklearn pipeline required to process a specific dataset
+    pipeline_args: PipelineArgs  # arguments passed to sklearn pipeline required to process a specific dataset
+    dataset_args: DatasetArgs # defined in config
     steps: list[tuple[str, TransformerMixin]]
     args: dict = field(default_factory=lambda: {})
 
@@ -76,27 +72,8 @@ class BasePipeline:
 
     def load_config(self) -> None:
         """Load configuration files from config."""
-        # Unique identifier of the dataset
-        dataset_uid = dataset_uids_config.dataset_uids[self.name]
-        # Dict with phases of the dataset
-        phases = phases_config.phases[self.name]
-        # Dict with masks and the source colors encoding
-        dataset_masks = dataset_masks_config.dataset_masks[self.name]
-        # Dict with target masks colors encoding
-        mask_encodings = mask_encodings_config.mask_encodings
-        # Dict with source colors of masks and the target colors mapping
-        mask_colors_source2target = {v: mask_encodings_config.mask_encodings[k] for k, v in dataset_masks.items()}
-        # Dict with args extracted from the dataset config
-        cfg_args = {
-            "dataset_name": self.name,
-            "dataset_uid": dataset_uid,
-            "phases": phases,
-            "dataset_masks": dataset_masks,
-            "mask_encodings": mask_encodings,
-            "mask_colors_source2target": mask_colors_source2target,
-        }
         # Update args with the config args
-        self.args = dict(**self.path_args, **cfg_args)
+        self.args = dict(**self.path_args, **self.dataset_args)
 
     def load_labels_from_path(self) -> list:
         """Load all labels from the labels file. Labels are not processed here, they are processed in the get_label method.

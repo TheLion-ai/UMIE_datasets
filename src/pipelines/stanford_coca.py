@@ -4,7 +4,7 @@ import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
-from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
+from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_dcm2png import ConvertDcm2Png
 from src.steps.create_file_tree import CreateFileTree
@@ -32,8 +32,8 @@ class StanfordCOCAPipeline(BasePipeline):
             ("delete_temp_png", DeleteTempPng),
         ],
     )
-    dataset_args: DatasetArgs = field(
-        default_factory=lambda: DatasetArgs(
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
             zfill=4,
             # Image id is in the source file name after the last underscore
             img_id_extractor=lambda x: os.path.basename(x).split("-")[-1],
@@ -45,4 +45,4 @@ class StanfordCOCAPipeline(BasePipeline):
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
         # Add dataset specific arguments to the pipeline arguments
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.dataset_args))
+        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

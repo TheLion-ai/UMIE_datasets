@@ -1,9 +1,7 @@
 """Add labels to the images and masks based on the labels.json file. The step requires the pipeline to specify the function for mapping the images with annotations."""
 import csv
 import glob
-import json
 import os
-from pathlib import Path
 from typing import Callable
 
 from sklearn.base import TransformerMixin

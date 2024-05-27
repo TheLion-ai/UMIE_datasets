@@ -1,16 +1,9 @@
 """Preprocessing pipeline for Brain Tumor Detection dataset."""
-import fnmatch
-import glob
 import os
-import re
 from dataclasses import asdict, dataclass, field
-from functools import partial
-from typing import Any, List
+from typing import Any
 
-import cv2
-import numpy as np
-
-from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
+from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_jpg2png import ConvertJpg2Png
@@ -38,8 +31,8 @@ class BrainTumorDetectionPipeline(BasePipeline):
             ("delete_temp_png", DeleteTempPng),
         ]
     )
-    dataset_args: DatasetArgs = field(
-        default_factory=lambda: DatasetArgs(
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
             phase_extractor=lambda x: "0",  # All images are from the same phase
             image_folder_name="Images",
             mask_folder_name=None,
@@ -75,8 +68,8 @@ class BrainTumorDetectionPipeline(BasePipeline):
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        self.dataset_args.img_id_extractor = lambda x: self.img_id_extractor(x)
-        self.dataset_args.study_id_extractor = lambda x: self.study_id_extractor(x)
-        self.dataset_args.get_label = lambda x: self.get_label(x)
+        self.pipeline_args_args.img_id_extractor = lambda x: self.img_id_extractor(x)
+        self.pipeline_args.study_id_extractor = lambda x: self.study_id_extractor(x)
+        self.pipeline_args.get_label = lambda x: self.get_label(x)
         # Add dataset specific arguments to the pipeline arguments
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.dataset_args))
+        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

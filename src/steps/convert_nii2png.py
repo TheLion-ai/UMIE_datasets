@@ -1,17 +1,12 @@
 """Converts nii files to png images with appropriate color encoding."""
 
-import datetime
 import glob
 import os
-import tempfile
 from typing import Callable
 
 import cv2
 import nibabel as nib
 import numpy as np
-import pydicom
-from pydicom.dataset import Dataset, FileDataset, FileMetaDataset
-from pydicom.uid import UID
 from sklearn.base import TransformerMixin
 from tqdm import tqdm
 

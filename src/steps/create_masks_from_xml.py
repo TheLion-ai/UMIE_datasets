@@ -21,8 +21,7 @@ class CreateMasksFromXML(TransformerMixin):
         dataset_uid: str,
         dataset_name: str,
         phases: dict,
-        dataset_masks: list,
-        mask_colors_source2target: dict,
+        mask_source_color2target: dict,
         zfill: int = 4,
         mask_folder_name: str = "Masks",
         **kwargs: dict,
@@ -35,8 +34,7 @@ class CreateMasksFromXML(TransformerMixin):
             dataset_uid (str): Unique identifier of the dataset.
             dataset_name (str): Name of the dataset.
             phases (dict): Dictionary with phases and their names.
-            dataset_masks (list): List of masks to create.
-            mask_colors_source2target (dict): Dictionary with target colors.
+            mask_source_color2target (dict): Dictionary with target colors.
             zfill (int, optional): Number of zeros to fill the image id. Defaults to 4.
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
         """
@@ -45,8 +43,7 @@ class CreateMasksFromXML(TransformerMixin):
         self.dataset_uid = dataset_uid
         self.dataset_name = dataset_name
         self.phases = phases
-        self.dataset_masks = dataset_masks
-        self.mask_colors_source2target = mask_colors_source2target
+        self.mask_source_color2target = mask_source_color2target
         self.zfill = zfill
         self.mask_folder_name = mask_folder_name
 
@@ -94,7 +91,7 @@ class CreateMasksFromXML(TransformerMixin):
                         x, y = int(x), int(y)
                         points.append([x, y])
                     # TODO: add case when there is more than one color
-                    color = list(self.mask_colors_source2target.values())[0]
+                    color = list(self.mask_source_color2target.values())[0]
                     cv2.fillPoly(img, [np.array(points)], (color))
 
             for phase_id, phase_name in self.phases.items():

@@ -1,7 +1,6 @@
 """Temporary store paths to images in source directory and their new names."""
 import csv
 import os
-import tempfile
 from typing import Callable
 
 import numpy as np

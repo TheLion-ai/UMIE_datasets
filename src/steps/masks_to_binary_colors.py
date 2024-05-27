@@ -4,7 +4,6 @@ import os
 from typing import Callable
 
 import cv2
-import numpy as np
 from sklearn.base import TransformerMixin
 from tqdm import tqdm
 

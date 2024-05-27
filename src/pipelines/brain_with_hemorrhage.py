@@ -1,13 +1,10 @@
 """Preprocessing pipeline for Brain with hemorrhage dataset."""
 import os
-import re
 from dataclasses import asdict, dataclass, field
 from functools import partial
 from typing import Any
 
-from config import dataset_masks_config
-from src.constants import MASK_FOLDER_NAME
-from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
+from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_jpg2png import ConvertJpg2Png
@@ -46,8 +43,8 @@ class BrainWithHemorrhagePipeline(BasePipeline):
         ]
     )
 
-    dataset_args: DatasetArgs = field(
-        default_factory=lambda: DatasetArgs(
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
             img_prefix=".",  # prefix of the source image file names
             segmentation_prefix="_HGE_Seg.",  # prefix of the source mask file names
             mask_selector="_HGE_Seg",
@@ -81,7 +78,7 @@ class BrainWithHemorrhagePipeline(BasePipeline):
         """Get image label based on path."""
         # If there is a mask associated with the image in a source directory, then the label is 'hemorrhage'
         if self.path_args["target_path"] in img_path:
-            mask_path = img_path.replace(self.dataset_args.image_folder_name, self.dataset_args.mask_folder_name)
+            mask_path = img_path.replace(self.pipeline_args.image_folder_name, self.pipeline_args.mask_folder_name)
             if os.path.exists(mask_path):
                 return ["hemorrhage"]
             else:
@@ -92,11 +89,11 @@ class BrainWithHemorrhagePipeline(BasePipeline):
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        self.dataset_args.img_id_extractor = lambda x: self.img_id_extractor(x)
-        self.dataset_args.study_id_extractor = lambda x: self.study_id_extractor(x)
-        self.dataset_args.phase_extractor = self.phase_extractor
+        self.pipeline_args_args.img_id_extractor = lambda x: self.img_id_extractor(x)
+        self.pipeline_args_args.study_id_extractor = lambda x: self.study_id_extractor(x)
+        self.pipeline_args_args.phase_extractor = self.phase_extractor
 
-        # Add get_label function to the dataset_args
-        self.dataset_args.get_label = partial(self.get_label)
-        # Update args with dataset_args
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.dataset_args))
+        # Add get_label function to the pipeline_args
+        self.pipeline_args.get_label = partial(self.get_label)
+        # Update args with pipeline_args
+        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

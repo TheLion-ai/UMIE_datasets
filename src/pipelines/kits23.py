@@ -11,7 +11,7 @@ import numpy as np
 
 from config import dataset_masks_config
 from src.constants import MASK_FOLDER_NAME
-from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
+from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_nii2png import ConvertNii2Png
@@ -44,8 +44,8 @@ class KITS23Pipeline(BasePipeline):
             ("delete_temp_png", DeleteTempPng),
         ]
     )
-    dataset_args: DatasetArgs = field(
-        default_factory=lambda: DatasetArgs(
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
             zfill=2,
             # Image id is in the source file name after the last underscore
             img_id_extractor=lambda x: os.path.basename(x).split("_")[-1],  #
@@ -102,9 +102,9 @@ class KITS23Pipeline(BasePipeline):
         kidney_tumor_encoding = dataset_masks_config.dataset_masks[self.name]["kidney_tumor"]
         # Load labels from the labels file
         self.labels_list = self.load_labels_from_path()
-        # Add get_label function to the dataset_args
-        self.dataset_args.get_label = partial(
+        # Add get_label function to the pipeline_args
+        self.pipeline_args.get_label = partial(
             self.get_label, kidney_tumor_encoding=kidney_tumor_encoding, labels_list=self.labels_list
         )
-        # Update args with dataset_args
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.dataset_args))
+        # Update args with pipeline_args
+        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
