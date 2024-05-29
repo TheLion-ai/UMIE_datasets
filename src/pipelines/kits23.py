@@ -9,7 +9,6 @@ from typing import Any
 import cv2
 import numpy as np
 
-from config import dataset_masks_config
 from src.constants import MASK_FOLDER_NAME
 from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
@@ -62,8 +61,9 @@ class KITS23Pipeline(BasePipeline):
     def get_label(
         cls,
         img_path: str,
+        label2radlex: list,
         labels_list: list,
-        kidney_tumor_encoding: int = 1,
+        kidney_findings_encodings: list = [1, 2],
         mask_folder_name: str = MASK_FOLDER_NAME,
     ) -> list:
         """Get label for the image.
@@ -79,8 +79,8 @@ class KITS23Pipeline(BasePipeline):
         mask_path = os.path.join(root_path, mask_folder_name, img_id)
         mask = cv2.imread(mask_path)
 
-        # Check if the mask contains the kidney tumor
-        if kidney_tumor_encoding in np.unique(mask):
+        # Check if the mask contains the kidney tumor or cyst
+        if np.any(np.isin(kidney_findings_encodings, np.unique(mask))):
             # Study id is between the second and third underscore in the target image id
             study_id_regex = re.match(r"^(?:[^_]*_){2}([^_]+)", img_id)
             study_id = (
@@ -91,20 +91,21 @@ class KITS23Pipeline(BasePipeline):
                 # Find the case with the matching study id
                 if case["case_id"] == f"case_{study_id}":
                     # Remove underscores from the label
-                    label = case["tumor_histologic_subtype"].replace("_", "")
-                    labels.append(label)
+                    label = case["tumor_histologic_subtype"]
+                    radlex_labels = label2radlex[label]
+                    labels = radlex_labels
                     break
             return labels
         return []
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        kidney_tumor_encoding = dataset_masks_config.dataset_masks[self.name]["kidney_tumor"]
+        kidney_findings_encodings = [2, 3]
         # Load labels from the labels file
         self.labels_list = self.load_labels_from_path()
         # Add get_label function to the pipeline_args
         self.pipeline_args.get_label = partial(
-            self.get_label, kidney_tumor_encoding=kidney_tumor_encoding, labels_list=self.labels_list
+            self.get_label, label2radlex=self.dataset_args.label2radlex, kidney_findings_encodings=kidney_findings_encodings, labels_list=self.labels_list
         )
         # Update args with pipeline_args
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

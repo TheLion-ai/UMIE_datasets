@@ -1,6 +1,7 @@
 """Create file tree for dataset."""
 
 import os
+import json
 from typing import Any
 
 from sklearn.base import TransformerMixin
@@ -12,28 +13,31 @@ class CreateFileTree(TransformerMixin):
     def __init__(
         self,
         target_path: str,
+        json_path: str,
         dataset_name: str,
         dataset_uid: str,
         phases: dict,
-        image_folder_name: str | None,
-        mask_folder_name: str | None,
+        image_folder_name: str,
+        mask_folder_name: str,
         **kwargs: dict,
     ):
         """Create file tree for dataset.
 
         Args:
             target_path (str): Path to the target folder.
+            json_path: (str): path to jsonlines with info about individual image in the target dataset,
             dataset_name (str): Name of the dataset.
             dataset_uid (str): Unique identifier of the dataset.
             phases (dict): Dictionary with phases and their names.
-            image_folder_name (str | None, optional): Name of the folder with images.
+            image_folder_name (str): Name of the folder with images.
                                                       Defaults to "Images". If None,
                                                       folder is not created.
-            mask_folder_name (str | None, optional): Name of the folder with masks.
+            mask_folder_name (str): Name of the folder with masks.
                                                      Defaults to "Masks". If None,
                                                      folder is not created.
         """
         self.target_path = target_path
+        self.json_path= json_path
         self.dataset_name = dataset_name
         self.dataset_uid = dataset_uid
         self.phases = phases
@@ -61,10 +65,18 @@ class CreateFileTree(TransformerMixin):
         if not os.path.exists(filetree_path):
             os.makedirs(filetree_path)
 
+    def _create_json(self)->None:
+        """Create JSON file for storing information about target datafiles."""
+        # Always create a new file
+        with open(self.json_path, 'w'):
+            pass
+
+
     def create_file_tree(self) -> None:
         """Create file tree for dataset."""
         self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
-
+        self._create_json()
+        
         for phase in self.phases.values():
             self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}", phase)
 

@@ -22,9 +22,10 @@ from config import dataset_config
 datasets = [
     KITS23Pipeline(
         path_args={
-            "source_path": "",  # Path to the dataset directory in KITS23 repo
+            "source_path": "/home/basia/kits_sample/case_00000",  # Path to the dataset directory in KITS23 repo
             "target_path": TARGET_PATH,
-            "labels_path": "",  # Path to kits23.json
+            "masks_path": "/home/basia/kits_sample/case_00000",
+            "labels_path": "/home/basia/kits_sample/kits23.json",  # Path to kits23.json
         },
         dataset_args=dataset_config.KITS23
     ),
@@ -58,13 +59,13 @@ datasets = [
         },
         dataset_args=dataset_config.CoronaHack_Chest_XRay
     ),
-    AlzheimersPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-        },
-        dataset_args=dataset_config.Alzheimers_Dataset
-    ),
+    # AlzheimersPipeline(
+    #     path_args={
+    #         "source_path": "",
+    #         "target_path": TARGET_PATH,
+    #     },
+    #     dataset_args=dataset_config.Alzheimers_Dataset
+    # ),
     BrainTumorDetectionPipeline(
         path_args={
             "source_path": "",

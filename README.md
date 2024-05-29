@@ -53,24 +53,24 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 ## Datasets
 | Dataset | Modality | TASK |
 | :------:| :--------:|:-------:|
-| [KITS-19](https://github.com/neheller/kits19)   | CT | classification/segmentation|
-| [MosMedData](https://mosmed.ai/en/) | CT | classification/segmentation|
-| [LIDC-IRI](https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI#) | CT | segmentation|
-| [CT-ORG](https://wiki.cancerimagingarchive.net/display/Public/CT-ORG%3A+CT+volumes+with+multiple+organ+segmentations) | CT | segmentation|
+| [KITS-23](https://kits-challenge.org/kits23/)   | CT | classification/segmentation|
+| [MosMedData](https://mosmed.ai/datasets/) | CT | classification/segmentation|
+| [LIDC-IRI](https://www.cancerimagingarchive.net/collection/lidc-idri/) | CT | segmentation|
+| [CT-ORG](https://www.cancerimagingarchive.net/collection/ct-org/) | CT | segmentation|
 | [Chest X-ray](https://nihcc.app.box.com/v/ChestXray-NIHCC/folder/36938765345) | XRAY | classification|
-| [CoronaHack](https://www.kaggle.com/praveengovi/coronahack-chest-xraydataset?select=Chest_xray_Corona_Metadata.csv) | XRAY | classification|
-| [Lung segmentation from Chest -Xray](https://www.kaggle.com/nikhilpandey360/lung-segmentation-from-chest-x-ray-dataset) | XRAY | classification/segmentation|
-| [Brain Tumor Classification](https://www.kaggle.com/sartajbhuvaji/brain-tumor-classification-mri) | MRI | classification|
-| [Brain Tumor Progression](https://wiki.cancerimagingarchive.net/display/Public/Brain-Tumor-Progression#339481190e2ccc0d07d7455ab87b3ebb625adf48) | MRI | segmentation|
-| [QIN-BRAIN-DSC-MRI](https://wiki.cancerimagingarchive.net/display/Public/QIN-BRAIN-DSC-MRI#21267383b89ada0490e14a66b34d72fe8d9d8a0b) | MRI | segmentation|
-| [COVID-19 Detection X-Ray](https://www.kaggle.com/darshan1504/covid19-detection-xray-dataset) | XRAY | classification |
-| [Shenzhen Hospital Chest X-ray Set](https://www.kaggle.com/yoctoman/shcxr-lung-mask)| X-Ray | Segmentation |
-| [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/shashwatwork/knee-osteoarthritis-dataset-with-severity)	|	X-Ray | Classification |
-| [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/kmader/finding-lungs-in-ct-data?select=lung_stats.csv)	| CT | Segmentation |
-| [Brain CT Images with Intracranial Hemorrhage Masks](https://www.kaggle.com/vbookshelf/computed-tomography-ct-images)	| CT | Classification |
-| [Liver and Liver Tumor Segmentation](https://www.kaggle.com/andrewmvd/lits-png?select=lits_test.csv)| CT | Classification, Segmentation |
-| [Alzheimers Dataset](https://www.kaggle.com/tourist55/alzheimers-dataset-4-class-of-images)	| MRI | Classification |
-| [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/jjprotube/brain-mri-images-for-brain-tumor-detection) | MRI | Classification |
+| [CoronaHack](https://www.kaggle.com/datasets/praveengovi/coronahack-chest-xraydataset) | XRAY | classification|
+| [Lung segmentation from Chest -Xray](https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels) | XRAY | classification/segmentation|
+| [Brain Tumor Classification](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri) | MRI | classification|
+| [Brain Tumor Progression](https://www.cancerimagingarchive.net/collection/brain-tumor-progression/) | MRI | segmentation|
+| [QIN-BRAIN-DSC-MRI](https://www.cancerimagingarchive.net/collection/qin-brain-dsc-mri/) | MRI | segmentation|
+| [COVID-19 Detection X-Ray](https://www.kaggle.com/datasets/darshan1504/covid19-detection-xray-dataset) | XRAY | classification |
+| [Shenzhen Hospital Chest X-ray Set](https://www.kaggle.com/datasets/yoctoman/shcxr-lung-mask)| X-Ray | Segmentation |
+| [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/datasets/shashwatwork/knee-osteoarthritis-dataset-with-severity)	|	X-Ray | Classification |
+| [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/datasets/kmader/finding-lungs-in-ct-data)	| CT | Segmentation |
+| [Brain CT Images with Intracranial Hemorrhage Masks](https://www.kaggle.com/datasets/vbookshelf/computed-tomography-ct-images)	| CT | Classification |
+| [Liver and Liver Tumor Segmentation](https://www.kaggle.com/datasets/andrewmvd/lits-png)| CT | Classification, Segmentation |
+| [Alzheimers Dataset](https://www.kaggle.com/datasets/tourist55/alzheimers-dataset-4-class-of-images)	| MRI | Classification |
+| [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/jjprotube/brain-mri-images-for-brain-tumor-detection) | MRI | Classification |
 | [BrainMetShare](https://aimi.stanford.edu/brainmetshare) | MRI | Segmentation |
 | [COCA- Coronary Calcium and chest CTs](https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa) | CT | Segmentation |
 
@@ -82,9 +82,39 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 poetry install
 ```
 ## Creating the dataset
-Unfortunately due to the copyright restrictions of the source datasets, we can't share the files directly. To obtain the full dataset you have to download the source datasets yourself and run the preprocessing scripts.
+Due to the copyright restrictions of the source datasets, we can't share the files directly. To obtain the full dataset you have to download the source datasets yourself and run the preprocessing scripts.
 
 ## 1. CT
+
+* **KITS-23**
+  1. Clone the [KITS-23 repository](https://github.com/neheller/kits23).
+  2. Enter the KITS-23 directory and install the packages with pip.
+  ```
+  cd kits23
+  pip3 install -e .
+  ```
+  3. Run the following command to download the data to the `dataset/` folder.
+  ```
+  kits23_download_data
+  ```
+  4. Fill in the `source_path`, `target_path` and `masks_path`in `KITS-23Pipeline()` in `config/runner_config.py`.
+  e.g.
+  ```
+   KITS23Pipeline(
+        path_args={
+            "source_path": "kits23/dataset",  # Path to the dataset directory in KITS23 repo
+            "target_path": TARGET_PATH,
+            "masks_path": "kits23/dataset",
+            "labels_path": "kits23/dataset/kits23.json",  # Path to kits23.json
+        },
+        dataset_args=dataset_config.KITS23
+    ),
+  ```
+
+
+  2. Use [converterKITS19.py](./pipelines/CT/converterKITS19.py), insert the path to your dataset add the path to the kits.json file.
+  3. You can also use these scripts for the KITS-21 dataset but not for KITS-23. KITS-23 has not released the labels for kidney tumor labels.
+
 * **CT-ORG**
   1. Download the [CT-ORG](https://wiki.cancerimagingarchive.net/display/Public/CT-ORG%3A+CT+volumes+with+multiple+organ+segmentations) from the cancer imaging archive
   2. Use [convertCT_ORG.py](./pipelines/CT/convertCT_ORG.py), specify source and target paths.
@@ -93,10 +123,6 @@ Unfortunately due to the copyright restrictions of the source datasets, we can't
   1. Download Chest CT Scans with COVID-19 dataset from [MosMedData](https://mosmed.ai/en/)
   2.  Use [converterMosMedAiCOVID.py](./pipelines/CT/converterMosMedAiCOVID.py) , specify source and target paths.
 
-* **KITS-19 or KITS-21**
-  1. Download the KITS-19 dataset according to the instructions included in the Kits repository
-  2. Use [converterKITS19.py](./pipelines/CT/converterKITS19.py), insert the path to your dataset add the path to the kits.json file.
-  3. You can also use these scripts for the KITS-21 dataset but not for KITS-23. KITS-23 has not released the labels for kidney tumor labels.
 
 * **LIDC-IDRI**
   1. Download [LIDC-IDRI](https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI#)dataset from the cancer imaging archive

@@ -1,5 +1,6 @@
 """Add labels to the images and masks based on the labels.json file. The step requires the pipeline to specify the function for mapping the images with annotations."""
 import csv
+import jsonlines
 import glob
 import os
 from typing import Callable
@@ -14,11 +15,10 @@ class AddLabels(TransformerMixin):
     def __init__(
         self,
         target_path: str,
+        json_path: str,
         dataset_name: str,
         dataset_uid: str,
         phases: dict,
-        window_center: int,
-        window_width: int,
         image_folder_name: str,
         mask_folder_name: str,
         img_id_extractor: Callable = lambda x: os.path.basename(x),
@@ -33,13 +33,13 @@ class AddLabels(TransformerMixin):
 
         Args:
             target_path (str): Path to the target folder.
+            json_path: (str): path to jsonlines with info about individual image in the target dataset,
             dataset_name (str): Name of the dataset.
             dataset_uid (str): Unique identifier of the dataset.
             phases (dict): Dictionary with phases and their names.
-            window_center (int): Window center for the images.
             window_width (int): Window width for the images.
-            image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
-            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
+            image_folder_name (str): Name of the folder with images. Defaults to "Images".
+            mask_folder_name (str): Name of the folder with masks. Defaults to "Masks".
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
             study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
@@ -48,6 +48,7 @@ class AddLabels(TransformerMixin):
             get_label (Callable, optional): Function to get the label. Defaults to lambda x: [].
         """
         self.target_path = target_path
+        self.json_path = json_path
         self.dataset_name = dataset_name
         self.dataset_uid = dataset_uid
         self.phases = phases
@@ -56,8 +57,6 @@ class AddLabels(TransformerMixin):
         self.img_id_extractor = img_id_extractor
         self.study_id_extractor = study_id_extractor
         self.phase_extractor = phase_extractor
-        self.window_center = window_center
-        self.window_width = window_width
         self.zfill = zfill
         self.labels_path = labels_path
         self.get_label = get_label
@@ -79,8 +78,22 @@ class AddLabels(TransformerMixin):
             raise ValueError("No list of files provided.")
         if os.path.exists(os.path.join(self.target_path, "source_paths.csv")):
             self.paths_data = dict(list(csv.reader(open(os.path.join(self.target_path, "source_paths.csv")))))
+        
+        self.json_updates = {}
         for img_path in tqdm(X):
             self.add_labels(img_path)
+
+        updated_lines = []
+        with jsonlines.open(self.json_path, mode='r') as reader:
+            for obj in reader:
+                if obj["file_name"] in self.json_updates.keys():
+                    obj["labels"] = self.json_updates[obj["file_name"]]
+                updated_lines.append(obj)
+        
+        with jsonlines.open(self.json_path, mode='w') as writer:
+            for obj in updated_lines:
+                writer.write(obj)
+
         # root_path = os.path.dirname(os.path.dirname(X[0]))
         # root_path = Path(X[0]).parents[2]
         # new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
@@ -105,13 +118,14 @@ class AddLabels(TransformerMixin):
         else:
             labels = self.get_label(img_path)
         if labels:
+            self.json_updates[img_id] = labels
             # Add labels to the image path
-            labels_str = "".join([label_prefix + label for label in labels])
-            new_name = f"{img_id}_{labels_str}.png"
-            os.rename(img_path, os.path.join(img_root_path, new_name))
+            # labels_str = "".join([label_prefix + label for label in labels])
+            # new_name = f"{img_id}_{labels_str}.png"
+            # os.rename(img_path, os.path.join(img_root_path, new_name))
             # Add labels to the mask path
-            root_path = os.path.dirname(os.path.dirname(img_path))
-            if self.mask_folder_name:
-                mask_path = os.path.join(root_path, self.mask_folder_name, f"{img_id}.png")
-                if os.path.exists(mask_path):
-                    os.rename(mask_path, os.path.join(root_path, self.mask_folder_name, new_name))
+            # root_path = os.path.dirname(os.path.dirname(img_path))
+            # if self.mask_folder_name:
+            #     mask_path = os.path.join(root_path, self.mask_folder_name, f"{img_id}.png")
+            #     if os.path.exists(mask_path):
+            #         os.rename(mask_path, os.path.join(root_path, self.mask_folder_name, new_name))

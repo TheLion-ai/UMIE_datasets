@@ -3,7 +3,7 @@
 import json
 import os
 from abc import abstractmethod
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 from typing import Callable, Optional
 
 from sklearn.base import TransformerMixin
@@ -27,8 +27,9 @@ class PathArgs:
 class PipelineArgs:
     """Dataset arguments. These arguments are dataset specific."""
 
-    image_folder_name: Optional[str] = IMG_FOLDER_NAME  # name of folder, where images will be stored
-    mask_folder_name: Optional[str | None] = MASK_FOLDER_NAME  # name of folder, where masks will be stored
+    image_folder_name: str = IMG_FOLDER_NAME  # name of folder, where images will be stored
+    mask_folder_name: str = MASK_FOLDER_NAME  # name of folder, where masks will be stored
+    
     zfill: Optional[int] = None  # number of digits to pad the image id with
     img_id_extractor: Optional[Callable] = lambda x: os.path.basename(
         x
@@ -49,9 +50,9 @@ class BasePipeline:
     """The base class for constructing a pipeline for an individual dataset."""
 
     path_args: PathArgs  # arguments passed to the pipeline, user defines them at each run of the pipeline
+    dataset_args: DatasetArgs
     name: str  # name of the dataset
-    pipeline_args: PipelineArgs  # arguments passed to sklearn pipeline required to process a specific dataset
-    dataset_args: DatasetArgs # defined in config
+    pipeline_args: PipelineArgs  # arguments passed to sklearn pipeline required to process a specific dataset # defined in config
     steps: list[tuple[str, TransformerMixin]]
     args: dict = field(default_factory=lambda: {})
 
@@ -73,7 +74,8 @@ class BasePipeline:
     def load_config(self) -> None:
         """Load configuration files from config."""
         # Update args with the config args
-        self.args = dict(**self.path_args, **self.dataset_args)
+        self.args = dict(**self.path_args, **asdict(self.dataset_args))
+        self.args["json_path"] =  os.path.join(self.args["target_path"], f"{self.args['dataset_uid']}_{self.args['dataset_name']}", f"{self.args['dataset_name']}.jsonl")
 
     def load_labels_from_path(self) -> list:
         """Load all labels from the labels file. Labels are not processed here, they are processed in the get_label method.
