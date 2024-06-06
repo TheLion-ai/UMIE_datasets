@@ -17,6 +17,7 @@ from src.pipelines.knee_osteoarthritis import KneeOsteoarthritisPipeline
 from src.pipelines.liver_and_liver_tumor_pipeline import LiverAndLiverTumorPipeline
 from src.pipelines.stanford_brain_met import StanfordBrainMETPipeline
 from src.pipelines.stanford_coca import StanfordCOCAPipeline
+from src.pipelines.brain_tumor_classification import BrainTumorClassificationPipeline
 
 datasets = [
     KITS23Pipeline(
@@ -95,5 +96,11 @@ datasets = [
             "source_path": "",
             "target_path": TARGET_PATH,
         }
+    ),
+    BrainTumorClassificationPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+        },
     ),
 ]
