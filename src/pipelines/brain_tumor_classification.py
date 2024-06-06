@@ -1,5 +1,5 @@
 import os
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -26,7 +26,7 @@ class BrainTumorClassificationPipeline(BasePipeline):
             ("convert_jpg2png", ConvertJpg2Png),
             ("add_new_ids", AddNewIds),
             ("add_labels", AddLabels),
-            ("delete_temp_png", DeleteTempPng)
+            ("delete_temp_png", DeleteTempPng),
         ]
     )
 
@@ -52,10 +52,10 @@ class BrainTumorClassificationPipeline(BasePipeline):
             "glioma_tumor": "00",
             "meningioma_tumor": "01",
             "pituitary_tumor": "10",
-            "no_tumor": "11"
+            "no_tumor": "11",
         }
         unique_id = ""
-        if f'Training' in img_path:
+        if f"Training" in img_path:
             unique_id = "0"
         else:
             unique_id = "1"
@@ -67,7 +67,7 @@ class BrainTumorClassificationPipeline(BasePipeline):
         files_in_parent_directory = os.listdir(parent_directory)
 
         # after conversion to png there are additional png files
-        jpg_files = [Path(file).stem for file in files_in_parent_directory if file.lower().endswith('.jpg')]
+        jpg_files = [Path(file).stem for file in files_in_parent_directory if file.lower().endswith(".jpg")]
         # makes sure that we get the same order
         jpg_files.sort()
 
@@ -81,7 +81,7 @@ class BrainTumorClassificationPipeline(BasePipeline):
             "glioma_tumor": "Glioma",
             "meningioma_tumor": "Meningioma",
             "pituitary_tumor": "Pituitary",
-            "no_tumor": "good"
+            "no_tumor": "good",
         }
         return [standard_ontology[image_folder]]
 
