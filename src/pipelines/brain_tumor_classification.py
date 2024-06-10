@@ -1,3 +1,6 @@
+"""Preprocessing pipeline for brain tumor classification dataset."""
+
+
 import os
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -44,10 +47,11 @@ class BrainTumorClassificationPipeline(BasePipeline):
 
     def study_id_extractor(self, img_path: str) -> str:
         """Extract study id from img path. Img names are not unique.
+
         To make them unique there is system based on image folder path
         /Training/ -> 0 added /Testing/ -> 1 added then there are 4 folders one for each label.
-        This fact is used to assign unique ids"""
-
+        This fact is used to assign unique ids
+        """
         unique_id_conversion_dict = {
             "glioma_tumor": "00",
             "meningioma_tumor": "01",
@@ -55,7 +59,7 @@ class BrainTumorClassificationPipeline(BasePipeline):
             "no_tumor": "11",
         }
         unique_id = ""
-        if f"Training" in img_path:
+        if "Training" in img_path:
             unique_id = "0"
         else:
             unique_id = "1"
