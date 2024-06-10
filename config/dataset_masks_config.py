@@ -23,4 +23,6 @@ dataset_masks = {
     "Lung_segmentation_from_Chest_X-Rays": {
         "lungs": 255,
     },
+    "Knee_Osteoarthritis": {},
+    "Brain_Tumor_Classification_MRI": {},
 }

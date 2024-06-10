@@ -4,6 +4,7 @@ from abc import abstractmethod
 
 from src.constants import TARGET_PATH
 from src.pipelines.alzheimers import AlzheimersPipeline
+from src.pipelines.brain_tumor_classification import BrainTumorClassificationPipeline
 from src.pipelines.brain_tumor_detection import BrainTumorDetectionPipeline
 from src.pipelines.brain_with_hemorrhage import BrainWithHemorrhagePipeline
 from src.pipelines.chest_xray14 import ChestXray14Pipeline
@@ -14,6 +15,7 @@ from src.pipelines.finding_and_measuring_lungs_in_ct import (
     FindingAndMeasuringLungsInCTPipeline,
 )
 from src.pipelines.kits23 import KITS23Pipeline
+from src.pipelines.knee_osteoarthritis import KneeOsteoarthritisPipeline
 from src.pipelines.liver_and_liver_tumor_pipeline import LiverAndLiverTumorPipeline
 from src.pipelines.stanford_brain_met import StanfordBrainMETPipeline
 from src.pipelines.stanford_coca import StanfordCOCAPipeline
@@ -95,6 +97,16 @@ datasets = [
             "source_path": "",
             "target_path": TARGET_PATH,
             "masks_path": "",
+    KneeOsteoarthritisPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+        }
+    ),
+    BrainTumorClassificationPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
         },
     ),
 ]
