@@ -3,14 +3,17 @@
 from src.constants import TARGET_PATH
 from src.pipelines.alzheimers import AlzheimersPipeline
 from src.pipelines.brain_tumor_classification import BrainTumorClassificationPipeline
+from src.pipelines.alzheimers import AlzheimersPipeline
+from src.pipelines.brain_met_share import BrainMETSharePipeline
 from src.pipelines.brain_tumor_detection import BrainTumorDetectionPipeline
-from src.pipelines.brain_with_hemorrhage import BrainWithHemorrhagePipeline
-from src.pipelines.chest_xray14 import ChestXray14Pipeline
-from src.pipelines.coronahack_chest_xray import CoronahackChestXrayPipeline
-from src.pipelines.covid19_detection import Covid19Detection
-from src.pipelines.finding_and_measuring_lungs_in_ct import (
-    FindingAndMeasuringLungsInCTPipeline,
+from src.pipelines.brain_with_intracranial_hemorrhage import (
+    BrainWithIntracranialHemorrhagePipeline,
 )
+from src.pipelines.chest_xray14 import ChestXray14Pipeline
+from src.pipelines.coca import COCAPipeline
+from src.pipelines.coronahack import CoronaHackPipeline
+from src.pipelines.covid19_detection import COVID19DetectionPipeline
+from src.pipelines.finding_and_measuring_lungs import FindingAndMeasuringLungsPipeline
 from src.pipelines.kits23 import KITS23Pipeline
 from src.pipelines.knee_osteoarthritis import KneeOsteoarthritisPipeline
 from src.pipelines.liver_and_liver_tumor_pipeline import LiverAndLiverTumorPipeline
@@ -22,78 +25,80 @@ from config import dataset_config
 datasets = [
     KITS23Pipeline(
         path_args={
-            "source_path": "/home/basia/kits_sample/case_00000",  # Path to the dataset directory in KITS23 repo
+            "source_path": "",  # Path to the dataset directory in KITS23 repo
             "target_path": TARGET_PATH,
-            "masks_path": "/home/basia/kits_sample/case_00000",
-            "labels_path": "/home/basia/kits_sample/kits23.json",  # Path to kits23.json
+            "labels_path": "",  # Path to kits23.json
         },
-        dataset_args=dataset_config.KITS23
     ),
-    StanfordCOCAPipeline(
-        path_args={
-            "source_path": "",  # Path to Gated_release_final/patient
-            "target_path": TARGET_PATH,
-            "masks_path": "",
-        },
-        dataset_args=dataset_config.StanfordCOCA
-    ),
-    FindingAndMeasuringLungsInCTPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-            "masks_path": "",
-        },
-        dataset_args=dataset_config.Finding_and_Measuring_Lungs_in_CT_Data
-    ),
-    StanfordBrainMETPipeline(
+    CoronaHackPipeline(
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,
         },
-        dataset_args=dataset_config.StanfordBrainMET
     ),
-    CoronahackChestXrayPipeline(
+    AlzheimersPipeline(
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,
         },
-        dataset_args=dataset_config.CoronaHack_Chest_XRay
     ),
-    # AlzheimersPipeline(
-    #     path_args={
-    #         "source_path": "",
-    #         "target_path": TARGET_PATH,
-    #     },
-    #     dataset_args=dataset_config.Alzheimers_Dataset
-    # ),
+    COVID19DetectionPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+        },
+    ),
+    FindingAndMeasuringLungsPipeline(
+        path_args={
+            "source_path": "",  # Path to 2d_images directory
+            "target_path": TARGET_PATH,
+            "masks_path": "",  # Path to 2d_masks directory
+        },
+    ),
     BrainTumorDetectionPipeline(
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,
         },
-        dataset_args=dataset_config.Brain_Tumor_Detection
     ),
-    Covid19Detection(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-        },
-        dataset_args=dataset_config.Covid19_Detection
-    ),
-    ChestXray14Pipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-        },
-        dataset_args=dataset_config.ChestXray14
-    ),
-    BrainWithHemorrhagePipeline(
+    BrainWithIntracranialHemorrhagePipeline(
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,
             "masks_path": "",
         },
-        dataset_args=dataset_config.Brain_with_hemorrhage
+    ),
+    ChestXray14Pipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+       
+        },
+    ),
+    BrainMETSharePipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+        },
+    ),
+    COCAPipeline(
+        path_args={
+            "source_path": "",  # Path to Gated_release_final/patient
+            "target_path": TARGET_PATH,
+            "masks_path": "",  # Path to Gated_release_final/calcium_xml
+        },
+    ),
+    KneeOsteoarthritisPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+        }
+    ),
+    BrainTumorClassificationPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+        },
     ),
     LiverAndLiverTumorPipeline(
         path_args={
@@ -108,6 +113,7 @@ datasets = [
             "target_path": TARGET_PATH,
         }
     ),
+
     BrainTumorClassificationPipeline(
         path_args={
             "source_path": "",

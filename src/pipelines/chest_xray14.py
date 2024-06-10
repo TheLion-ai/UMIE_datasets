@@ -5,6 +5,7 @@ from typing import Any
 
 import pandas as pd
 
+from config import dataset_config
 from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
@@ -17,7 +18,7 @@ from src.steps.get_file_paths import GetFilePaths
 class ChestXray14Pipeline(BasePipeline):
     """Preprocessing pipeline for Chest Xray 14 dataset."""
 
-    name: str = field(default="ChestX-ray14")  # dataset name used in configs
+    name: str = field(default="chest_xray14")  # dataset name used in configs
     steps: list = field(
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
@@ -27,6 +28,7 @@ class ChestXray14Pipeline(BasePipeline):
             ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ]
     )
+    dataset_args: dataset_config.chest_xray14 = field(default_factory=lambda: dataset_config.chest_xray14)
     pipeline_args: PipelineArgs = field(
         default_factory=lambda: PipelineArgs(
             zfill=4, phase_extractor=lambda x: "0", mask_folder_name=None  # All images are from the same phase
@@ -75,17 +77,17 @@ class ChestXray14Pipeline(BasePipeline):
         if ".png" not in img_id:
             img_id += ".png"
         img_row = self.metadata.loc[self.metadata["Image Index"] == img_id]
-        found_labels = [label for label in img_row["Finding Labels"].values[0].split("|")]
-        for label in found_labels:
-            label = "".join(split_label.capitalize() for split_label in label.split("_"))
-            if label == "No Findings":
-                label = "good"
-        return found_labels
+        labels = [label for label in img_row["Finding Labels"].values[0].split("|")]
+        radlex_labels = [self.args["label2radlex"][label] for label in labels]
+
+        return radlex_labels
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
         # Read metadata csv
-        metadata_csv_path = os.path.join(self.args["source_path"], "Data_Entry_2017_v2020.csv")
+        metadata_csv_path = self.path_args[
+            "labels_path"
+        ]  # os.path.join(self.args["source_path"], "Data_Entry_2017_v2020.csv")
         self.metadata = pd.read_csv(metadata_csv_path)
 
         self.pipeline_args.img_id_extractor = lambda x: self.get_img_id(x, True)

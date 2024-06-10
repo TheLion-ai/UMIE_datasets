@@ -3,6 +3,7 @@ import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from config import dataset_config
 from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
@@ -18,7 +19,7 @@ from src.steps.get_source_paths import GetSourcePaths
 class BrainTumorDetectionPipeline(BasePipeline):
     """Preprocessing pipeline for Brain Tumor Detection dataset."""
 
-    name: str = field(default="Brain_Tumor_Detection")  # dataset name used in configs
+    name: str = field(default="brain_tumor_detection")  # dataset name used in configs
     steps: list = field(
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
@@ -30,6 +31,9 @@ class BrainTumorDetectionPipeline(BasePipeline):
             ("delete_temp_files", DeleteTempFiles),
             ("delete_temp_png", DeleteTempPng),
         ]
+    )
+    dataset_args: dataset_config.brain_tumor_detection = field(
+        default_factory=lambda: dataset_config.brain_tumor_detection
     )
     pipeline_args: PipelineArgs = field(
         default_factory=lambda: PipelineArgs(
@@ -60,15 +64,15 @@ class BrainTumorDetectionPipeline(BasePipeline):
     def get_label(self, img_path: str) -> list:
         """Get label for file. Label is a name of folder in source directory."""
         if "Y" in os.path.basename(img_path):
-            return ["Tumor"]
+            return self.args["label2radlex"]["Y"]
         elif "N" in os.path.basename(img_path) or "n" in os.path.basename(img_path):
-            return ["good"]
+            return self.args["label2radlex"]["N"]
         else:
             return []
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        self.pipeline_args_args.img_id_extractor = lambda x: self.img_id_extractor(x)
+        self.pipeline_args.img_id_extractor = lambda x: self.img_id_extractor(x)
         self.pipeline_args.study_id_extractor = lambda x: self.study_id_extractor(x)
         self.pipeline_args.get_label = lambda x: self.get_label(x)
         # Add dataset specific arguments to the pipeline arguments

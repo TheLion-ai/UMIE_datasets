@@ -4,6 +4,7 @@ import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from config import dataset_config
 from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
@@ -16,10 +17,10 @@ from src.steps.get_source_paths import GetSourcePaths
 
 
 @dataclass
-class Covid19Detection(BasePipeline):
+class COVID19DetectionPipeline(BasePipeline):
     """Preprocessing pipeline for Covid 19 detection dataset."""
 
-    name: str = field(default="Covid19_Detection")  # dataset name used in configs
+    name: str = field(default="covid19_detection")  # dataset name used in configs
     steps: list = field(
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
@@ -32,6 +33,7 @@ class Covid19Detection(BasePipeline):
             ("delete_temp_png", DeleteTempPng),
         ]
     )
+    dataset_args: dataset_config.covid19_detection = field(default_factory=lambda: dataset_config.covid19_detection)
     pipeline_args: PipelineArgs = field(
         default_factory=lambda: PipelineArgs(
             phase_extractor=lambda x: "0",  # All images are from the same phase
@@ -75,18 +77,9 @@ class Covid19Detection(BasePipeline):
         """In this dataset only one image exists for each study."""
         return "0"
 
-    # Changing labels from dataset (folders names) to match standard
-    labels_dict = {
-        "Normal": "good",
-        "BacterialPneumonia": "PneumoniaBacteria",
-        "ViralPneumonia": "PneumoniaVirus",
-        "COVID-19": "covid19",
-        "OversampledAugmentedCOVID-19": "covid19",
-    }
-
     def get_label(self, img_path: str) -> list:
         """Get label for file. Label is a name of folder in source directory."""
-        return [self.labels_dict[os.path.basename(os.path.dirname(img_path))]]
+        return [self.args["label2radlex"][os.path.basename(os.path.dirname(img_path))]]
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""

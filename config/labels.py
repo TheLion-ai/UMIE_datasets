@@ -27,11 +27,16 @@ NormalityDecriptor = Label(
     id=0,
     radlex_name="NormalityDecriptor",
     radlex_id="RID29001",
-    source_names={"KITS-19": ["normal"],
-                  "CoronaHack_Chest_X-Ray": ["normal"],
-                  "Covid19_Detection": ["normal"],
-                  "ChestX-ray14": ["No Finding"],
-                  "Brain_Tumor_Classification_MRI": ["normal"]},
+    source_names={
+        "kits23": ["normal"],
+        "coronahack": ["Normal"],
+        "alzheimers": ["NonDemented"],
+        "covid19_detection": ["normal"],
+        "chestX-ray14": ["No Finding"],
+        "brain_tumor_classification": ["normal"],
+        "brain_with_intracranial_hemorrhage": ["normal"],
+        "brain_tumor_detection": ["N"],
+    },
 )
 
 Neoplasm = Label(
@@ -39,7 +44,7 @@ Neoplasm = Label(
     radlex_name="Neoplasm",
     radlex_id="RID3957",
     source_names={
-        "KITS23": [
+        "kits23": [
             "angiomyolipoma",
             "chromophobe",
             "clear_cell_papillary_rcc",
@@ -52,11 +57,10 @@ Neoplasm = Label(
             "spindle_cell_neoplasm",
             "urothelial",
             "wilms",
-            "other"
+            "other",
         ],
         "PadChest": ["adenocarcinoma"],
-        "Brain_Tumor_Detection": ["tumor"],
-
+        "brain_tumor_detection": ["Y"],
     },
 )
 
@@ -65,80 +69,57 @@ RenalAdenocarcinoma = Label(
     radlex_name="RenalAdenocarcinoma",
     radlex_id="RID4234",
     source_names={
-        "KITS23": [
+        "kits23": [
             "clear_cell_rcc",
             "chromophobe_rcc",
             "papillary_rcc",
             "multilocular_cystic_rcc" "rcc_unclassified",
             "clear_cell_papillary",
         ],
-    }
+    },
 )
 
 ClearCellAdenocarcinoma = Label(
     id=3,
     radlex_name="ClearCellAdenocarcinoma",
     radlex_id="RID4235",
-    source_names={"KITS23": ["clear_cell_rcc",
-                                "clear_cell_papillary"]}
+    source_names={"kits23": ["clear_cell_rcc", "clear_cell_papillary"]},
 )
 
 ChromophobeAdenocarcinoma = Label(
-    id=4,
-    radlex_name="ChromophobeAdenocarcinoma",
-    radlex_id="RID4236",
-    source_names={"KITS23": ["chromophobe_rcc"]}
+    id=4, radlex_name="ChromophobeAdenocarcinoma", radlex_id="RID4236", source_names={"kits23": ["chromophobe_rcc"]}
 )
 
 TransitionalCellCarcinoma = Label(
     id=5,
     radlex_name="TransitionalCellCarcinoma",
     radlex_id="",
-    source_names={"KITS23": ["transitional_cell_carcinoma"]}
+    source_names={"kits23": ["transitional_cell_carcinoma"]},
 )
 
 PapillaryRenalAdenocarcinoma = Label(
     id=6,
     radlex_name="PapillaryRenalAdenocarcinoma",
     radlex_id="RID4233",
-    source_names={"KITS23": ["papillary_rcc",
-                                "clear_cell_papillary"]}
+    source_names={"kits23": ["papillary_rcc", "clear_cell_papillary"]},
 )
 
 MultilocularCysticRenalTumor = Label(
     id=7,
     radlex_name="MultilocularCysticRenalTumor",
     radlex_id="RID4538",
-    source_names={"KITS23": ["multilocular_cystic_rcc"]}
+    source_names={"kits23": ["multilocular_cystic_rcc"]},
 )
 
-WilmsTumor = Label(
-    id=8,
-    radlex_name="WilmsTumor",
-    radlex_id="RID4553",
-    source_names={"KITS23": ["wilms"]}
-)
+WilmsTumor = Label(id=8, radlex_name="WilmsTumor", radlex_id="RID4553", source_names={"kits23": ["wilms"]})
 
 Angiomyolipoma = Label(
-    id=9,
-    radlex_name="Angiomyolipoma",
-    radlex_id="RID4343",
-    source_names={"KITS23": ["angiomyolipoma"]}
+    id=9, radlex_name="Angiomyolipoma", radlex_id="RID4343", source_names={"kits23": ["angiomyolipoma"]}
 )
 
-Oncocytoma = Label(
-    id=10,
-    radlex_name="Oncocytoma",
-    radlex_id="RID4515",
-    source_names={"KITS23": ["oncocytoma"]}
-)
+Oncocytoma = Label(id=10, radlex_name="Oncocytoma", radlex_id="RID4515", source_names={"kits23": ["oncocytoma"]})
 
-RenalCyst = Label(
-    id=11,
-    radlex_name="RenalCyst",
-    radlex_id="RID35811",
-    source_names={"KITS23": ["cyst"]}
-)
+RenalCyst = Label(id=11, radlex_name="RenalCyst", radlex_id="RID35811", source_names={"kits23": ["cyst"]})
 
 ViralInfection = Label(
     id=12,
@@ -146,10 +127,10 @@ ViralInfection = Label(
     radlex_id="RID4687",
     grade=5,
     source_names={
-        "CoronaHack_Chest_X-Ray_Dataset": ["PneumoniaViral"],
+        "coronahack": ["PneumoniaVirus"],
         "MosMedData": ["CT-1", "CT-2", "CT-3", "CT-4"],
-        "Covid19_Detection": ["pneumonia_viral"],
-    }
+        "covid19_detection": ["pneumonia_viral"],
+    },
 )
 
 Pneumonia = Label(
@@ -157,45 +138,39 @@ Pneumonia = Label(
     radlex_name="Pneumonia",
     radlex_id="RID5350",
     source_names={
-        "CoronaHack_Chest_X-Ray_Dataset": ["PnemoniaViral",
-                                           "PnemoniaBacteria"],
+        "coronahack": ["PneumoniaVirus", "PneumoniaBacteria"],
         "ChestX-ray14": ["Pneumonia"],
-        "PadChest": ["Pneumonia",
-                     "atypical pneumonia"],
-        "Covid19_Detection": ["pneumonia_bacterial",
-                              "pneumonia_viral"],
-    }
+        "PadChest": ["Pneumonia", "atypical pneumonia"],
+        "covid19_detection": ["pneumonia_bacterial", "pneumonia_viral"],
+    },
 )
 
 PneumoniaViral = Label(
     id=14,
     radlex_name="PneumoniaViral",
     radlex_id="RID34769",
-    source_names={"CoronaHack_Chest_X-Ray_Dataset": ["PneumoniaViral"],
-                  "Covid19_Detection": ["pneumonia_viral"]}
+    source_names={"coronahack": ["PneumoniaVirus"], "covid19_detection": ["pneumonia_viral"]},
 )
 
 Atelectasis = Label(
     id=15,
     radlex_name="Atelectasis",
     radlex_id="RID28493",
-    source_names={"Chest_X-ray_Abnormalities_Detection": ["Atelectasis"],
-                  "ChestX-ray14": ["Atelectasis"]},
+    source_names={"Chest_X-ray_Abnormalities_Detection": ["Atelectasis"], "ChestX-ray14": ["Atelectasis"]},
 )
 
 Calcification = Label(
     id=16,
     radlex_name="Calcification",
     radlex_id="RID5196",
-    source_names={"Chest_X-ray_Abnormalities_Detection": ["Calcification"]}
+    source_names={"Chest_X-ray_Abnormalities_Detection": ["Calcification"]},
 )
 
 BoxlikeHeart = Label(
     id=17,
     radlex_name="BoxlikeHeart",
     radlex_id="RID35057",
-    source_names={"Chest_X-ray_Abnormalities_Detection": ["Cardiomegaly"],
-                    "ChestX-ray14": ["Cardiomegaly"]},
+    source_names={"Chest_X-ray_Abnormalities_Detection": ["Cardiomegaly"], "ChestX-ray14": ["Cardiomegaly"]},
 )
 
 Consolidation = Label(
@@ -203,10 +178,8 @@ Consolidation = Label(
     radlex_name="Consolidation",
     radlex_id="RID43255",
     source_names={
-        "Chest_X-ray_Abnormalities_Detection": ["Consolidation",
-                                                "Infiltration"],
-        "ChestX-ray14": ["Consolidation",
-                         "Infiltration"],
+        "Chest_X-ray_Abnormalities_Detection": ["Consolidation", "Infiltration"],
+        "ChestX-ray14": ["Consolidation", "Infiltration"],
     },
 )
 
@@ -214,14 +187,14 @@ InterstitialLungDisease = Label(
     id=19,
     radlex_name="InterstitialLungDisease",
     radlex_id="RID28799",
-    source_names={"Chest_X-ray_Abnormalities_Detection": ["ILD"]}
+    source_names={"Chest_X-ray_Abnormalities_Detection": ["ILD"]},
 )
 
 Opacity = Label(
     id=20,
     radlex_name="Opacity",
     radlex_id="RID28530",
-    source_names={"Chest_X-ray_Abnormalities_Detection": ["Opacity"]}
+    source_names={"Chest_X-ray_Abnormalities_Detection": ["Opacity"]},
 )
 
 Lesion = Label(
@@ -229,10 +202,8 @@ Lesion = Label(
     radlex_name="Lesion",
     radlex_id="RID38780",
     source_names={
-        "Chest_X-ray_Abnormalities_Detection": ["Nodule/Mass",
-                                                "Other Lesion"],
-        "ChestX-ray14": ["Mass",
-                        "Nodule"],
+        "Chest_X-ray_Abnormalities_Detection": ["Nodule/Mass", "Other Lesion"],
+        "ChestX-ray14": ["Mass", "Nodule"],
     },
 )
 
@@ -240,8 +211,7 @@ PleuralEffusion = Label(
     id=22,
     radlex_name="PleuralEffusion",
     radlex_id="RID34539",
-    source_names={"Chest_X-ray_Abnormalities_Detection": ["Effusion"],
-                    "ChestX-ray14": ["Effusion"]},
+    source_names={"Chest_X-ray_Abnormalities_Detection": ["Effusion"], "ChestX-ray14": ["Effusion"]},
 )
 
 Thickening = Label(
@@ -258,8 +228,7 @@ Pneumothorax = Label(
     id=24,
     radlex_name="Pneumothorax",
     radlex_id="RID5352",
-    source_names={"Chest_X-ray_Abnormalities_Detection": ["Pneumothorax"],
-                    "ChestX-ray14": ["Pneumothorax"]},
+    source_names={"Chest_X-ray_Abnormalities_Detection": ["Pneumothorax"], "ChestX-ray14": ["Pneumothorax"]},
 )
 
 Fibrosis = Label(
@@ -273,92 +242,69 @@ Fibrosis = Label(
     },
 )
 
-Mass = Label(
-    id=26,
-    radlex_name="Mass",
-    radlex_id="RID3874",
-    source_names={"ChestX-ray14": ["Mass"]}
-)
+Mass = Label(id=26, radlex_name="Mass", radlex_id="RID3874", source_names={"ChestX-ray14": ["Mass"]})
 
 PulmonaryEdema = Label(
     id=27,
     radlex_name="PulmonaryEdema",
     radlex_id="RID4866",
-    source_names={"ChestX-ray14": ["Edema"],
-                  "PadChest": ["Pulmonary Edema"]},
+    source_names={"ChestX-ray14": ["Edema"], "PadChest": ["Pulmonary Edema"]},
 )
 
 Emphysema = Label(
     id=28,
     radlex_name="Emphysema",
     radlex_id="RID4799",
-    source_names={"ChestX-ray14": ["Emphysema"],
-                    "PadChest": ["Emphysema"]}
+    source_names={"ChestX-ray14": ["Emphysema"], "PadChest": ["Emphysema"]},
 )
 
-Hernia = Label(
-    id=29,
-    radlex_name="Hernia",
-    radlex_id="RID4895",
-    source_names={"ChestX-ray14": ["Hernia"]}
-)
+Hernia = Label(id=29, radlex_name="Hernia", radlex_id="RID4895", source_names={"ChestX-ray14": ["Hernia"]})
 
 ChronicObstructivePulmonaryDisease = Label(
     id=30,
     radlex_name="ChronicObstructivePulmonaryDisease",
     radlex_id="RID5317",
-    source_names={"PadChest": ["COPD signs"]}
+    source_names={"PadChest": ["COPD signs"]},
 )
-    
+
 Tubeculosis = Label(
     id=31,
     radlex_name="Tubeculosis",
     radlex_id="RID29116",
-    source_names={"PadChest": ["Tuberculosis",
-                                "Tuberculosis seqelae"]}
+    source_names={"PadChest": ["Tuberculosis", "Tuberculosis seqelae"]},
 )
 
 Metastasis = Label(
     id=32,
     radlex_name="Metastasis",
     radlex_id="RID5231",
-    source_names={"PadChest": ["Lung metastasis", 
-                                "Bone metastasis"]}
+    source_names={"PadChest": ["Lung metastasis", "Bone metastasis"]},
 )
 
 Pneumonitis = Label(
-    id=33,
-    radlex_name="Pneumonitis",
-    radlex_id="RID3541",
-    source_names={"PadChest": ["post radiotherapy changes"]}
+    id=33, radlex_name="Pneumonitis", radlex_id="RID3541", source_names={"PadChest": ["post radiotherapy changes"]}
 )
 
 PulmonaryHypertension = Label(
     id=34,
     radlex_name="PulmonaryHypertension",
     radlex_id="RID3299",
-    source_names={"PadChest": ["Pulmonary artery hypertension"]}
+    source_names={"PadChest": ["Pulmonary artery hypertension"]},
 )
 
 AdultRespiratoryDistressSyndrome = Label(
     id=35,
     radlex_name="AdultRespiratoryDistressSyndrome",
     radlex_id="RID5319",
-    source_names={"PadChest": ["Respiratory distress syndrome"]}
+    source_names={"PadChest": ["Respiratory distress syndrome"]},
 )
 
 Asbestosis = Label(
-    id=36,
-    radlex_name="Asbestosis",
-    radlex_id="RID5346",
-    source_names={"PadChest": {"Asbestosis signs"}}
+    id=36, radlex_name="Asbestosis", radlex_id="RID5346", source_names={"PadChest": {"Asbestosis signs"}}
 )
 
 Carcinomatosis = Label(
-    id=37,
-    radlex_name="Carcinomatosis",
-    radlex_id="RID5231",
-    source_names={"PadChest": ["lymphangitis carcinomatosa"]}
+    id=37, radlex_name="Carcinomatosis", radlex_id="RID5231", source_names={"PadChest": ["lymphangitis carcinomatosa"]}
 )
 
 Adenocarcinoma = Label(
@@ -366,7 +312,7 @@ Adenocarcinoma = Label(
     radlex_name="Adenocarcinoma",
     radlex_id="RID4226",
     source_names={
-        "KITS23": [
+        "kits23": [
             "clear_cell_rcc",
             "chromophobe_rcc",
             "papillary_rcc",
@@ -379,24 +325,21 @@ Adenocarcinoma = Label(
 )
 
 Glioma = Label(
-    id=39,
-    radlex_name="Glioma",
-    radlex_id="RID4026",
-    source_names={"Brain_Tumor_Classification_MRI": ["glioma_tumor"]}
+    id=39, radlex_name="Glioma", radlex_id="RID4026", source_names={"brain_tumor_classification": ["glioma_tumor"]}
 )
 
 Meningioma = Label(
     id=40,
     radlex_name="Meningioma",
     radlex_id="RID4088",
-    source_names={"Brain_Tumor_Classification_MRI": ["meningioma_tumor"]}
+    source_names={"brain_tumor_classification": ["meningioma_tumor"]},
 )
 
 Pituitary = Label(
     id=41,
     radlex_name="Pituitary",
     radlex_id="RID28679",
-    source_names={"Brain_Tumor_Classification_MRI": ["pituitary_wtumor"]}
+    source_names={"brain_tumor_classification": ["pituitary_wtumor"]},
 )
 
 Osteoarthritis = Label(
@@ -404,17 +347,21 @@ Osteoarthritis = Label(
     radlex_name="Osteoarthritis",
     radlex_id="RID3555",
     grade=5,
-    source_names={"Brain_Tumor_Classification_MRI": ["DoubtfulOsteoarthritis",
-                                                        "MinimalOsteoarthritis",
-                                                        "ModerateOsteoarthritis",
-                                                        "SevereOsteoarthritis",]},
+    source_names={
+        "knee_osteoarthritis": [
+            "DoubtfulOsteoarthritis",
+            "MinimalOsteoarthritis",
+            "ModerateOsteoarthritis",
+            "SevereOsteoarthritis",
+        ]
+    },
 )
 
 Hemorrhage = Label(
     id=43,
     radlex_name="Hemorrhage",
     radlex_id="RID4700",
-    source_names={"Brain_with_hemorrhage": ["hemorrhage"]},
+    source_names={"Brain_with_hemorrhage": ["brain_hemorrhage"]},
 )
 
 Dementia = Label(
@@ -422,9 +369,7 @@ Dementia = Label(
     radlex_name="Dementia",
     radlex_id="RID5136",
     grade=3,
-    source_names={"Alzheimers_Dataset": ["VeryMildDemented",
-                                        "MildDemented",
-                                        "ModerateDemented"]},
+    source_names={"alzheimers": ["VeryMildDemented", "MildDemented", "ModerateDemented"]},
 )
 
 HeartFailure = Label(

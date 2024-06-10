@@ -10,17 +10,17 @@ import os
 
 import pytest
 
-from src.pipelines.covid19_detection import Covid19Detection
+from src.pipelines.covid19_detection import COVID19DetectionPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
-source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/22_Covid19_Detection/input")
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/22_Covid19_Detection/output")
-expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/22_Covid19_Detection/expected_output")
+source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/05_covid19_detection/input")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/05_covid19_detection/output")
+expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/05_covid19_detection/expected_output")
 
 
 def test_run_covid19_detection():
     """Test to verify, that there are no exceptions while running pipeline."""
-    dataset = Covid19Detection(
+    dataset = COVID19DetectionPipeline(
         path_args={
             "source_path": source_path,
             "target_path": target_path,

@@ -3,7 +3,7 @@
 import json
 import os
 from abc import abstractmethod
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from typing import Callable, Optional
 
 from sklearn.base import TransformerMixin
@@ -29,7 +29,7 @@ class PipelineArgs:
 
     image_folder_name: str = IMG_FOLDER_NAME  # name of folder, where images will be stored
     mask_folder_name: str = MASK_FOLDER_NAME  # name of folder, where masks will be stored
-    
+
     zfill: Optional[int] = None  # number of digits to pad the image id with
     img_id_extractor: Optional[Callable] = lambda x: os.path.basename(
         x
@@ -75,15 +75,21 @@ class BasePipeline:
         """Load configuration files from config."""
         # Update args with the config args
         self.args = dict(**self.path_args, **asdict(self.dataset_args))
-        self.args["json_path"] =  os.path.join(self.args["target_path"], f"{self.args['dataset_uid']}_{self.args['dataset_name']}", f"{self.args['dataset_name']}.jsonl")
+        self.args["json_path"] = os.path.join(
+            self.args["target_path"],
+            f"{self.args['dataset_uid']}_{self.args['dataset_name']}",
+            f"{self.args['dataset_uid']}_{self.args['dataset_name']}.jsonl",
+        )
 
-    def load_labels_from_path(self) -> list:
+    def load_labels_from_path(self, labels_path: str) -> list:
         """Load all labels from the labels file. Labels are not processed here, they are processed in the get_label method.
 
         Returns:
             list: List of labels and annotations.
         """
-        labels_path_extension = os.path.basename(self.args["labels_path"]).split(".")[1]
+        if not labels_path:
+            return []
+        labels_path_extension = os.path.basename(labels_path).split(".")[1]
         if labels_path_extension == "json":
             with open(self.args["labels_path"]) as f:
                 labels_list = json.load(f)

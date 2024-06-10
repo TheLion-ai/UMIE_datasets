@@ -1,7 +1,7 @@
 """Create file tree for dataset."""
 
-import os
 import json
+import os
 from typing import Any
 
 from sklearn.base import TransformerMixin
@@ -37,7 +37,7 @@ class CreateFileTree(TransformerMixin):
                                                      folder is not created.
         """
         self.target_path = target_path
-        self.json_path= json_path
+        self.json_path = json_path
         self.dataset_name = dataset_name
         self.dataset_uid = dataset_uid
         self.phases = phases
@@ -65,18 +65,17 @@ class CreateFileTree(TransformerMixin):
         if not os.path.exists(filetree_path):
             os.makedirs(filetree_path)
 
-    def _create_json(self)->None:
+    def _create_json(self) -> None:
         """Create JSON file for storing information about target datafiles."""
         # Always create a new file
-        with open(self.json_path, 'w'):
+        with open(self.json_path, "w"):
             pass
-
 
     def create_file_tree(self) -> None:
         """Create file tree for dataset."""
         self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
         self._create_json()
-        
+
         for phase in self.phases.values():
             self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}", phase)
 

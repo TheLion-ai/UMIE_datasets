@@ -5,6 +5,7 @@ import re
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from config import dataset_config
 from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
@@ -18,17 +19,18 @@ from src.steps.get_file_paths import GetFilePaths
 class AlzheimersPipeline(BasePipeline):
     """Preprocessing pipeline for Alzheimers dataset."""
 
-    name: str = field(default="Alzheimers_Dataset")  # dataset name used in configs
+    name: str = field(default="alzheimers")  # dataset name used in configs
     steps: list = field(
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
             ("get_file_paths", GetFilePaths),
             ("convert_jpg2png", ConvertJpg2Png),
             ("add_new_ids", AddNewIds),
-            ("add_new_ids", AddLabels),
+            ("add_labels", AddLabels),
             ("delete_temp_png", DeleteTempPng),
         ]
     )
+    dataset_args: dataset_config.alzheimers = field(default_factory=lambda: dataset_config.alzheimers)
     pipeline_args: PipelineArgs = field(
         default_factory=lambda: PipelineArgs(
             phase_extractor=lambda x: "0",  # All images are from the same phase
@@ -112,20 +114,19 @@ class AlzheimersPipeline(BasePipeline):
         return filename
 
     # Changing labels from dataset (folders names) to match standard
-    labels_dict = {
-        "MildDemented": "MildDemented",
-        "ModerateDemented": "ModerateDemented",
-        "NonDemented": "good",
-        "VeryMildDemented": "VeryMildDemented",
-    }
+
     files_source: list[str] = field(default_factory=list)
 
     def get_label(self, img_path: str) -> list:
         """Get label for file. Label is a name of folder in source directory."""
         # filename_source = os.path.basename(img_path).split("_")[-1].replace(".png", ".jpg")
+
         filename_source = self.reverse_filename(img_path)
         file_source_path = [path for path in self.files_source if filename_source == os.path.basename(path)][0]
-        return [self.labels_dict[os.path.basename(os.path.dirname(file_source_path))]]
+        label = os.path.basename(os.path.dirname(file_source_path))
+        radlex_label = self.args["label2radlex"][label]
+
+        return radlex_label
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""

@@ -1,10 +1,10 @@
 """Add labels to the images and masks based on the labels.json file. The step requires the pipeline to specify the function for mapping the images with annotations."""
 import csv
-import jsonlines
 import glob
 import os
 from typing import Callable
 
+import jsonlines
 from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
@@ -78,25 +78,22 @@ class AddLabels(TransformerMixin):
             raise ValueError("No list of files provided.")
         if os.path.exists(os.path.join(self.target_path, "source_paths.csv")):
             self.paths_data = dict(list(csv.reader(open(os.path.join(self.target_path, "source_paths.csv")))))
-        
-        self.json_updates = {}
+
+        self.json_updates: dict = {}
         for img_path in tqdm(X):
             self.add_labels(img_path)
 
         updated_lines = []
-        with jsonlines.open(self.json_path, mode='r') as reader:
+        with jsonlines.open(self.json_path, mode="r") as reader:
             for obj in reader:
                 if obj["file_name"] in self.json_updates.keys():
                     obj["labels"] = self.json_updates[obj["file_name"]]
                 updated_lines.append(obj)
-        
-        with jsonlines.open(self.json_path, mode='w') as writer:
+
+        with jsonlines.open(self.json_path, mode="w") as writer:
             for obj in updated_lines:
                 writer.write(obj)
 
-        # root_path = os.path.dirname(os.path.dirname(X[0]))
-        # root_path = Path(X[0]).parents[2]
-        # new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
         root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
         new_paths = glob.glob(os.path.join(root_path, f"**/{self.image_folder_name}/*.png"), recursive=True)
         return new_paths
@@ -108,24 +105,10 @@ class AddLabels(TransformerMixin):
             img_path (str): Path to the image.
             labels_list (list): List of labels.
         """
-        img_root_path = os.path.dirname(img_path)
         img_id = os.path.basename(img_path).split(".")[0]
-        label_prefix = "-"  # each label in the target file name is prefixed with this character
-        if "-" in img_id:  # if the labels are already added
-            return
         if os.path.exists(os.path.join(self.target_path, "source_paths.csv")):
             labels = self.get_label(self.paths_data[img_id])
         else:
             labels = self.get_label(img_path)
         if labels:
             self.json_updates[img_id] = labels
-            # Add labels to the image path
-            # labels_str = "".join([label_prefix + label for label in labels])
-            # new_name = f"{img_id}_{labels_str}.png"
-            # os.rename(img_path, os.path.join(img_root_path, new_name))
-            # Add labels to the mask path
-            # root_path = os.path.dirname(os.path.dirname(img_path))
-            # if self.mask_folder_name:
-            #     mask_path = os.path.join(root_path, self.mask_folder_name, f"{img_id}.png")
-            #     if os.path.exists(mask_path):
-            #         os.rename(mask_path, os.path.join(root_path, self.mask_folder_name, new_name))

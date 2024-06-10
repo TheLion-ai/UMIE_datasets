@@ -13,10 +13,10 @@ import pytest
 from src.pipelines.kits23 import KITS23Pipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
-source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_KITS23/input")
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_KITS23/output")
-labels_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_KITS23/input/kits23.json")
-expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_KITS23/expected_output")
+source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_kits23/input")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_kits23/output")
+labels_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_kits23/input/kits23.json")
+expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_kits23/expected_output")
 
 
 def test_run_kits23():

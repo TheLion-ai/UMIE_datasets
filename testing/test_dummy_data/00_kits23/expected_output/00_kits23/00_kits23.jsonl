@@ -1,0 +1,109 @@
+{"file_name": "00_0_00587_19", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_28", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"PapillaryRenalAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00587_21", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"PapillaryRenalAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00587_47", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_32", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_04", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_44", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_13", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_15", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_25", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"PapillaryRenalAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00587_33", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_00", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_40", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_12", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_38", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_09", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_20", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_08", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_22", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"PapillaryRenalAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00587_29", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"PapillaryRenalAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00587_31", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_23", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"PapillaryRenalAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00587_36", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_39", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_06", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_07", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_30", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"PapillaryRenalAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00587_34", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_46", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_37", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_43", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_24", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"PapillaryRenalAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00587_27", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"PapillaryRenalAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00587_16", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_02", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_10", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_05", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_01", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_03", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_11", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_45", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_18", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_14", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_26", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_41", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_17", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_35", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00587_42", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00587", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_19", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_28", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_21", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_47", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00495_32", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_59", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_04", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_44", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00495_13", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_15", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_58", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_25", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_33", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_00", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_40", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00495_12", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_56", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_38", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_09", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_20", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_08", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_22", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_29", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00495_31", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_49", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00495_23", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_36", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_57", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_50", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00495_39", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_06", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_07", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_30", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00495_34", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_46", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00495_51", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00495_37", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_52", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_43", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00495_24", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_27", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_16", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_60", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_54", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_02", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_10", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_48", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00495_05", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_01", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_03", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_11", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_45", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00495_55", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_18", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_53", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_14", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_26", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_41", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}
+{"file_name": "00_0_00495_17", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_35", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": {}}
+{"file_name": "00_0_00495_42", "dataset_name": "KITS23", "dataset_uid": "00", "phase_name": "CT", "comparative": "", "study_id": "00495", "has_mask": true, "labels": [{"ClearCellAdenocarcinoma": 1}, {"RenalAdenocarcinoma": 1}, {"Adenocarcinoma": 1}, {"Neoplasm": 1}]}

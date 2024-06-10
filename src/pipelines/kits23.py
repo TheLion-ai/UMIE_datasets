@@ -9,6 +9,7 @@ from typing import Any
 import cv2
 import numpy as np
 
+from config import dataset_config
 from src.constants import MASK_FOLDER_NAME
 from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
@@ -27,7 +28,7 @@ from src.steps.recolor_masks import RecolorMasks
 class KITS23Pipeline(BasePipeline):
     """Preprocessing pipeline for KITS23 dataset."""
 
-    name: str = field(default="KITS23")  # dataset name used in configs
+    name: str = field(default="kits23")  # dataset name used in configs
     steps: list = field(
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
@@ -43,6 +44,7 @@ class KITS23Pipeline(BasePipeline):
             ("delete_temp_png", DeleteTempPng),
         ]
     )
+    dataset_args: dataset_config.kits23 = field(default_factory=lambda: dataset_config.kits23)
     pipeline_args: PipelineArgs = field(
         default_factory=lambda: PipelineArgs(
             zfill=2,
@@ -61,7 +63,7 @@ class KITS23Pipeline(BasePipeline):
     def get_label(
         cls,
         img_path: str,
-        label2radlex: list,
+        label2radlex: dict,
         labels_list: list,
         kidney_findings_encodings: list = [1, 2],
         mask_folder_name: str = MASK_FOLDER_NAME,
@@ -92,8 +94,9 @@ class KITS23Pipeline(BasePipeline):
                 if case["case_id"] == f"case_{study_id}":
                     # Remove underscores from the label
                     label = case["tumor_histologic_subtype"]
-                    radlex_labels = label2radlex[label]
-                    labels = radlex_labels
+                    # We do not include vague labels
+                    if label in label2radlex.keys():
+                        labels = label2radlex[label]
                     break
             return labels
         return []
@@ -102,10 +105,13 @@ class KITS23Pipeline(BasePipeline):
         """Post initialization actions."""
         kidney_findings_encodings = [2, 3]
         # Load labels from the labels file
-        self.labels_list = self.load_labels_from_path()
+        self.labels_list = self.load_labels_from_path(self.args["labels_path"])
         # Add get_label function to the pipeline_args
         self.pipeline_args.get_label = partial(
-            self.get_label, label2radlex=self.dataset_args.label2radlex, kidney_findings_encodings=kidney_findings_encodings, labels_list=self.labels_list
+            self.get_label,
+            label2radlex=self.dataset_args.label2radlex,
+            kidney_findings_encodings=kidney_findings_encodings,
+            labels_list=self.labels_list,
         )
         # Update args with pipeline_args
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

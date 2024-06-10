@@ -13,9 +13,9 @@ import pytest
 from src.pipelines.alzheimers import AlzheimersPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
-source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/16_Alzheimers/input/Alzheimer_s Dataset")
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/16_Alzheimers/output")
-expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/16_Alzheimers/expected_output")
+source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/02_alzheimers/input/Alzheimer_s Dataset")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/02_alzheimers/output")
+expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/02_alzheimers/expected_output")
 
 
 def test_run_alzheimers():
