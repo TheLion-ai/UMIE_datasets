@@ -97,6 +97,8 @@ datasets = [
             "source_path": "",
             "target_path": TARGET_PATH,
             "masks_path": "",
+        },
+    ),
     KneeOsteoarthritisPipeline(
         path_args={
             "source_path": "",
