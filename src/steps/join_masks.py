@@ -67,7 +67,7 @@ class JoinMasks(TransformerMixin):
                         if filename.startswith(".") or ".db" in filename:
                             continue
                         mask_name_to_image_paths[filename].append(os.path.join(self.masks_path, dir, filename))
-        os.mkdir(os.path.join(self.source_path, self.mask_folder_name))
+        os.makedirs(os.path.join(self.source_path, self.mask_folder_name), exist_ok=True)
         for filename, paths in mask_name_to_image_paths.items():
             joined_mask_image = None
             for path in paths:
@@ -79,6 +79,7 @@ class JoinMasks(TransformerMixin):
                 new_filename = f"{self.segmentation_prefix}_{filename}"
             else:
                 new_filename = filename.replace(self.img_prefix, self.segmentation_prefix)
-            cv2.imwrite(os.path.join(self.source_path, self.mask_folder_name, new_filename), joined_mask_image)
+            if not os.path.isfile(os.path.join(self.source_path, self.mask_folder_name, new_filename)):
+                cv2.imwrite(os.path.join(self.source_path, self.mask_folder_name, new_filename), joined_mask_image)
 
         return X
