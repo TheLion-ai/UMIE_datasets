@@ -5,6 +5,7 @@ from functools import partial
 from typing import Any
 
 from config import dataset_config
+from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
 from steps.add_umie_ids import AddUmieIds
 from src.steps.convert_jpg2png import ConvertJpg2Png
