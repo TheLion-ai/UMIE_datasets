@@ -10,17 +10,17 @@ import os
 
 import pytest
 
-from src.pipelines.liver_and_liver_tumor_pipeline import LiverAndLiverTumorPipeline
+from src.pipelines.lits import LITSPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
-source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/23_Liver_And_Liver_Tumor/input")
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/23_Liver_And_Liver_Tumor/output")
-expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/23_Liver_And_Liver_Tumor/expected_output")
+source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/08_lits/input")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/08_lits/output")
+expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/08_lits/expected_output")
 
 
-def test_run_liver_and_liver_tumor():
+def test_run_lits():
     """Test to verify, that there are no exceptions while running pipeline."""
-    dataset = LiverAndLiverTumorPipeline(
+    dataset = LITSPipeline(
         path_args={
             "source_path": source_path,
             "target_path": target_path,
@@ -33,7 +33,7 @@ def test_run_liver_and_liver_tumor():
         pytest.fail(f'Trying to run Liver_and_liver_tumor pipeline raised an exception: "{e}"')
 
 
-def test_liver_and_liver_tumor_verify_file_tree():
+def test_lits_verify_file_tree():
     """Test to verify if file tree is as expected."""
     expected_file_tree = glob.glob(f"{str(expected_output_path)}/**", recursive=True)
     current_file_tree = glob.glob(f"{str(target_path)}/**", recursive=True)
@@ -42,7 +42,7 @@ def test_liver_and_liver_tumor_verify_file_tree():
         pytest.fail("Liver_and_liver_tumor pipeline created file tree different than expected.")
 
 
-def test_liver_and_liver_tumor_verify_images_correct():
+def test_lits_verify_images_correct():
     """Test to verify whether all images have contents as expected."""
     expected_file_tree = glob.glob(f"{str(expected_output_path)}/**/*.png", recursive=True)
     current_file_tree = glob.glob(f"{str(target_path)}/**/*.png", recursive=True)
@@ -51,6 +51,6 @@ def test_liver_and_liver_tumor_verify_images_correct():
         pytest.fail("Liver_and_liver_tumor pipeline created image contents different than expected.")
 
 
-def test_clean_up_liver_and_liver_tumor():
+def test_clean_up_lits():
     """Removes output folder with it's contents."""
     DatasetTestingLibrary.clean_up(target_path)

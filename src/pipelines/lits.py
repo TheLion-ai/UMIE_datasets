@@ -18,7 +18,7 @@ from src.steps.get_file_paths import GetFilePaths
 
 
 @dataclass
-class LiverAndLiverTumorPipeline(BasePipeline):
+class LITSPipeline(BasePipeline):
     """Preprocessing pipeline for Liver and liver tumor dataset."""
 
     name: str = field(default="Liver_And_Liver_Tumor")  # dataset name used in configs

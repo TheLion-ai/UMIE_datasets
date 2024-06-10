@@ -16,11 +16,7 @@ from src.pipelines.covid19_detection import COVID19DetectionPipeline
 from src.pipelines.finding_and_measuring_lungs import FindingAndMeasuringLungsPipeline
 from src.pipelines.kits23 import KITS23Pipeline
 from src.pipelines.knee_osteoarthritis import KneeOsteoarthritisPipeline
-from src.pipelines.liver_and_liver_tumor_pipeline import LiverAndLiverTumorPipeline
-from src.pipelines.stanford_brain_met import StanfordBrainMETPipeline
-from src.pipelines.stanford_coca import StanfordCOCAPipeline
-
-from config import dataset_config
+from src.pipelines.lits import LITSPipeline
 
 datasets = [
     KITS23Pipeline(
@@ -88,23 +84,10 @@ datasets = [
             "masks_path": "",  # Path to Gated_release_final/calcium_xml
         },
     ),
-    KneeOsteoarthritisPipeline(
+    LITSPipeline(
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,
-        }
-    ),
-    BrainTumorClassificationPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-        },
-    ),
-    LiverAndLiverTumorPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-            "masks_path": "",
         },
     ),
     KneeOsteoarthritisPipeline(
