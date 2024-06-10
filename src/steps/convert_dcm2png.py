@@ -18,6 +18,8 @@ class ConvertDcm2Png(TransformerMixin):
     def __init__(
         self,
         source_path: str,
+        masks_path: str,
+        mask_selector: str,
         window_width: int = None,
         window_center: int = None,
         on_error_remove: bool = True,
@@ -27,13 +29,17 @@ class ConvertDcm2Png(TransformerMixin):
 
         Args:
             source_path (str): Path to the source directory containing DICOM files.
+            masks_path (str): Path to the source folder with masks.
             window_width (int, optional): Window width. Defaults to None.
             window_center (int, optional): Window center. Defaults to None.
+            mask_selector (str): Phrase included only in masks paths.
             on_error_remove (bool, optional): Remove image if error occurs. Defaults to True.
         """
         self.source_path = source_path
+        self.masks_path = masks_path
         self.window_width = window_width
         self.window_center = window_center
+        self.mask_selector = mask_selector
         self.on_error_remove = on_error_remove
 
     def transform(self, X: list) -> list:
@@ -51,8 +57,28 @@ class ConvertDcm2Png(TransformerMixin):
             if img_path.endswith(".dcm"):
                 self.convert_dcm2png(img_path)
 
+        mask_paths = []
+        for root, _, filenames in os.walk(self.masks_path):
+            for filename in filenames:
+                if filename.startswith("."):
+                    continue
+                elif filename.endswith(".dcm"):
+                    path = os.path.join(root, filename)
+                    # Verify if file is not a mask
+                    if self.mask_selector in path:
+                        mask_paths.append(path)
+        if mask_paths:
+            for mask_path in mask_paths:
+                self.convert_dcm2png(mask_path)
+        else:
+            print("Masks not found.")
+
         root_path = self.source_path
-        new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
+        new_paths = [
+            path
+            for path in glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
+            if self.mask_selector not in path
+        ]
         return new_paths
 
     def convert_dcm2png(self, img_path: str) -> None:

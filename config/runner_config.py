@@ -5,6 +5,7 @@ from abc import abstractmethod
 from src.constants import TARGET_PATH
 from src.pipelines.alzheimers import AlzheimersPipeline
 from src.pipelines.brain_tumor_detection import BrainTumorDetectionPipeline
+from src.pipelines.brain_tumor_progression import BrainTumorProgressionPipeline
 from src.pipelines.brain_with_hemorrhage import BrainWithHemorrhagePipeline
 from src.pipelines.chest_xray14 import ChestXray14Pipeline
 from src.pipelines.coronahack_chest_xray import CoronahackChestXrayPipeline
@@ -94,6 +95,13 @@ datasets = [
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,
+        }
+    ),
+    BrainTumorProgressionPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+            "masks_path": "",
         }
     ),
 ]

@@ -23,6 +23,7 @@ class ConvertJpg2Png(TransformerMixin):
         phases: dict,
         image_folder_name: str,
         mask_folder_name: str,
+        mask_selector: str,
         masks_path: str = None,
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         phase_extractor: Callable = lambda x: x,
@@ -42,6 +43,7 @@ class ConvertJpg2Png(TransformerMixin):
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
+            mask_selector (str): Phrase included only in masks paths.
             img_prefix (str, optional): Prefix for the file with images.
         """
         self.source_path = source_path
@@ -54,6 +56,7 @@ class ConvertJpg2Png(TransformerMixin):
         self.mask_folder_name = mask_folder_name
         self.img_id_extractor = img_id_extractor
         self.phase_extractor = phase_extractor
+        self.mask_selector = mask_selector
         self.img_prefix = img_prefix
 
     def transform(
@@ -73,15 +76,22 @@ class ConvertJpg2Png(TransformerMixin):
                 # Convert each jpg or jpeg file to png
                 self.convert_jpg2png(img_path)
 
-        root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
-        mask_paths = glob.glob(
-            os.path.join(root_path, f"**/{self.mask_folder_name}/*.jpg"), recursive=True
-        ) + glob.glob(os.path.join(root_path, f"**/{self.mask_folder_name}/*.jpeg"), recursive=True)
-        if mask_paths:
-            for mask_path in tqdm(mask_paths):
-                self.convert_jpg2png(mask_path)
-        else:
-            print("Masks not found.")
+        if self.masks_path:
+            mask_paths = []
+            for root, _, filenames in os.walk(self.masks_path):
+                for filename in filenames:
+                    if filename.startswith("."):
+                        continue
+                    else:
+                        path = os.path.join(root, filename)
+                        # Verify if file is not a mask
+                        if self.mask_selector in path:
+                            mask_paths.append(path)
+            if mask_paths:
+                for mask_path in mask_paths:
+                    self.convert_jpg2png(mask_path)
+            else:
+                print("Masks not found.")
 
         # Get paths to all images after conversion
         new_paths = glob.glob(os.path.join(self.source_path, f"**/*{self.img_prefix}*png"), recursive=True)

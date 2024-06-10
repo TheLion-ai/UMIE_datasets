@@ -74,4 +74,15 @@ phases = {
     "Knee_Osteoarthritis": {
         "0": "Xray",
     },
+    "BrainTumorProgression": {
+        "0": "MRI0",
+        "1": "MRI1",
+        "2": "MRI2",
+        "3": "MRI3",
+        "4": "MRI4",
+        "5": "MRI5",
+        "6": "MRI6",
+        "7": "MRI7",
+        "8": "MRI8",
+    },
 }

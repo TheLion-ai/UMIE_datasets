@@ -14,6 +14,7 @@ from src.pipelines.liver_and_liver_tumor_pipeline import LiverAndLiverTumorPipel
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/23_Liver_And_Liver_Tumor/input")
+masks_path = os.path.join(os.getcwd(), "testing/test_dummy_data/23_Liver_And_Liver_Tumor/input")
 target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/23_Liver_And_Liver_Tumor/output")
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/23_Liver_And_Liver_Tumor/expected_output")
 
@@ -23,6 +24,7 @@ def test_run_liver_and_liver_tumor():
     dataset = LiverAndLiverTumorPipeline(
         path_args={
             "source_path": source_path,
+            "masks_path": masks_path,
             "target_path": target_path,
         },
     )
