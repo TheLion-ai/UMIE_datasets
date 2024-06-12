@@ -2,9 +2,8 @@
 
 from src.constants import TARGET_PATH
 from src.pipelines.alzheimers import AlzheimersPipeline
-from src.pipelines.brain_tumor_classification import BrainTumorClassificationPipeline
-from src.pipelines.alzheimers import AlzheimersPipeline
 from src.pipelines.brain_met_share import BrainMETSharePipeline
+from src.pipelines.brain_tumor_classification import BrainTumorClassificationPipeline
 from src.pipelines.brain_tumor_detection import BrainTumorDetectionPipeline
 from src.pipelines.brain_with_intracranial_hemorrhage import (
     BrainWithIntracranialHemorrhagePipeline,
@@ -69,7 +68,6 @@ datasets = [
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,
-       
         },
     ),
     BrainMETSharePipeline(
@@ -98,7 +96,6 @@ datasets = [
             "target_path": TARGET_PATH,
         }
     ),
-
     BrainTumorClassificationPipeline(
         path_args={
             "source_path": "",
