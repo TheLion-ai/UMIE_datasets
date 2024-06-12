@@ -15,6 +15,7 @@ class ConvertDcm2Png(BaseStep):
     """Converts dicom files to png images with appropriate color encoding."""
 
 
+
     def transform(self, X: list) -> list:
         """Convert dicom files to png images with appropriate color encoding.
 
@@ -30,8 +31,28 @@ class ConvertDcm2Png(BaseStep):
             if img_path.endswith(".dcm"):
                 self.convert_dcm2png(img_path)
 
+        mask_paths = []
+        for root, _, filenames in os.walk(self.masks_path):
+            for filename in filenames:
+                if filename.startswith("."):
+                    continue
+                elif filename.endswith(".dcm"):
+                    path = os.path.join(root, filename)
+                    # Verify if file is not a mask
+                    if self.mask_selector in path:
+                        mask_paths.append(path)
+        if mask_paths:
+            for mask_path in mask_paths:
+                self.convert_dcm2png(mask_path)
+        else:
+            print("Masks not found.")
+
         root_path = self.source_path
-        new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
+        new_paths = [
+            path
+            for path in glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
+            if self.mask_selector not in path
+        ]
         return new_paths
 
     def convert_dcm2png(self, img_path: str) -> None:

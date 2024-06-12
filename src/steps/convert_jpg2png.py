@@ -29,15 +29,22 @@ class ConvertJpg2Png(BaseStep):
                 # Convert each jpg or jpeg file to png
                 self.convert_jpg2png(img_path)
 
-        root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
-        mask_paths = glob.glob(
-            os.path.join(root_path, f"**/{self.mask_folder_name}/*.jpg"), recursive=True
-        ) + glob.glob(os.path.join(root_path, f"**/{self.mask_folder_name}/*.jpeg"), recursive=True)
-        if mask_paths:
-            for mask_path in tqdm(mask_paths):
-                self.convert_jpg2png(mask_path)
-        else:
-            print("Masks not found.")
+        if self.masks_path:
+            mask_paths = []
+            for root, _, filenames in os.walk(self.masks_path):
+                for filename in filenames:
+                    if filename.startswith("."):
+                        continue
+                    else:
+                        path = os.path.join(root, filename)
+                        # Verify if file is not a mask
+                        if self.mask_selector in path:
+                            mask_paths.append(path)
+            if mask_paths:
+                for mask_path in mask_paths:
+                    self.convert_jpg2png(mask_path)
+            else:
+                print("Masks not found.")
 
         # Get paths to all images after conversion
         new_paths = glob.glob(os.path.join(self.source_path, f"**/*{self.img_prefix}*png"), recursive=True)

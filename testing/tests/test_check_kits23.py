@@ -15,6 +15,7 @@ from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_kits23/input")
 target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_kits23/output")
+masks_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_kits23/input")
 labels_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_kits23/input/kits23.json")
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_kits23/expected_output")
 
@@ -22,7 +23,12 @@ expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_kit
 def test_run_kits23():
     """Test to verify, that there are no exceptions while running pipeline."""
     dataset = KITS23Pipeline(
-        path_args={"source_path": source_path, "target_path": target_path, "labels_path": labels_path},
+        path_args={
+            "source_path": source_path,
+            "target_path": target_path,
+            "labels_path": labels_path,
+            "masks_path": masks_path,
+        },
     )
     pipeline = dataset.pipeline
     try:

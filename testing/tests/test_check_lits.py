@@ -24,6 +24,7 @@ def test_run_lits():
     dataset = LITSPipeline(
         path_args={
             "source_path": source_path,
+            "masks_path": masks_path,
             "target_path": target_path,
             "masks_path": masks_path,
         },
