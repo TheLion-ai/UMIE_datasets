@@ -6,54 +6,13 @@ from typing import Callable
 
 import numpy as np
 import PIL
-from sklearn.base import TransformerMixin
+from base.step import BaseStep
 from tqdm import tqdm
+from base.extractors.img_id import BaseImgIdExtractor
 
-
-class ConvertTif2Png(TransformerMixin):
+class ConvertTif2Png(BaseStep):
     """Converts tif files to png images."""
 
-    def __init__(
-        self,
-        source_path: str,
-        target_path: str,
-        masks_path: str,
-        dataset_name: str,
-        dataset_uid: str,
-        phases: dict,
-        image_folder_name: str,
-        mask_folder_name: str,
-        mask_selector: str,
-        img_id_extractor: Callable = lambda x: os.path.basename(x),
-        phase_extractor: Callable = lambda x: x,
-        **kwargs: dict,
-    ):
-        """Convert tif files to png images.
-
-        Args:
-            source_path (str): Path to the source folder.
-            target_path (str): Path to the target folder.
-            masks_path (str): Path to the source folder with masks.
-            dataset_name (str): Name of the dataset.
-            dataset_uid (str): Unique identifier of the dataset.
-            phases (dict): Dictionary with phases and their names.
-            image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
-            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
-            mask_selector (str): Phrase included only in masks paths.
-            img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
-            phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
-        """
-        self.source_path = source_path
-        self.target_path = target_path
-        self.masks_path = masks_path
-        self.dataset_name = dataset_name
-        self.dataset_uid = dataset_uid
-        self.phases = phases
-        self.image_folder_name = image_folder_name
-        self.mask_folder_name = mask_folder_name
-        self.mask_selector = mask_selector
-        self.img_id_extractor = img_id_extractor
-        self.phase_extractor = phase_extractor
 
     def transform(
         self,

@@ -5,8 +5,8 @@ from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from config import dataset_config
-from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
-from src.steps.add_new_ids import AddNewIds
+from src.base.pipeline import BasePipeline, PipelineArgs
+from steps.add_umie_ids import AddUmieIds
 from src.steps.convert_dcm2png import ConvertDcm2Png
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.create_masks_from_xml import CreateMasksFromXML
@@ -26,7 +26,7 @@ class COCAPipeline(BasePipeline):
             ("create_file_tree", CreateFileTree),
             ("convert_dcm2png", ConvertDcm2Png),
             ("create_masks_from_xml", CreateMasksFromXML),
-            ("add_new_ids", AddNewIds),
+            ("add_new_ids", AddUmieIds),
             # Choose either to create blank masks or delete images without masks
             # ("create_blank_masks", CreateBlankMasks),
             ("delete_imgs_without_masks", DeleteImgsWithNoAnnotations),

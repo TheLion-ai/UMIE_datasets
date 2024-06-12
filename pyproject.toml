@@ -4,11 +4,11 @@ version = "0.1.0"
 description = ""
 authors = ["a-huli <klaudel.b@gmail.com>"]
 readme = "README.md"
-packages = [{include = "src"}]
+packages = [{include = "base", from = "src"}, {include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-pillow = "^10.0.0"
+Pillow = "^10.0.0"
 opencv-python = "^4.8.0.74"
 pyyaml = "^6.0.1"
 untangle = "^1.2.1"

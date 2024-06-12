@@ -37,7 +37,7 @@ class DatasetTestingLibrary:
 
             expected_image = cv2.imread(expected_image_path)
             current_image = cv2.imread(current_image_path)
-            print(expected_image_path)
+            # print(expected_image_path)
 
             diff = cv2.subtract(expected_image, current_image)
 

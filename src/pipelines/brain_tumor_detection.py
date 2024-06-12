@@ -4,15 +4,8 @@ from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from config import dataset_config
-from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
-from src.steps.add_labels import AddLabels
-from src.steps.add_new_ids import AddNewIds
-from src.steps.convert_jpg2png import ConvertJpg2Png
-from src.steps.create_file_tree import CreateFileTree
-from src.steps.delete_temp_files import DeleteTempFiles
-from src.steps.delete_temp_png import DeleteTempPng
-from src.steps.get_file_paths import GetFilePaths
-from src.steps.get_source_paths import GetSourcePaths
+from src.base.pipeline import BasePipeline, PipelineArgs
+from src.steps import AddLabels, AddUmieIds, ConvertJpg2Png, CreateFileTree, DeleteTempFiles, DeleteTempPng, GetFilePaths, StoreSourcePaths
 
 
 @dataclass
@@ -24,9 +17,9 @@ class BrainTumorDetectionPipeline(BasePipeline):
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
             ("get_file_paths", GetFilePaths),
-            ("get_source_paths", GetSourcePaths),
+            ("get_source_paths", StoreSourcePaths),
             ("convert_jpg2png", ConvertJpg2Png),
-            ("add_new_ids", AddNewIds),
+            ("add_new_ids", AddUmieIds),
             ("add_new_ids", AddLabels),
             ("delete_temp_files", DeleteTempFiles),
             ("delete_temp_png", DeleteTempPng),

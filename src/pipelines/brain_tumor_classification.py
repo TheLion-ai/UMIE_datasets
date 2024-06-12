@@ -7,17 +7,13 @@ from pathlib import Path
 from typing import Any
 
 from config import dataset_config
-from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
-from src.steps.add_labels import AddLabels
-from src.steps.add_new_ids import AddNewIds
-from src.steps.convert_jpg2png import ConvertJpg2Png
-from src.steps.create_file_tree import CreateFileTree
-from src.steps.delete_temp_files import DeleteTempFiles
-from src.steps.delete_temp_png import DeleteTempPng
-from src.steps.get_file_paths import GetFilePaths
-from src.steps.get_source_paths import GetSourcePaths
+from src.steps import AddLabels, AddUmieIds, ConvertJpg2Png, CreateFileTree, DeleteTempFiles, DeleteTempPng, GetFilePaths, StoreSourcePaths
+from src.base.pipeline import BasePipeline, PipelineArgs
+from src.base.extractors import BaseImgIdExtractor, BaseStudyIdExtractor, BaseLabelExtractor
 
-
+class ImgIdExtractor(BaseImgIdExtractor):
+    def _extract(self,img_path: str) -> str:
+        return "0.png"
 @dataclass
 class BrainTumorClassificationPipeline(BasePipeline):
     """Preprocessing pipeline for Brain Tumor Classification dataset."""
@@ -27,9 +23,9 @@ class BrainTumorClassificationPipeline(BasePipeline):
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
             ("get_file_paths", GetFilePaths),
-            ("get_source_paths", GetSourcePaths),
+            ("stor", StoreSourcePaths),
             ("convert_jpg2png", ConvertJpg2Png),
-            ("add_new_ids", AddNewIds),
+            ("add_new_ids", AddUmieIds),
             ("add_labels", AddLabels),
             ("delete_temp_png", DeleteTempPng),
             ("delete_temp_files", DeleteTempFiles),
@@ -38,17 +34,13 @@ class BrainTumorClassificationPipeline(BasePipeline):
     dataset_args: dataset_config.brain_tumor_classification = field(
         default_factory=lambda: dataset_config.brain_tumor_classification
     )
-    pipeline_args: PipelineArgs = field(
-        default_factory=lambda: PipelineArgs(
+    pipeline_args: PipelineArgs = PipelineArgs(
             image_folder_name="Images",
+            img_id_extractor=ImgIdExtractor(),
             mask_folder_name=None,
             img_prefix="",
-        )
     )
 
-    def img_id_extractor(self, img_path: str) -> str:
-        """Img id always 0 in this dataset."""
-        return "0"
 
     def study_id_extractor(self, img_path: str) -> str:
         """Extract study id from img path. Img names are not unique.
@@ -90,9 +82,7 @@ class BrainTumorClassificationPipeline(BasePipeline):
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        self.pipeline_args.img_id_extractor = lambda x: self.img_id_extractor(x)
         self.pipeline_args.study_id_extractor = lambda x: self.study_id_extractor(x)
         self.pipeline_args.get_label = lambda x: self.get_label(x)
 
-        self.args["compress_after_folder"] = "archive"
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

@@ -7,9 +7,9 @@ from typing import Any
 import pandas as pd
 
 from config import dataset_config
-from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
+from src.base.pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
-from src.steps.add_new_ids import AddNewIds
+from steps.add_umie_ids import AddUmieIds
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.delete_imgs_with_no_annotations import DeleteImgsWithNoAnnotations
 from src.steps.get_file_paths import GetFilePaths
@@ -25,7 +25,7 @@ class CoronaHackPipeline(BasePipeline):
             ("create_file_tree", CreateFileTree),
             ("get_file_paths", GetFilePaths),
             # add_new_ids is used here to also add labels
-            ("add_new_ids", AddNewIds),
+            ("add_new_ids", AddUmieIds),
             ("add_labels", AddLabels),
             ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ]

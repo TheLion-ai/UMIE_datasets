@@ -3,42 +3,14 @@ import glob
 import os
 from typing import Callable
 
-import PIL
-from sklearn.base import TransformerMixin
+from PIL import Image
+from base.step import BaseStep
 from tqdm import tqdm
-
-
-class ConvertJpg2Png(TransformerMixin):
+from base.extractors.img_id import BaseImgIdExtractor
+from base.step import BaseStep
+class ConvertJpg2Png(BaseStep):
     """Converts jpg files to png images."""
 
-    def __init__(
-        self,
-        source_path: str,
-        target_path: str,
-        dataset_name: str,
-        dataset_uid: str,
-        mask_folder_name: str,
-        img_id_extractor: Callable = lambda x: os.path.basename(x),
-        img_prefix: str = "",
-        **kwargs: dict,
-    ):
-        """Convert jpg files to png images.
-
-        Args:
-            source_path (str): Path to source folder.
-            target_path (str): Path to the target folder.
-            dataset_name (str): Name of the dataset.
-            dataset_uid (str): Unique identifier of the dataset.
-            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
-            img_prefix (str, optional): Prefix for the file with images.
-        """
-        self.source_path = source_path
-        self.target_path = target_path
-        self.dataset_name = dataset_name
-        self.dataset_uid = dataset_uid
-        self.mask_folder_name = mask_folder_name
-        self.img_id_extractor = img_id_extractor
-        self.img_prefix = img_prefix
 
     def transform(
         self,
@@ -81,7 +53,7 @@ class ConvertJpg2Png(TransformerMixin):
         new_path = img_path.replace(".jpg", ".png").replace(".jpeg", ".png").replace(".JPG", ".png")
         try:
             # Open image, save with new extension and remove old file
-            image = PIL.Image.open(img_path)
+            image = Image.open(img_path)
             image.save(new_path, format="png")
             if self.mask_folder_name and self.mask_folder_name in img_path:
                 os.remove(img_path)

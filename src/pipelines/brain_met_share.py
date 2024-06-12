@@ -5,8 +5,8 @@ from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from config import dataset_config
-from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
-from src.steps.add_new_ids import AddNewIds
+from src.base.pipeline import BasePipeline, PipelineArgs
+from steps.add_umie_ids import AddUmieIds
 from src.steps.copy_masks import CopyMasks
 from src.steps.create_file_tree import CreateFileTree
 from src.steps.get_file_paths import GetFilePaths
@@ -23,7 +23,7 @@ class BrainMETSharePipeline(BasePipeline):
             ("create_file_tree", CreateFileTree),
             ("get_file_paths", GetFilePaths),
             ("copy_png_masks", CopyMasks),
-            ("add_new_ids", AddNewIds),
+            ("add_new_ids", AddUmieIds),
             ("recolor_masks", RecolorMasks),
         ]
     )

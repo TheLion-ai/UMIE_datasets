@@ -4,32 +4,13 @@ import os
 
 import cv2
 import numpy as np
-from sklearn.base import TransformerMixin
+from base.step import BaseStep
 from tqdm import tqdm
 
 
-class CreateBlankMasks(TransformerMixin):
+class CreateBlankMasks(BaseStep):
     """Create blank masks for images that don't have masks."""
 
-    def __init__(
-        self,
-        dataset_name: str,
-        dataset_uid: str,
-        mask_folder_name: str = "Masks",
-        target_path: str = "",
-        **kwargs: dict,
-    ):
-        """Create blank masks for images that don't have masks.
-
-        Args:
-            dataset_name (str): Name of the dataset.
-            dataset_uid (str): Unique identifier of the dataset.
-            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
-        """
-        self.mask_folder_name = mask_folder_name
-        self.target_path = target_path
-        self.dataset_name = dataset_name
-        self.dataset_uid = dataset_uid
 
     def transform(self, X: list) -> list:
         """Create blank masks for images that don't have masks.

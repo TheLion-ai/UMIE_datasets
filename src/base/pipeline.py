@@ -6,12 +6,12 @@ from abc import abstractmethod
 from dataclasses import asdict, dataclass, field
 from typing import Callable, Optional
 
-from sklearn.base import TransformerMixin
+from base.step import BaseStep
 from sklearn.pipeline import Pipeline
 
 from config.dataset_config import DatasetArgs
 from src.constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
-
+from base.extractors.img_id import BaseImgIdExtractor
 
 @dataclass
 class PathArgs:
@@ -29,19 +29,16 @@ class PipelineArgs:
 
     image_folder_name: str = IMG_FOLDER_NAME  # name of folder, where images will be stored
     mask_folder_name: str = MASK_FOLDER_NAME  # name of folder, where masks will be stored
-
+    img_id_extractor: BaseImgIdExtractor = BaseImgIdExtractor() # function to extract image id from the image path
+    study_id_extractor: Callable = lambda x: x  # function to extract study id from the image path
+    phase_extractor: Callable = lambda x: "0"  # function to extract phase from the image path
     zfill: Optional[int] = None  # number of digits to pad the image id with
-    img_id_extractor: Optional[Callable] = lambda x: os.path.basename(
-        x
-    )  # function to extract image id from the image path
-    study_id_extractor: Optional[Callable] = lambda x: x  # function to extract study id from the image path
-    phase_extractor: Optional[Callable] = lambda x: "0"  # function to extract phase from the image path
     window_center: Optional[int] = None  # value used to process DICOM images
     window_width: Optional[int] = None  # value used to process DICOM images
     get_label: Optional[Callable] = None  # function to get label for the individual image
     img_prefix: Optional[str] = None  # prefix of the source image file names
-    segmentation_prefix: Optional[str] = "segmentation"  # prefix of the source mask file names
-    mask_selector: Optional[str] = "segmentations"  # string included only in masks names
+    segmentation_prefix: Optional[str] = None  # prefix of the source mask file names
+    mask_selector: Optional[str] = None  # string included only in masks names
     multiple_masks_selector: Optional[dict] = None  # dict including mask selector and its meaning for each mask
 
 
@@ -53,12 +50,10 @@ class BasePipeline:
     dataset_args: DatasetArgs
     name: str  # name of the dataset
     pipeline_args: PipelineArgs  # arguments passed to sklearn pipeline required to process a specific dataset # defined in config
-    steps: list[tuple[str, TransformerMixin]]
-    args: dict = field(default_factory=lambda: {})
-
+    steps: list[tuple[str, BaseStep]]
     def __post_init__(self) -> None:
         """Prepare args for the pipeline."""
-        self.load_config()
+        self.args: dict = dict(**self.path_args, **asdict(self.dataset_args)) 
 
         # Run prepare_pipeline only if source path exists.
         if self.args["source_path"]:
@@ -71,15 +66,7 @@ class BasePipeline:
         # Create pipeline and pass args to each step
         return Pipeline(steps=[(step[0], step[1](**args)) for step in self.steps])
 
-    def load_config(self) -> None:
-        """Load configuration files from config."""
-        # Update args with the config args
-        self.args = dict(**self.path_args, **asdict(self.dataset_args))
-        self.args["json_path"] = os.path.join(
-            self.args["target_path"],
-            f"{self.args['dataset_uid']}_{self.args['dataset_name']}",
-            f"{self.args['dataset_uid']}_{self.args['dataset_name']}.jsonl",
-        )
+
 
     def load_labels_from_path(self, labels_path: str) -> list:
         """Load all labels from the labels file. Labels are not processed here, they are processed in the get_label method.

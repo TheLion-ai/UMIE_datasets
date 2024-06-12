@@ -6,7 +6,7 @@ from config import labels, masks
 
 @dataclass
 class MaskColor:
-    """A class for storing imformation about how to recolor a given mask."""
+    """A class for storing information about how to recolor a given mask."""
 
     source_color: int
     target_color: int
@@ -103,6 +103,10 @@ alzheimers = DatasetArgs(
         "ModerateDemented": [{labels.Dementia.radlex_name: 1}],
         "NonDemented": [{labels.NormalityDecriptor.radlex_name: 1}],
         "VeryMildDemented": [{labels.Dementia.radlex_name: 1 / 3}],
+        "mildDem": [{labels.Dementia.radlex_name: 2 / 3}],
+        "moderateDem": [{labels.Dementia.radlex_name: 1}],
+        "nonDem": [{labels.NormalityDecriptor.radlex_name: 1}],
+        "verymildDem": [{labels.Dementia.radlex_name: 1 / 3}],
     },
 )
 

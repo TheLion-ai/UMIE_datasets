@@ -7,33 +7,13 @@ import numpy as np
 import pydicom
 import pydicom.pixel_data_handlers.util as ddh
 from pydicom import dcmread
-from sklearn.base import TransformerMixin
+from base.step import BaseStep
 from tqdm import tqdm
+from base.step import BaseStep
 
-
-class ConvertDcm2Png(TransformerMixin):
+class ConvertDcm2Png(BaseStep):
     """Converts dicom files to png images with appropriate color encoding."""
 
-    def __init__(
-        self,
-        source_path: str,
-        window_width: int = None,
-        window_center: int = None,
-        on_error_remove: bool = True,
-        **kwargs: dict,
-    ):
-        """Convert dicom files to png images with appropriate color encoding.
-
-        Args:
-            source_path (str): Path to the source directory containing DICOM files.
-            window_width (int, optional): Window width. Defaults to None.
-            window_center (int, optional): Window center. Defaults to None.
-            on_error_remove (bool, optional): Remove image if error occurs. Defaults to True.
-        """
-        self.source_path = source_path
-        self.window_width = window_width
-        self.window_center = window_center
-        self.on_error_remove = on_error_remove
 
     def transform(self, X: list) -> list:
         """Convert dicom files to png images with appropriate color encoding.

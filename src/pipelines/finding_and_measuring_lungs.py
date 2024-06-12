@@ -5,13 +5,9 @@ from typing import Any
 
 from config import dataset_config
 from src.constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
-from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
-from src.steps.add_new_ids import AddNewIds
-from src.steps.convert_tif2png import ConvertTif2Png
-from src.steps.copy_masks import CopyMasks
-from src.steps.create_file_tree import CreateFileTree
-from src.steps.get_file_paths import GetFilePaths
-from src.steps.recolor_masks import RecolorMasks
+from src.base.pipeline import BasePipeline, PipelineArgs
+from src.steps import CreateFileTree, GetFilePaths, ConvertTif2Png, CopyMasks, RecolorMasks, AddUmieIds
+
 
 
 @dataclass
@@ -26,7 +22,7 @@ class FindingAndMeasuringLungsPipeline(BasePipeline):
             ("convert_tif2png", ConvertTif2Png),
             ("copy_png_masks", CopyMasks),
             ("recolor_masks", RecolorMasks),
-            ("add_new_ids", AddNewIds),
+            ("add_new_ids", AddUmieIds),
         ]
     )
     dataset_args: dataset_config.finding_and_measuring_lungs = field(
@@ -36,7 +32,6 @@ class FindingAndMeasuringLungsPipeline(BasePipeline):
         default_factory=lambda: PipelineArgs(
             # Study id is the folder name of all images in the study
             study_id_extractor=lambda x: os.path.basename((os.path.dirname(os.path.dirname(x)))).split("_")[-1],
-            phase_extractor=lambda x: "0",  # All images are from the same phase
             image_folder_name=IMG_FOLDER_NAME,
             mask_folder_name=MASK_FOLDER_NAME,
             img_prefix="images",  # prefix of the source image file names

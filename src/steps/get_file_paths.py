@@ -2,22 +2,12 @@
 
 import os
 
-from sklearn.base import TransformerMixin
+from base.step import BaseStep
+from typing import Optional
 
 
-class GetFilePaths(TransformerMixin):
+class GetFilePaths(BaseStep):
     """Get file paths of all images from a source directory."""
-
-    def __init__(self, source_path: str, mask_selector: str, **kwargs: dict):
-        """Get file paths of all images from a source directory.
-
-        Args:
-            source_path (str): Path to the source directory.
-            mask_selector (str, optional): String to distinguish between images and masks. Defaults to "segmentations".
-        """
-        self.source_path = source_path
-        self.omit_conditions = list
-        self.mask_selector = mask_selector
 
     def transform(
         self,
@@ -49,6 +39,6 @@ class GetFilePaths(TransformerMixin):
                 else:
                     path = os.path.join(root, filename)
                     # Verify if file is not a mask
-                    if self.mask_selector not in path:
+                    if self.mask_selector is None or self.mask_selector not in path:
                         file_paths.append(path)
         return file_paths

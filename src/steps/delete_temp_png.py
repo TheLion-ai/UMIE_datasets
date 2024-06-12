@@ -3,24 +3,13 @@
 import glob
 import os
 
-from sklearn.base import TransformerMixin
+from base.step import BaseStep
 from tqdm import tqdm
 
 
-class DeleteTempPng(TransformerMixin):
+class DeleteTempPng(BaseStep):
     """Delete temporary png files created by other steps in the source directory."""
 
-    def __init__(
-        self,
-        source_path: str,
-        **kwargs: dict,
-    ):
-        """Delete temporary PNG files created by other steps in the source directory, including nested directories.
-
-        Args:
-            source_path (str): Path to the source folder.
-        """
-        self.source_path = source_path
 
     def transform(
         self,

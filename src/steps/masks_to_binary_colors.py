@@ -4,32 +4,13 @@ import os
 from typing import Callable
 
 import cv2
-from sklearn.base import TransformerMixin
+from base.step import BaseStep
 from tqdm import tqdm
 
 
-class MasksToBinaryColors(TransformerMixin):
+class MasksToBinaryColors(BaseStep):
     """Recolors masks from shades of gray to 2 colors."""
 
-    def __init__(
-        self,
-        target_path: str,
-        dataset_name: str,
-        dataset_uid: str,
-        mask_folder_name: str,
-        image_folder_name: str,
-        **kwargs: dict,
-    ):
-        """Recolors masks from default color to the color specified in the config.
-
-        Args:
-            mask_colors_old2new (dict): Dictionary with old and new colors.
-            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
-        """
-        self.target_path = target_path
-        self.dataset_name = dataset_name
-        self.dataset_uid = dataset_uid
-        self.mask_folder_name = mask_folder_name
 
     def transform(self, X: list) -> list:
         """Recolors masks from default color to the color specified in the config.

@@ -1,0 +1,37 @@
+# This file controls the behavior of Trunk: https://docs.trunk.io/cli
+# To learn more about the format of this file, see https://docs.trunk.io/reference/trunk-yaml
+version: 0.1
+cli:
+  version: 1.19.0
+plugins:
+  sources:
+    - id: trunk
+      ref: v1.4.2
+      uri: https://github.com/trunk-io/plugins
+runtimes:
+  enabled:
+    - node@18.12.1
+    - python@3.10.8
+lint:
+  enabled:
+    - bandit@1.7.7
+    - black@24.1.1
+    - checkov@3.2.5
+    - git-diff-check
+    - isort@5.13.2
+    - markdownlint@0.39.0
+    - osv-scanner@1.6.2
+    - oxipng@9.0.0
+    - prettier@3.2.5
+    - ruff@0.2.1
+    - taplo@0.8.1
+    - trivy@0.49.1
+    - trufflehog@3.67.4
+    - yamllint@1.34.0
+actions:
+  disabled:
+    - trunk-announce
+    - trunk-check-pre-push
+    - trunk-fmt-pre-commit
+  enabled:
+    - trunk-upgrade-available

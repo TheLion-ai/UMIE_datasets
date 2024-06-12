@@ -4,45 +4,11 @@ import json
 import os
 from typing import Any
 
-from sklearn.base import TransformerMixin
+from base.step import BaseStep
 
 
-class CreateFileTree(TransformerMixin):
+class CreateFileTree(BaseStep):
     """Create file tree for dataset."""
-
-    def __init__(
-        self,
-        target_path: str,
-        json_path: str,
-        dataset_name: str,
-        dataset_uid: str,
-        phases: dict,
-        image_folder_name: str,
-        mask_folder_name: str,
-        **kwargs: dict,
-    ):
-        """Create file tree for dataset.
-
-        Args:
-            target_path (str): Path to the target folder.
-            json_path: (str): path to jsonlines with info about individual image in the target dataset,
-            dataset_name (str): Name of the dataset.
-            dataset_uid (str): Unique identifier of the dataset.
-            phases (dict): Dictionary with phases and their names.
-            image_folder_name (str): Name of the folder with images.
-                                                      Defaults to "Images". If None,
-                                                      folder is not created.
-            mask_folder_name (str): Name of the folder with masks.
-                                                     Defaults to "Masks". If None,
-                                                     folder is not created.
-        """
-        self.target_path = target_path
-        self.json_path = json_path
-        self.dataset_name = dataset_name
-        self.dataset_uid = dataset_uid
-        self.phases = phases
-        self.image_folder_name = image_folder_name
-        self.mask_folder_name = mask_folder_name
 
     def transform(self, X: list) -> list:
         """Create file tree for dataset.

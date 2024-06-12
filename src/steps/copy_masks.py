@@ -4,53 +4,13 @@ import os
 import shutil
 from typing import Callable
 
-from sklearn.base import TransformerMixin
+from base.step import BaseStep
 from tqdm import tqdm
+from base.extractors.img_id import BaseImgIdExtractor
 
-
-class CopyMasks(TransformerMixin):
+class CopyMasks(BaseStep):
     """Copy masks to a new folder structure."""
 
-    def __init__(
-        self,
-        target_path: str,
-        dataset_name: str,
-        dataset_uid: str,
-        phases: dict,
-        mask_folder_name: str,
-        img_id_extractor: Callable = lambda x: os.path.basename(x),
-        study_id_extractor: Callable = lambda x: x,
-        phase_extractor: Callable = lambda x: x,
-        img_prefix: str = "imaging",
-        segmentation_prefix: str = "segmentation",
-        mask_selector: str = "segmentations",
-        **kwargs: dict,
-    ):
-        """Copy PNG masks to a new folder structure.
-
-        Args:
-            target_path (str): Path to the target folder.
-            dataset_name (str): Name of the dataset.
-            dataset_uid (str): Unique identifier of the dataset.
-            phases (dict): Dictionary with phases and their names.
-            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
-            img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
-            study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
-            phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
-            segmentation_prefix (str, optional): String to select masks. Defaults to "segmentations".
-            mask_selector (str, optional): String to distinguish between images and masks. Defaults to "segmentations".
-        """
-        self.target_path = target_path
-        self.dataset_name = dataset_name
-        self.dataset_uid = dataset_uid
-        self.phases = phases
-        self.mask_folder_name = mask_folder_name
-        self.img_id_extractor = img_id_extractor
-        self.study_id_extractor = study_id_extractor
-        self.phase_extractor = phase_extractor
-        self.img_prefix = img_prefix
-        self.segmentation_prefix = segmentation_prefix
-        self.mask_selector = mask_selector
 
     def transform(
         self,

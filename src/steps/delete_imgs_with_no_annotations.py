@@ -5,24 +5,12 @@ import os
 
 import cv2
 import numpy as np
-from sklearn.base import TransformerMixin
+from base.step import BaseStep
 from tqdm import tqdm
 
 
-class DeleteImgsWithNoAnnotations(TransformerMixin):
+class DeleteImgsWithNoAnnotations(BaseStep):
     """Delete images without masks."""
-
-    def __init__(
-        self,
-        mask_folder_name: str = "Masks",
-        **kwargs: dict,
-    ):
-        """Delete images without annotations.
-
-        Args:
-            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
-        """
-        self.mask_folder_name = mask_folder_name
 
     def transform(self, X: str) -> list:
         """Delete images without annotations.

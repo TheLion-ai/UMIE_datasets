@@ -5,24 +5,13 @@ import os
 
 import cv2
 import numpy as np
-from sklearn.base import TransformerMixin
+from base.step import BaseStep
 from tqdm import tqdm
 
 
-class DeleteImgsWithEmptyMasks(TransformerMixin):
+class DeleteImgsWithEmptyMasks(BaseStep):
     """Delete images with empty masks."""
 
-    def __init__(
-        self,
-        mask_folder_name: str,
-        **kwargs: dict,
-    ):
-        """Delete images with empty masks.
-
-        Args:
-            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
-        """
-        self.mask_folder_name = mask_folder_name
 
     def transform(self, X: str) -> list:
         """Delete images with empty masks.

@@ -5,9 +5,8 @@ from functools import partial
 from typing import Any
 
 from config import dataset_config
-from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
-from src.steps.add_new_ids import AddNewIds
+from steps.add_umie_ids import AddUmieIds
 from src.steps.convert_jpg2png import ConvertJpg2Png
 from src.steps.copy_masks import CopyMasks
 from src.steps.create_blank_masks import CreateBlankMasks
@@ -17,6 +16,7 @@ from src.steps.delete_temp_png import DeleteTempPng
 from src.steps.get_file_paths import GetFilePaths
 from src.steps.masks_to_binary_colors import MasksToBinaryColors
 from src.steps.recolor_masks import RecolorMasks
+from src.base.pipeline import BasePipeline, PipelineArgs
 
 
 @dataclass
@@ -33,7 +33,7 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
             # ("copy_masks", CopyMasks),
             ("masks_to_binary_colors", MasksToBinaryColors),
             ("recolor_masks", RecolorMasks),
-            ("add_new_ids", AddNewIds),
+            ("add_new_ids", AddUmieIds),
             ("add_labels", AddLabels),
             # Choose either to create blank masks or delete images without masks
             # Recommended to create blank masks because only about 10% images have masks.

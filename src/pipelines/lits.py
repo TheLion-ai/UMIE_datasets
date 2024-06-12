@@ -8,9 +8,9 @@ import cv2
 
 from config import dataset_config
 from src.constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
-from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
+from src.base.pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
-from src.steps.add_new_ids import AddNewIds
+from steps.add_umie_ids import AddUmieIds
 from src.steps.combine_multiple_masks import CombineMultipleMasks
 from src.steps.copy_masks import CopyMasks
 from src.steps.create_file_tree import CreateFileTree
@@ -29,7 +29,7 @@ class LITSPipeline(BasePipeline):
             ("create_file_tree", CreateFileTree),
             ("combine_multiple_masks", CombineMultipleMasks),
             ("copy_masks", CopyMasks),
-            ("add_new_ids", AddNewIds),
+            ("add_new_ids", AddUmieIds),
             ("add_labels", AddLabels),
             # Recommended to delete images without masks, because they contain neither liver nor tumor
             ("delete_imgs_with_empty_masks", DeleteImgsWithEmptyMasks),

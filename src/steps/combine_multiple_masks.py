@@ -6,39 +6,12 @@ import os
 import cv2
 import numpy as np
 import PIL.Image
-from sklearn.base import TransformerMixin
+from base.step import BaseStep
 from tqdm import tqdm
+from base.step import BaseStep
 
-
-class CombineMultipleMasks(TransformerMixin):
+class CombineMultipleMasks(BaseStep):
     """Combine and recolor multiple masks into one."""
-
-    def __init__(
-        self,
-        source_path: str,
-        target_path: str,
-        dataset_name: str,
-        dataset_uid: str,
-        masks: dict,
-        mask_selector: str,
-        multiple_masks_selector: dict,
-        mask_folder_name: str = "Masks",
-        **kwargs: dict,
-    ):
-        """Combine and recolor multiple masks into one.
-
-        Args:
-            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
-        """
-        self.source_path = source_path
-        self.target_path = target_path
-        self.dataset_name = dataset_name
-        self.dataset_uid = dataset_uid
-        self.masks = masks
-        self.mask_selector = mask_selector
-        self.multiple_masks_selector = multiple_masks_selector
-        self.mask_folder_name = mask_folder_name
-
     def transform(self, X: list) -> list:
         """Recolors masks from default color to the color specified in the config.
 

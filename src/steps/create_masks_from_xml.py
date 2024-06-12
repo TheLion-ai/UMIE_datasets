@@ -7,45 +7,13 @@ import re
 
 import cv2
 import numpy as np
-from sklearn.base import TransformerMixin
+from base.step import BaseStep
 from tqdm import tqdm
 
 
-class CreateMasksFromXML(TransformerMixin):
+class CreateMasksFromXML(BaseStep):
     """Converts masks from xml files to png images with appropriate color encoding."""
 
-    def __init__(
-        self,
-        target_path: str,
-        masks_path: str,
-        dataset_uid: str,
-        dataset_name: str,
-        phases: dict,
-        masks: dict,
-        zfill: int = 4,
-        mask_folder_name: str = "Masks",
-        **kwargs: dict,
-    ):
-        """Convert masks from xml files to png images with appropriate color encoding.
-
-        Args:
-            target_path (str): Path to the target folder.
-            masks_path (str): Path to the folder with masks.
-            dataset_uid (str): Unique identifier of the dataset.
-            dataset_name (str): Name of the dataset.
-            phases (dict): Dictionary with phases and their names.
-            masks (dict): Dictionary with masks and associated source and target colors.
-            zfill (int, optional): Number of zeros to fill the image id. Defaults to 4.
-            mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
-        """
-        self.target_path = target_path
-        self.masks_path = masks_path
-        self.dataset_uid = dataset_uid
-        self.dataset_name = dataset_name
-        self.phases = phases
-        self.masks = masks
-        self.zfill = zfill
-        self.mask_folder_name = mask_folder_name
 
     def transform(self, X: list) -> list:
         """Convert masks from xml files to png images with appropriate color encoding.
