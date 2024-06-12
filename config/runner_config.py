@@ -4,8 +4,6 @@ from src.constants import TARGET_PATH
 from src.pipelines.alzheimers import AlzheimersPipeline
 from src.pipelines.brain_met_share import BrainMETSharePipeline
 from src.pipelines.brain_tumor_classification import BrainTumorClassificationPipeline
-from src.pipelines.alzheimers import AlzheimersPipeline
-from src.pipelines.brain_met_share import BrainMETSharePipeline
 from src.pipelines.brain_tumor_detection import BrainTumorDetectionPipeline
 from src.pipelines.brain_tumor_progression import BrainTumorProgressionPipeline
 from src.pipelines.brain_with_intracranial_hemorrhage import (
