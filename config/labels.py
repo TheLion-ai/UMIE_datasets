@@ -33,7 +33,7 @@ NormalityDecriptor = Label(
         "alzheimers": ["NonDemented"],
         "covid19_detection": ["normal"],
         "chestX-ray14": ["No Finding"],
-        "brain_tumor_classification": ["normal"],
+        "brain_tumor_classification": ["no_tumor"],
         "brain_with_intracranial_hemorrhage": ["normal"],
         "brain_tumor_detection": ["N"],
         "lits": ["NormalityDescriptor"],
@@ -342,7 +342,7 @@ Pituitary = Label(
     id=41,
     radlex_name="Pituitary",
     radlex_id="RID28679",
-    source_names={"brain_tumor_classification": ["pituitary_wtumor"]},
+    source_names={"brain_tumor_classification": ["pituitary_tumor"]},
 )
 
 Osteoarthritis = Label(

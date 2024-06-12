@@ -116,6 +116,12 @@ brain_tumor_classification = DatasetArgs(
     dataset_uid="04",
     dataset_name="brain_tumor_classification",
     phases={"0": "T1_weighted_postCM"},  # occasionally T2_weighted!
+    labels={
+        "no_tumor": [{labels.NormalityDecriptor.radlex_name: 1}],
+        "glioma_tumor": [{labels.Glioma.radlex_name: 1}],
+        "meningioma_tumor": [{labels.Meningioma.radlex_name: 1}],
+        "pituitary_tumor": [{labels.Pituitary.radlex_name: 1}],
+    },
 )
 
 covid19_detection = DatasetArgs(
@@ -198,12 +204,6 @@ qin_brain_dsc_mri = DatasetArgs(
     dataset_name="qin_brain_dsc_mri",
     phases={
         "0": "T1_weighted_after_CM",
-    },
-    labels={
-        "normal": [{labels.NormalityDecriptor.radlex_name: 1}],
-        "glioma": [{labels.Glioma.radlex_name: 1}],
-        "meningioma": [{labels.Meningioma.radlex_name: 1}],
-        "pituitary": [{labels.Pituitary.radlex_name: 1}],
     },
     masks={},
 )

@@ -6,11 +6,13 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
-from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
+from config import dataset_config
+from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_jpg2png import ConvertJpg2Png
 from src.steps.create_file_tree import CreateFileTree
+from src.steps.delete_temp_files import DeleteTempFiles
 from src.steps.delete_temp_png import DeleteTempPng
 from src.steps.get_file_paths import GetFilePaths
 from src.steps.get_source_paths import GetSourcePaths
@@ -20,7 +22,7 @@ from src.steps.get_source_paths import GetSourcePaths
 class BrainTumorClassificationPipeline(BasePipeline):
     """Preprocessing pipeline for Brain Tumor Classification dataset."""
 
-    name: str = field(default="Brain_Tumor_Classification_MRI")  # dataset name used in configs
+    name: str = field(default="Brain_Tumor_Classification")  # dataset name used in configs
     steps: list = field(
         default_factory=lambda: [
             ("create_file_tree", CreateFileTree),
@@ -30,11 +32,14 @@ class BrainTumorClassificationPipeline(BasePipeline):
             ("add_new_ids", AddNewIds),
             ("add_labels", AddLabels),
             ("delete_temp_png", DeleteTempPng),
+            ("delete_temp_files", DeleteTempFiles),
         ]
     )
-
-    dataset_args: DatasetArgs = field(
-        default_factory=lambda: DatasetArgs(
+    dataset_args: dataset_config.brain_tumor_classification = field(
+        default_factory=lambda: dataset_config.brain_tumor_classification
+    )
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
             image_folder_name="Images",
             mask_folder_name=None,
             img_prefix="",
@@ -81,19 +86,13 @@ class BrainTumorClassificationPipeline(BasePipeline):
     def get_label(self, img_path: str) -> list:
         """Get label for file. Label is a name of folder in source directory."""
         image_folder = os.path.basename(os.path.dirname(img_path))
-        standard_ontology = {
-            "glioma_tumor": "Glioma",
-            "meningioma_tumor": "Meningioma",
-            "pituitary_tumor": "Pituitary",
-            "no_tumor": "good",
-        }
-        return [standard_ontology[image_folder]]
+        return self.args["labels"][image_folder]
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        self.dataset_args.img_id_extractor = lambda x: self.img_id_extractor(x)
-        self.dataset_args.study_id_extractor = lambda x: self.study_id_extractor(x)
-        self.dataset_args.get_label = lambda x: self.get_label(x)
+        self.pipeline_args.img_id_extractor = lambda x: self.img_id_extractor(x)
+        self.pipeline_args.study_id_extractor = lambda x: self.study_id_extractor(x)
+        self.pipeline_args.get_label = lambda x: self.get_label(x)
 
         self.args["compress_after_folder"] = "archive"
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.dataset_args))
+        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

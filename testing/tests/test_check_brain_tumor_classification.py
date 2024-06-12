@@ -13,10 +13,10 @@ import pytest
 from src.pipelines.brain_tumor_classification import BrainTumorClassificationPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
-source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/09_Brain_Tumor_Classification/input")
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/09_Brain_Tumor_Classification/output")
+source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/04_brain_tumor_classification/input")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/04_brain_tumor_classification/output")
 expected_output_path = os.path.join(
-    os.getcwd(), "testing/test_dummy_data/09_Brain_Tumor_Classification/expected_output"
+    os.getcwd(), "testing/test_dummy_data/04_brain_tumor_classification/expected_output"
 )
 
 
@@ -41,7 +41,7 @@ def test_brain_tumor_classification_verify_file_tree():
     current_file_tree = glob.glob(f"{str(target_path)}/**", recursive=True)
 
     if not DatasetTestingLibrary.verify_file_tree(expected_file_tree, current_file_tree):
-        pytest.fail("Alzheimer's pipeline created file tree different than expected.")
+        pytest.fail("Brain Tumor Classification pipeline created file tree different than expected.")
 
 
 def test_brain_tumor_classification_verify_images_correct():
@@ -50,7 +50,7 @@ def test_brain_tumor_classification_verify_images_correct():
     current_file_tree = glob.glob(f"{str(target_path)}/**/*.png", recursive=True)
 
     if not DatasetTestingLibrary.verify_all_images_identical(expected_file_tree, current_file_tree):
-        pytest.fail("Alzheimer's pipeline created image contents different than expected.")
+        pytest.fail("Brain Tumor Classification pipeline created image contents different than expected.")
 
 
 def test_clean_up_brain_tumor_classification():
