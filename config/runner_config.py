@@ -4,6 +4,7 @@ from abc import abstractmethod
 
 from src.constants import TARGET_PATH
 from src.pipelines.alzheimers import AlzheimersPipeline
+from src.pipelines.brain_tumor_classification import BrainTumorClassificationPipeline
 from src.pipelines.brain_tumor_detection import BrainTumorDetectionPipeline
 from src.pipelines.brain_tumor_progression import BrainTumorProgressionPipeline
 from src.pipelines.brain_with_hemorrhage import BrainWithHemorrhagePipeline
