@@ -24,4 +24,5 @@ dataset_masks = {
     "BrainTumorProgression": {
         "brain_tumor": 255,
     },
+    "Brain_Tumor_Classification_MRI": {},
 }

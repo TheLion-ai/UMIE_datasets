@@ -105,4 +105,10 @@ datasets = [
             "masks_path": "",
         }
     ),
+    BrainTumorClassificationPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+        },
+    ),
 ]
