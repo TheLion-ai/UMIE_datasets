@@ -27,7 +27,6 @@ class ConvertNii2Png(TransformerMixin):
         mask_folder_name: str = "Masks",
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         study_id_extractor: Callable = lambda x: x,
-        phase_extractor: Callable = lambda x: x,
         zfill: int = 3,
         img_prefix: str = "imaging",
         segmentation_prefix: str = "segmentation",
@@ -47,7 +46,6 @@ class ConvertNii2Png(TransformerMixin):
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
             study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
-            phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
             zfill (int, optional): Number of zeros to fill the image id. Defaults to 3.
             img_dicom_prefix (str, optional): Prefix for the file with images. Defaults to "imaging".
             segmentation_dicom_prefix (str, optional): Prefix for the dicom file with segmentations. Defaults to "segmentation".
@@ -61,7 +59,6 @@ class ConvertNii2Png(TransformerMixin):
         self.mask_folder_name = mask_folder_name
         self.img_id_extractor = img_id_extractor
         self.study_id_extractor = study_id_extractor
-        self.phase_extractor = phase_extractor
         self.window_center = window_center
         self.window_width = window_width
         self.zfill = zfill

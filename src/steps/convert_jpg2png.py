@@ -17,12 +17,8 @@ class ConvertJpg2Png(TransformerMixin):
         target_path: str,
         dataset_name: str,
         dataset_uid: str,
-        phases: dict,
-        image_folder_name: str,
         mask_folder_name: str,
-        masks_path: str = None,
         img_id_extractor: Callable = lambda x: os.path.basename(x),
-        phase_extractor: Callable = lambda x: x,
         img_prefix: str = "",
         **kwargs: dict,
     ):
@@ -31,26 +27,17 @@ class ConvertJpg2Png(TransformerMixin):
         Args:
             source_path (str): Path to source folder.
             target_path (str): Path to the target folder.
-            masks_path (str): Path to the source folder with masks.
             dataset_name (str): Name of the dataset.
             dataset_uid (str): Unique identifier of the dataset.
-            phases (dict): Dictionary with phases and their names.
-            image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
-            img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
-            phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
             img_prefix (str, optional): Prefix for the file with images.
         """
         self.source_path = source_path
         self.target_path = target_path
-        self.masks_path = masks_path
         self.dataset_name = dataset_name
         self.dataset_uid = dataset_uid
-        self.phases = phases
-        self.image_folder_name = image_folder_name
         self.mask_folder_name = mask_folder_name
         self.img_id_extractor = img_id_extractor
-        self.phase_extractor = phase_extractor
         self.img_prefix = img_prefix
 
     def transform(

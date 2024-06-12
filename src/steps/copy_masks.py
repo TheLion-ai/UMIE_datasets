@@ -17,7 +17,6 @@ class CopyMasks(TransformerMixin):
         dataset_name: str,
         dataset_uid: str,
         phases: dict,
-        image_folder_name: str,
         mask_folder_name: str,
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         study_id_extractor: Callable = lambda x: x,
@@ -34,7 +33,6 @@ class CopyMasks(TransformerMixin):
             dataset_name (str): Name of the dataset.
             dataset_uid (str): Unique identifier of the dataset.
             phases (dict): Dictionary with phases and their names.
-            image_folder_name (str, optional): Name of the folder with images. Defaults to "Images".
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
             study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
@@ -46,7 +44,6 @@ class CopyMasks(TransformerMixin):
         self.dataset_name = dataset_name
         self.dataset_uid = dataset_uid
         self.phases = phases
-        self.image_folder_name = image_folder_name
         self.mask_folder_name = mask_folder_name
         self.img_id_extractor = img_id_extractor
         self.study_id_extractor = study_id_extractor

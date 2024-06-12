@@ -26,7 +26,6 @@ class ConvertTif2Png(TransformerMixin):
         mask_selector: str,
         img_id_extractor: Callable = lambda x: os.path.basename(x),
         phase_extractor: Callable = lambda x: x,
-        study_id_extractor: Callable = lambda x: x,
         **kwargs: dict,
     ):
         """Convert tif files to png images.
@@ -43,7 +42,6 @@ class ConvertTif2Png(TransformerMixin):
             mask_selector (str): Phrase included only in masks paths.
             img_id_extractor (Callable, optional): Function to extract image id from the path. Defaults to lambda x: os.path.basename(x).
             phase_extractor (Callable, optional): Function to extract phase id from the path. Defaults to lambda x: x.
-            study_id_extractor (Callable, optional): Function to extract study id from the path. Defaults to lambda x: x.
         """
         self.source_path = source_path
         self.target_path = target_path
@@ -56,7 +54,6 @@ class ConvertTif2Png(TransformerMixin):
         self.mask_selector = mask_selector
         self.img_id_extractor = img_id_extractor
         self.phase_extractor = phase_extractor
-        self.study_id_extractor = study_id_extractor
 
     def transform(
         self,

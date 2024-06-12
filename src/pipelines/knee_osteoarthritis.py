@@ -1,16 +1,11 @@
 """Preprocessing pipeline for Alzheimers dataset."""
-import fnmatch
-import glob
 import os
-import re
 from dataclasses import asdict, dataclass, field
-from functools import partial
-from typing import Any, List
+from typing import Any
 
-import cv2
-import numpy as np
-
-from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
+from config import dataset_config
+from src.constants import IMG_FOLDER_NAME
+from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
 from src.steps.create_file_tree import CreateFileTree
@@ -34,10 +29,11 @@ class KneeOsteoarthritisPipeline(BasePipeline):
             ("delete_temp_files", DeleteTempFiles),
         ]
     )
-    dataset_args: DatasetArgs = field(
-        default_factory=lambda: DatasetArgs(
+    dataset_args: dataset_config.knee_osteoarthritis = field(default_factory=lambda: dataset_config.knee_osteoarthritis)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
             phase_extractor=lambda x: "0",  # All images are from the same phase
-            image_folder_name="Images",
+            image_folder_name=IMG_FOLDER_NAME,
             mask_folder_name=None,
         )
     )
@@ -54,25 +50,17 @@ class KneeOsteoarthritisPipeline(BasePipeline):
         """Each study has only 1 image."""
         return "0"
 
-    # Changing labels from dataset (folders names) to match standard
-    labels_dict = {
-        "0": "good",
-        "1": "DoubtfulOsteoarthritis",
-        "2": "MinimalOsteoarthritis",
-        "3": "ModerateOsteoarthritis",
-        "4": "SevereOsteoarthritis",
-    }
-
     def get_label(self, img_path: str) -> list:
         """Get label for file. Label is a name of folder in source directory."""
-        class_key = os.path.basename(os.path.dirname(img_path))
-        return [self.labels_dict[class_key]]
+        label = os.path.basename(os.path.dirname(img_path))
+
+        return self.args["labels"][label]
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        self.dataset_args.img_id_extractor = lambda x: self.img_id_extractor(x)
-        self.dataset_args.study_id_extractor = lambda x: self.study_id_extractor(x)
+        self.pipeline_args.img_id_extractor = lambda x: self.img_id_extractor(x)
+        self.pipeline_args.study_id_extractor = lambda x: self.study_id_extractor(x)
 
-        self.dataset_args.get_label = lambda x: self.get_label(x)
+        self.pipeline_args.get_label = lambda x: self.get_label(x)
         # Add dataset specific arguments to the pipeline arguments
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.dataset_args))
+        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

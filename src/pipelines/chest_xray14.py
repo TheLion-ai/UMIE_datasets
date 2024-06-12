@@ -78,7 +78,7 @@ class ChestXray14Pipeline(BasePipeline):
             img_id += ".png"
         img_row = self.metadata.loc[self.metadata["Image Index"] == img_id]
         labels = [label for label in img_row["Finding Labels"].values[0].split("|")]
-        radlex_labels = [self.args["label2radlex"][label] for label in labels]
+        radlex_labels = [self.args["labels"][label] for label in labels]
 
         return radlex_labels
 

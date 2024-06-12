@@ -6,6 +6,7 @@ from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from config import dataset_config
+from src.constants import IMG_FOLDER_NAME
 from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
@@ -34,7 +35,7 @@ class AlzheimersPipeline(BasePipeline):
     pipeline_args: PipelineArgs = field(
         default_factory=lambda: PipelineArgs(
             phase_extractor=lambda x: "0",  # All images are from the same phase
-            image_folder_name="Images",
+            image_folder_name=IMG_FOLDER_NAME,
             mask_folder_name=None,
             img_prefix="",
         )
@@ -124,7 +125,7 @@ class AlzheimersPipeline(BasePipeline):
         filename_source = self.reverse_filename(img_path)
         file_source_path = [path for path in self.files_source if filename_source == os.path.basename(path)][0]
         label = os.path.basename(os.path.dirname(file_source_path))
-        radlex_label = self.args["label2radlex"][label]
+        radlex_label = self.args["labels"][label]
 
         return radlex_label
 

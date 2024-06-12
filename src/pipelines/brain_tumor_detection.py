@@ -64,9 +64,9 @@ class BrainTumorDetectionPipeline(BasePipeline):
     def get_label(self, img_path: str) -> list:
         """Get label for file. Label is a name of folder in source directory."""
         if "Y" in os.path.basename(img_path):
-            return self.args["label2radlex"]["Y"]
+            return self.args["labels"]["Y"]
         elif "N" in os.path.basename(img_path) or "n" in os.path.basename(img_path):
-            return self.args["label2radlex"]["N"]
+            return self.args["labels"]["N"]
         else:
             return []
 

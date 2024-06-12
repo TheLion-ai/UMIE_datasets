@@ -19,9 +19,7 @@ class CombineMultipleMasks(TransformerMixin):
         target_path: str,
         dataset_name: str,
         dataset_uid: str,
-        dataset_masks: dict,
-        mask_encodings: dict,
-        mask_colors_source2target: dict,
+        masks: dict,
         mask_selector: str,
         multiple_masks_selector: dict,
         mask_folder_name: str = "Masks",
@@ -30,16 +28,13 @@ class CombineMultipleMasks(TransformerMixin):
         """Combine and recolor multiple masks into one.
 
         Args:
-            mask_colors_source2target (dict): Dictionary with old and new colors.
             mask_folder_name (str, optional): Name of the folder with masks. Defaults to "Masks".
         """
         self.source_path = source_path
         self.target_path = target_path
         self.dataset_name = dataset_name
         self.dataset_uid = dataset_uid
-        self.dataset_masks = dataset_masks
-        self.mask_encodings = mask_encodings
-        self.mask_colors_source2target = mask_colors_source2target
+        self.masks = masks
         self.mask_selector = mask_selector
         self.multiple_masks_selector = multiple_masks_selector
         self.mask_folder_name = mask_folder_name
@@ -54,13 +49,6 @@ class CombineMultipleMasks(TransformerMixin):
         """
         if len(X) == 0:
             raise ValueError("No list of files provided.")
-        # Robust to multiple modalities and lack of masks for some images
-        # root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
-        # mask_paths = glob.glob(os.path.join(root_path, f"**/{self.mask_folder_name}/*.png"), recursive=True)
-        # print("Recoloring masks...")
-        # for mask_path in mask_paths:
-        #     if os.path.exists(mask_path):
-        #         self.combine_multiple_masks(mask_path)
 
         for root, _, filenames in os.walk(self.source_path):
             for filename in filenames:
@@ -84,19 +72,19 @@ class CombineMultipleMasks(TransformerMixin):
         active_selector = [k for k in self.multiple_masks_selector.keys() if k in mask_path]
         if bool(active_selector):
             new_mask_path = mask_path.replace(active_selector[0], "").replace("__", "_")
-            # new_mask_path = ""
             if os.path.exists(new_mask_path):
                 return
             mask = cv2.imread(mask_path)
-            source_color = self.dataset_masks[self.multiple_masks_selector[active_selector[0]]]
-            target_color = self.mask_encodings[self.multiple_masks_selector[active_selector[0]]]
+            mask_name = self.multiple_masks_selector[active_selector[0]]
+            source_color = self.masks[mask_name]["source_color"]
+            target_color = self.mask_encodings[mask_name]["target_color"]
             np.place(mask, mask == source_color, target_color)
             for k, v in self.multiple_masks_selector.items():
                 other_mask_path = mask_path.replace(active_selector[0], k)
                 # other_mask_path = ""
                 other_mask = cv2.imread(other_mask_path)
-                source_color = self.dataset_masks[v]
-                target_color = self.mask_encodings[v]
+                source_color = self.masks[v]["source_color"]
+                target_color = self.masks[v]["target_color"]
                 np.place(other_mask, other_mask == source_color, target_color)
                 mask[other_mask > 0] = other_mask[other_mask > 0]
 

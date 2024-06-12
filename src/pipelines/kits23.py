@@ -57,16 +57,14 @@ class KITS23Pipeline(BasePipeline):
             window_width=400,
             img_prefix="imaging",  # prefix of the source image file names
             segmentation_prefix="segmentation",  # prefix of the source mask file names
+            mask_folder_name=MASK_FOLDER_NAME,
         )
     )
 
     def get_label(
-        cls,
+        self,
         img_path: str,
-        label2radlex: dict,
         labels_list: list,
-        kidney_findings_encodings: list = [1, 2],
-        mask_folder_name: str = MASK_FOLDER_NAME,
     ) -> list:
         """Get label for the image.
 
@@ -78,11 +76,15 @@ class KITS23Pipeline(BasePipeline):
         """
         img_id = os.path.basename(img_path)
         root_path = os.path.dirname(os.path.dirname(img_path))
-        mask_path = os.path.join(root_path, mask_folder_name, img_id)
+        mask_path = os.path.join(root_path, MASK_FOLDER_NAME, img_id)
         mask = cv2.imread(mask_path)
 
+        kidney_findings_colors = [
+            self.args["masks"]["Neoplasm"]["target_color"],
+            self.args["masks"]["RenalCyst"]["target_color"],
+        ]
         # Check if the mask contains the kidney tumor or cyst
-        if np.any(np.isin(kidney_findings_encodings, np.unique(mask))):
+        if np.any(np.isin(kidney_findings_colors, np.unique(mask))):
             # Study id is between the second and third underscore in the target image id
             study_id_regex = re.match(r"^(?:[^_]*_){2}([^_]+)", img_id)
             study_id = (
@@ -95,22 +97,19 @@ class KITS23Pipeline(BasePipeline):
                     # Remove underscores from the label
                     label = case["tumor_histologic_subtype"]
                     # We do not include vague labels
-                    if label in label2radlex.keys():
-                        labels = label2radlex[label]
+                    if label in self.args["labels"].keys():
+                        labels = self.args["labels"]
                     break
             return labels
         return []
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        kidney_findings_encodings = [2, 3]
         # Load labels from the labels file
         self.labels_list = self.load_labels_from_path(self.args["labels_path"])
         # Add get_label function to the pipeline_args
         self.pipeline_args.get_label = partial(
             self.get_label,
-            label2radlex=self.dataset_args.label2radlex,
-            kidney_findings_encodings=kidney_findings_encodings,
             labels_list=self.labels_list,
         )
         # Update args with pipeline_args

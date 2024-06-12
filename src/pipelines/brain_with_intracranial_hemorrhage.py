@@ -83,9 +83,9 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
         if self.path_args["target_path"] in img_path:
             mask_path = img_path.replace(self.pipeline_args.image_folder_name, self.pipeline_args.mask_folder_name)
             if os.path.exists(mask_path):
-                return self.args["label2radlex"]["brain_hemorrhage"]
+                return self.args["labels"]["brain_hemorrhage"]
             else:
-                return self.args["label2radlex"]["normal"]
+                return self.args["labels"]["normal"]
         else:
             # incorrect images directory for invoking get_label
             return []

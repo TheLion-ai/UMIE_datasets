@@ -5,6 +5,7 @@ from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from config import dataset_config
+from src.constants import IMG_FOLDER_NAME
 from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
@@ -37,7 +38,7 @@ class COVID19DetectionPipeline(BasePipeline):
     pipeline_args: PipelineArgs = field(
         default_factory=lambda: PipelineArgs(
             phase_extractor=lambda x: "0",  # All images are from the same phase
-            image_folder_name="Images",
+            image_folder_name=IMG_FOLDER_NAME,
             mask_folder_name=None,
             img_prefix="",
         )
@@ -79,7 +80,8 @@ class COVID19DetectionPipeline(BasePipeline):
 
     def get_label(self, img_path: str) -> list:
         """Get label for file. Label is a name of folder in source directory."""
-        return [self.args["label2radlex"][os.path.basename(os.path.dirname(img_path))]]
+        label = os.path.basename(os.path.dirname(img_path))
+        return self.args["labels"][label]
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""

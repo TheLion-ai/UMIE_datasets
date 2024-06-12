@@ -21,7 +21,8 @@ from src.pipelines.lits import LITSPipeline
 datasets = [
     KITS23Pipeline(
         path_args={
-            "source_path": "",  # Path to the dataset directory in KITS23 repo
+            "source_path": "",  # Path to the "dataset" directory in KITS23 repo
+            "masks_path": "",  # Path to the "dataset" directory in KITS23 repo
             "target_path": TARGET_PATH,
             "labels_path": "",  # Path to kits23.json
         },
@@ -88,6 +89,7 @@ datasets = [
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,
+            "masks_path": "",
         },
     ),
     KneeOsteoarthritisPipeline(

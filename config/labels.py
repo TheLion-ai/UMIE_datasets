@@ -36,6 +36,7 @@ NormalityDecriptor = Label(
         "brain_tumor_classification": ["normal"],
         "brain_with_intracranial_hemorrhage": ["normal"],
         "brain_tumor_detection": ["N"],
+        "lits": ["NormalityDescriptor"],
     },
 )
 
@@ -59,8 +60,9 @@ Neoplasm = Label(
             "wilms",
             "other",
         ],
-        "PadChest": ["adenocarcinoma"],
+        "pad_chest": ["adenocarcinoma"],
         "brain_tumor_detection": ["Y"],
+        "lits": ["Neoplasm"],
     },
 )
 
@@ -73,7 +75,8 @@ RenalAdenocarcinoma = Label(
             "clear_cell_rcc",
             "chromophobe_rcc",
             "papillary_rcc",
-            "multilocular_cystic_rcc" "rcc_unclassified",
+            "multilocular_cystic_rcc",
+            "rcc_unclassified",
             "clear_cell_papillary",
         ],
     },
@@ -346,7 +349,7 @@ Osteoarthritis = Label(
     id=42,
     radlex_name="Osteoarthritis",
     radlex_id="RID3555",
-    grade=5,
+    grade=4,
     source_names={
         "knee_osteoarthritis": [
             "DoubtfulOsteoarthritis",

@@ -16,7 +16,7 @@ class RecolorMasks(TransformerMixin):
         target_path: str,
         dataset_name: str,
         dataset_uid: str,
-        mask_source_color2target: dict,
+        masks: dict,
         mask_folder_name: str = "Masks",
         **kwargs: dict,
     ):
@@ -29,7 +29,7 @@ class RecolorMasks(TransformerMixin):
         self.target_path = target_path
         self.dataset_name = dataset_name
         self.dataset_uid = dataset_uid
-        self.mask_source_color2target = mask_source_color2target
+        self.masks = masks
         self.mask_folder_name = mask_folder_name
 
     def transform(self, X: list) -> list:
@@ -59,6 +59,6 @@ class RecolorMasks(TransformerMixin):
         """
         mask = cv2.imread(mask_path)
         # changing pixel values
-        for source_color, target_color in self.mask_source_color2target.items():
-            np.place(mask, mask == source_color, target_color)
+        for mask_color in self.masks.values():
+            np.place(mask, mask == mask_color["source_color"], mask_color["target_color"])
         cv2.imwrite(mask_path, mask)

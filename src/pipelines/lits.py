@@ -6,8 +6,9 @@ from typing import Any
 
 import cv2
 
-from config import mask_encodings_config
-from src.pipelines.base_pipeline import BasePipeline, DatasetArgs
+from config import dataset_config
+from src.constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
+from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_labels import AddLabels
 from src.steps.add_new_ids import AddNewIds
 from src.steps.combine_multiple_masks import CombineMultipleMasks
@@ -35,8 +36,10 @@ class LITSPipeline(BasePipeline):
         ]
     )
 
-    dataset_args: DatasetArgs = field(
-        default_factory=lambda: DatasetArgs(
+    dataset_args: dataset_config.lits = field(default_factory=lambda: dataset_config.lits)
+
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
             img_prefix="volume",  # prefix of the source image file names
             mask_selector="segmentation",
             multiple_masks_selector={"livermask": "liver", "lesionmask": "liver_tumor"},
@@ -58,19 +61,19 @@ class LITSPipeline(BasePipeline):
 
     def get_label(self, img_path: str) -> list:
         """Get image label based on path."""
-        mask_path = img_path.replace(self.dataset_args.image_folder_name, self.dataset_args.mask_folder_name)
+        mask_path = img_path.replace(IMG_FOLDER_NAME, MASK_FOLDER_NAME)
         mask = cv2.imread(mask_path)
-        if mask_encodings_config.mask_encodings["liver_tumor"] in mask:
-            return ["Tumor"]
+        if self.args["masks"]["Neoplasm"]["target_color"] in mask:
+            return self.args["labels"]["Neoplasm"]
         else:
-            return ["good"]
+            return self.args["labels"]["NormalityDescriptor"]
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        self.dataset_args.img_id_extractor = lambda x: self.img_id_extractor(x)
-        self.dataset_args.study_id_extractor = lambda x: self.study_id_extractor(x)
+        self.pipeline_args.img_id_extractor = lambda x: self.img_id_extractor(x)
+        self.pipeline_args.study_id_extractor = lambda x: self.study_id_extractor(x)
 
         # Add get_label function to the dataset_args
-        self.dataset_args.get_label = partial(self.get_label)
+        self.pipeline_args.get_label = partial(self.get_label)
         # Update args with dataset_args
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.dataset_args))
+        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

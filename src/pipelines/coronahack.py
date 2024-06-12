@@ -81,8 +81,8 @@ class CoronaHackPipeline(BasePipeline):
             elif img_row["Label_1_Virus_category"].values[0] == "Virus":
                 label = "PneumoniaVirus"
 
-        if label in self.args["label2radlex"].keys():
-            radlex_labels = self.args["label2radlex"][label]
+        if label in self.args["labels"].keys():
+            radlex_labels = self.args["labels"][label]
 
         return radlex_labels
 

@@ -15,6 +15,7 @@ from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/08_lits/input")
 target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/08_lits/output")
+masks_path = os.path.join(os.getcwd(), "testing/test_dummy_data/08_lits/input")
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/08_lits/expected_output")
 
 
@@ -24,6 +25,7 @@ def test_run_lits():
         path_args={
             "source_path": source_path,
             "target_path": target_path,
+            "masks_path": masks_path,
         },
     )
     pipeline = dataset.pipeline

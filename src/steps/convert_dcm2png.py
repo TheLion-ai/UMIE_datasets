@@ -11,7 +11,6 @@ from sklearn.base import TransformerMixin
 from tqdm import tqdm
 
 
-# TODO: Add descriptions
 class ConvertDcm2Png(TransformerMixin):
     """Converts dicom files to png images with appropriate color encoding."""
 

@@ -4,6 +4,7 @@ from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from config import dataset_config
+from src.constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
 from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
 from src.steps.add_new_ids import AddNewIds
 from src.steps.convert_tif2png import ConvertTif2Png
@@ -36,8 +37,8 @@ class FindingAndMeasuringLungsPipeline(BasePipeline):
             # Study id is the folder name of all images in the study
             study_id_extractor=lambda x: os.path.basename((os.path.dirname(os.path.dirname(x)))).split("_")[-1],
             phase_extractor=lambda x: "0",  # All images are from the same phase
-            image_folder_name="Images",
-            mask_folder_name="Masks",
+            image_folder_name=IMG_FOLDER_NAME,
+            mask_folder_name=MASK_FOLDER_NAME,
             img_prefix="images",  # prefix of the source image file names
             segmentation_prefix="masks",  # prefix of the source mask file names
             mask_selector="2d_masks",
