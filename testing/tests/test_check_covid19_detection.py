@@ -13,9 +13,9 @@ import pytest
 from src.pipelines.covid19_detection import COVID19DetectionPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
-source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/05_covid19_detection/input")
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/05_covid19_detection/output")
-expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/05_covid19_detection/expected_output")
+source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/04_covid19_detection/input")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/04_covid19_detection/output")
+expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/04_covid19_detection/expected_output")
 
 
 def test_run_covid19_detection():

@@ -14,10 +14,10 @@ from src.pipelines.brain_tumor_detection import BrainTumorDetectionPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(
-    os.getcwd(), "testing/test_dummy_data/09_brain_tumor_detection/input/archive-3/brain_tumor_dataset"
+    os.getcwd(), "testing/test_dummy_data/08_brain_tumor_detection/input/archive-3/brain_tumor_dataset"
 )
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/09_brain_tumor_detection/output")
-expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/09_brain_tumor_detection/expected_output")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/08_brain_tumor_detection/output")
+expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/08_brain_tumor_detection/expected_output")
 
 
 def test_run_brain_tumor_detection():

@@ -6,41 +6,50 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
-from config import dataset_config
-from src.steps import AddLabels, AddUmieIds, ConvertJpg2Png, CreateFileTree, DeleteTempFiles, DeleteTempPng, GetFilePaths, StoreSourcePaths
-from src.base.pipeline import BasePipeline, PipelineArgs
-from src.base.extractors import BaseImgIdExtractor, BaseStudyIdExtractor, BaseLabelExtractor
+from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
+from base.pipeline import BasePipeline, PipelineArgs
+from config.dataset_config import DatasetArgs, brain_tumor_classification
+from steps import (
+    AddLabels,
+    AddUmieIds,
+    ConvertJpg2Png,
+    CreateFileTree,
+    DeleteTempFiles,
+    DeleteTempPng,
+    GetFilePaths,
+    StoreSourcePaths,
+)
+
 
 class ImgIdExtractor(BaseImgIdExtractor):
-    def _extract(self,img_path: str) -> str:
+    """Extractor for image IDs specific to the Brain Tumor Classification dataset."""
+
+    def _extract(self, img_path: str) -> str:
         return "0.png"
+
+
 @dataclass
 class BrainTumorClassificationPipeline(BasePipeline):
     """Preprocessing pipeline for Brain Tumor Classification dataset."""
 
-    name: str = field(default="Brain_Tumor_Classification")  # dataset name used in configs
-    steps: list = field(
-        default_factory=lambda: [
-            ("create_file_tree", CreateFileTree),
-            ("get_file_paths", GetFilePaths),
-            ("stor", StoreSourcePaths),
-            ("convert_jpg2png", ConvertJpg2Png),
-            ("add_new_ids", AddUmieIds),
-            ("add_labels", AddLabels),
-            ("delete_temp_png", DeleteTempPng),
-            ("delete_temp_files", DeleteTempFiles),
-        ]
+    name: str = "Brain_Tumor_Classification"  # dataset name used in configs
+    steps: tuple = (
+        ("create_file_tree", CreateFileTree),
+        ("get_file_paths", GetFilePaths),
+        ("stor", StoreSourcePaths),
+        ("convert_jpg2png", ConvertJpg2Png),
+        ("add_new_ids", AddUmieIds),
+        ("add_labels", AddLabels),
+        ("delete_temp_png", DeleteTempPng),
+        ("delete_temp_files", DeleteTempFiles),
     )
-    dataset_args: dataset_config.brain_tumor_classification = field(
-        default_factory=lambda: dataset_config.brain_tumor_classification
-    )
+    dataset_args: DatasetArgs = brain_tumor_classification
     pipeline_args: PipelineArgs = PipelineArgs(
-            image_folder_name="Images",
-            img_id_extractor=ImgIdExtractor(),
-            mask_folder_name=None,
-            img_prefix="",
+        image_folder_name="Images",
+        img_id_extractor=ImgIdExtractor(),
+        mask_folder_name=None,
+        img_prefix="",
     )
-
 
     def study_id_extractor(self, img_path: str) -> str:
         """Extract study id from img path. Img names are not unique.

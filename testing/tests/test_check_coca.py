@@ -15,14 +15,14 @@ from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(
     os.getcwd(),
-    "testing/test_dummy_data/17_coca/input/cocacoronarycalciumandchestcts-2/Gated_release_final/patient",
+    "testing/test_dummy_data/12_coca/input/cocacoronarycalciumandchestcts-2/Gated_release_final/patient",
 )
 masks_path = os.path.join(
     os.getcwd(),
-    "testing/test_dummy_data/17_coca/input/cocacoronarycalciumandchestcts-2/Gated_release_final/calcium_xml",
+    "testing/test_dummy_data/12_coca/input/cocacoronarycalciumandchestcts-2/Gated_release_final/calcium_xml",
 )
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/17_coca/output")
-expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/17_coca/expected_output")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/12_coca/output")
+expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/12_coca/expected_output")
 
 
 def test_run_coca():

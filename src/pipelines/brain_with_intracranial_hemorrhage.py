@@ -4,55 +4,49 @@ from dataclasses import asdict, dataclass, field
 from functools import partial
 from typing import Any
 
-from config import dataset_config
-from src.pipelines.base_pipeline import BasePipeline, PipelineArgs
-from src.steps.add_labels import AddLabels
-from steps.add_umie_ids import AddUmieIds
-from src.steps.convert_jpg2png import ConvertJpg2Png
-from src.steps.copy_masks import CopyMasks
-from src.steps.create_blank_masks import CreateBlankMasks
-from src.steps.create_file_tree import CreateFileTree
-from src.steps.delete_temp_files import DeleteTempFiles
-from src.steps.delete_temp_png import DeleteTempPng
-from src.steps.get_file_paths import GetFilePaths
-from src.steps.masks_to_binary_colors import MasksToBinaryColors
-from src.steps.recolor_masks import RecolorMasks
-from src.base.pipeline import BasePipeline, PipelineArgs
+from base.pipeline import BasePipeline, PipelineArgs
+from config.dataset_config import DatasetArgs, brain_with_intracranial_hemorrhage
+from steps import (
+    AddLabels,
+    AddUmieIds,
+    ConvertJpg2Png,
+    CopyMasks,
+    CreateBlankMasks,
+    CreateFileTree,
+    DeleteTempFiles,
+    DeleteTempPng,
+    GetFilePaths,
+    MasksToBinaryColors,
+    RecolorMasks,
+)
 
 
 @dataclass
 class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
     """Preprocessing pipeline for Brain with hemorrhage dataset."""
 
-    name: str = field(default="brain_with_intracranial_hemorrhage")  # dataset name used in configs
-    steps: list = field(
-        default_factory=lambda: [
-            ("get_file_paths", GetFilePaths),
-            ("create_file_tree", CreateFileTree),
-            ("copy_masks", CopyMasks),
-            ("convert_jpg2png", ConvertJpg2Png),
-            # ("copy_masks", CopyMasks),
-            ("masks_to_binary_colors", MasksToBinaryColors),
-            ("recolor_masks", RecolorMasks),
-            ("add_new_ids", AddUmieIds),
-            ("add_labels", AddLabels),
-            # Choose either to create blank masks or delete images without masks
-            # Recommended to create blank masks because only about 10% images have masks.
-            ("create_blank_masks", CreateBlankMasks),
-            # ("delete_imgs_without_masks", DeleteImgsWithoutMasks),
-            ("delete_temp_files", DeleteTempFiles),
-            ("delete_temp_png", DeleteTempPng),
-        ]
+    name: str = "brain_with_intracranial_hemorrhage"  # dataset name used in configs
+    steps: tuple = (
+        ("get_file_paths", GetFilePaths),
+        ("create_file_tree", CreateFileTree),
+        ("copy_masks", CopyMasks),
+        ("convert_jpg2png", ConvertJpg2Png),
+        # ("copy_masks", CopyMasks),
+        ("masks_to_binary_colors", MasksToBinaryColors),
+        ("recolor_masks", RecolorMasks),
+        ("add_new_ids", AddUmieIds),
+        ("add_labels", AddLabels),
+        # Choose either to create blank masks or delete images without masks
+        # Recommended to create blank masks because only about 10% images have masks.
+        ("create_blank_masks", CreateBlankMasks),
+        ("delete_temp_files", DeleteTempFiles),
+        ("delete_temp_png", DeleteTempPng),
     )
-    dataset_args: dataset_config.brain_with_intracranial_hemorrhage = field(
-        default_factory=lambda: dataset_config.brain_with_intracranial_hemorrhage
-    )
-    pipeline_args: PipelineArgs = field(
-        default_factory=lambda: PipelineArgs(
-            img_prefix=".",  # prefix of the source image file names
-            segmentation_prefix="_HGE_Seg.",  # prefix of the source mask file names
-            mask_selector="_HGE_Seg",
-        )
+    dataset_args: DatasetArgs = brain_with_intracranial_hemorrhage
+    pipeline_args: PipelineArgs = PipelineArgs(
+        img_prefix=".",  # prefix of the source image file names
+        segmentation_prefix="_HGE_Seg.",  # prefix of the source mask file names
+        mask_selector="_HGE_Seg",
     )
 
     def img_id_extractor(self, img_path: str) -> str:

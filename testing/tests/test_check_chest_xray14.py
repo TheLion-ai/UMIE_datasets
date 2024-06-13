@@ -13,10 +13,10 @@ import pytest
 from src.pipelines.chest_xray14 import ChestXray14Pipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
-source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/15_chest_xray14/input")
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/15_chest_xray14/output")
-labels_path = os.path.join(os.getcwd(), "testing/test_dummy_data/15_chest_xray14/input/Data_Entry_2017_v2020.csv")
-expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/15_chest_xray14/expected_output")
+source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/11_chest_xray14/input")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/11_chest_xray14/output")
+labels_path = os.path.join(os.getcwd(), "testing/test_dummy_data/11_chest_xray14/input/Data_Entry_2017_v2020.csv")
+expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/11_chest_xray14/expected_output")
 
 
 def test_run_chest_xray14():

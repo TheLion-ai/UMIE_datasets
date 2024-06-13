@@ -3,15 +3,16 @@
 import json
 import os
 from abc import abstractmethod
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from typing import Callable, Optional
 
-from base.step import BaseStep
 from sklearn.pipeline import Pipeline
 
+from base.extractors.img_id import BaseImgIdExtractor
+from base.step import BaseStep
 from config.dataset_config import DatasetArgs
 from src.constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
-from base.extractors.img_id import BaseImgIdExtractor
+
 
 @dataclass
 class PathArgs:
@@ -29,7 +30,7 @@ class PipelineArgs:
 
     image_folder_name: str = IMG_FOLDER_NAME  # name of folder, where images will be stored
     mask_folder_name: str = MASK_FOLDER_NAME  # name of folder, where masks will be stored
-    img_id_extractor: BaseImgIdExtractor = BaseImgIdExtractor() # function to extract image id from the image path
+    img_id_extractor: BaseImgIdExtractor = BaseImgIdExtractor()  # function to extract image id from the image path
     study_id_extractor: Callable = lambda x: x  # function to extract study id from the image path
     phase_extractor: Callable = lambda x: "0"  # function to extract phase from the image path
     zfill: Optional[int] = None  # number of digits to pad the image id with
@@ -50,10 +51,11 @@ class BasePipeline:
     dataset_args: DatasetArgs
     name: str  # name of the dataset
     pipeline_args: PipelineArgs  # arguments passed to sklearn pipeline required to process a specific dataset # defined in config
-    steps: list[tuple[str, BaseStep]]
+    steps: tuple[tuple[str, BaseStep]]
+
     def __post_init__(self) -> None:
         """Prepare args for the pipeline."""
-        self.args: dict = dict(**self.path_args, **asdict(self.dataset_args)) 
+        self.args: dict = dict(**self.path_args, **asdict(self.dataset_args))
 
         # Run prepare_pipeline only if source path exists.
         if self.args["source_path"]:
@@ -65,8 +67,6 @@ class BasePipeline:
         args = self.args
         # Create pipeline and pass args to each step
         return Pipeline(steps=[(step[0], step[1](**args)) for step in self.steps])
-
-
 
     def load_labels_from_path(self, labels_path: str) -> list:
         """Load all labels from the labels file. Labels are not processed here, they are processed in the get_label method.

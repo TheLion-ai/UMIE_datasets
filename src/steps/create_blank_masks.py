@@ -3,14 +3,15 @@ import glob
 import os
 
 import cv2
+import jsonlines
 import numpy as np
-from base.step import BaseStep
 from tqdm import tqdm
+
+from base.step import BaseStep
 
 
 class CreateBlankMasks(BaseStep):
     """Create blank masks for images that don't have masks."""
-
 
     def transform(self, X: list) -> list:
         """Create blank masks for images that don't have masks.
@@ -30,10 +31,24 @@ class CreateBlankMasks(BaseStep):
 
         mask_names = [os.path.basename(mask) for mask in mask_paths]
         print("Creating blank masks...")
+        self.blank_masks: list = []
         for img_path in tqdm(X):
             img_name = os.path.basename(img_path)
             if img_name not in mask_names:
                 self.create_blank_masks(img_path)
+
+        updated_lines = []
+        with jsonlines.open(self.json_path, mode="r") as reader:
+            for obj in reader:
+                if obj["umie_path"] in self.blank_masks:
+                    obj["has_mask"] = True
+
+                updated_lines.append(obj)
+
+        with jsonlines.open(self.json_path, mode="w") as writer:
+            for obj in updated_lines:
+                writer.write(obj)
+
         return X
 
     def create_blank_masks(self, img_path: str) -> None:
@@ -49,3 +64,6 @@ class CreateBlankMasks(BaseStep):
         new_path = os.path.join(new_path, self.mask_folder_name, img_name)
         mask = np.zeros(img.shape, np.uint8)  # Create a black mask
         cv2.imwrite(new_path, mask)
+
+        umie_path = new_path.replace(self.mask_folder_name, self.image_folder_name)
+        self.blank_masks.append(umie_path.replace(self.target_path, ""))

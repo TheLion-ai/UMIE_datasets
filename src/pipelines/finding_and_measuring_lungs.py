@@ -1,43 +1,43 @@
 """Preprocessing pipeline for Finding_and_Measuring_Lungs_in_CT_Data dataset."""
 import os
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from typing import Any
 
-from config import dataset_config
-from src.constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
-from src.base.pipeline import BasePipeline, PipelineArgs
-from src.steps import CreateFileTree, GetFilePaths, ConvertTif2Png, CopyMasks, RecolorMasks, AddUmieIds
-
+from base.pipeline import BasePipeline, PipelineArgs
+from config.dataset_config import DatasetArgs, finding_and_measuring_lungs
+from constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
+from steps import (
+    AddUmieIds,
+    ConvertTif2Png,
+    CopyMasks,
+    CreateFileTree,
+    GetFilePaths,
+    RecolorMasks,
+)
 
 
 @dataclass
 class FindingAndMeasuringLungsPipeline(BasePipeline):
     """Preprocessing pipeline for finding_and_measuring_lungs dataset."""
 
-    name: str = field(default="finding_and_measuring_lungs")  # dataset name used in configs
-    steps: list = field(
-        default_factory=lambda: [
-            ("create_file_tree", CreateFileTree),
-            ("get_file_paths", GetFilePaths),
-            ("convert_tif2png", ConvertTif2Png),
-            ("copy_png_masks", CopyMasks),
-            ("recolor_masks", RecolorMasks),
-            ("add_new_ids", AddUmieIds),
-        ]
+    name: str = "finding_and_measuring_lungs"  # dataset name used in configs
+    steps: tuple = (
+        ("create_file_tree", CreateFileTree),
+        ("get_file_paths", GetFilePaths),
+        ("convert_tif2png", ConvertTif2Png),
+        ("copy_png_masks", CopyMasks),
+        ("recolor_masks", RecolorMasks),
+        ("add_new_ids", AddUmieIds),
     )
-    dataset_args: dataset_config.finding_and_measuring_lungs = field(
-        default_factory=lambda: dataset_config.finding_and_measuring_lungs
-    )
-    pipeline_args: PipelineArgs = field(
-        default_factory=lambda: PipelineArgs(
-            # Study id is the folder name of all images in the study
-            study_id_extractor=lambda x: os.path.basename((os.path.dirname(os.path.dirname(x)))).split("_")[-1],
-            image_folder_name=IMG_FOLDER_NAME,
-            mask_folder_name=MASK_FOLDER_NAME,
-            img_prefix="images",  # prefix of the source image file names
-            segmentation_prefix="masks",  # prefix of the source mask file names
-            mask_selector="2d_masks",
-        )
+    dataset_args: DatasetArgs = finding_and_measuring_lungs
+    pipeline_args: PipelineArgs = PipelineArgs(
+        # Study id is the folder name of all images in the study
+        study_id_extractor=lambda x: os.path.basename((os.path.dirname(os.path.dirname(x)))).split("_")[-1],
+        image_folder_name=IMG_FOLDER_NAME,
+        mask_folder_name=MASK_FOLDER_NAME,
+        img_prefix="images",  # prefix of the source image file names
+        segmentation_prefix="masks",  # prefix of the source mask file names
+        mask_selector="2d_masks",
     )
 
     def study_id_extractor(self, img_path: str) -> str:
@@ -53,7 +53,7 @@ class FindingAndMeasuringLungsPipeline(BasePipeline):
     def img_id_extractor(self, img_path: str) -> str:
         """Retrieve image id from path."""
         # Each study has only 1 image in this dataset
-        return "0"
+        return "0.png"
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""

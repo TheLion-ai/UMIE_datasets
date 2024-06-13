@@ -1,9 +1,9 @@
 """Get file paths of all images from a source directory."""
 
 import os
+from typing import Optional
 
 from base.step import BaseStep
-from typing import Optional
 
 
 class GetFilePaths(BaseStep):
@@ -35,6 +35,8 @@ class GetFilePaths(BaseStep):
         for root, _, filenames in os.walk(source_path):
             for filename in filenames:
                 if filename.startswith("."):
+                    continue
+                if filename.endswith((".csv", ".json", ".xslx")):
                     continue
                 else:
                     path = os.path.join(root, filename)

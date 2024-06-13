@@ -38,22 +38,17 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 | 0 | [KITS-23](https://kits-challenge.org/kits23/)   | CT | classification/segmentation|
 | 1 | [CoronaHack](https://www.kaggle.com/datasets/praveengovi/coronahack-chest-xraydataset) | XRAY | classification|
 | 2 | [Alzheimers Dataset](https://www.kaggle.com/datasets/tourist55/alzheimers-dataset-4-class-of-images)	| MRI | Classification |
-| 3 | [Chest Xray Masks and Labels](https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels) | XRAY | classification/segmentation|
-| 4 | [Brain Tumor Classification](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri) | MRI | classification|
-| 5 | [COVID-19 Detection X-Ray](https://www.kaggle.com/datasets/darshan1504/covid19-detection-xray-dataset) | XRAY | classification |
-| 6 | [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/datasets/kmader/finding-lungs-in-ct-data)	| CT | Segmentation |
-| 7 | [Brain CT Images with Intracranial Hemorrhage Masks](https://www.kaggle.com/datasets/vbookshelf/computed-tomography-ct-images)	| CT | Classification |
-| 8 | [Liver and Liver Tumor Segmentation](https://www.kaggle.com/datasets/andrewmvd/lits-png)| CT | Classification, Segmentation |
-| 9 | [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/jjprotube/brain-mri-images-for-brain-tumor-detection) | MRI | Classification |
-| 10 | [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/datasets/shashwatwork/knee-osteoarthritis-dataset-with-severity)	|	X-Ray | Classification |
-| 11 | [QIN-BRAIN-DSC-MRI](https://www.cancerimagingarchive.net/collection/qin-brain-dsc-mri/) | MRI | segmentation|
-| 12 | [LIDC-IRI](https://www.cancerimagingarchive.net/collection/lidc-idri/) | CT | segmentation|
-| 13 | [CT-ORG](https://www.cancerimagingarchive.net/collection/ct-org/) | CT | segmentation|
-| 14 | [Brain Tumor Progression](https://www.cancerimagingarchive.net/collection/brain-tumor-progression/) | MRI | segmentation|
-| 15 | [Chest X-ray 14](https://nihcc.app.box.com/v/ChestXray-NIHCC/folder/36938765345) | XRAY | classification|
-| 16 | [BrainMetShare](https://aimi.stanford.edu/brainmetshare) | MRI | Segmentation |
-| 17 | [COCA- Coronary Calcium and chest CTs](https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa) | CT | Segmentation |
-| 18 | [MosMedData](https://mosmed.ai/datasets/) | CT | classification/segmentation|
+| 3 | [Brain Tumor Classification](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri) | MRI | classification|
+| 4 | [COVID-19 Detection X-Ray](https://www.kaggle.com/datasets/darshan1504/covid19-detection-xray-dataset) | XRAY | classification |
+| 5 | [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/datasets/kmader/finding-lungs-in-ct-data)	| CT | Segmentation |
+| 6 | [Brain CT Images with Intracranial Hemorrhage Masks](https://www.kaggle.com/datasets/vbookshelf/computed-tomography-ct-images)	| CT | Classification |
+| 7 | [Liver and Liver Tumor Segmentation](https://www.kaggle.com/datasets/andrewmvd/lits-png)| CT | Classification, Segmentation |
+| 8 | [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/jjprotube/brain-mri-images-for-brain-tumor-detection) | MRI | Classification |
+| 9 | [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/datasets/shashwatwork/knee-osteoarthritis-dataset-with-severity)	|	X-Ray | Classification |
+| 10 | [Brain Tumor Progression](https://www.cancerimagingarchive.net/collection/brain-tumor-progression/) | MRI | segmentation|
+| 11 | [Chest X-ray 14](https://nihcc.app.box.com/v/ChestXray-NIHCC/folder/36938765345) | XRAY | classification|
+| 12 | [COCA- Coronary Calcium and chest CTs](https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa) | CT | Segmentation |
+| 13 | [BrainMetShare](https://aimi.stanford.edu/brainmetshare) | MRI | Segmentation |
 
 
 # **Using the datasets**
@@ -65,9 +60,9 @@ poetry install
 Due to the copyright restrictions of the source datasets, we can't share the files directly. To obtain the full dataset you have to download the source datasets yourself and run the preprocessing scripts.
 <details>
   <summary>0.KITS-23</summary>
-      
+
   ### KITS-23
-        
+
   1. Clone the [KITS-23 repository](https://github.com/neheller/kits23).
   2. Enter the KITS-23 directory and install the packages with pip.
         ```bash
@@ -115,22 +110,11 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 
 </details>
 
-<details>
-  <summary>3. Chest Xray</summary>
-
-**3. Chest Xray Masks and Labels**
-  1. Go to [Chest Xray Masks and Labels](https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels) page on Kaggle.
-  2. Login to your Kaggle account.
-  3. Download the data.
-  4. Extract `archive.zip`.
-  5. Fill in the `source_path` to the location of the `archive` folder in `ChestXrayMasksAndLabelsPipeline()` in `config/runner_config.py`.
-
-</details>
 
 <details>
-  <summary>4. Brain Tumor Classification (MRI</summary>
-  
-**4. Brain Tumor Classification (MRI)**
+  <summary>3. Brain Tumor Classification (MRI</summary>
+
+**3. Brain Tumor Classification (MRI)**
 1. Go to [Brain Tumor Classification](https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels) page on Kaggle.
   2. Login to your Kaggle account.
   3. Download the data.
@@ -140,9 +124,9 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 </details>
 
 <details>
-  <summary>5. COVID-19 Detection X-Ray</summary>
-  
-**5. COVID-19 Detection X-Ray**
+  <summary>4. COVID-19 Detection X-Ray</summary>
+
+**4. COVID-19 Detection X-Ray**
   1. Go to [COVID-19 Detection X-Ray](https://www.kaggle.com/datasets/darshan1504/covid19-detection-xray-dataset) page on Kaggle.
   2. Login to your Kaggle account.
   3. Download the data.
@@ -152,9 +136,9 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 </details>
 
 <details>
-  <summary>6. Finding and Measuring Lungs in CT Dat</summary>
-  
-**6. Finding and Measuring Lungs in CT Data**
+  <summary>5. Finding and Measuring Lungs in CT Dat</summary>
+
+**5. Finding and Measuring Lungs in CT Data**
   1.  Go to [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/datasets/kmader/finding-lungs-in-ct-data) page on Kaggle.
   2. Login to your Kaggle account.
   3. Download the data.
@@ -164,9 +148,9 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 </details>
 
 <details>
-  <summary>7. Brain CT Images with Intracranial Hemorrhage Masks</summary>
-  
-**7. Brain CT Images with Intracranial Hemorrhage Masks**
+  <summary>6. Brain CT Images with Intracranial Hemorrhage Masks</summary>
+
+**6. Brain CT Images with Intracranial Hemorrhage Masks**
   1. Go to [Brain With Intracranial Hemorrhage](https://www.kaggle.com/datasets/vbookshelf/computed-tomography-ct-images) page on Kaggle.
   2. Login to your Kaggle account.
   3. Download the data.
@@ -176,9 +160,9 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 </details>
 
 <details>
-  <summary>8. Liver and Liver Tumor Segmentation (LITS)</summary>
-  
-**8. Liver and Liver Tumor Segmentation (LITS)**
+  <summary>7. Liver and Liver Tumor Segmentation (LITS)</summary>
+
+**7. Liver and Liver Tumor Segmentation (LITS)**
   1. Go to   [Liver and Liver Tumor Segmentation](https://www.kaggle.com/datasets/andrewmvd/lits-png).
   2. Login to your Kaggle account.
   3. Download the data.
@@ -188,9 +172,9 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 </details>
 
 <details>
-  <summary>9. Brain MRI Images for Brain Tumor Detection</summary>
+  <summary>8. Brain MRI Images for Brain Tumor Detection</summary>
 
-**9. Brain MRI Images for Brain Tumor Detection**
+**8. Brain MRI Images for Brain Tumor Detection**
   1. Go to [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/jjprotube/brain-mri-images-for-brain-tumor-detection) page on Kaggle.
   2. Login to your Kaggle account.
   3. Download the data.
@@ -200,9 +184,9 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 </details>
 
 <details>
-  <summary>10. Knee Osteoarthrithis Dataset with Severity Grading</summary>
-  
-**10. Knee Osteoarthrithis Dataset with Severity Grading**
+  <summary>9. Knee Osteoarthrithis Dataset with Severity Grading</summary>
+
+**9. Knee Osteoarthrithis Dataset with Severity Grading**
     1. Go to [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/datasets/shashwatwork/knee-osteoarthritis-dataset-with-severity).
     2. Login to your Kaggle account.
     3. Download the data.
@@ -211,41 +195,19 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 
 </details>
 
-<details>
-  <summary>11. QIN-BRAIN-DSC-MRI</summary>
-  
-**11. QIN-BRAIN-DSC-MRI**
-  1. Go to [QIN-BRAIN-DSC-MRI](https://www.cancerimagingarchive.net/collection/qin-brain-dsc-mri/) dataset from cancer imaging archive.
-
-</details>
 
 <details>
-  <summary>12. LIDC-IDRI</summary>
-  
-**12. LIDC-IDRI**
-  1. Go to [LIDC-IDRI](https://www.cancerimagingarchive.net/collection/lidc-idri/)dataset from the cancer imaging archive
+  <summary>10. Brain-Tumor-Progression</summary>
 
-</details>
-
-<details>
-  <summary>13. CT-ORG</summary>
-
-**13. CT-ORG**
-  1. Go to [CT-ORG](https://www.cancerimagingarchive.net/collection/ct-org/) from the cancer imaging archive.
-</details>
-
-<details>
-  <summary>14. Brain-Tumor-Progression</summary>
-  
-**14. Brain-Tumor-Progression**
+**10. Brain-Tumor-Progression**
   1. Go to [Brain Tumor Progression](https://wiki.cancerimagingarchive.net/display/Public/Brain-Tumor-Progression#339481190e2ccc0d07d7455ab87b3ebb625adf48) dataset from the cancer imaging archive.
 
 </details>
 
 <details>
-  <summary>15. Chest X-ray 14</summary>
-  
-**15. Chest X-ray 14**
+  <summary>11. Chest X-ray 14</summary>
+
+**11. Chest X-ray 14**
   1. Go to [Chest X-ray 14](https://nihcc.app.box.com/v/ChestXray-NIHCC/folder/36938765345).
   2. Create an account.
   3. Download the `images` folder and `DataEntry2017_v2020.csv`.
@@ -253,10 +215,22 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 </details>
 
 
-<details>
-  <summary>16. BrainMetShare</summary>
 
-**16. BrainMetShare**
+  <summary>12. COCA- Coronary Calcium and chest CTs</summary>
+
+**12. COCA- Coronary Calcium and chest CTs**
+  1. Go to [COCA- Coronary Calcium and chest CTs](https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa).
+  2. Log in or sign up for a Stanford AIMI account.
+  3. Fill in your contact details.
+  4. Download the data with [azcopy](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
+  5. Fill in the `source_path` with the location of the `cocacoronarycalciumandchestcts-2/Gated_release_final/patient` folder. Fill in `masks_path` with `cocacoronarycalciumandchestcts-2/Gated_release_final/calcium_xml` xml file.
+</details>
+
+
+<details>
+  <summary>13. BrainMetShare</summary>
+
+**13. BrainMetShare**
   1. Go to [BrainMetShare](https://aimi.stanford.edu/brainmetshare).
   2. Log in or sign up for a Stanford AIMI account.
   3. Fill in your contact details.
@@ -264,15 +238,6 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 </details>
 
 <details>
-  <summary>17. COCA- Coronary Calcium and chest CTs</summary>
-
-**17. COCA- Coronary Calcium and chest CTs**
-  1. Go to [COCA- Coronary Calcium and chest CTs](https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa).
-  2. Log in or sign up for a Stanford AIMI account.
-  3. Fill in your contact details.
-  4. Download the data with [azcopy](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
-  5. Fill in the `source_path` with the location of the `cocacoronarycalciumandchestcts-2/Gated_release_final/patient` folder. Fill in `masks_path` with `cocacoronarycalciumandchestcts-2/Gated_release_final/calcium_xml` xml file.
-</details>
 
 To preprocess the dataset that is not among the above, search the preprocessing folder. It contains the reusable steps for changing imaging formats, extracting masks, creating file trees, etc. Go to the config file to check which masks and label encodings are available. Append new labels and mask encodings if needed.
 

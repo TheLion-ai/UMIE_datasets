@@ -1,16 +1,17 @@
 """Change img ids to match the format of the rest of the dataset."""
-import json
 import glob
+import json
 import os
 import shutil
-from typing import Callable
+from typing import Callable, Optional
 
 import jsonlines
 import numpy as np
 from tqdm import tqdm
-from typing import Optional
+
 from base.extractors.img_id import BaseImgIdExtractor
 from base.step import BaseStep
+
 
 class AddUmieIds(BaseStep):
     """Change img ids to match the format of the rest of the dataset."""
@@ -29,8 +30,6 @@ class AddUmieIds(BaseStep):
         print("Adding new ids to the dataset...")
         if len(X) == 0:
             raise ValueError("No list of files provided.")
-        if os.path.exists(os.path.join(self.target_path, "source_paths.json")):
-            source_paths_dict = json.load(open(os.path.join(self.target_path, "source_paths.json")))
 
         self.new_json: list = []
         for img_path in tqdm(X):
@@ -46,9 +45,9 @@ class AddUmieIds(BaseStep):
         return new_paths
 
     def _update_json(self, umie_path: str, has_mask: bool) -> None:
-        
+
         phase_name, study_id, img_id = self.decode_umie_img_path(umie_path)
-        
+
         """Update JSON file with the infomration about the images."""
         comparative = ""
         if "PRE" in img_id:
@@ -57,14 +56,14 @@ class AddUmieIds(BaseStep):
             comparative = "POST"
 
         img_info = {}
-        new_file_name = img_id.split(".")[0]
         img_info = {
-            "file_name": new_file_name,
+            "umie_path": umie_path.replace(self.target_path, ""),
             "dataset_name": self.dataset_name,
             "dataset_uid": self.dataset_uid,
             "phase_name": phase_name,
             "comparative": comparative,
             "study_id": str(study_id),
+            "umie_id": os.path.basename(umie_path),
             "has_mask": has_mask,
             "labels": {},
         }
@@ -82,10 +81,12 @@ class AddUmieIds(BaseStep):
 
         if self.segmentation_prefix is not None and self.segmentation_prefix in img_path:
             return None
+
         umie_path = self.get_umie_img_path(img_path)
-        
-        
-        
+
+        if not self.validate_umie_path(img_path):
+            return None
+
         if not os.path.exists(umie_path):
             if self.target_path in img_path:
                 os.rename(img_path, umie_path)

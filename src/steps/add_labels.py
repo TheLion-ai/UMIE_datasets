@@ -1,13 +1,16 @@
 """Add labels to the images and masks based on the labels.json file. The step requires the pipeline to specify the function for mapping the images with annotations."""
-import json
 import glob
+import json
 import os
 from typing import Callable, Optional
 
 import jsonlines
 from tqdm import tqdm
-from base.extractors.img_id import BaseImgIdExtractor
-from base.step import BaseStep
+
+from src.base.extractors.img_id import BaseImgIdExtractor
+from src.base.step import BaseStep
+
+
 class AddLabels(BaseStep):
     """Add labels to the images and masks based on the function for mapping the images with annotations specified by the pipeline."""
 
@@ -37,8 +40,8 @@ class AddLabels(BaseStep):
         updated_lines = []
         with jsonlines.open(self.json_path, mode="r") as reader:
             for obj in reader:
-                if obj["file_name"] in self.json_updates.keys():
-                    obj["labels"] = self.json_updates[obj["file_name"]]
+                if obj["umie_path"] in self.json_updates.keys():
+                    obj["labels"] = self.json_updates[obj["umie_path"]]
                 updated_lines.append(obj)
 
         with jsonlines.open(self.json_path, mode="w") as writer:
@@ -49,7 +52,7 @@ class AddLabels(BaseStep):
         new_paths = glob.glob(os.path.join(root_path, f"**/{self.image_folder_name}/*.png"), recursive=True)
         return new_paths
 
-    def add_labels(self, img_path: str, source_path_dict : Optional[dict] = None) -> None:
+    def add_labels(self, img_path: str, source_path_dict: Optional[dict] = None) -> None:
         """Add labels to the image and mask based on the get_label function specified by the pipeline.
 
         Args:
@@ -62,4 +65,4 @@ class AddLabels(BaseStep):
         else:
             labels = self.get_label(img_path)
         if labels:
-            self.json_updates[img_id] = labels
+            self.json_updates[img_path.replace(self.target_path, "")] = labels
