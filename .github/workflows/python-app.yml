@@ -27,6 +27,11 @@ jobs:
 
     - name: download test files
       run: poetry run python testing/download_files.py
+      env: # Or as an environment variable
+        S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
+        S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+        S3_SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
+
 
     - name: Run pytest tests
       run: poetry run pytest testing/tests
