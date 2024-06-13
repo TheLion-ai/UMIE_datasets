@@ -24,9 +24,9 @@ jobs:
 
     - name: Install Poetry dependecies
       run: poetry install --with dev
-    
+
     - name: download test files
-      run: poetry run python testing/download_test_files.py
+      run: poetry run python testing/download_files.py
 
     - name: Run pytest tests
       run: poetry run pytest testing/tests
