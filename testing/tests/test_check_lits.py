@@ -13,10 +13,10 @@ import pytest
 from src.pipelines.lits import LITSPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
-source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/08_lits/input")
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/08_lits/output")
-masks_path = os.path.join(os.getcwd(), "testing/test_dummy_data/08_lits/input")
-expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/08_lits/expected_output")
+source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/07_lits/input")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/07_lits/output")
+masks_path = os.path.join(os.getcwd(), "testing/test_dummy_data/07_lits/input")
+expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/07_lits/expected_output")
 
 
 def test_run_lits():

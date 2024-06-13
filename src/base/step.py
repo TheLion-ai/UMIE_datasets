@@ -199,9 +199,9 @@ class BaseStep(TransformerMixin):
         Returns:
             tuple: Tuple containing the phase name, study id, and image id.
         """
-        umie_path = umie_path.replace(self.target_path, "")
-        umie_path_elements = umie_path.split(os.sep)
-        phase_name = umie_path_elements[1]
+        umie_id = os.path.basename(umie_path)  # umie_path.replace(self.target_path, "")
+        umie_path_elements = umie_id.split("_")
+        phase_name = self.phases[umie_path_elements[1]]
         study_id = umie_path_elements[2]
         img_id = umie_path_elements[3]
         return phase_name, study_id, img_id

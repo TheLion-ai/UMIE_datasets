@@ -13,10 +13,10 @@ import pytest
 from src.pipelines.brain_tumor_classification import BrainTumorClassificationPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
-source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/04_brain_tumor_classification/input")
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/04_brain_tumor_classification/output")
+source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/03_brain_tumor_classification/input")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/03_brain_tumor_classification/output")
 expected_output_path = os.path.join(
-    os.getcwd(), "testing/test_dummy_data/04_brain_tumor_classification/expected_output"
+    os.getcwd(), "testing/test_dummy_data/03_brain_tumor_classification/expected_output"
 )
 
 

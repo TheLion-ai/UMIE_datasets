@@ -11,7 +11,7 @@ from steps import (
     ConvertDcm2Png,
     CopyMasks,
     CreateFileTree,
-    DeleteImgsWithEmptyMasks,
+    DeleteImgsWithNoAnnotations,
     DeleteTempPng,
     GetFilePaths,
     RecolorMasks,
@@ -36,7 +36,7 @@ class BrainTumorProgressionPipeline(BasePipeline):
         ("recolor_masks", RecolorMasks),
         ("add_umie_ids", AddUmieIds),
         # optionally delete images with empty masks
-        ("delete_imgs_with_empty_masks", DeleteImgsWithEmptyMasks),
+        ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ("delete_temp_png", DeleteTempPng),
     )
     dataset_args: DatasetArgs = brain_tumor_progression

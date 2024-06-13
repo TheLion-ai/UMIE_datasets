@@ -40,8 +40,8 @@ class AddLabels(BaseStep):
         updated_lines = []
         with jsonlines.open(self.json_path, mode="r") as reader:
             for obj in reader:
-                if obj["file_name"] in self.json_updates.keys():
-                    obj["labels"] = self.json_updates[obj["file_name"]]
+                if obj["umie_path"] in self.json_updates.keys():
+                    obj["labels"] = self.json_updates[obj["umie_path"]]
                 updated_lines.append(obj)
 
         with jsonlines.open(self.json_path, mode="w") as writer:
@@ -65,4 +65,4 @@ class AddLabels(BaseStep):
         else:
             labels = self.get_label(img_path)
         if labels:
-            self.json_updates[img_id] = labels
+            self.json_updates[img_path.replace(self.target_path, "")] = labels

@@ -17,15 +17,15 @@ from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(
     os.getcwd(),
-    "testing/test_dummy_data/07_brain_with_intracranial_hemorrhage/input/computed-tomography-images-for-intracranial-hemorrhage-detection-and-segmentation-1.0.0",
+    "testing/test_dummy_data/06_brain_with_intracranial_hemorrhage/input/computed-tomography-images-for-intracranial-hemorrhage-detection-and-segmentation-1.0.0",
 )
 masks_path = os.path.join(
     os.getcwd(),
-    "testing/test_dummy_data/07_brain_with_intracranial_hemorrhage/input/computed-tomography-images-for-intracranial-hemorrhage-detection-and-segmentation-1.0.0",
+    "testing/test_dummy_data/06_brain_with_intracranial_hemorrhage/input/computed-tomography-images-for-intracranial-hemorrhage-detection-and-segmentation-1.0.0",
 )
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/07_brain_with_intracranial_hemorrhage/output")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/06_brain_with_intracranial_hemorrhage/output")
 expected_output_path = os.path.join(
-    os.getcwd(), "testing/test_dummy_data/07_brain_with_intracranial_hemorrhage/expected_output"
+    os.getcwd(), "testing/test_dummy_data/06_brain_with_intracranial_hemorrhage/expected_output"
 )
 
 

@@ -56,14 +56,14 @@ class AddUmieIds(BaseStep):
             comparative = "POST"
 
         img_info = {}
-        new_file_name = img_id.split(".")[0]
         img_info = {
-            "file_name": new_file_name,
+            "umie_path": umie_path.replace(self.target_path, ""),
             "dataset_name": self.dataset_name,
             "dataset_uid": self.dataset_uid,
             "phase_name": phase_name,
             "comparative": comparative,
             "study_id": str(study_id),
+            "umie_id": os.path.basename(umie_path),
             "has_mask": has_mask,
             "labels": {},
         }

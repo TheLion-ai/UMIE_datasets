@@ -13,9 +13,9 @@ import pytest
 from src.pipelines.knee_osteoarthritis import KneeOsteoarthritisPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
-source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/10_knee_osteoarthritis/input/Knee_Osteoarthritis")
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/10_knee_osteoarthritis/output")
-expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/10_knee_osteoarthritis/expected_output")
+source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/09_knee_osteoarthritis/input/Knee_Osteoarthritis")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/09_knee_osteoarthritis/output")
+expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/09_knee_osteoarthritis/expected_output")
 
 
 def test_run_knee_osteoarthritis():

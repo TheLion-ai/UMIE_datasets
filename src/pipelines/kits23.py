@@ -37,7 +37,7 @@ class KITS23Pipeline(BasePipeline):
         ("get_file_paths", GetFilePaths),
         ("convert_nii2png", ConvertNii2Png),
         ("copy_masks", CopyMasks),
-        ("add_new_ids", AddUmieIds),
+        ("add_umie_ids", AddUmieIds),
         ("recolor_masks", RecolorMasks),
         ("add_labels", AddLabels),
         # Choose either to create blank masks or delete images without masks
@@ -96,7 +96,7 @@ class KITS23Pipeline(BasePipeline):
                     label = case["tumor_histologic_subtype"]
                     # We do not include vague labels
                     if label in self.args["labels"].keys():
-                        labels = self.args["labels"]
+                        labels = self.args["labels"][label]
                     break
             return labels
         return []

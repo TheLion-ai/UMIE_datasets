@@ -4,9 +4,11 @@ import glob
 import os
 
 import cv2
+import jsonlines
 import numpy as np
-from base.step import BaseStep
 from tqdm import tqdm
+
+from base.step import BaseStep
 
 
 class DeleteImgsWithNoAnnotations(BaseStep):
@@ -32,6 +34,17 @@ class DeleteImgsWithNoAnnotations(BaseStep):
         # Create new list of paths after the deletion
         root_path = os.path.dirname(X[0])
         new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
+
+        updated_lines = []
+        with jsonlines.open(self.json_path, mode="r") as reader:
+            for obj in reader:
+                if os.path.join(self.target_path, obj["umie_path"]) in new_paths:
+                    updated_lines.append(obj)
+
+        with jsonlines.open(self.json_path, mode="w") as writer:
+            for obj in updated_lines:
+                writer.write(obj)
+
         return new_paths
 
     def delete_imgs_with_no_annotations(self, img_path: str, root_path: str) -> None:

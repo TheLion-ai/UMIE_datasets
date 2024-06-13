@@ -30,7 +30,7 @@ class COCAPipeline(BasePipeline):
         ("add_new_ids", AddUmieIds),
         # Choose either to create blank masks or delete images without masks
         # ("create_blank_masks", CreateBlankMasks),
-        ("delete_imgs_without_masks", DeleteImgsWithNoAnnotations),
+        ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ("delete_temp_png", DeleteTempPng),
     )
     dataset_args: DatasetArgs = coca

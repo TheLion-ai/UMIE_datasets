@@ -15,8 +15,9 @@ from steps import (
     CombineMultipleMasks,
     CopyMasks,
     CreateFileTree,
-    DeleteImgsWithEmptyMasks,
+    DeleteImgsWithNoAnnotations,
     GetFilePaths,
+    RecolorMasks,
 )
 
 
@@ -30,10 +31,11 @@ class LITSPipeline(BasePipeline):
         ("create_file_tree", CreateFileTree),
         ("combine_multiple_masks", CombineMultipleMasks),
         ("copy_masks", CopyMasks),
+        ("recolor_masks", RecolorMasks),
         ("add_new_ids", AddUmieIds),
         ("add_labels", AddLabels),
         # Recommended to delete images without masks, because they contain neither liver nor tumor
-        ("delete_imgs_with_empty_masks", DeleteImgsWithEmptyMasks),
+        ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
     )
 
     dataset_args: DatasetArgs = lits

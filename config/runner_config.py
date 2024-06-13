@@ -39,6 +39,12 @@ datasets = [
             "target_path": TARGET_PATH,
         },
     ),
+    BrainTumorClassificationPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+        },
+    ),
     COVID19DetectionPipeline(
         path_args={
             "source_path": "",
@@ -52,29 +58,44 @@ datasets = [
             "masks_path": "",  # Path to 2d_masks directory
         },
     ),
+    BrainWithIntracranialHemorrhagePipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+            "masks_path": "",  # same as source path
+        },
+    ),
+    LITSPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+            "masks_path": "",  # same as source_path
+        },
+    ),
     BrainTumorDetectionPipeline(
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,
         },
     ),
-    BrainWithIntracranialHemorrhagePipeline(
+    KneeOsteoarthritisPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+        }
+    ),
+    BrainTumorProgressionPipeline(
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,
             "masks_path": "",
-        },
+        }
     ),
     ChestXray14Pipeline(
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,
-        },
-    ),
-    BrainMETSharePipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
+            "labels_path": "",
         },
     ),
     COCAPipeline(
@@ -84,30 +105,10 @@ datasets = [
             "masks_path": "",  # Path to Gated_release_final/calcium_xml
         },
     ),
-    LITSPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-            "masks_path": "",
-        },
-    ),
-    KneeOsteoarthritisPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-        }
-    ),
-    BrainTumorClassificationPipeline(
+    BrainMETSharePipeline(
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,
         },
-    ),
-    BrainTumorProgressionPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-            "masks_path": "",
-        }
     ),
 ]

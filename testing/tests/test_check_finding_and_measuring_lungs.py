@@ -14,12 +14,12 @@ from src.pipelines.finding_and_measuring_lungs import FindingAndMeasuringLungsPi
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(
-    os.getcwd(), "testing/test_dummy_data/06_finding_and_measuring_lungs/input/archive/2d_images"
+    os.getcwd(), "testing/test_dummy_data/05_finding_and_measuring_lungs/input/archive/2d_images"
 )
-masks_path = os.path.join(os.getcwd(), "testing/test_dummy_data/06_finding_and_measuring_lungs/input/archive/2d_masks")
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/06_finding_and_measuring_lungs/output")
+masks_path = os.path.join(os.getcwd(), "testing/test_dummy_data/05_finding_and_measuring_lungs/input/archive/2d_masks")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/05_finding_and_measuring_lungs/output")
 expected_output_path = os.path.join(
-    os.getcwd(), "testing/test_dummy_data/06_finding_and_measuring_lungs/expected_output"
+    os.getcwd(), "testing/test_dummy_data/05_finding_and_measuring_lungs/expected_output"
 )
 
 

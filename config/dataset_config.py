@@ -110,14 +110,8 @@ alzheimers = DatasetArgs(
     },
 )
 
-chest_xray_masks_and_labels = DatasetArgs(
-    dataset_uid="03",
-    dataset_name="chest_xray_masks_and_labels",
-    phases={"0": "Xray"},
-)
-
 brain_tumor_classification = DatasetArgs(
-    dataset_uid="04",
+    dataset_uid="03",
     dataset_name="brain_tumor_classification",
     phases={"0": "T1_weighted_postCM"},  # occasionally T2_weighted!
     labels={
@@ -129,7 +123,7 @@ brain_tumor_classification = DatasetArgs(
 )
 
 covid19_detection = DatasetArgs(
-    dataset_uid="05",
+    dataset_uid="04",
     dataset_name="covid19_detection",
     phases={"0": "Xray"},
     labels={
@@ -149,14 +143,14 @@ covid19_detection = DatasetArgs(
 )
 
 finding_and_measuring_lungs = DatasetArgs(
-    dataset_uid="06",
+    dataset_uid="05",
     dataset_name="finding_and_measuring_lungs",
     phases={"0": "CT"},
     masks={masks.Lung.radlex_name: MaskColor(source_color=255, target_color=masks.Lung.color)},
 )
 
 brain_with_intracranial_hemorrhage = DatasetArgs(
-    dataset_uid="07",
+    dataset_uid="06",
     dataset_name="brain_with_intracranial_hemorrhage",
     phases={"0": "Bone", "1": "Brain"},
     labels={
@@ -167,7 +161,7 @@ brain_with_intracranial_hemorrhage = DatasetArgs(
 )
 
 lits = DatasetArgs(
-    dataset_uid="08",
+    dataset_uid="07",
     dataset_name="lits",
     phases={"0": "CT"},
     labels={
@@ -175,13 +169,13 @@ lits = DatasetArgs(
         "NormalityDescriptor": [{labels.NormalityDecriptor.radlex_name: 1}],
     },
     masks={
-        masks.Liver.radlex_name: MaskColor(source_color=1, target_color=masks.Liver.color),
-        masks.Neoplasm.radlex_name: MaskColor(source_color=1, target_color=masks.Neoplasm.color),
-    },  # masks have the same encoding, source keeps them in separate folders to differentiate!
+        masks.Liver.radlex_name: MaskColor(source_color=150, target_color=masks.Liver.color),
+        masks.Neoplasm.radlex_name: MaskColor(source_color=145, target_color=masks.Neoplasm.color),
+    },
 )
 
 brain_tumor_detection = DatasetArgs(
-    dataset_uid="09",
+    dataset_uid="08",
     dataset_name="brain_tumor_detection",
     phases={"0": "MRI"},
     labels={
@@ -191,7 +185,7 @@ brain_tumor_detection = DatasetArgs(
 )
 
 knee_osteoarthritis = DatasetArgs(
-    dataset_uid="10",
+    dataset_uid="09",
     dataset_name="knee_osteoarthritis",
     phases={"0": "CT"},
     labels={
@@ -203,32 +197,8 @@ knee_osteoarthritis = DatasetArgs(
     },
 )
 
-qin_brain_dsc_mri = DatasetArgs(
-    dataset_uid="11",
-    dataset_name="qin_brain_dsc_mri",
-    phases={
-        "0": "T1_weighted_after_CM",
-    },
-    masks={},
-)
-
-lidc_idri = DatasetArgs(
-    dataset_uid="12",
-    dataset_name="lidc_idri",
-    phases={"0": "CT"},
-    masks={masks.Nodule.radlex_name: MaskColor(source_color=255, target_color=masks.Nodule.color)},
-)
-
-ct_org = DatasetArgs(
-    dataset_uid="13",
-    dataset_name="ct_org",
-    phases={
-        "0": "CT",
-    },
-)
-
 brain_tumor_progression = DatasetArgs(
-    dataset_uid="14",
+    dataset_uid="10",
     dataset_name="brain_tumor_progression",
     phases={
         "0": "T1post",
@@ -247,7 +217,7 @@ brain_tumor_progression = DatasetArgs(
 
 
 chest_xray14 = DatasetArgs(
-    dataset_uid="15",
+    dataset_uid="11",
     dataset_name="chest_xray14",
     phases={"0": "Xray"},
     labels={
@@ -269,8 +239,15 @@ chest_xray14 = DatasetArgs(
     },
 )
 
+coca = DatasetArgs(
+    dataset_uid="12",
+    dataset_name="coca",
+    phases={"0": "CT"},
+    masks={masks.CalciumScore.radlex_name: MaskColor(source_color=20, target_color=masks.CalciumScore.color)},
+)
+
 brain_met_share = DatasetArgs(
-    dataset_uid="16",
+    dataset_uid="13",
     dataset_name="brain_met_share",
     phases={
         "0": "T1_weighted_preCM_spin-echo_pre-contrast",
@@ -279,11 +256,4 @@ brain_met_share = DatasetArgs(
         "3": "T2_FLAIR_postCM",
     },
     masks={masks.Metastasis.radlex_name: MaskColor(source_color=255, target_color=masks.Metastasis.color)},
-)
-
-coca = DatasetArgs(
-    dataset_uid="17",
-    dataset_name="coca",
-    phases={"0": "CT"},
-    masks={masks.CalciumScore.radlex_name: MaskColor(source_color=20, target_color=masks.CalciumScore.color)},
 )

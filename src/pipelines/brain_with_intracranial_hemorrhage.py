@@ -39,7 +39,6 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
         # Choose either to create blank masks or delete images without masks
         # Recommended to create blank masks because only about 10% images have masks.
         ("create_blank_masks", CreateBlankMasks),
-        # ("delete_imgs_without_masks", DeleteImgsWithoutMasks),
         ("delete_temp_files", DeleteTempFiles),
         ("delete_temp_png", DeleteTempPng),
     )
