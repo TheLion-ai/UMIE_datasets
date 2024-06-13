@@ -29,8 +29,8 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
         default_factory=lambda: [
             ("get_file_paths", GetFilePaths),
             ("create_file_tree", CreateFileTree),
-            ("convert_jpg2png", ConvertJpg2Png),
             ("copy_masks", CopyMasks),
+            ("convert_jpg2png", ConvertJpg2Png),
             # ("copy_masks", CopyMasks),
             ("masks_to_binary_colors", MasksToBinaryColors),
             ("recolor_masks", RecolorMasks),

@@ -1,6 +1,7 @@
 """Converts dicom files to png images with appropriate color encoding.""" ""
 import glob
 import os
+import warnings
 
 import cv2
 import numpy as np
@@ -129,17 +130,25 @@ class ConvertDcm2Png(BaseStep):
         Returns:
             np.ndarray: Image data with applied window.
         """
-        window_center, window_width = self._get_window_parameters(ds)
-        # apply window
-        output = np.clip(
-            output,
-            window_center - window_width / 2,
-            window_center + window_width / 2,
-        )
-        # convert from hounsfield scale (-1000 to 1000) to png scale (0 to 255)
-        min = np.min(output)
-        min = -1000 if min < -1000 else min
-        output = output - min
-        ratio = np.max(output) / 255
-        output = np.divide(output, ratio).astype(int)
+        with warnings.catch_warnings():
+            warnings.simplefilter("error")
+            try:
+                window_center, window_width = self._get_window_parameters(ds)
+                output = np.clip(
+                    output,
+                    window_center - window_width / 2,
+                    window_center + window_width / 2,
+                )
+                min_val = np.min(output)
+                min_val = -1000 if min_val < -1000 else min_val
+                output = output - min_val
+                max_val = np.max(output)
+                ratio = max_val / 255 if max_val != 0 else 1  # Avoid division by zero
+
+                output = np.divide(output, ratio).astype(int)
+            except RuntimeWarning as e:
+                print("Runtime warning caught:", e)
+                print("Output max value:", max_val)
+                print("Output min value:", min_val)
+                # Handle the exception or adjust output as necessary
         return output

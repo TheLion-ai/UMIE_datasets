@@ -39,10 +39,7 @@ def test_run_brain_with_intracranial_hemorrhage():
         },
     )
     pipeline = dataset.pipeline
-    try:
-        pipeline.transform(dataset.args["source_path"])
-    except Exception as e:
-        pytest.fail(f'Trying to run Brain with Hemorrhage pipeline raised an exception: "{e}"')
+    pipeline.transform(dataset.args["source_path"])
 
 
 def test_brain_with_intracranial_hemorrhage_verify_file_tree():

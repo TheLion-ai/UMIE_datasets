@@ -230,10 +230,21 @@ ct_org = DatasetArgs(
 brain_tumor_progression = DatasetArgs(
     dataset_uid="14",
     dataset_name="brain_tumor_progression",
-    phases={"0": "T1_weighted"},  # probably some before CM and some after CM
+    phases={
+        "0": "T1post",
+        "1": "dT1",
+        "2": "T1prereg",
+        "3": "FLAIRreg",
+        "4": "ADCreg",
+        "5": "sRCBVreg",
+        "6": "nRCBVreg",
+        "7": "nCBFreg",
+        "8": "T2reg",
+    },  # masks based on T1 weighed
     labels={},
-    masks={},
+    masks={masks.Neoplasm.radlex_name: MaskColor(source_color=255, target_color=masks.Neoplasm.color)},
 )
+
 
 chest_xray14 = DatasetArgs(
     dataset_uid="15",

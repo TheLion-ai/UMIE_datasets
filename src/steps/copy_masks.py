@@ -47,22 +47,22 @@ class CopyMasks(BaseStep):
         if self.mask_selector in img_id:
             img_id = img_id.replace(self.mask_selector, "")
         for phase_id in self.phases.keys():
-            if phase_id == self.phase_extractor(img_path) or self.phase_extractor(img_path) == "all":
-                if self.multiple_masks_selector and any(
-                    original_mask_selector in img_path for original_mask_selector in self.multiple_masks_selector.keys()
-                ):
-                    continue
-                phase_name = self.phases[phase_id]
-                new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
-                if "." not in new_file_name:
-                    new_file_name = new_file_name + ".png"
-                new_path = os.path.join(
-                    self.target_path,
-                    f"{self.dataset_uid}_{self.dataset_name}",
-                    phase_name,
-                    self.mask_folder_name,
-                    new_file_name,
-                )
+            # if phase_id == self.phase_extractor(img_path) or self.phase_extractor(img_path) == "all":
+            if self.multiple_masks_selector and any(
+                original_mask_selector in img_path for original_mask_selector in self.multiple_masks_selector.keys()
+            ):
+                continue
+            phase_name = self.phases[phase_id]
+            new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
+            if "." not in new_file_name:
+                new_file_name = new_file_name + ".png"
+            new_path = os.path.join(
+                self.target_path,
+                f"{self.dataset_uid}_{self.dataset_name}",
+                phase_name,
+                self.mask_folder_name,
+                new_file_name,
+            )
 
-                if not os.path.exists(new_path):
-                    shutil.copy2(img_path, new_path)
+            if not os.path.exists(new_path):
+                shutil.copy2(img_path, new_path)

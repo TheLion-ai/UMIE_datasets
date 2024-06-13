@@ -103,4 +103,11 @@ datasets = [
             "target_path": TARGET_PATH,
         },
     ),
+    BrainTumorProgressionPipeline(
+        path_args={
+            "source_path": "",
+            "target_path": TARGET_PATH,
+            "masks_path": "",
+        }
+    ),
 ]
