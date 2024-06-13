@@ -30,24 +30,6 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 
 ![Preprocessing_modules](dataset_modules.png)
 
-<!-- TechStack -->
-### :space_invader: Tech Stack
-
-<details>
-  <summary>Frontend</summary>
-  <ul>
-    <li><a href="https://streamlit.io/">Streamlit</a></li>
-  </ul>
-</details>
-
-<details>
-  <summary>Backend</summary>
-  <ul>
-    <li><a href="https://www.python.org/">Python</a></li>
-    <li><a href="https://python.langchain.com/">Langchain</a></li>
-    <li><a href="https://fastapi.tiangolo.com/">FastAPI</a></li>
-  </ul>
-</details>
 
 
 ## Datasets
@@ -74,38 +56,44 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 | 18 | [MosMedData](https://mosmed.ai/datasets/) | CT | classification/segmentation|
 
 
-
-# **Data preparation instruction**
+# **Using the datasets**
 ## Installing requirements
 ```bash
 poetry install
 ```
 ## Creating the dataset
 Due to the copyright restrictions of the source datasets, we can't share the files directly. To obtain the full dataset you have to download the source datasets yourself and run the preprocessing scripts.
-
-**0. KITS-23**
+<details>
+  <summary>0.KITS-23</summary>
+      
+  ### KITS-23
+        
   1. Clone the [KITS-23 repository](https://github.com/neheller/kits23).
   2. Enter the KITS-23 directory and install the packages with pip.
-  ```
-  cd kits23
-  pip3 install -e .
-  ```
+        ```bash
+        cd kits23
+        pip3 install -e .
+        ```
   3. Run the following command to download the data to the `dataset/` folder.
-  ```
-  kits23_download_data
-  ```
+        ```
+        kits23_download_data
+        ```
   4. Fill in the `source_path` and `target_path` `KITS-23Pipeline()` in `config/runner_config.py`.
-  e.g.
-  ```
-   KITS23Pipeline(
-        path_args={
-            "source_path": "kits23/dataset",  # Path to the dataset directory in KITS23 repo
-            "target_path": TARGET_PATH,
-            "labels_path": "kits23/dataset/kits23.json",  # Path to kits23.json
-        },
-        dataset_args=dataset_config.KITS23
-    ),
-  ```
+        e.g.
+        ```python
+         KITS23Pipeline(
+              path_args={
+                  "source_path": "kits23/dataset",  # Path to the dataset directory in KITS23 repo
+                  "target_path": TARGET_PATH,
+                  "labels_path": "kits23/dataset/kits23.json",  # Path to kits23.json
+              },
+              dataset_args=dataset_config.KITS23
+          ),
+        ```
+
+</details>
+<details>
+  <summary>1. Xray CoronaHack -Chest X-Ray-Dataset</summary>
 
 **1. Xray CoronaHack -Chest X-Ray-Dataset**
   1. Go to [CoronaHack](https://www.kaggle.com/datasets/praveengovi/coronahack-chest-xraydataset) page on Kaggle.
@@ -114,6 +102,9 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   4. Extract `archive.zip`.
   5. Fill in the `source_path` to the location of the `archive` folder in `CoronaHackPipeline()` in `config/runner_config.py`.
 
+</details>
+<details>
+  <summary>2. Alzheimer's Dataset</summary>
 
 **2. Alzheimer's Dataset ( 4 class of Images)**
 1. Go to [Alzheimer's Dataset](https://www.kaggle.com/datasets/tourist55/alzheimers-dataset-4-class-of-images) page on Kaggle.
@@ -122,6 +113,10 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 4. Extract `archive.zip`.
 5. Fill in the `source_path` to the location of the `archive` folder in `AlzheimersPipeline()` in `config/runner_config.py`.
 
+</details>
+
+<details>
+  <summary>3. Chest Xray</summary>
 
 **3. Chest Xray Masks and Labels**
   1. Go to [Chest Xray Masks and Labels](https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels) page on Kaggle.
@@ -130,6 +125,11 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   4. Extract `archive.zip`.
   5. Fill in the `source_path` to the location of the `archive` folder in `ChestXrayMasksAndLabelsPipeline()` in `config/runner_config.py`.
 
+</details>
+
+<details>
+  <summary>4. Brain Tumor Classification (MRI</summary>
+  
 **4. Brain Tumor Classification (MRI)**
 1. Go to [Brain Tumor Classification](https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels) page on Kaggle.
   2. Login to your Kaggle account.
@@ -137,6 +137,11 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   4. Extract `archive.zip`.
   5. Fill in the `source_path` to the location of the `archive` folder in `BrainTumorClassificationPipeline()` in `config/runner_config.py`.
 
+</details>
+
+<details>
+  <summary>5. COVID-19 Detection X-Ray</summary>
+  
 **5. COVID-19 Detection X-Ray**
   1. Go to [COVID-19 Detection X-Ray](https://www.kaggle.com/datasets/darshan1504/covid19-detection-xray-dataset) page on Kaggle.
   2. Login to your Kaggle account.
@@ -144,6 +149,11 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   4. Extract `archive.zip`.
   5. Fill in the `source_path` to the location of the `archive` folder in `COVID19DetectionPipeline()` in `config/runner_config.py`.
 
+</details>
+
+<details>
+  <summary>6. Finding and Measuring Lungs in CT Dat</summary>
+  
 **6. Finding and Measuring Lungs in CT Data**
   1.  Go to [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/datasets/kmader/finding-lungs-in-ct-data) page on Kaggle.
   2. Login to your Kaggle account.
@@ -151,6 +161,11 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   4. Extract `archive.zip`.
   5. Fill in the `source_path` to the location of the `archive/2d_images` folder in `FindingAndMeasuringLungsPipeline()` in `config/runner_config.py`. Fill in `masks_path` with the location of the `archive/2d_masks` folder.
 
+</details>
+
+<details>
+  <summary>7. Brain CT Images with Intracranial Hemorrhage Masks</summary>
+  
 **7. Brain CT Images with Intracranial Hemorrhage Masks**
   1. Go to [Brain With Intracranial Hemorrhage](https://www.kaggle.com/datasets/vbookshelf/computed-tomography-ct-images) page on Kaggle.
   2. Login to your Kaggle account.
@@ -158,6 +173,11 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   4. Extract `archive.zip`.
   5. Fill in the `source_path` to the location of the `archive` folder in `BrainWithIntracranialHemorrhagePipeline()` in `config/runner_config.py`. Fill in `masks_path` with the same path as the `source_path`.
 
+</details>
+
+<details>
+  <summary>8. Liver and Liver Tumor Segmentation (LITS)</summary>
+  
 **8. Liver and Liver Tumor Segmentation (LITS)**
   1. Go to   [Liver and Liver Tumor Segmentation](https://www.kaggle.com/datasets/andrewmvd/lits-png).
   2. Login to your Kaggle account.
@@ -165,6 +185,10 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   4. Extract `archive.zip`.
   5. Fill in the `source_path` to the location of the `archive` folder in `COVID19DetectionPipeline()` in `config/runner_config.py`. Fill in `masks_path` too.
 
+</details>
+
+<details>
+  <summary>9. Brain MRI Images for Brain Tumor Detection</summary>
 
 **9. Brain MRI Images for Brain Tumor Detection**
   1. Go to [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/jjprotube/brain-mri-images-for-brain-tumor-detection) page on Kaggle.
@@ -173,6 +197,11 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   4. Extract `archive.zip`.
   5. Fill in the `source_path` to the location of the `archive` folder in `BrainTumorDetectionPipeline()` in `config/runner_config.py`.
 
+</details>
+
+<details>
+  <summary>10. Knee Osteoarthrithis Dataset with Severity Grading</summary>
+  
 **10. Knee Osteoarthrithis Dataset with Severity Grading**
     1. Go to [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/datasets/shashwatwork/knee-osteoarthritis-dataset-with-severity).
     2. Login to your Kaggle account.
@@ -180,33 +209,62 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
     4. Extract `archive.zip`.
     5. Fill in the `source_path` to the location of the `archive` folder in `COVID19DetectionPipeline()` in `config/runner_config.py`.
 
+</details>
+
+<details>
+  <summary>11. QIN-BRAIN-DSC-MRI</summary>
+  
 **11. QIN-BRAIN-DSC-MRI**
   1. Go to [QIN-BRAIN-DSC-MRI](https://www.cancerimagingarchive.net/collection/qin-brain-dsc-mri/) dataset from cancer imaging archive.
 
+</details>
 
+<details>
+  <summary>12. LIDC-IDRI</summary>
+  
 **12. LIDC-IDRI**
   1. Go to [LIDC-IDRI](https://www.cancerimagingarchive.net/collection/lidc-idri/)dataset from the cancer imaging archive
 
+</details>
+
+<details>
+  <summary>13. CT-ORG</summary>
 
 **13. CT-ORG**
   1. Go to [CT-ORG](https://www.cancerimagingarchive.net/collection/ct-org/) from the cancer imaging archive.
+</details>
 
-
+<details>
+  <summary>14. Brain-Tumor-Progression</summary>
+  
 **14. Brain-Tumor-Progression**
   1. Go to [Brain Tumor Progression](https://wiki.cancerimagingarchive.net/display/Public/Brain-Tumor-Progression#339481190e2ccc0d07d7455ab87b3ebb625adf48) dataset from the cancer imaging archive.
 
+</details>
 
+<details>
+  <summary>15. Chest X-ray 14</summary>
+  
 **15. Chest X-ray 14**
   1. Go to [Chest X-ray 14](https://nihcc.app.box.com/v/ChestXray-NIHCC/folder/36938765345).
   2. Create an account.
   3. Download the `images` folder and `DataEntry2017_v2020.csv`.
 
+</details>
+
+
+<details>
+  <summary>16. BrainMetShare</summary>
 
 **16. BrainMetShare**
   1. Go to [BrainMetShare](https://aimi.stanford.edu/brainmetshare).
   2. Log in or sign up for a Stanford AIMI account.
   3. Fill in your contact details.
   4. Download the data with [azcopy](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
+</details>
+
+<details>
+  <summary>17. COCA- Coronary Calcium and chest CTs</summary>
 
 **17. COCA- Coronary Calcium and chest CTs**
   1. Go to [COCA- Coronary Calcium and chest CTs](https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa).
@@ -214,7 +272,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   3. Fill in your contact details.
   4. Download the data with [azcopy](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
   5. Fill in the `source_path` with the location of the `cocacoronarycalciumandchestcts-2/Gated_release_final/patient` folder. Fill in `masks_path` with `cocacoronarycalciumandchestcts-2/Gated_release_final/calcium_xml` xml file.
-
+</details>
 
 To preprocess the dataset that is not among the above, search the preprocessing folder. It contains the reusable steps for changing imaging formats, extracting masks, creating file trees, etc. Go to the config file to check which masks and label encodings are available. Append new labels and mask encodings if needed.
 
@@ -222,6 +280,15 @@ Overall the dataset should have ** 882,774** images in **.png** format
 * **CT - 500k+**
 * **X-Ray - 250k+**
 * **MRI - 100k+**
+
+## 🎯 Roadmap
+- [X] dcm
+- [x] jpg
+- [x] nii
+- [x] tif
+- [x] Shared radlex ontology
+- [ ] Huggingface datasets
+- [ ] Data dashboards
 
 
 <!-- Contributing -->
