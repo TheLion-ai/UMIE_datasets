@@ -9,53 +9,56 @@ from typing import Any
 import cv2
 import numpy as np
 
+from base.pipeline import BasePipeline, PipelineArgs
 from config import dataset_config
 from config.dataset_config import DatasetArgs
-from src.constants import MASK_FOLDER_NAME
-from src.base.pipeline import BasePipeline, PipelineArgs
-from src.steps.add_labels import AddLabels
-from steps.add_umie_ids import AddUmieIds
-from src.steps.convert_nii2png import ConvertNii2Png
-from src.steps.copy_masks import CopyMasks
-from src.steps.create_blank_masks import CreateBlankMasks
-from src.steps.create_file_tree import CreateFileTree
-from src.steps.delete_imgs_with_no_annotations import DeleteImgsWithNoAnnotations
-from src.steps.delete_temp_png import DeleteTempPng
-from src.steps.get_file_paths import GetFilePaths
-from src.steps.recolor_masks import RecolorMasks
+from constants import MASK_FOLDER_NAME
+from steps import (
+    AddLabels,
+    AddUmieIds,
+    ConvertNii2Png,
+    CopyMasks,
+    CreateBlankMasks,
+    CreateFileTree,
+    DeleteImgsWithNoAnnotations,
+    DeleteTempPng,
+    GetFilePaths,
+    RecolorMasks,
+)
 
 
 @dataclass
 class KITS23Pipeline(BasePipeline):
     """Preprocessing pipeline for KITS23 dataset."""
 
-    name: str = field(default="kits23")  # dataset name used in configs
+    name: str = "kits23"  # dataset name used in configs
     steps: tuple = (
-            ("create_file_tree", CreateFileTree),
-            ("get_file_paths", GetFilePaths),
-            ("convert_nii2png", ConvertNii2Png),
-            ("copy_masks", CopyMasks),
-            ("add_new_ids", AddUmieIds),
-            ("recolor_masks", RecolorMasks),
-            ("add_labels", AddLabels),
-            # Choose either to create blank masks or delete images without masks
-            ("create_blank_masks", CreateBlankMasks),
-            # ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
-            ("delete_temp_png", DeleteTempPng),
+        ("create_file_tree", CreateFileTree),
+        ("get_file_paths", GetFilePaths),
+        ("convert_nii2png", ConvertNii2Png),
+        ("copy_masks", CopyMasks),
+        ("add_new_ids", AddUmieIds),
+        ("recolor_masks", RecolorMasks),
+        ("add_labels", AddLabels),
+        # Choose either to create blank masks or delete images without masks
+        ("create_blank_masks", CreateBlankMasks),
+        # ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
+        ("delete_temp_png", DeleteTempPng),
     )
     dataset_args: DatasetArgs = dataset_config.kits23
-    pipeline_args: PipelineArgs =  PipelineArgs(
-            zfill=2,
-            # Image id is in the source file name after the last underscore
-            img_id_extractor=lambda x: os.path.basename(x).split("_")[-1],  #
-            # Study id is the folder name of all images in the study
-            study_id_extractor=lambda x: os.path.basename((os.path.dirname(x))).split("_")[-1],
-            window_center=50,  # Window of abddominal cavity CTs
-            window_width=400,
-            img_prefix="imaging",  # prefix of the source image file names
-            segmentation_prefix="segmentation",  # prefix of the source mask file names
-            mask_folder_name=MASK_FOLDER_NAME,
+    pipeline_args: PipelineArgs = PipelineArgs(
+        zfill=2,
+        # Image id is in the source file name after the last underscore
+        img_id_extractor=lambda x: os.path.basename(x).split("_")[-1],  #
+        # Study id is the folder name of all images in the study
+        study_id_extractor=lambda x: os.path.basename((os.path.dirname(x))).split("_")[-1],
+        window_center=50,  # Window of abddominal cavity CTs
+        window_width=400,
+        img_prefix="imaging",  # prefix of the source image file names
+        segmentation_prefix="segmentation",  # prefix of the source mask file names
+        mask_folder_name=MASK_FOLDER_NAME,
     )
+
     def get_label(
         self,
         img_path: str,

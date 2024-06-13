@@ -6,50 +6,48 @@ from typing import Any
 
 import cv2
 
-from config import dataset_config
-from src.constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
-from src.base.pipeline import BasePipeline, PipelineArgs
-from src.steps.add_labels import AddLabels
-from steps.add_umie_ids import AddUmieIds
-from src.steps.combine_multiple_masks import CombineMultipleMasks
-from src.steps.copy_masks import CopyMasks
-from src.steps.create_file_tree import CreateFileTree
-from src.steps.delete_imgs_with_empty_masks import DeleteImgsWithEmptyMasks
-from src.steps.get_file_paths import GetFilePaths
+from base.pipeline import BasePipeline, PipelineArgs
+from config.dataset_config import DatasetArgs, lits
+from constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
+from steps import (
+    AddLabels,
+    AddUmieIds,
+    CombineMultipleMasks,
+    CopyMasks,
+    CreateFileTree,
+    DeleteImgsWithEmptyMasks,
+    GetFilePaths,
+)
 
 
 @dataclass
 class LITSPipeline(BasePipeline):
     """Preprocessing pipeline for Liver and liver tumor dataset."""
 
-    name: str = field(default="Liver_And_Liver_Tumor")  # dataset name used in configs
-    steps: list = field(
-        default_factory=lambda: [
-            ("get_file_paths", GetFilePaths),
-            ("create_file_tree", CreateFileTree),
-            ("combine_multiple_masks", CombineMultipleMasks),
-            ("copy_masks", CopyMasks),
-            ("add_new_ids", AddUmieIds),
-            ("add_labels", AddLabels),
-            # Recommended to delete images without masks, because they contain neither liver nor tumor
-            ("delete_imgs_with_empty_masks", DeleteImgsWithEmptyMasks),
-        ]
+    name: str = "Liver_And_Liver_Tumor"  # dataset name used in configs
+    steps: tuple = (
+        ("get_file_paths", GetFilePaths),
+        ("create_file_tree", CreateFileTree),
+        ("combine_multiple_masks", CombineMultipleMasks),
+        ("copy_masks", CopyMasks),
+        ("add_new_ids", AddUmieIds),
+        ("add_labels", AddLabels),
+        # Recommended to delete images without masks, because they contain neither liver nor tumor
+        ("delete_imgs_with_empty_masks", DeleteImgsWithEmptyMasks),
     )
 
-    dataset_args: dataset_config.lits = field(default_factory=lambda: dataset_config.lits)
-
-    pipeline_args: PipelineArgs = field(
-        default_factory=lambda: PipelineArgs(
-            img_prefix="volume",  # prefix of the source image file names
-            mask_selector="segmentation",
-            multiple_masks_selector={"livermask": "liver", "lesionmask": "liver_tumor"},
-            phase_extractor=lambda x: "0",
-        )
+    dataset_args: DatasetArgs = lits
+    pipeline_args: PipelineArgs = PipelineArgs(
+        img_prefix="volume",  # prefix of the source image file names
+        mask_selector="segmentation",
+        segmentation_prefix="segmentation",
+        multiple_masks_selector={"livermask": "liver", "lesionmask": "liver_tumor"},
+        phase_extractor=lambda x: "0",
     )
 
     def img_id_extractor(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        basename = os.path.basename(img_path).split(".")[0]
+        basename = os.path.basename(img_path)  # .split(".")[0]
         img_id = basename.rsplit("_", 1)[1]
         return img_id
 

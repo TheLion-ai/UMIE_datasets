@@ -1,50 +1,47 @@
 """Change img ids to match the format of the rest of the dataset."""
-import csv
-import glob
 import os
-import shutil
-from typing import Callable
+from typing import Callable, Optional
 
-import jsonlines
 import numpy as np
-from tqdm import tqdm
-from typing import Optional
-from base.extractors.img_id import BaseImgIdExtractor
-from constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
-from typing import Optional
-from config.dataset_config import MaskColor
 from sklearn.base import TransformerMixin
+
+from base.extractors.img_id import BaseImgIdExtractor
+from config.dataset_config import MaskColor
+from constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
+
 
 class BaseStep(TransformerMixin):
     """Change img ids to match the format of the rest of the dataset."""
 
     def __init__(
-            self,
-            source_path: str,  # path to the dataset that is being processed
-            target_path: str,  # path to the directory where the processed dataset will be saved path to the source masks file
-            dataset_uid: str,  # unique identifier for the dataset
-            dataset_name: str,  # name of the dataset
-            phases: dict[str, str],  # phase_id used for encoding the phase in img name, phase_name used for naming the folder
-            image_folder_name: str = IMG_FOLDER_NAME,  # name of folder, where images will be stored
-            mask_folder_name: str = MASK_FOLDER_NAME,  # name of folder, where masks will be stored
-            img_id_extractor: BaseImgIdExtractor = BaseImgIdExtractor(), # function to extract image id from the image path
-            study_id_extractor: Callable = lambda x: x,  # function to extract study id from the image path
-            phase_extractor: Callable = lambda x: "0",  # function to extract phase from the image path
-            zfill: Optional[int] = None,  # number of digits to pad the image id with
-            window_center: Optional[int] = None,  # value used to process DICOM images
-            window_width: Optional[int] = None,  # value used to process DICOM images
-            get_label: Optional[Callable] = None,  # function to get label for the individual image
-            img_prefix: Optional[str] = None,  # prefix of the source image file names
-            segmentation_prefix: Optional[str] = None,  # prefix of the source mask file names
-            mask_selector: Optional[str] = None,  # string included only in masks names
-            multiple_masks_selector: Optional[dict] = None,
-            labels: dict[str, list[dict[str, float]]] = {},  # some labels have multiple RadLex codes
-            masks: dict[str, MaskColor] = {}, 
-            labels_path: Optional[str] = None,  # path to the labels file
-            masks_path: Optional[str] = None,  #
-            ):
+        self,
+        source_path: str,  # path to the dataset that is being processed
+        target_path: str,  # path to the directory where the processed dataset will be saved path to the source masks file
+        dataset_uid: str,  # unique identifier for the dataset
+        dataset_name: str,  # name of the dataset
+        phases: dict[
+            str, str
+        ],  # phase_id used for encoding the phase in img name, phase_name used for naming the folder
+        image_folder_name: str = IMG_FOLDER_NAME,  # name of folder, where images will be stored
+        mask_folder_name: str = MASK_FOLDER_NAME,  # name of folder, where masks will be stored
+        img_id_extractor: BaseImgIdExtractor = BaseImgIdExtractor(),  # function to extract image id from the image path
+        study_id_extractor: Callable = lambda x: x,  # function to extract study id from the image path
+        phase_extractor: Callable = lambda x: "0",  # function to extract phase from the image path
+        zfill: Optional[int] = None,  # number of digits to pad the image id with
+        window_center: Optional[int] = None,  # value used to process DICOM images
+        window_width: Optional[int] = None,  # value used to process DICOM images
+        get_label: Optional[Callable] = None,  # function to get label for the individual image
+        img_prefix: Optional[str] = None,  # prefix of the source image file names
+        segmentation_prefix: Optional[str] = None,  # prefix of the source mask file names
+        mask_selector: Optional[str] = None,  # string included only in masks names
+        multiple_masks_selector: Optional[dict] = None,
+        labels: dict[str, list[dict[str, float]]] = {},  # some labels have multiple RadLex codes
+        masks: dict[str, MaskColor] = {},
+        labels_path: Optional[str] = None,  # path to the labels file
+        masks_path: Optional[str] = None,  #
+    ):
         """
-        Initializes a Step object.
+        Initialize a Step object.
 
         Args:
             source_path (str): Path to the dataset that is being processed.
@@ -99,7 +96,6 @@ class BaseStep(TransformerMixin):
             f"{self.dataset_uid}_{self.dataset_name}.jsonl",
         )
 
-
     def transform(
         self,
         X: list,  # img_paths
@@ -110,82 +106,102 @@ class BaseStep(TransformerMixin):
             X (list): List of image paths.
         """
         raise NotImplementedError("This method should be implemented in the derived class.")
-    
+
     def get_umie_id(self, img_path: str) -> str:
-            """Create a unique identifier for the image.
+        """Create a unique identifier for the image.
 
-            Args:
-                img_path (str): Path to the image.
+        Args:
+            img_path (str): Path to the image.
 
-            Returns:
-                str: Unique identifier for the image.
-            """
-            img_id = self.img_id_extractor(img_path)
-            ext = os.path.splitext(img_path)[1]
-            img_id = img_id.replace(ext, ".png")
-            
-            study_id = self.study_id_extractor(img_path)
-            phase_id = self.phase_extractor(img_path)
-            umie_id = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
-            
-            return umie_id
+        Returns:
+            str: Unique identifier for the image.
+        """
+        img_id = self.img_id_extractor(img_path)
+        ext = os.path.splitext(img_path)[1]
+        img_id = img_id.replace(ext, ".png")
+
+        study_id = self.study_id_extractor(img_path)
+        phase_id = self.phase_extractor(img_path)
+
+        umie_id = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
+        return umie_id
+
+    def validate_umie_path(self, img_path: str) -> bool:
+        """Check if umie_path is a valid path (a mechanism for discarding imgs).
+
+        Args:
+            img_path (str): Path to the image.
+
+        Returns:
+            bool: If true, the path is validate.
+        """
+        img_id = self.img_id_extractor(img_path)
+        study_id = self.study_id_extractor(img_path)
+        phase_id = self.phase_extractor(img_path)
+
+        if img_id is None or study_id is None or phase_id is None:
+            return False
+        return True
+
     def get_umie_img_path(self, img_path: str) -> str:
-            """Create a unique path for the image.
+        """Create a unique path for the image.
 
-            Args:
-                img_path (str): Path to the image.
+        Args:
+            img_path (str): Path to the image.
 
-            Returns:
-                str: Unique path for the image.
-            """
-            umie_id = self.get_umie_id(img_path)
-            phase_id = self.phase_extractor(img_path)
-            
-            if phase_id not in self.phases.keys():
-                raise ValueError(f"Phase id {phase_id} not found in the list of phases.")
-            phase_name = self.phases[phase_id]
-            
-            new_path = os.path.join(
-                self.target_path,
-                f"{self.dataset_uid}_{self.dataset_name}",
-                phase_name,
-                self.image_folder_name,
-                umie_id,
-            )
-            return new_path
+        Returns:
+            str: Unique path for the image.
+        """
+        umie_id = self.get_umie_id(img_path)
+
+        phase_id = self.phase_extractor(img_path)
+
+        if phase_id not in self.phases.keys():
+            raise ValueError(f"Phase id {phase_id} not found in the list of phases.")
+        phase_name = self.phases[phase_id]
+
+        new_path = os.path.join(
+            self.target_path,
+            f"{self.dataset_uid}_{self.dataset_name}",
+            phase_name,
+            self.image_folder_name,
+            umie_id,
+        )
+        return new_path
+
     def get_umie_mask_path(self, img_path: str) -> str:
-            """Create a unique path for the mask.
+        """Create a unique path for the mask.
 
-            Args:
-                img_path (str): Path to the image.
+        Args:
+            img_path (str): Path to the image.
 
-            Returns:
-                str: Unique path for the mask.
-            """
-            umie_id = self.create_umie_id(img_path)
-            phase_name = self.phases[self.phase_extractor(img_path)]
-            
-            new_path = os.path.join(
-                self.target_path,
-                f"{self.dataset_uid}_{self.dataset_name}",
-                phase_name,
-                self.mask_folder_name,
-                umie_id,
-            )
-            return new_path
-    
+        Returns:
+            str: Unique path for the mask.
+        """
+        umie_id = self.create_umie_id(img_path)
+        phase_name = self.phases[self.phase_extractor(img_path)]
+
+        new_path = os.path.join(
+            self.target_path,
+            f"{self.dataset_uid}_{self.dataset_name}",
+            phase_name,
+            self.mask_folder_name,
+            umie_id,
+        )
+        return new_path
+
     def decode_umie_img_path(self, umie_path: str) -> tuple:
-            """Decode the unique image path.
+        """Decode the unique image path.
 
-            Args:
-                umie_path (str): Unique image path.
+        Args:
+            umie_path (str): Unique image path.
 
-            Returns:
-                tuple: Tuple containing the phase name, study id, and image id.
-            """
-            umie_path = umie_path.replace(self.target_path, "")
-            umie_path = umie_path.split(os.sep)
-            phase_name = umie_path[1]
-            study_id = umie_path[2]
-            img_id = umie_path[3]
-            return phase_name, study_id, img_id
+        Returns:
+            tuple: Tuple containing the phase name, study id, and image id.
+        """
+        umie_path = umie_path.replace(self.target_path, "")
+        umie_path_elements = umie_path.split(os.sep)
+        phase_name = umie_path_elements[1]
+        study_id = umie_path_elements[2]
+        img_id = umie_path_elements[3]
+        return phase_name, study_id, img_id

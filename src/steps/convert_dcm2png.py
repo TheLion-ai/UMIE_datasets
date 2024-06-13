@@ -8,14 +8,13 @@ import numpy as np
 import pydicom
 import pydicom.pixel_data_handlers.util as ddh
 from pydicom import dcmread
-from base.step import BaseStep
 from tqdm import tqdm
+
 from base.step import BaseStep
+
 
 class ConvertDcm2Png(BaseStep):
     """Converts dicom files to png images with appropriate color encoding."""
-
-
 
     def transform(self, X: list) -> list:
         """Convert dicom files to png images with appropriate color encoding.
@@ -49,11 +48,7 @@ class ConvertDcm2Png(BaseStep):
             print("Masks not found.")
 
         root_path = self.source_path
-        new_paths = [
-            path
-            for path in glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
-            if self.mask_selector not in path
-        ]
+        new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
         return new_paths
 
     def convert_dcm2png(self, img_path: str) -> None:

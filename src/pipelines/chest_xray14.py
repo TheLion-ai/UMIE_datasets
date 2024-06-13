@@ -5,34 +5,32 @@ from typing import Any
 
 import pandas as pd
 
-from config import dataset_config
-from src.base.pipeline import BasePipeline, PipelineArgs
-from src.steps.add_labels import AddLabels
-from steps.add_umie_ids import AddUmieIds
-from src.steps.create_file_tree import CreateFileTree
-from src.steps.delete_imgs_with_no_annotations import DeleteImgsWithNoAnnotations
-from src.steps.get_file_paths import GetFilePaths
+from base.pipeline import BasePipeline, PipelineArgs
+from config.dataset_config import DatasetArgs, chest_xray14
+from steps import (
+    AddLabels,
+    AddUmieIds,
+    CreateFileTree,
+    DeleteImgsWithNoAnnotations,
+    GetFilePaths,
+)
 
 
 @dataclass
 class ChestXray14Pipeline(BasePipeline):
     """Preprocessing pipeline for Chest Xray 14 dataset."""
 
-    name: str = field(default="chest_xray14")  # dataset name used in configs
-    steps: list = field(
-        default_factory=lambda: [
-            ("create_file_tree", CreateFileTree),
-            ("get_file_paths", GetFilePaths),
-            ("add_new_ids", AddUmieIds),
-            ("add_labels", AddLabels),
-            ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
-        ]
+    name: str = "chest_xray14"  # dataset name used in configs
+    steps: tuple = (
+        ("create_file_tree", CreateFileTree),
+        ("get_file_paths", GetFilePaths),
+        ("add_new_ids", AddUmieIds),
+        ("add_labels", AddLabels),
+        ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
     )
-    dataset_args: dataset_config.chest_xray14 = field(default_factory=lambda: dataset_config.chest_xray14)
-    pipeline_args: PipelineArgs = field(
-        default_factory=lambda: PipelineArgs(
-            zfill=4, phase_extractor=lambda x: "0", mask_folder_name=None  # All images are from the same phase
-        )
+    dataset_args: DatasetArgs = chest_xray14
+    pipeline_args: PipelineArgs = PipelineArgs(
+        zfill=4, phase_extractor=lambda x: "0", mask_folder_name=None  # All images are from the same phase
     )
 
     def get_img_id(self, img_path: os.PathLike, add_extension: bool) -> str | None:

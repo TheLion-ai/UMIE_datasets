@@ -7,14 +7,14 @@ from typing import Callable
 import cv2
 import nibabel as nib
 import numpy as np
-from base.step import BaseStep
 from tqdm import tqdm
+
 from base.extractors.img_id import BaseImgIdExtractor
 from base.step import BaseStep
 
+
 class ConvertNii2Png(BaseStep):
     """Converts nii files to png images with appropriate color encoding."""
-
 
     def transform(
         self,
@@ -32,9 +32,9 @@ class ConvertNii2Png(BaseStep):
             raise ValueError("No list of files provided.")
         for img_path in tqdm(X):
             if img_path.endswith(".nii.gz"):
-                if self.segmentation_dcm_prefix in img_path or self.img_dcm_prefix in img_path:
+                if self.segmentation_prefix in img_path or self.img_prefix in img_path:
                     self.convert_nii2png(img_path)
-        new_paths = glob.glob(os.path.join(self.source_path, f"**/{self.img_dcm_prefix}*.png"), recursive=True)
+        new_paths = glob.glob(os.path.join(self.source_path, f"**/{self.img_prefix}*.png"), recursive=True)
         return new_paths
 
     def convert_nii2png(self, img_path: str) -> None:
@@ -51,7 +51,7 @@ class ConvertNii2Png(BaseStep):
             name = os.path.basename(img_path).split(".")[0] + f"_{str(idx).zfill(self.zfill)}.png"
             new_path = os.path.join(root_path, name)
             img = np.array(nii_data[idx, :, :])
-            if self.segmentation_dcm_prefix not in new_path:
+            if self.segmentation_prefix not in new_path:
                 img = self._apply_window(img)
 
             cv2.imwrite(new_path, img)
