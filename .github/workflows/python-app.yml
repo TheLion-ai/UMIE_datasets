@@ -3,7 +3,7 @@
 
 name: Testing
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   build:
@@ -13,17 +13,20 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Python 3.11
+    - name: Set up Python 3.10
       uses: actions/setup-python@v4
       with:
-        python-version: "3.11"
+        python-version: "3.10"
 
     - name: Set up Poetry
       uses: Gr1N/setup-poetry@v8
     - run: poetry --version
 
     - name: Install Poetry dependecies
-      run: poetry install
+      run: poetry install --with dev
+    
+    - name: download test files
+      run: poetry run python testing/download_test_files.py
 
     - name: Run pytest tests
       run: poetry run pytest testing/tests
