@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Klaudel"
+  given-names: "Barbara"
+  orcid: "https://orcid.org/0000-0003-2422-3666"
+- family-names: "Obuchowski"
+  given-names: "Aleksander"
+  orcid: "https://orcid.org/0000-0003-0617-9059"
+- family-names: "Frąckowski"
+  given-names: "Piotr"
+- family-names: "Komor"
+  given-names: "Andrzej"
+- family-names: "Bober"
+  given-names: "Kacper"
+- family-names: "Badyra"
+  given-names: "Wasyl"
+title: "Towards Medical Foundational Model -- a Unified Dataset for Pretraining Medical Imaging Models"
+version: 0.0.0
+date-released: 2024-06-14
+url: "https://github.com/TheLion-ai/UMIE_datasets"
