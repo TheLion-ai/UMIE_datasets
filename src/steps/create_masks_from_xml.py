@@ -7,13 +7,13 @@ import re
 
 import cv2
 import numpy as np
-from base.step import BaseStep
 from tqdm import tqdm
+
+from base.step import BaseStep
 
 
 class CreateMasksFromXML(BaseStep):
     """Converts masks from xml files to png images with appropriate color encoding."""
-
 
     def transform(self, X: list) -> list:
         """Convert masks from xml files to png images with appropriate color encoding.

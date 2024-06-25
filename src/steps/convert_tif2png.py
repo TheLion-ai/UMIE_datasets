@@ -6,13 +6,14 @@ from typing import Callable
 
 import numpy as np
 import PIL
-from base.step import BaseStep
 from tqdm import tqdm
+
 from base.extractors.img_id import BaseImgIdExtractor
+from base.step import BaseStep
+
 
 class ConvertTif2Png(BaseStep):
     """Converts tif files to png images."""
-
 
     def transform(
         self,

@@ -3,13 +3,13 @@
 import glob
 import os
 
-from base.step import BaseStep
 from tqdm import tqdm
+
+from base.step import BaseStep
 
 
 class DeleteTempPng(BaseStep):
     """Delete temporary png files created by other steps in the source directory."""
-
 
     def transform(
         self,
