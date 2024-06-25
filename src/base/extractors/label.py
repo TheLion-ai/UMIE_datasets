@@ -1,7 +1,11 @@
+"""This module contains the BaseLabelExtractor class, which is a base class for constructing a label extractor for an individual dataset."""
+
 from abc import ABC, abstractmethod
 
+
 class BaseLabelExtractor(ABC):
-    """Base class for constructing a label extractor for an individual dataset. Label"""
+    """Base class for constructing a label extractor for an individual dataset."""
+
     def __init__(self, labels: dict):
         """
         Initialize the BaseLabelExtractor class.
@@ -10,7 +14,7 @@ class BaseLabelExtractor(ABC):
             labels (dict): A dictionary containing labels for the dataset.
         """
         self.labels = labels
-    
+
     def __call__(self, img_path: str) -> list:
         """
         Extract labels from the labels file.
@@ -22,7 +26,7 @@ class BaseLabelExtractor(ABC):
             list: A list of labels extracted from the labels file.
         """
         return self._extract(img_path)
-    
+
     @abstractmethod
     def _extract(self, img_path: str) -> list:
         """

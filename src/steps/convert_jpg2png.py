@@ -4,13 +4,14 @@ import os
 from typing import Callable
 
 from PIL import Image
-from base.step import BaseStep
 from tqdm import tqdm
+
 from base.extractors.img_id import BaseImgIdExtractor
 from base.step import BaseStep
+
+
 class ConvertJpg2Png(BaseStep):
     """Converts jpg files to png images."""
-
 
     def transform(
         self,

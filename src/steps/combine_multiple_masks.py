@@ -6,12 +6,14 @@ import os
 import cv2
 import numpy as np
 import PIL.Image
-from base.step import BaseStep
 from tqdm import tqdm
+
 from base.step import BaseStep
+
 
 class CombineMultipleMasks(BaseStep):
     """Combine and recolor multiple masks into one."""
+
     def transform(self, X: list) -> list:
         """Recolors masks from default color to the color specified in the config.
 

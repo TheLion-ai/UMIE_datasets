@@ -4,13 +4,13 @@ import os
 from typing import Callable
 
 import cv2
-from base.step import BaseStep
 from tqdm import tqdm
+
+from base.step import BaseStep
 
 
 class MasksToBinaryColors(BaseStep):
     """Recolors masks from shades of gray to 2 colors."""
-
 
     def transform(self, X: list) -> list:
         """Recolors masks from default color to the color specified in the config.
