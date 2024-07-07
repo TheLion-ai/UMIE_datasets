@@ -178,8 +178,8 @@ class BaseStep(TransformerMixin):
         Returns:
             str: Unique path for the mask.
         """
-        umie_id = self.create_umie_id(img_path)
-        phase_name = self.phases[self.phase_extractor(img_path)]
+        umie_id = os.path.basename(img_path)
+        phase_name = self.decode_umie_img_path(img_path)[0]
 
         new_path = os.path.join(
             self.target_path,
