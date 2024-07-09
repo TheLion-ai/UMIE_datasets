@@ -86,9 +86,9 @@ datasets = [
     ),
     BrainTumorProgressionPipeline(
         path_args={
-            "source_path": "/home/basia/test_dummy_data/10_brain_tumor_progression/input/brain_tumor_progression",
+            "source_path": "",
             "target_path": TARGET_PATH,
-            "masks_path": "/home/basia/test_dummy_data/10_brain_tumor_progression/input/brain_tumor_progression",
+            "masks_path": "",
         }
     ),
     ChestXray14Pipeline(
