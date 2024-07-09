@@ -14,13 +14,15 @@ from src.pipelines.brain_tumor_progression import BrainTumorProgressionPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(
-    os.getcwd(), "testing/test_dummy_data/10_brain_tumor_progression/input/brain_tumor_progression"
+    os.getcwd(), "/home/basia/test_dummy_data/10_brain_tumor_progression/input/brain_tumor_progression"
 )
 masks_path = os.path.join(
-    os.getcwd(), "testing/test_dummy_data/10_brain_tumor_progression/input/brain_tumor_progression"
+    os.getcwd(), "/home/basia/test_dummy_data/10_brain_tumor_progression/input/brain_tumor_progression"
 )
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/10_brain_tumor_progression/output")
-expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/10_brain_tumor_progression/expected_output")
+target_path = os.path.join(os.getcwd(), "/home/basia/test_dummy_data/10_brain_tumor_progression/output")
+expected_output_path = os.path.join(
+    os.getcwd(), "/home/basia/test_dummy_data/10_brain_tumor_progression/expected_output"
+)
 
 
 def test_run_brain_tumor_progression():

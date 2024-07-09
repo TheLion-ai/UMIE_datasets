@@ -17,10 +17,19 @@ class DatasetTestingLibrary:
         # Change expected_file_tree folder name from expected_output to output
         expected_file_tree = [filepath.replace("expected_output", "output") for filepath in expected_file_tree]
         # Make sure lists have the same order
-        expected_file_tree.sort()
-        current_file_tree.sort()
+        # expected_file_tree.sort()
+        # current_file_tree.sort()
+        # Find differences
+        expected_set = set(expected_file_tree)
+        current_set = set(current_file_tree)
 
-        return True if expected_file_tree == current_file_tree else False
+        differences = expected_set.symmetric_difference(current_set)
+        if differences:
+            print("Differences found:")
+            for diff in differences:
+                print(diff)
+            return False
+        return True
 
     @staticmethod
     def verify_all_images_identical(expected_file_tree: list, current_file_tree: list) -> bool:
