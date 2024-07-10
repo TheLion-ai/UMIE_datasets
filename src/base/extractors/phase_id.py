@@ -21,6 +21,18 @@ class BasePhaseIdExtractor:
 
     """
 
+    def __init__(self, phases: dict[int, str]):
+        """
+        Initialize the BasePhaseIdExtractor class.
+
+        Args:
+            phases (dict[int, str]): A dictionary mapping phase IDs to their corresponding names.
+
+        Returns:
+            None
+        """
+        self.phases = phases
+
     def __call__(self, path: str) -> str:
         """
         Invoke the phase ID extraction process.

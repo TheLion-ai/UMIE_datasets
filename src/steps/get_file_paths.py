@@ -38,6 +38,8 @@ class GetFilePaths(BaseStep):
                     continue
                 if filename.endswith((".csv", ".json", ".xslx")):
                     continue
+                if filename.startswith("LICENSE"):
+                    continue
                 else:
                     path = os.path.join(root, filename)
                     # Verify if file is not a mask

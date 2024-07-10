@@ -46,10 +46,10 @@ class BrainMETSharePipeline(BasePipeline):
         zfill=3,
         study_id_extractor=StudyIdExtractor(),
         # Phase name is the folder one level above the image
-        phase_extractor=PhaseIdExtractor(),
     )
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
         # Add dataset specific arguments to the pipeline arguments
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
+        self.args["phase_id_extractor"] = PhaseIdExtractor(self.args["phases"])

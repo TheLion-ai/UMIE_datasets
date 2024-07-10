@@ -16,9 +16,6 @@ class DatasetTestingLibrary:
         """Check if current directories and files are the same as expected."""
         # Change expected_file_tree folder name from expected_output to output
         expected_file_tree = [filepath.replace("expected_output", "output") for filepath in expected_file_tree]
-        # Make sure lists have the same order
-        # expected_file_tree.sort()
-        # current_file_tree.sort()
         # Find differences
         expected_set = set(expected_file_tree)
         current_set = set(current_file_tree)
@@ -27,7 +24,10 @@ class DatasetTestingLibrary:
         if differences:
             print("Differences found:")
             for diff in differences:
-                print(diff)
+                if diff in expected_set:
+                    print(f"Expected but not found in current: {diff}")
+                else:
+                    print(f"Found in current but not expected: {diff}")
             return False
         return True
 
@@ -46,7 +46,6 @@ class DatasetTestingLibrary:
 
             expected_image = cv2.imread(expected_image_path)
             current_image = cv2.imread(current_image_path)
-            # print(expected_image_path)
 
             diff = cv2.subtract(expected_image, current_image)
 
