@@ -42,17 +42,17 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         return img_basename
 
 
-# class LabelExtractor(BaseLabelExtractor):
-#     """Extractor for labels specific to the Brain Tumor Detection dataset."""
+class LabelExtractor(BaseLabelExtractor):
+    """Extractor for labels specific to the Brain Tumor Detection dataset."""
 
-#     def _extract(self, img_path: str) -> list:
-#         """Extract label from img path."""
-#         if "Y" in os.path.basename(img_path):
-#             return self.labels["Y"]
-#         elif "N" in os.path.basename(img_path) or "n" in os.path.basename(img_path):
-#             return self.labels["N"]
-#         else:
-#             return []
+    def _extract(self, img_path: str) -> list:
+        """Extract label from img path."""
+        if "Y" in os.path.basename(img_path):
+            return self.labels["Y"]
+        elif "N" in os.path.basename(img_path) or "n" in os.path.basename(img_path):
+            return self.labels["N"]
+        else:
+            return []
 
 
 # @dataclass
