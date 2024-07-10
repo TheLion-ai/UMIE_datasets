@@ -7,7 +7,7 @@ from typing import Any
 from base.extractors import (
     BaseImgIdExtractor,
     BaseLabelExtractor,
-    BasePhaseExtractor,
+    BasePhaseIdExtractor,
     BaseStudyIdExtractor,
 )
 from base.pipeline import BasePipeline, PipelineArgs
@@ -41,42 +41,30 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
         # Study id is name of parent folder of images in source directory
-        if self.path_args["source_path"] in img_path:
-            return os.path.basename(os.path.dirname(os.path.dirname(img_path)))
-        if self.path_args["target_path"] in img_path:
-            return os.path.basename(img_path)[:3]
-        return ""
+        return os.path.basename(os.path.dirname(os.path.dirname(img_path)))
 
 
-class PhaseExtractor(BasePhaseExtractor):
+class PhaseExtractor(BasePhaseIdExtractor):
     """Extractor for phase specific to the Brain with hemorrhage dataset."""
 
     def _extract(self, img_path: str) -> str:
         """Extract phase from img path."""
         # Phase is the name of folder 2 levels above image in source directory
-        if self.path_args["target_path"] in img_path:
-            phase_name = os.path.basename(os.path.dirname(os.path.dirname(img_path)))
-        else:
-            phase_name = os.path.basename(os.path.dirname(img_path))
-        lowercase_phases = [x.lower() for x in list(self.args["phases"].values())]
-        return list(self.args["phases"].keys())[lowercase_phases.index(phase_name.lower())]
+        phase_name = os.path.basename(os.path.dirname(img_path))
+        lowercase_phases = [x.lower() for x in list(self.phases.values())]
+        return list(self.phases.keys())[lowercase_phases.index(phase_name.lower())]
 
 
 class LabelExtractor(BaseLabelExtractor):
     """Extractor for labels specific to the Brain with hemorrhage dataset."""
 
-    def _extract(self, img_path: str) -> list:
+    def _extract(self, img_path: str, mask_path: str) -> list:
         """Extract label from img path."""
         # If there is a mask associated with the image in a source directory, then the label is 'hemorrhage'
-        if self.path_args["target_path"] in img_path:
-            mask_path = img_path.replace(self.pipeline_args.image_folder_name, self.pipeline_args.mask_folder_name)
-            if os.path.exists(mask_path):
-                return self.args["labels"]["brain_hemorrhage"]
-            else:
-                return self.args["labels"]["normal"]
+        if os.path.exists(mask_path):
+            return self.labels["brain_hemorrhage"]
         else:
-            # incorrect images directory for invoking label_extractor
-            return []
+            return self.labels["normal"]
 
 
 @dataclass

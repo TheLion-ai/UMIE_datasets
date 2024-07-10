@@ -42,7 +42,7 @@ def test_run_brain_with_intracranial_hemorrhage():
     try:
         pipeline.transform(dataset.args["source_path"])
     except Exception as e:
-        pytest.fail(f'Trying to run Brain Tumor Progression pipeline raised an exception: "{e}"')
+        pytest.fail(f'Trying to run Brain With Intracranial Hemorrhage pipeline raised an exception: "{e}"')
 
 
 def test_brain_with_intracranial_hemorrhage_verify_file_tree():
@@ -51,7 +51,7 @@ def test_brain_with_intracranial_hemorrhage_verify_file_tree():
     current_file_tree = glob.glob(f"{str(target_path)}/**", recursive=True)
 
     if not DatasetTestingLibrary.verify_file_tree(expected_file_tree, current_file_tree):
-        pytest.fail("Brain wih hemorrhage pipeline created file tree different than expected.")
+        pytest.fail("Brain With Intracranial Hemorrhage pipeline created file tree different than expected.")
 
 
 def test_brain_with_intracranial_hemorrhage_verify_images_correct():
@@ -60,7 +60,7 @@ def test_brain_with_intracranial_hemorrhage_verify_images_correct():
     current_file_tree = glob.glob(f"{str(target_path)}/**/*.png", recursive=True)
 
     if not DatasetTestingLibrary.verify_all_images_identical(expected_file_tree, current_file_tree):
-        pytest.fail("Brain wih hemorrhage pipeline created image contents different than expected.")
+        pytest.fail("Brain With Intracranial Hemorrhage pipeline created image contents different than expected.")
 
 
 def test_clean_up_brain_with_intracranial_hemorrhage():
