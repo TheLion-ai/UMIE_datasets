@@ -95,7 +95,7 @@ datasets = [
         path_args={
             "source_path": "",
             "target_path": TARGET_PATH,
-            "labels_path": "",
+            "labels_path": "",  # Path to Data_Entry_2017_v2020.csv
         },
     ),
     COCAPipeline(

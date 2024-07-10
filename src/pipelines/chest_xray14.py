@@ -5,6 +5,7 @@ from typing import Any
 
 import pandas as pd
 
+from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
 from config.dataset_config import DatasetArgs, chest_xray14
 from steps import (
@@ -14,6 +15,71 @@ from steps import (
     DeleteImgsWithNoAnnotations,
     GetFilePaths,
 )
+
+
+class ImgIdExtractor(BaseImgIdExtractor):
+    """Extractor for image IDs specific to the Chest Xray 14 dataset."""
+
+    def __init__(self, metadata: pd.DataFrame):
+        """Initialize the extractor."""
+        super().__init__()
+        self.metadata = pd.read_csv(metadata)
+
+    def _extract(self, img_path: os.PathLike) -> str:
+        """Retrieve image id from path."""
+        img_name = os.path.split(img_path)[-1]
+
+        img_row = self.metadata.loc[self.metadata["Image Index"] == img_name]
+
+        if img_row.empty or img_name.endswith("csv"):
+            # File not present in csv, or is csv
+            return ""
+
+        return f'{img_row["Image Index"].values[0]}'
+
+
+class StudyIdExtractor(BaseStudyIdExtractor):
+    """Extractor for study IDs specific to the Chest Xray 14 dataset."""
+
+    def __init__(self, metadata: pd.DataFrame):
+        """Initialize the extractor."""
+        super().__init__()
+        self.metadata = pd.read_csv(metadata)
+
+    def _extract(self, img_path: os.PathLike) -> str:
+        """Extract study id from img path."""
+        img_name = os.path.split(img_path)[-1]
+
+        img_row = self.metadata.loc[self.metadata["Image Index"] == img_name]
+
+        if img_row.empty:
+            # File not present in csv, or is csv
+            return ""
+
+        # Used as study_id_extractor
+        return img_row["Image Index"].values[0].split(".")[0]
+
+
+class LabelExtractor(BaseLabelExtractor):
+    """Extractor for labels specific to the Brain Tumor Detection dataset."""
+
+    def __init__(self, labels: dict[str, str], labels_path: os.PathLike):
+        """Initialize the extractor."""
+        super().__init__(labels)
+        self.source_labels = pd.read_csv(labels_path)[["Image Index", "Finding Labels"]]
+
+    def _extract(self, img_path: os.PathLike, mask_path: os.PathLike) -> list:
+        """Extract label from img path."""
+        img_name = os.path.split(img_path)[-1]
+        img_id = img_name.split("_")
+        img_id = f"{img_id[4]}_{img_id[5]}"
+        if ".png" not in img_id:
+            img_id += ".png"
+        img_row = self.source_labels.loc[self.source_labels["Image Index"] == img_id]
+        labels = [label for label in img_row["Finding Labels"].values[0].split("|")]
+        radlex_labels = [self.labels[label] for label in labels]
+
+        return radlex_labels
 
 
 @dataclass
@@ -30,67 +96,13 @@ class ChestXray14Pipeline(BasePipeline):
     )
     dataset_args: DatasetArgs = chest_xray14
     pipeline_args: PipelineArgs = PipelineArgs(
-        zfill=4, phase_extractor=lambda x: "0", mask_folder_name=None  # All images are from the same phase
+        zfill=4,
     )
-
-    def get_img_id(self, img_path: os.PathLike, add_extension: bool) -> str | None:
-        """Get image name based on its path.
-
-        Args:
-            img_path (str): Path to the image.
-            add_extension (bool): If True returns image id with *.png extension,
-                                  if False returns just the image id.
-        Returns:
-            str: Id of image with, or without extension.
-        """
-        img_name = os.path.split(img_path)[-1]
-
-        img_row = self.metadata.loc[self.metadata["Image Index"] == img_name]
-
-        if img_row.empty or img_name.endswith("csv"):
-            # File not present in csv, or is csv
-            return None
-
-        if not add_extension:
-            # Used as study_id_extractor
-            return img_row["Image Index"].values[0].split(".")[0]
-        return f'{img_row["Image Index"].values[0]}'
-
-    def label_extractor(
-        self,
-        img_path: os.PathLike,
-    ) -> list | None:
-        """Get label for the image.
-
-        Args:
-            img_path (str): Path to the image.
-
-        Returns:
-            list | None: List of labels for specific image,
-                         or None if no are present.
-        """
-        img_name = os.path.split(img_path)[-1]
-        img_id = img_name.split("_")
-        img_id = f"{img_id[4]}_{img_id[5]}"
-        if ".png" not in img_id:
-            img_id += ".png"
-        img_row = self.metadata.loc[self.metadata["Image Index"] == img_id]
-        labels = [label for label in img_row["Finding Labels"].values[0].split("|")]
-        radlex_labels = [self.args["labels"][label] for label in labels]
-
-        return radlex_labels
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        # Read metadata csv
-        metadata_csv_path = self.path_args[
-            "labels_path"
-        ]  # os.path.join(self.args["source_path"], "Data_Entry_2017_v2020.csv")
-        self.metadata = pd.read_csv(metadata_csv_path)
-
-        self.pipeline_args.img_id_extractor = lambda x: self.get_img_id(x, True)
-        self.pipeline_args.study_id_extractor = lambda x: self.get_img_id(x, False)
-        self.pipeline_args.label_extractor = self.label_extractor
-
         # Add dataset specific arguments to the pipeline arguments
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
+        self.args["img_id_extractor"] = ImgIdExtractor(self.args["labels_path"])
+        self.args["study_id_extractor"] = StudyIdExtractor(self.args["labels_path"])
+        self.args["label_extractor"] = LabelExtractor(self.args["labels"], self.args["labels_path"])

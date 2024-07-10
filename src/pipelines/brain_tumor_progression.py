@@ -45,7 +45,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 class PhaseIdExtractor(BasePhaseIdExtractor):
     """Extractor for phase IDs specific to the Brain Tumor Progression dataset."""
 
-    def _extract(self, img_path: str) -> str:
+    def _extract(self, img_path: str, *args: Any) -> str:
         """Extract phase id from img path."""
         for phase in self.phases.keys():
             if self.phases[phase] in img_path:

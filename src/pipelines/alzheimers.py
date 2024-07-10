@@ -81,7 +81,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 class LabelExtractor(BaseLabelExtractor):
     """Extractor for labels specific to the Alzheimer's dataset."""
 
-    def _extract(self, img_path: str) -> str:
+    def _extract(self, img_path: str, *args: Any) -> str:
         """Extract label from img path."""
         source_label = os.path.basename(os.path.dirname(img_path))
         radlex_label = self.labels[source_label]

@@ -68,7 +68,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 class LabelExtractor(BaseLabelExtractor):
     """Extractor for labels specific to the Brain Tumor Classification dataset."""
 
-    def _extract(self, source_img_path: str) -> list:
+    def _extract(self, source_img_path: str, *args: Any) -> list:
         image_folder = os.path.basename(os.path.dirname(source_img_path))
         return self.labels[image_folder]
 

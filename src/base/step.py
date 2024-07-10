@@ -139,7 +139,7 @@ class BaseStep(TransformerMixin):
         study_id = self.study_id_extractor(img_path)
         phase_id = self.phase_extractor(img_path)
 
-        if img_id is None or study_id is None or phase_id is None:
+        if img_id == "" or study_id == "" or phase_id == "":
             return False
         return True
 

@@ -23,6 +23,13 @@ class DeleteImgsWithNoAnnotations(BaseStep):
             X (list): List of paths to the images.
         """
         root_path = os.path.dirname(os.path.dirname(X[0]))
+
+        self.json_lines = {}
+        with jsonlines.open(self.json_path, mode="r") as reader:
+            for obj in reader:
+                umie_file_name = os.path.basename(obj["umie_path"])
+                self.json_lines[umie_file_name] = obj
+
         if self.mask_folder_name:
             mask_paths = glob.glob(f"{os.path.join(root_path, self.mask_folder_name)}/**/*.png", recursive=True)
             self.mask_names = [os.path.basename(mask) for mask in mask_paths]
@@ -35,15 +42,10 @@ class DeleteImgsWithNoAnnotations(BaseStep):
         root_path = os.path.dirname(X[0])
         new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
 
-        updated_lines = []
-        with jsonlines.open(self.json_path, mode="r") as reader:
-            for obj in reader:
-                if os.path.join(self.target_path, obj["umie_path"]) in new_paths:
-                    updated_lines.append(obj)
-
         with jsonlines.open(self.json_path, mode="w") as writer:
-            for obj in updated_lines:
-                writer.write(obj)
+            for k, obj in self.json_lines.items():
+                if os.path.join(self.target_path, k) in new_paths:
+                    writer.write(obj)
 
         return new_paths
 
@@ -58,7 +60,7 @@ class DeleteImgsWithNoAnnotations(BaseStep):
         if self.mask_folder_name:
             mask_path = os.path.join(root_path, self.mask_folder_name, img_name)
         no_label = False
-        if "-" not in img_name:
+        if self.json_lines[img_name]["labels"] == []:
             no_label = True
         if self.mask_folder_name:
             if img_name not in self.mask_names:

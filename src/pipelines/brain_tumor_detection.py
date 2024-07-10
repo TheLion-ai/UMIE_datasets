@@ -45,7 +45,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 class LabelExtractor(BaseLabelExtractor):
     """Extractor for labels specific to the Brain Tumor Detection dataset."""
 
-    def _extract(self, img_path: str) -> list:
+    def _extract(self, img_path: str, *args: Any) -> list:
         """Extract label from img path."""
         if "Y" in os.path.basename(img_path):
             return self.labels["Y"]
