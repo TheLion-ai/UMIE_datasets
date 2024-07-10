@@ -53,16 +53,15 @@ class AddLabels(BaseStep):
         return new_paths
 
     def add_labels(self, img_path: str, source_path_dict: Optional[dict] = None) -> None:
-        """Add labels to the image and mask based on the get_label function specified by the pipeline.
+        """Add labels to the image and mask based on the label_extractor function specified by the pipeline.
 
         Args:
             img_path (str): Path to the image.
             labels_list (list): List of labels.
         """
-        img_id = os.path.basename(img_path)
         if source_path_dict:
-            labels = self.get_label(source_path_dict[img_id])
+            labels = self.label_extractor(source_path_dict[img_path])
         else:
-            labels = self.get_label(img_path)
+            labels = self.label_extractor(img_path)
         if labels:
             self.json_updates[img_path.replace(self.target_path, "")] = labels

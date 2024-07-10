@@ -36,7 +36,7 @@ class PipelineArgs:
     zfill: Optional[int] = None  # number of digits to pad the image id with
     window_center: Optional[int] = None  # value used to process DICOM images
     window_width: Optional[int] = None  # value used to process DICOM images
-    get_label: Optional[Callable] = None  # function to get label for the individual image
+    label_extractor: Optional[Callable] = None  # function to get label for the individual image
     img_prefix: Optional[str] = None  # prefix of the source image file names
     segmentation_prefix: Optional[str] = None  # prefix of the source mask file names
     mask_selector: Optional[str] = None  # string included only in masks names
@@ -69,7 +69,7 @@ class BasePipeline:
         return Pipeline(steps=[(step[0], step[1](**args)) for step in self.steps])
 
     def load_labels_from_path(self, labels_path: str) -> list:
-        """Load all labels from the labels file. Labels are not processed here, they are processed in the get_label method.
+        """Load all labels from the labels file. Labels are not processed here, they are processed in the label_extractor method.
 
         Returns:
             list: List of labels and annotations.
@@ -88,8 +88,3 @@ class BasePipeline:
     def prepare_pipeline(self) -> None:
         """Prepare pipeline. Function is called in post initialization if source path exists."""
         return
-
-    @abstractmethod
-    def get_label(self) -> list:
-        """Get label for the image. Method is implemented in the dataset specific pipeline."""
-        return []

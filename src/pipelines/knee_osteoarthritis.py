@@ -54,7 +54,7 @@ class KneeOsteoarthritisPipeline(BasePipeline):
         study_id = study_id + os.path.basename(os.path.dirname(img_path))
         return study_id
 
-    def get_label(self, img_path: str) -> list:
+    def label_extractor(self, img_path: str) -> list:
         """Get label for file. Label is a name of folder in source directory."""
         label = os.path.basename(os.path.dirname(img_path))
 
@@ -64,6 +64,6 @@ class KneeOsteoarthritisPipeline(BasePipeline):
         """Post initialization actions."""
         self.pipeline_args.study_id_extractor = lambda x: self.study_id_extractor(x)
 
-        self.pipeline_args.get_label = self.get_label
+        self.pipeline_args.label_extractor = self.label_extractor
         # Add dataset specific arguments to the pipeline arguments
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

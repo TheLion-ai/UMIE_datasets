@@ -58,7 +58,7 @@ class BrainTumorDetectionPipeline(BasePipeline):
             img_basename = img_basename.replace(id, ids_dict[id])
         return img_basename
 
-    def get_label(self, img_path: str) -> list:
+    def label_extractor(self, img_path: str) -> list:
         """Get label for file. Label is a name of folder in source directory."""
         if "Y" in os.path.basename(img_path):
             return self.args["labels"]["Y"]
@@ -71,6 +71,6 @@ class BrainTumorDetectionPipeline(BasePipeline):
         """Post initialization actions."""
         self.pipeline_args.img_id_extractor = lambda x: self.img_id_extractor(x)
         self.pipeline_args.study_id_extractor = lambda x: self.study_id_extractor(x)
-        self.pipeline_args.get_label = lambda x: self.get_label(x)
+        self.pipeline_args.label_extractor = lambda x: self.label_extractor(x)
         # Add dataset specific arguments to the pipeline arguments
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

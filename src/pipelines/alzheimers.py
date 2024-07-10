@@ -1,8 +1,7 @@
 """Preprocessing pipeline for Alzheimers dataset."""
-import glob
 import os
 import re
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
@@ -14,28 +13,11 @@ from steps import (
     AddUmieIds,
     ConvertJpg2Png,
     CreateFileTree,
+    DeleteTempFiles,
     DeleteTempPng,
     GetFilePaths,
+    StoreSourcePaths,
 )
-
-# Filenames in source directory are not unique, so additional id is added to each study_id, based on parent folder
-# name to make them unique across the whole dataset.
-
-# Ids added to study id based on the name of parent folder name for a 'test' source directory.
-ids_dict_test = {
-    "NonDemented": "0",
-    "VeryMildDemented": "1",
-    "MildDemented": "2",
-    "ModerateDemented": "3",
-}
-# Ids added to study id based on the name of parent folder name for a 'train' source directory.
-ids_dict_train = {
-    "nonDem": "000",
-    "verymildDem": "111",
-    "mildDem": "222",
-    "moderateDem": "333",
-}
-inv_ids_dict_train = {v: k for k, v in ids_dict_train.items()}
 
 
 class ImgIdExtractor(BaseImgIdExtractor):
@@ -56,6 +38,24 @@ class ImgIdExtractor(BaseImgIdExtractor):
 class StudyIdExtractor(BaseStudyIdExtractor):
     """Extractor for study IDs specific to the Alzheimer's dataset."""
 
+    # Filenames in source directory are not unique, so additional id is added to each study_id, based on parent folder
+    # name to make them unique across the whole dataset.
+
+    # Ids added to study id based on the name of parent folder name for a 'test' source directory.
+    ids_dict_test = {
+        "NonDemented": "0",
+        "VeryMildDemented": "1",
+        "MildDemented": "2",
+        "ModerateDemented": "3",
+    }
+    # Ids added to study id based on the name of parent folder name for a 'train' source directory.
+    ids_dict_train = {
+        "nonDem": "000",
+        "verymildDem": "111",
+        "mildDem": "222",
+        "moderateDem": "333",
+    }
+
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
         basename = os.path.splitext(os.path.basename(img_path))[0]
@@ -67,15 +67,25 @@ class StudyIdExtractor(BaseStudyIdExtractor):
             study_id = "0"
         # Add identifier based on folder name to make new file name unique across dataset
         if "train" in img_path:
-            for id in ids_dict_train.keys():
-                basename = basename.replace(id, ids_dict_train[id])
+            for id in self.ids_dict_train.keys():
+                basename = basename.replace(id, self.ids_dict_train[id])
             study_id = study_id + basename
         else:
             folder = os.path.basename(os.path.dirname(img_path))
-            for id in ids_dict_test.keys():
-                folder = folder.replace(id, ids_dict_test[id])
+            for id in self.ids_dict_test.keys():
+                folder = folder.replace(id, self.ids_dict_test[id])
             study_id = folder + study_id
         return study_id
+
+
+class LabelExtractor(BaseLabelExtractor):
+    """Extractor for labels specific to the Alzheimer's dataset."""
+
+    def _extract(self, img_path: str) -> str:
+        """Extract label from img path."""
+        source_label = os.path.basename(os.path.dirname(img_path))
+        radlex_label = self.labels[source_label]
+        return radlex_label
 
 
 @dataclass
@@ -86,10 +96,12 @@ class AlzheimersPipeline(BasePipeline):
     steps: tuple = (
         ("create_file_tree", CreateFileTree),
         ("get_file_paths", GetFilePaths),
+        ("store_source_paths", StoreSourcePaths),
         ("convert_jpg2png", ConvertJpg2Png),
         ("add_umie_ids", AddUmieIds),
         ("add_labels", AddLabels),
         ("delete_temp_png", DeleteTempPng),
+        ("delete_temp_files", DeleteTempFiles),
     )
     dataset_args: DatasetArgs = alzheimers
     pipeline_args: PipelineArgs = PipelineArgs(
@@ -101,44 +113,8 @@ class AlzheimersPipeline(BasePipeline):
         study_id_extractor=StudyIdExtractor(),
     )
 
-    def get_label(self, img_path: str) -> list:
-        """Get label for file. Label is a name of folder in source directory."""
-        # filename_source = os.path.basename(img_path).split("_")[-1].replace(".png", ".jpg")
-
-        filename_source = self._reverse_filename(img_path)
-        file_source_path = [path for path in self.files_source if filename_source == os.path.basename(path)][0]
-        label = os.path.basename(os.path.dirname(file_source_path))
-        radlex_label = self.args["labels"][label]
-
-        return radlex_label
-
-    def _reverse_filename(self, img_path: str) -> str:
-        """Convert image target name to name in source directory."""
-        img_id = os.path.basename(img_path)
-        # ext = os.path.splitext(img_id)[1]
-        basename = os.path.splitext(img_id)[0]
-        study_id = re.split("_", basename)[2]
-        img_id = re.split("_", basename)[3]
-        filename = ""
-        if len(study_id) < 5:
-            if study_id[1:] != "0":
-                filename = study_id[1:]
-                filename = img_id + filename
-            else:
-                filename = img_id
-        else:
-            lab = study_id[1:4]
-            for id in inv_ids_dict_train.keys():
-                lab = lab.replace(id, inv_ids_dict_train[id])
-            filename = lab + study_id[4:]
-        filename = filename + ".jpg"
-        return filename
-
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        self.files_source = glob.glob(os.path.join(self.args["source_path"], "**"), recursive=True)
-        self.files_source = [name.replace("(", "").replace(")", "").replace(" ", "") for name in self.files_source]
-        self.pipeline_args.get_label = self.get_label
-
         # Add dataset specific arguments to the pipeline arguments
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
+        self.args["label_extractor"] = LabelExtractor(self.args["labels"])

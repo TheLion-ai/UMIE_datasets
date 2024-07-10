@@ -72,7 +72,7 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
         lowercase_phases = [x.lower() for x in list(self.args["phases"].values())]
         return list(self.args["phases"].keys())[lowercase_phases.index(phase_name.lower())]
 
-    def get_label(self, img_path: str) -> list:
+    def label_extractor(self, img_path: str) -> list:
         """Get image label based on path."""
         # If there is a mask associated with the image in a source directory, then the label is 'hemorrhage'
         if self.path_args["target_path"] in img_path:
@@ -82,7 +82,7 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
             else:
                 return self.args["labels"]["normal"]
         else:
-            # incorrect images directory for invoking get_label
+            # incorrect images directory for invoking label_extractor
             return []
 
     def prepare_pipeline(self) -> None:
@@ -91,7 +91,7 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
         self.pipeline_args.study_id_extractor = lambda x: self.study_id_extractor(x)
         self.pipeline_args.phase_extractor = self.phase_extractor
 
-        # Add get_label function to the pipeline_args
-        self.pipeline_args.get_label = partial(self.get_label)
+        # Add label_extractor function to the pipeline_args
+        self.pipeline_args.label_extractor = partial(self.label_extractor)
         # Update args with pipeline_args
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

@@ -59,7 +59,7 @@ class LITSPipeline(BasePipeline):
         study_id = basename.rsplit("_", 1)[0].rsplit("-", 1)[1]
         return study_id
 
-    def get_label(self, img_path: str) -> list:
+    def label_extractor(self, img_path: str) -> list:
         """Get image label based on path."""
         mask_path = img_path.replace(IMG_FOLDER_NAME, MASK_FOLDER_NAME)
         mask = cv2.imread(mask_path)
@@ -73,7 +73,7 @@ class LITSPipeline(BasePipeline):
         self.pipeline_args.img_id_extractor = lambda x: self.img_id_extractor(x)
         self.pipeline_args.study_id_extractor = lambda x: self.study_id_extractor(x)
 
-        # Add get_label function to the dataset_args
-        self.pipeline_args.get_label = partial(self.get_label)
+        # Add label_extractor function to the dataset_args
+        self.pipeline_args.label_extractor = partial(self.label_extractor)
         # Update args with dataset_args
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

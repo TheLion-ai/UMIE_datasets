@@ -35,7 +35,7 @@ datasets = [
     ),
     AlzheimersPipeline(
         path_args={
-            "source_path": "",
+            "source_path": "",  # Path to archive directory from kaggle
             "target_path": TARGET_PATH,
         },
     ),

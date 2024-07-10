@@ -7,12 +7,7 @@ class BaseLabelExtractor(ABC):
     """Base class for constructing a label extractor for an individual dataset."""
 
     def __init__(self, labels: dict):
-        """
-        Initialize the BaseLabelExtractor class.
-
-        Args:
-            labels (dict): A dictionary containing labels for the dataset.
-        """
+        """Initialize the BaseLabelExtractor class."""
         self.labels = labels
 
     def __call__(self, img_path: str) -> list:

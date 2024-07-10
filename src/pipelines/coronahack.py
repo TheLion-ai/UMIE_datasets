@@ -54,7 +54,7 @@ class CoronaHackPipeline(BasePipeline):
 
         return img_row["id"].values[0]
 
-    def get_label(
+    def label_extractor(
         self,
         img_path: os.PathLike,
     ) -> list | None:
@@ -93,7 +93,7 @@ class CoronaHackPipeline(BasePipeline):
 
         self.pipeline_args.img_id_extractor = lambda x: "0.png"
         self.pipeline_args.study_id_extractor = lambda x: self.get_img_id(x)
-        self.pipeline_args.get_label = self.get_label
+        self.pipeline_args.label_extractor = self.label_extractor
 
         # Add dataset specific arguments to the pipeline arguments
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

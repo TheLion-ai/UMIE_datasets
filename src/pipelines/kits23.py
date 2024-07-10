@@ -59,7 +59,7 @@ class KITS23Pipeline(BasePipeline):
         mask_folder_name=MASK_FOLDER_NAME,
     )
 
-    def get_label(
+    def label_extractor(
         self,
         img_path: str,
         labels_list: list,
@@ -105,9 +105,9 @@ class KITS23Pipeline(BasePipeline):
         """Post initialization actions."""
         # Load labels from the labels file
         self.labels_list = self.load_labels_from_path(self.args["labels_path"])
-        # Add get_label function to the pipeline_args
-        self.pipeline_args.get_label = partial(
-            self.get_label,
+        # Add label_extractor function to the pipeline_args
+        self.pipeline_args.label_extractor = partial(
+            self.label_extractor,
             labels_list=self.labels_list,
         )
         # Update args with pipeline_args

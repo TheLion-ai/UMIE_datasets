@@ -30,7 +30,7 @@ class BaseStep(TransformerMixin):
         zfill: Optional[int] = None,  # number of digits to pad the image id with
         window_center: Optional[int] = None,  # value used to process DICOM images
         window_width: Optional[int] = None,  # value used to process DICOM images
-        get_label: Optional[Callable] = None,  # function to get label for the individual image
+        label_extractor: Optional[Callable] = None,  # function to get label for the individual image
         img_prefix: Optional[str] = None,  # prefix of the source image file names
         segmentation_prefix: Optional[str] = None,  # prefix of the source mask file names
         mask_selector: Optional[str] = None,  # string included only in masks names
@@ -59,7 +59,7 @@ class BaseStep(TransformerMixin):
             zfill (Optional[int], optional): Number of digits to pad the image id with. Defaults to None.
             window_center (Optional[int], optional): Value used to process DICOM images. Defaults to None.
             window_width (Optional[int], optional): Value used to process DICOM images. Defaults to None.
-            get_label (Optional[Callable], optional): Function to get label for the individual image. Defaults to None.
+            label_extractor (Optional[Callable], optional): Function to get label for the individual image. Defaults to None.
             img_prefix (Optional[str], optional): Prefix of the source image file names. Defaults to None.
             segmentation_prefix (Optional[str], optional): Prefix of the source mask file names. Defaults to None.
             mask_selector (Optional[str], optional): String included only in masks names. Defaults to None.
@@ -84,7 +84,7 @@ class BaseStep(TransformerMixin):
         self.zfill = zfill
         self.window_center = window_center
         self.window_width = window_width
-        self.get_label = get_label
+        self.label_extractor = label_extractor
         self.img_prefix = img_prefix
         self.mask_selector = mask_selector
         self.multiple_masks_selector = multiple_masks_selector
