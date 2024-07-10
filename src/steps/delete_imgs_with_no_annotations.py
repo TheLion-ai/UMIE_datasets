@@ -43,8 +43,9 @@ class DeleteImgsWithNoAnnotations(BaseStep):
         new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)
 
         with jsonlines.open(self.json_path, mode="w") as writer:
+            remaining_files = set(os.path.basename(path) for path in new_paths)
             for k, obj in self.json_lines.items():
-                if os.path.join(self.target_path, k) in new_paths:
+                if k in remaining_files:
                     writer.write(obj)
 
         return new_paths
@@ -57,12 +58,11 @@ class DeleteImgsWithNoAnnotations(BaseStep):
             root_path (str): Path to the root folder.
         """
         img_name = os.path.basename(img_path)
-        if self.mask_folder_name:
-            mask_path = os.path.join(root_path, self.mask_folder_name, img_name)
         no_label = False
         if self.json_lines[img_name]["labels"] == []:
             no_label = True
-        if self.mask_folder_name:
+        if self.masks_path:
+            mask_path = os.path.join(root_path, self.mask_folder_name, img_name)
             if img_name not in self.mask_names:
                 if no_label:
                     # If there is no mask and no label

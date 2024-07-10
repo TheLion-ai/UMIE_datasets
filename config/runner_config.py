@@ -100,9 +100,9 @@ datasets = [
     ),
     COCAPipeline(
         path_args={
-            "source_path": "",  # Path to Gated_release_final/patient
+            "source_path": "/home/basia/UMIE_datasets/testing/test_dummy_data/12_coca/input/cocacoronarycalciumandchestcts-2/Gated_release_final/patient",  # Path to Gated_release_final/patient
             "target_path": TARGET_PATH,
-            "masks_path": "",  # Path to Gated_release_final/calcium_xml
+            "masks_path": "/home/basia/UMIE_datasets/testing/test_dummy_data/12_coca/input/cocacoronarycalciumandchestcts-2/Gated_release_final/calcium_xml",  # Path to Gated_release_final/calcium_xml
         },
     ),
     BrainMETSharePipeline(

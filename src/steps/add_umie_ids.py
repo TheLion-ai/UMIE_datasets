@@ -65,7 +65,7 @@ class AddUmieIds(BaseStep):
             "study_id": str(study_id),
             "umie_id": os.path.basename(umie_path),
             "has_mask": has_mask,
-            "labels": {},
+            "labels": [],
         }
 
         self.new_json.append(img_info)
