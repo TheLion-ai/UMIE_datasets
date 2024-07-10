@@ -4,9 +4,29 @@ import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from base.extractors import BasePhaseIdExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
 from config.dataset_config import DatasetArgs, brain_met_share
 from steps import AddUmieIds, CopyMasks, CreateFileTree, GetFilePaths, RecolorMasks
+
+
+class StudyIdExtractor(BaseStudyIdExtractor):
+    """Extractor for study IDs specific to the Brain MET dataset."""
+
+    def _extract(self, img_path: str) -> str:
+        """Extract study id from img path."""
+        # Study name is the folder two levels above the image
+        study_id = os.path.basename(os.path.dirname(os.path.dirname(img_path))).split("_")[-1]
+        return study_id
+
+
+class PhaseIdExtractor(BasePhaseIdExtractor):
+    """Extractor for phase IDs specific to the Brain MET dataset."""
+
+    def _extract(self, img_path: str) -> str:
+        """Extract phase id from img path."""
+        # Phase name is the folder one level above the image
+        return os.path.basename(os.path.dirname(img_path))
 
 
 @dataclass
@@ -24,10 +44,9 @@ class BrainMETSharePipeline(BasePipeline):
     dataset_args: DatasetArgs = brain_met_share
     pipeline_args: PipelineArgs = PipelineArgs(
         zfill=3,
-        # Study name is the folder two levels above the image
-        study_id_extractor=lambda x: os.path.basename(os.path.dirname(os.path.dirname(x))).split("_")[-1],
+        study_id_extractor=StudyIdExtractor(),
         # Phase name is the folder one level above the image
-        phase_extractor=lambda x: os.path.basename(os.path.dirname(x)),
+        phase_extractor=PhaseIdExtractor(),
     )
 
     def prepare_pipeline(self) -> None:
