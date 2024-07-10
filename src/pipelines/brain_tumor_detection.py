@@ -75,10 +75,9 @@ class BrainTumorDetectionPipeline(BasePipeline):
         phase_extractor=lambda x: "0",  # All images are from the same phase
         image_folder_name="Images",
         mask_folder_name=None,
-        img_id_extractor=lambda x: 0,
         img_prefix="",
-        # img_id_extractor=ImgIdExtractor(),
-        # study_id_extractor=StudyIdExtractor(),
+        img_id_extractor=ImgIdExtractor(),
+        study_id_extractor=StudyIdExtractor(),
     )
 
     def prepare_pipeline(self) -> None:
