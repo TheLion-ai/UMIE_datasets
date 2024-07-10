@@ -55,34 +55,34 @@ class LabelExtractor(BaseLabelExtractor):
             return []
 
 
-# @dataclass
-# class BrainTumorDetectionPipeline(BasePipeline):
-#     """Preprocessing pipeline for Brain Tumor Detection dataset."""
+@dataclass
+class BrainTumorDetectionPipeline(BasePipeline):
+    """Preprocessing pipeline for Brain Tumor Detection dataset."""
 
-#     name: str = "brain_tumor_detection"  # dataset name used in configs
-#     steps: tuple = (
-#         ("create_file_tree", CreateFileTree),
-#         ("get_file_paths", GetFilePaths),
-#         ("get_source_paths", StoreSourcePaths),
-#         ("convert_jpg2png", ConvertJpg2Png),
-#         ("add_new_ids", AddUmieIds),
-#         ("add_labels", AddLabels),
-#         ("delete_temp_files", DeleteTempFiles),
-#         ("delete_temp_png", DeleteTempPng),
-#     )
-#     dataset_args: DatasetArgs = brain_tumor_detection
-#     pipeline_args: PipelineArgs = PipelineArgs(
-#         phase_extractor=lambda x: "0",  # All images are from the same phase
-#         image_folder_name="Images",
-#         mask_folder_name=None,
-#         img_id_extractor=lambda x: 0,
-#         img_prefix="",
-#         img_id_extractor=ImgIdExtractor(),
-#         study_id_extractor=StudyIdExtractor(),
-#     )
+    name: str = "brain_tumor_detection"  # dataset name used in configs
+    steps: tuple = (
+        ("create_file_tree", CreateFileTree),
+        ("get_file_paths", GetFilePaths),
+        ("get_source_paths", StoreSourcePaths),
+        ("convert_jpg2png", ConvertJpg2Png),
+        ("add_new_ids", AddUmieIds),
+        ("add_labels", AddLabels),
+        ("delete_temp_files", DeleteTempFiles),
+        ("delete_temp_png", DeleteTempPng),
+    )
+    dataset_args: DatasetArgs = brain_tumor_detection
+    pipeline_args: PipelineArgs = PipelineArgs(
+        phase_extractor=lambda x: "0",  # All images are from the same phase
+        image_folder_name="Images",
+        mask_folder_name=None,
+        img_id_extractor=lambda x: 0,
+        img_prefix="",
+        # img_id_extractor=ImgIdExtractor(),
+        # study_id_extractor=StudyIdExtractor(),
+    )
 
-#     def prepare_pipeline(self) -> None:
-#         """Post initialization actions."""
-#         # Add dataset specific arguments to the pipeline arguments
-#         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
-#         self.args["label_extractor"] = LabelExtractor(self.args["labels"])
+    def prepare_pipeline(self) -> None:
+        """Post initialization actions."""
+        # Add dataset specific arguments to the pipeline arguments
+        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
+        self.args["label_extractor"] = LabelExtractor(self.args["labels"])
