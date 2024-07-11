@@ -42,13 +42,11 @@ class CopyMasks(BaseStep):
         """
         img_id = self.img_id_extractor(img_path)
         study_id = self.study_id_extractor(img_path)
-        # TODO: remove duplicate code from add_new_ids.py, Move this step to add_new_ids???
         if self.segmentation_prefix not in img_path:
             return None
         if self.mask_selector is not None and self.mask_selector in img_id:
             img_id = img_id.replace(self.mask_selector, "")
         for phase_id in self.phases.keys():
-            # if phase_id == self.phase_extractor(img_path) or self.phase_extractor(img_path) == "all":
             if self.multiple_masks_selector and any(
                 original_mask_selector in img_path for original_mask_selector in self.multiple_masks_selector.keys()
             ):

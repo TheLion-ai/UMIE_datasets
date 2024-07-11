@@ -26,7 +26,7 @@ class BaseStep(TransformerMixin):
         mask_folder_name: str = MASK_FOLDER_NAME,  # name of folder, where masks will be stored
         img_id_extractor: BaseImgIdExtractor = BaseImgIdExtractor(),  # function to extract image id from the image path
         study_id_extractor: Callable = lambda x: x,  # function to extract study id from the image path
-        phase_extractor: Callable = lambda x: "0",  # function to extract phase from the image path
+        phase_id_extractor: Callable = lambda x: "0",  # function to extract phase from the image path
         zfill: Optional[int] = None,  # number of digits to pad the image id with
         window_center: Optional[int] = None,  # value used to process DICOM images
         window_width: Optional[int] = None,  # value used to process DICOM images
@@ -55,7 +55,7 @@ class BaseStep(TransformerMixin):
             mask_folder_name (str, optional): Name of the folder where masks will be stored. Defaults to MASK_FOLDER_NAME.
             img_id_extractor (BaseImgIdExtractor, optional): Function to extract image id from the image path. Defaults to BaseImgIdExtractor().
             study_id_extractor (Callable, optional): Function to extract study id from the image path. Defaults to lambda x: x.
-            phase_extractor (Callable, optional): Function to extract phase from the image path. Defaults to lambda x: "0".
+            phase_id_extractor (Callable, optional): Function to extract phase from the image path. Defaults to lambda x: "0".
             zfill (Optional[int], optional): Number of digits to pad the image id with. Defaults to None.
             window_center (Optional[int], optional): Value used to process DICOM images. Defaults to None.
             window_width (Optional[int], optional): Value used to process DICOM images. Defaults to None.
@@ -75,7 +75,7 @@ class BaseStep(TransformerMixin):
         self.mask_folder_name = mask_folder_name
         self.img_id_extractor = img_id_extractor
         self.study_id_extractor = study_id_extractor
-        self.phase_extractor = phase_extractor
+        self.phase_id_extractor = phase_id_extractor
         self.segmentation_prefix = segmentation_prefix
         self.paths_data = np.array([])
         self.source_path = source_path
@@ -121,7 +121,7 @@ class BaseStep(TransformerMixin):
         img_id = img_id.replace(ext, ".png")
 
         study_id = self.study_id_extractor(img_path)
-        phase_id = self.phase_extractor(img_path)
+        phase_id = self.phase_id_extractor(img_path)
 
         umie_id = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
         return umie_id
@@ -137,7 +137,7 @@ class BaseStep(TransformerMixin):
         """
         img_id = self.img_id_extractor(img_path)
         study_id = self.study_id_extractor(img_path)
-        phase_id = self.phase_extractor(img_path)
+        phase_id = self.phase_id_extractor(img_path)
 
         if img_id == "" or study_id == "" or phase_id == "":
             return False
@@ -154,7 +154,7 @@ class BaseStep(TransformerMixin):
         """
         umie_id = self.get_umie_id(img_path)
 
-        phase_id = self.phase_extractor(img_path)
+        phase_id = self.phase_id_extractor(img_path)
 
         if phase_id not in self.phases.keys():
             raise ValueError(f"Phase id {phase_id} not in the list of phases.")

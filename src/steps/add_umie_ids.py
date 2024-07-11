@@ -44,7 +44,7 @@ class AddUmieIds(BaseStep):
         new_paths = glob.glob(os.path.join(root_path, f"**/{self.image_folder_name}/*.png"), recursive=True)
         return new_paths
 
-    def _update_json(self, umie_path: str, has_mask: bool) -> None:
+    def _update_json(self, umie_path: str, mask_path: str) -> None:
 
         phase_name, study_id, img_id = self.decode_umie_img_path(umie_path)
 
@@ -64,7 +64,7 @@ class AddUmieIds(BaseStep):
             "comparative": comparative,
             "study_id": str(study_id),
             "umie_id": os.path.basename(umie_path),
-            "has_mask": has_mask,
+            "mask_path": mask_path,
             "labels": [],
         }
 
@@ -93,15 +93,15 @@ class AddUmieIds(BaseStep):
             else:
                 shutil.copy2(img_path, umie_path)
 
-        has_mask = False
+        umie_mask_path = ""
         if self.mask_folder_name is not None:
-            mask_path = img_path.replace(self.image_folder_name, self.mask_folder_name)
+            old_mask_path = img_path.replace(self.image_folder_name, self.mask_folder_name)
             new_mask_path = umie_path.replace(self.image_folder_name, self.mask_folder_name)
             if os.path.exists(new_mask_path):
-                has_mask = True
+                umie_mask_path = new_mask_path
             if self.mask_folder_name in img_path:
-                if os.path.exists(mask_path):
-                    os.rename(mask_path, new_mask_path)
-                    has_mask = True
+                if os.path.exists(old_mask_path):
+                    os.rename(old_mask_path, new_mask_path)
+                    umie_mask_path = new_mask_path
 
-        self._update_json(umie_path, has_mask)
+        self._update_json(umie_path, umie_mask_path)

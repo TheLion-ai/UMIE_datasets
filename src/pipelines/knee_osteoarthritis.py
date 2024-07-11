@@ -63,7 +63,6 @@ class KneeOsteoarthritisPipeline(BasePipeline):
     )
     dataset_args: DatasetArgs = knee_osteoarthritis
     pipeline_args: PipelineArgs = PipelineArgs(
-        phase_extractor=lambda x: "0",  # All images are from the same phase
         image_folder_name=IMG_FOLDER_NAME,
         img_id_extractor=ImgIdExtractor(),
         study_id_extractor=StudyIdExtractor(),

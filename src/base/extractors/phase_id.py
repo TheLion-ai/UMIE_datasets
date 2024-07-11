@@ -57,4 +57,4 @@ class BasePhaseIdExtractor:
         Returns:
             str: The extracted phase ID.
         """
-        return path
+        return "0"

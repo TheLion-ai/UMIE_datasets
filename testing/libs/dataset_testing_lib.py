@@ -56,6 +56,11 @@ class DatasetTestingLibrary:
         return True
 
     @staticmethod
+    def verify_jsonl_identical(expected_jsonl: list[dict], current_jsonl: list[dict]) -> bool:
+        """Check if json lines files are identical."""
+        return expected_jsonl == current_jsonl
+
+    @staticmethod
     def clean_up(directory_to_erase: Path) -> None:
         """Recursively remove files from directory_to_erase."""
         files_to_erase = glob.glob(f"{str(directory_to_erase)}/**", recursive=True)

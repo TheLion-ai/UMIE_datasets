@@ -52,7 +52,8 @@ class PhaseExtractor(BasePhaseIdExtractor):
         # Phase is the name of folder 2 levels above image in source directory
         phase_name = os.path.basename(os.path.dirname(img_path))
         lowercase_phases = [x.lower() for x in list(self.phases.values())]
-        return list(self.phases.keys())[lowercase_phases.index(phase_name.lower())]
+        phase_id = list(self.phases.keys())[lowercase_phases.index(phase_name.lower())]
+        return str(phase_id) if phase_id else ""
 
 
 class LabelExtractor(BaseLabelExtractor):
@@ -101,5 +102,5 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
         """Post initialization actions."""
         # Update args with pipeline_args
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
-        self.args["phase_extractor"] = PhaseExtractor(self.args["phases"])
+        self.args["phase_id_extractor"] = PhaseExtractor(self.args["phases"])
         self.args["label_extractor"] = LabelExtractor(self.args["labels"])

@@ -26,7 +26,9 @@ class PhaseIdExtractor(BasePhaseIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Extract phase id from img path."""
         # Phase name is the folder one level above the image
-        return os.path.basename(os.path.dirname(img_path))
+        phase_name = os.path.basename(os.path.dirname(img_path))
+        phase_id = [key for key, value in self.phases.items() if value == phase_name][0]
+        return str(phase_id)
 
 
 @dataclass

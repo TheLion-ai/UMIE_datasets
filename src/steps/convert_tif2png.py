@@ -58,7 +58,7 @@ class ConvertTif2Png(BaseStep):
         """
         if self.mask_folder_name not in img_path:
 
-            phase_id = self.phase_extractor(img_path)
+            phase_id = self.phase_id_extractor(img_path)
             if phase_id not in self.phases.keys():
                 return None
             phase_name = self.phases[phase_id]

@@ -32,7 +32,7 @@ class PipelineArgs:
     mask_folder_name: str = MASK_FOLDER_NAME  # name of folder, where masks will be stored
     img_id_extractor: BaseImgIdExtractor = BaseImgIdExtractor()  # function to extract image id from the image path
     study_id_extractor: Callable = lambda x: x  # function to extract study id from the image path
-    phase_extractor: Callable = lambda x: "0"  # function to extract phase from the image path
+    phase_id_extractor: Callable = lambda x: "0"  # function to extract phase from the image path
     zfill: Optional[int] = None  # number of digits to pad the image id with
     window_center: Optional[int] = None  # value used to process DICOM images
     window_width: Optional[int] = None  # value used to process DICOM images

@@ -41,7 +41,7 @@ class CreateBlankMasks(BaseStep):
         with jsonlines.open(self.json_path, mode="r") as reader:
             for obj in reader:
                 if obj["umie_path"] in self.blank_masks:
-                    obj["has_mask"] = True
+                    obj["mask_path"] = self.get_umie_mask_path(obj["umie_path"])
 
                 updated_lines.append(obj)
 

@@ -72,7 +72,6 @@ class BrainTumorDetectionPipeline(BasePipeline):
     )
     dataset_args: DatasetArgs = brain_tumor_detection
     pipeline_args: PipelineArgs = PipelineArgs(
-        phase_extractor=lambda x: "0",  # All images are from the same phase
         image_folder_name="Images",
         img_prefix="",
         img_id_extractor=ImgIdExtractor(),

@@ -89,4 +89,4 @@ class BrainTumorProgressionPipeline(BasePipeline):
         # self.pipeline_args.img_id_extractor = lambda x: img_id_extractor(x)
         # Add dataset specific arguments to the pipeline arguments
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
-        self.args["phase_extractor"] = PhaseIdExtractor(self.args["phases"])
+        self.args["phase_id_extractor"] = PhaseIdExtractor(self.args["phases"])

@@ -105,7 +105,6 @@ class AlzheimersPipeline(BasePipeline):
     )
     dataset_args: DatasetArgs = alzheimers
     pipeline_args: PipelineArgs = PipelineArgs(
-        phase_extractor=lambda x: "0",  # All images are from the same phase
         image_folder_name=IMG_FOLDER_NAME,
         img_prefix="",
         img_id_extractor=ImgIdExtractor(),

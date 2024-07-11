@@ -6,6 +6,7 @@ This test checks whether the Pipeline for Liver_And_Liver_Tumor detection datase
 """
 
 import glob
+import json
 import os
 
 import pytest
@@ -52,6 +53,19 @@ def test_lits_verify_images_correct():
 
     if not DatasetTestingLibrary.verify_all_images_identical(expected_file_tree, current_file_tree):
         pytest.fail("LITS pipeline created image contents different than expected.")
+
+
+def test_lits_verify_jsonl_correct():
+    """Test to verify whether all json files have contents as expected."""
+    expected_jsonl_path = glob.glob(f"{expected_output_path}/**/**.jsonl", recursive=True)[0]
+    current_jsonl_path = glob.glob(f"{target_path}/**/**.jsonl", recursive=True)[0]
+    with open(expected_jsonl_path, "r") as file:
+        expected_jsonl = [json.loads(line) for line in file]
+    with open(current_jsonl_path, "r") as file:
+        current_jsonl = [json.loads(line) for line in file]
+
+    if not DatasetTestingLibrary.verify_jsonl_identical(expected_jsonl, current_jsonl):
+        pytest.fail("Brain Tumor Progression pipeline created jsonl contents different than expected.")
 
 
 def test_clean_up_lits():
