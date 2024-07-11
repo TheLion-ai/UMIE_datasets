@@ -10,6 +10,7 @@ import os
 
 import pytest
 
+from base.pipeline import PathArgs
 from src.pipelines.lits import LITSPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
@@ -22,12 +23,11 @@ expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/07_lit
 def test_run_lits():
     """Test to verify, that there are no exceptions while running pipeline."""
     dataset = LITSPipeline(
-        path_args={
-            "source_path": source_path,
-            "target_path": target_path,
-            "masks_path": masks_path,
-            "masks_path": masks_path,
-        },
+        path_args=PathArgs(
+            source_path=source_path,
+            target_path=target_path,
+            masks_path=masks_path,
+        ),
     )
     pipeline = dataset.pipeline
     try:

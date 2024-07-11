@@ -20,8 +20,8 @@ class PathArgs:
 
     source_path: str  # path to the dataset that is being processed
     target_path: str  # path to the directory where the processed dataset will be saved
-    labels_path: Optional[str]  # path to the labels file
-    masks_path: Optional[str]  # path to the source masks file
+    labels_path: Optional[str] = None  # path to the labels file
+    masks_path: Optional[str] = None  # path to the source masks file
 
 
 @dataclass
@@ -55,7 +55,7 @@ class BasePipeline:
 
     def __post_init__(self) -> None:
         """Prepare args for the pipeline."""
-        self.args: dict = dict(**self.path_args, **asdict(self.dataset_args))
+        self.args: dict = dict(**asdict(self.path_args), **asdict(self.dataset_args))
 
         # Run prepare_pipeline only if source path exists.
         if self.args["source_path"]:
@@ -67,22 +67,6 @@ class BasePipeline:
         args = self.args
         # Create pipeline and pass args to each step
         return Pipeline(steps=[(step[0], step[1](**args)) for step in self.steps])
-
-    def load_labels_from_path(self, labels_path: str) -> list:
-        """Load all labels from the labels file. Labels are not processed here, they are processed in the label_extractor method.
-
-        Returns:
-            list: List of labels and annotations.
-        """
-        if not labels_path:
-            return []
-        labels_path_extension = os.path.basename(labels_path).split(".")[1]
-        if labels_path_extension == "json":
-            with open(self.args["labels_path"]) as f:
-                labels_list = json.load(f)
-                return labels_list
-        else:
-            raise NotImplementedError(f"Labels path extention {labels_path_extension} is not supported.")
 
     @abstractmethod
     def prepare_pipeline(self) -> None:

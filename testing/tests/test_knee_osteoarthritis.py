@@ -10,6 +10,7 @@ import os
 
 import pytest
 
+from base.pipeline import PathArgs
 from src.pipelines.knee_osteoarthritis import KneeOsteoarthritisPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
@@ -21,10 +22,10 @@ expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/09_kne
 def test_run_knee_osteoarthritis():
     """Test to verify, that there are no exceptions while running pipeline."""
     dataset = KneeOsteoarthritisPipeline(
-        path_args={
-            "source_path": source_path,
-            "target_path": target_path,
-        },
+        path_args=PathArgs(
+            source_path=source_path,
+            target_path=target_path,
+        ),
     )
     pipeline = dataset.pipeline
     try:

@@ -10,6 +10,7 @@ import os
 
 import pytest
 
+from base.pipeline import PathArgs
 from src.pipelines.chest_xray14 import ChestXray14Pipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
@@ -22,7 +23,7 @@ expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/11_che
 def test_run_chest_xray14():
     """Test to verify, that there are no exceptions while running pipeline."""
     dataset = ChestXray14Pipeline(
-        path_args={"source_path": source_path, "target_path": target_path, "labels_path": labels_path},
+        path_args=PathArgs(source_path=source_path, target_path=target_path, labels_path=labels_path),
     )
     pipeline = dataset.pipeline
     try:

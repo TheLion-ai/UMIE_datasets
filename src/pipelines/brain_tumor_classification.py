@@ -93,7 +93,6 @@ class BrainTumorClassificationPipeline(BasePipeline):
         image_folder_name="Images",
         img_id_extractor=ImgIdExtractor(),
         study_id_extractor=StudyIdExtractor(),
-        mask_folder_name=None,
         img_prefix="",
     )
 

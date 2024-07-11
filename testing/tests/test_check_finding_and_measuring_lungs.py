@@ -10,6 +10,7 @@ import os
 
 import pytest
 
+from base.pipeline import PathArgs
 from src.pipelines.finding_and_measuring_lungs import FindingAndMeasuringLungsPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
@@ -26,11 +27,11 @@ expected_output_path = os.path.join(
 def test_run_finding_and_measuring_lungs():
     """Test to verify, that there are no exceptions while running pipeline."""
     dataset = FindingAndMeasuringLungsPipeline(
-        path_args={
-            "source_path": source_path,
-            "masks_path": masks_path,
-            "target_path": target_path,
-        },
+        path_args=PathArgs(
+            source_path=source_path,
+            masks_path=masks_path,
+            target_path=target_path,
+        ),
     )
     pipeline = dataset.pipeline
     try:

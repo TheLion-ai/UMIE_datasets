@@ -9,7 +9,9 @@ import glob
 import os
 
 import pytest
+from zipp import Path
 
+from base.pipeline import PathArgs
 from src.pipelines.brain_with_intracranial_hemorrhage import (
     BrainWithIntracranialHemorrhagePipeline,
 )
@@ -32,11 +34,11 @@ expected_output_path = os.path.join(
 def test_run_brain_with_intracranial_hemorrhage():
     """Test to verify, that there are no exceptions while running pipeline."""
     dataset = BrainWithIntracranialHemorrhagePipeline(
-        path_args={
-            "source_path": source_path,
-            "masks_path": masks_path,
-            "target_path": target_path,
-        },
+        path_args=PathArgs(
+            source_path=source_path,
+            masks_path=masks_path,
+            target_path=target_path,
+        ),
     )
     pipeline = dataset.pipeline
     try:

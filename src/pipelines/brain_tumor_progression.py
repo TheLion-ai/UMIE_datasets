@@ -49,7 +49,7 @@ class PhaseIdExtractor(BasePhaseIdExtractor):
         """Extract phase id from img path."""
         for phase in self.phases.keys():
             if self.phases[phase] in img_path:
-                return phase
+                return str(phase)
         return ""
 
 

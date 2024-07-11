@@ -10,21 +10,24 @@ import os
 
 import pytest
 
+from base.pipeline import PathArgs
 from src.pipelines.coronahack import CoronaHackPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/01_coronahack/input")
 target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/01_coronahack/output")
+labels_path = os.path.join(os.getcwd(), "testing/test_dummy_data/01_coronahack/input/Chest_xray_Corona_Metadata.csv")
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/01_coronahack/expected_output")
 
 
 def test_run_coronahack():
     """Test to verify, that there are no exceptions while running pipeline."""
     dataset = CoronaHackPipeline(
-        path_args={
-            "source_path": source_path,
-            "target_path": target_path,
-        },
+        path_args=PathArgs(
+            source_path=source_path,
+            target_path=target_path,
+            labels_path=labels_path,
+        ),
     )
     pipeline = dataset.pipeline
     try:

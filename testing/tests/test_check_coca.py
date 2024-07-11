@@ -10,6 +10,7 @@ import os
 
 import pytest
 
+from base.pipeline import PathArgs
 from src.pipelines.coca import COCAPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
@@ -28,7 +29,7 @@ expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/12_coc
 def test_run_coca():
     """Test to verify, that there are no exceptions while running pipeline."""
     dataset = COCAPipeline(
-        path_args={"source_path": source_path, "target_path": target_path, "masks_path": masks_path},
+        path_args=PathArgs(source_path=source_path, target_path=target_path, masks_path=masks_path),
     )
     pipeline = dataset.pipeline
     try:

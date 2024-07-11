@@ -3,7 +3,7 @@ import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
-from base.extractors import BaseImgIdExtractor
+from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
 from config.dataset_config import DatasetArgs, knee_osteoarthritis
 from constants import IMG_FOLDER_NAME
@@ -25,6 +25,29 @@ class ImgIdExtractor(BaseImgIdExtractor):
         return "0.png"
 
 
+class StudyIdExtractor(BaseStudyIdExtractor):
+    """Extractor for study IDs specific to the Knee Osteoarthritis dataset."""
+
+    def _extract(self, img_path: str) -> str:
+        """Extract study id from img path."""
+        # replace letters and delete underscore from filenames
+        # letters can't be deleted because they make names unique
+        # replace letters and delete underscore from filenames
+        # letters can't be deleted because they make names unique
+        study_id = os.path.splitext(os.path.basename(img_path))[0].replace("R", "0").replace("L", "1").replace("_", "")
+        study_id = study_id + os.path.basename(os.path.dirname(img_path))
+        return study_id
+
+
+class LabelExtractor(BaseLabelExtractor):
+    """Extractor for labels specific to the Knee Osteoarthritis dataset."""
+
+    def _extract(self, img_path: str, *args: Any) -> list:
+        """Extract label from img path."""
+        source_label = os.path.basename(os.path.dirname(img_path))
+        return self.labels[source_label]
+
+
 @dataclass
 class KneeOsteoarthritisPipeline(BasePipeline):
     """Preprocessing pipeline for Knee Osteoarthritis dataset."""
@@ -42,28 +65,12 @@ class KneeOsteoarthritisPipeline(BasePipeline):
     pipeline_args: PipelineArgs = PipelineArgs(
         phase_extractor=lambda x: "0",  # All images are from the same phase
         image_folder_name=IMG_FOLDER_NAME,
-        mask_folder_name=None,
         img_id_extractor=ImgIdExtractor(),
+        study_id_extractor=StudyIdExtractor(),
     )
-
-    def study_id_extractor(self, img_path: str) -> str:
-        """Extract study id from img path."""
-        # replace letters and delete underscore from filenames
-        # letters can't be deleted because they make names unique
-        study_id = os.path.splitext(os.path.basename(img_path))[0].replace("R", "0").replace("L", "1").replace("_", "")
-        study_id = study_id + os.path.basename(os.path.dirname(img_path))
-        return study_id
-
-    def label_extractor(self, img_path: str) -> list:
-        """Get label for file. Label is a name of folder in source directory."""
-        label = os.path.basename(os.path.dirname(img_path))
-
-        return self.args["labels"][label]
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        self.pipeline_args.study_id_extractor = lambda x: self.study_id_extractor(x)
-
-        self.pipeline_args.label_extractor = self.label_extractor
         # Add dataset specific arguments to the pipeline arguments
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
+        self.args["label_extractor"] = LabelExtractor(self.args["labels"])

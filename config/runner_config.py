@@ -1,5 +1,8 @@
 """Config file with the paths to the datasets and their parameters. The user defines the paths and parameters here for the datasets of his interest."""
 
+from cProfile import label
+
+from src.base.pipeline import PathArgs
 from src.constants import TARGET_PATH
 from src.pipelines.alzheimers import AlzheimersPipeline
 from src.pipelines.brain_met_share import BrainMETSharePipeline
@@ -20,95 +23,96 @@ from src.pipelines.lits import LITSPipeline
 
 datasets = [
     KITS23Pipeline(
-        path_args={
-            "source_path": "",  # Path to the "dataset" directory in KITS23 repo
-            "masks_path": "",  # Path to the "dataset" directory in KITS23 repo
-            "target_path": TARGET_PATH,
-            "labels_path": "",  # Path to kits23.json
-        },
+        path_args=PathArgs(
+            source_path="",  # Path to the "dataset" directory in KITS23 repo
+            masks_path="",  # Path to the "dataset" directory in KITS23 repo
+            target_path=TARGET_PATH,
+            labels_path="",  # Path to kits23.json
+        ),
     ),
     CoronaHackPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-        },
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+            labels_path="",  # Path to Chest_xray_Corona_Metadata.csv
+        ),
     ),
     AlzheimersPipeline(
-        path_args={
-            "source_path": "",  # Path to archive directory from kaggle
-            "target_path": TARGET_PATH,
-        },
+        path_args=PathArgs(
+            source_path="",  # Path to archive directory from kaggle
+            target_path=TARGET_PATH,
+        ),
     ),
     BrainTumorClassificationPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-        },
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+        ),
     ),
     COVID19DetectionPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-        },
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+        ),
     ),
     FindingAndMeasuringLungsPipeline(
-        path_args={
-            "source_path": "",  # Path to 2d_images directory
-            "target_path": TARGET_PATH,
-            "masks_path": "",  # Path to 2d_masks directory
-        },
+        path_args=PathArgs(
+            source_path="",  # Path to 2d_images directory
+            target_path=TARGET_PATH,
+            masks_path="",  # Path to 2d_masks directory
+        ),
     ),
     BrainWithIntracranialHemorrhagePipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-            "masks_path": "",  # same as source path
-        },
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+            masks_path="",  # same as source path
+        ),
     ),
     LITSPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-            "masks_path": "",  # same as source_path
-        },
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+            masks_path="",  # same as source_path
+        ),
     ),
     BrainTumorDetectionPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-        },
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+        ),
     ),
     KneeOsteoarthritisPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-        }
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+        ),
     ),
     BrainTumorProgressionPipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-            "masks_path": "",
-        }
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+            masks_path="",
+        )
     ),
     ChestXray14Pipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-            "labels_path": "",  # Path to Data_Entry_2017_v2020.csv
-        },
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+            labels_path="",  # Path to Data_Entry_2017_v2020.csv
+        ),
     ),
     COCAPipeline(
-        path_args={
-            "source_path": "/home/basia/UMIE_datasets/testing/test_dummy_data/12_coca/input/cocacoronarycalciumandchestcts-2/Gated_release_final/patient",  # Path to Gated_release_final/patient
-            "target_path": TARGET_PATH,
-            "masks_path": "/home/basia/UMIE_datasets/testing/test_dummy_data/12_coca/input/cocacoronarycalciumandchestcts-2/Gated_release_final/calcium_xml",  # Path to Gated_release_final/calcium_xml
-        },
+        path_args=PathArgs(
+            source_path="",  # Path to Gated_release_final/patient
+            target_path=TARGET_PATH,
+            masks_path="",  # Path to Gated_release_final/calcium_xml
+        ),
     ),
     BrainMETSharePipeline(
-        path_args={
-            "source_path": "",
-            "target_path": TARGET_PATH,
-        },
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+        ),
     ),
 ]
