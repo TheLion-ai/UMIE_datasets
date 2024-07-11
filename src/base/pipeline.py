@@ -62,7 +62,7 @@ class BasePipeline:
             self.prepare_pipeline()
 
     @property
-    def pipeline(self) -> None:
+    def pipeline(self) -> Pipeline:
         """Create a pipeline based on the steps and args."""
         args = self.args
         # Create pipeline and pass args to each step

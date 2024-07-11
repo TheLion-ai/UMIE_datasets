@@ -3,11 +3,7 @@
 import glob
 import os
 import shutil
-from typing import Callable
 
-from tqdm import tqdm
-
-from base.extractors.img_id import BaseImgIdExtractor
 from base.step import BaseStep
 
 

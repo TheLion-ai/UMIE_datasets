@@ -68,9 +68,9 @@ datasets = [
     ),
     LITSPipeline(
         path_args=PathArgs(
-            source_path="/home/basia/UMIE_datasets/testing/test_dummy_data/07_lits/input",
+            source_path="",
             target_path=TARGET_PATH,
-            masks_path="/home/basia/UMIE_datasets/testing/test_dummy_data/07_lits/input",  # same as source_path
+            masks_path="",  # same as source_path
         ),
     ),
     BrainTumorDetectionPipeline(
