@@ -2,6 +2,7 @@
 
 import glob
 import os
+from calendar import c
 from pathlib import Path
 
 import cv2
@@ -22,12 +23,12 @@ class DatasetTestingLibrary:
 
         differences = expected_set.symmetric_difference(current_set)
         if differences:
-            print("Differences found:")
-            for diff in differences:
-                if diff in expected_set:
-                    print(f"Expected but not found in current: {diff}")
-                else:
-                    print(f"Found in current but not expected: {diff}")
+            expected_differences = expected_set - current_set
+            if expected_differences:
+                print(f"Expected but not found in current: {expected_differences}\n")
+            else:
+                current_differences = current_set - expected_set
+                print(f"Found in current but not expected: {current_differences}")
             return False
         return True
 

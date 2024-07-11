@@ -1,25 +1,22 @@
 """Config file with the paths to the datasets and their parameters. The user defines the paths and parameters here for the datasets of his interest."""
-
-from cProfile import label
-
 from src.base.pipeline import PathArgs
 from src.constants import TARGET_PATH
-from src.pipelines.alzheimers import AlzheimersPipeline
-from src.pipelines.brain_met_share import BrainMETSharePipeline
-from src.pipelines.brain_tumor_classification import BrainTumorClassificationPipeline
-from src.pipelines.brain_tumor_detection import BrainTumorDetectionPipeline
-from src.pipelines.brain_tumor_progression import BrainTumorProgressionPipeline
-from src.pipelines.brain_with_intracranial_hemorrhage import (
+from src.pipelines import (
+    AlzheimersPipeline,
+    BrainMETSharePipeline,
+    BrainTumorClassificationPipeline,
+    BrainTumorDetectionPipeline,
+    BrainTumorProgressionPipeline,
     BrainWithIntracranialHemorrhagePipeline,
+    ChestXray14Pipeline,
+    COCAPipeline,
+    CoronaHackPipeline,
+    COVID19DetectionPipeline,
+    FindingAndMeasuringLungsPipeline,
+    KITS23Pipeline,
+    KneeOsteoarthritisPipeline,
+    LITSPipeline,
 )
-from src.pipelines.chest_xray14 import ChestXray14Pipeline
-from src.pipelines.coca import COCAPipeline
-from src.pipelines.coronahack import CoronaHackPipeline
-from src.pipelines.covid19_detection import COVID19DetectionPipeline
-from src.pipelines.finding_and_measuring_lungs import FindingAndMeasuringLungsPipeline
-from src.pipelines.kits23 import KITS23Pipeline
-from src.pipelines.knee_osteoarthritis import KneeOsteoarthritisPipeline
-from src.pipelines.lits import LITSPipeline
 
 datasets = [
     KITS23Pipeline(
@@ -71,9 +68,9 @@ datasets = [
     ),
     LITSPipeline(
         path_args=PathArgs(
-            source_path="",
+            source_path="/home/basia/UMIE_datasets/testing/test_dummy_data/07_lits/input",
             target_path=TARGET_PATH,
-            masks_path="",  # same as source_path
+            masks_path="/home/basia/UMIE_datasets/testing/test_dummy_data/07_lits/input",  # same as source_path
         ),
     ),
     BrainTumorDetectionPipeline(
