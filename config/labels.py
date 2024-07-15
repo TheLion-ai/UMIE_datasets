@@ -1,4 +1,12 @@
-"""Labels fromm all of the datasets."""
+"""
+All target labels used in UMIE.
+
+Each label has a unique id, RadLex name, RadLex id, grade, and source names.
+Source names are the names of the labels used in the original datasets. They are meant to be helpful when translating labels from new source datasets to RadLex labels.
+Each of the target labels has a grade, which is an integer value that represents the intensity of the label ranging from 0 to 1.
+E.g. 0.25 - mild, 0.5 - moderate, 0.75 - severe, 1 - critical. If the grade is not specified, the default value is 1.
+Here in "grades", we store the information about how many grades the label has.
+"""
 
 from dataclasses import dataclass, field
 from typing import Optional
@@ -6,20 +14,20 @@ from typing import Optional
 
 @dataclass
 class Label:  # Name of the label should match RadLex name
-    """This class represents a label."""
+    """This class represents a target UMIE label."""
 
-    id: int
-    radlex_name: str
-    radlex_id: str
-    grade: Optional[int] = field(
+    id: int  # Unique id of the label in UMIE
+    radlex_name: str  # name of the label in RadLex
+    radlex_id: str  # unique id of the label in RadLex
+    grades: Optional[int] = field(  # number of grades the label has (possible intensity levels of the label)
         default_factory=int
     )  # Grades of the label, some datasets come with intesity scale for the labels
     source_names: Optional[dict] = field(
         default_factory=dict
-    )  # Names used by other datasets, key - dataset name, value - label name
+    )  # Names used by other datasets, key - dataset name, value - source label name in this dataset
 
 
-# Use camel case for the labels keys
+# Use camel case for the labels names
 # We do not keep vague labels like "other" or "unknown"
 # One source label may correspond to multiple RadLex labels
 
@@ -128,7 +136,7 @@ ViralInfection = Label(
     id=12,
     radlex_name="ViralInfection",
     radlex_id="RID4687",
-    grade=5,
+    grades=5,
     source_names={
         "coronahack": ["PneumoniaVirus"],
         "MosMedData": ["CT-1", "CT-2", "CT-3", "CT-4"],
@@ -349,7 +357,7 @@ Osteoarthritis = Label(
     id=42,
     radlex_name="Osteoarthritis",
     radlex_id="RID3555",
-    grade=4,
+    grades=4,
     source_names={
         "knee_osteoarthritis": [
             "DoubtfulOsteoarthritis",
@@ -371,7 +379,7 @@ Dementia = Label(
     id=44,
     radlex_name="Dementia",
     radlex_id="RID5136",
-    grade=3,
+    grades=3,
     source_names={"alzheimers": ["VeryMildDemented", "MildDemented", "ModerateDemented"]},
 )
 
