@@ -1,7 +1,11 @@
 """
 This module contains the definition of the BasePhaseIdExtractor class.
 
-The BasePhaseIdExtractor class is a base class for phase ID extractors. It provides a default implementation for extracting the phase ID from a given path. Subclasses can override the `_extract` method to provide custom extraction logic.
+The BasePhaseIdExtractor class is a base class for phase ID extractors.
+It provides a default implementation for extracting the phase ID from a given path.
+Subclasses can override the `_extract` method to provide custom extraction logic.
+Phases are the different stages of the medical imaging examination process, e.g. pre-contrast CT, arterial phase CT, venous phase CT, etc.
+For most datasets we use broad categories like CT, MRI, X-ray.
 """
 
 
@@ -57,4 +61,5 @@ class BasePhaseIdExtractor:
         Returns:
             str: The extracted phase ID.
         """
+        # By default, each dataset has a single phase, so we do not need any extraction logic.
         return "0"

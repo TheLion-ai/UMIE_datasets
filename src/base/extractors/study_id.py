@@ -3,6 +3,7 @@ This module contains the definition of the BaseStudyIdExtractor class.
 
 The BaseStudyIdExtractor class is a base class for study ID extraction. It provides a default implementation
 for extracting the study ID from a given path.
+Each medical imaging examination contains many imgs, study id identifies all the imgs from the same examination.
 """
 
 import os

@@ -1,4 +1,11 @@
-"""Config file with the paths to the datasets and their parameters. The user defines the paths and parameters here for the datasets of his interest."""
+"""
+Config file with the paths to the datasets and their parameters.
+
+The user fills in the paths for the datasets they want to transform.
+The dataset with empty source_path is not transformed.
+If the dataset has a labels_path or masks path, it needs to be filled in too in order to transform the dataset.
+Each dataset should have a comment suggesting the name of the source file the path should point to, e.g. # Path to kits23.json.
+"""
 from src.base.pipeline import PathArgs
 from src.constants import TARGET_PATH
 from src.pipelines import (

@@ -1,4 +1,12 @@
-"""This module contains the BaseLabelExtractor class, which is a base class for constructing a label extractor for an individual dataset."""
+"""
+This module contains the BaseLabelExtractor class.
+
+BaseLabelExtractor is a base class for constructing a label extractor for an individual dataset.
+Label extractors are used to extract labels from the labels file.
+Each label extractor at initialization should receive a dictionary of mapping source labels to target labels dict (as seen in labels in dataset config).
+Label extractors should implement the _extract method to extract the label from the image path or mask_path.
+There is no default implementation of the _extract method, so it must be implemented in the derived class.
+"""
 
 from abc import ABC, abstractmethod
 
