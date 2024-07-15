@@ -13,8 +13,7 @@ import numpy as np
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
-from config import dataset_config
-from config.dataset_config import DatasetArgs
+from config.dataset_config import DatasetArgs, kits23
 from constants import MASK_FOLDER_NAME
 from steps import (
     AddLabels,
@@ -104,16 +103,18 @@ class KITS23Pipeline(BasePipeline):
         # ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ("delete_temp_png", DeleteTempPng),
     )
-    dataset_args: DatasetArgs = dataset_config.kits23
-    pipeline_args: PipelineArgs = PipelineArgs(
-        zfill=2,
-        img_id_extractor=ImgIdExtractor(),  #
-        study_id_extractor=StudyIdExtractor(),
-        window_center=50,  # Window of abddominal cavity CTs
-        window_width=400,
-        img_prefix="imaging",  # prefix of the source image file names
-        segmentation_prefix="segmentation",  # prefix of the source mask file names
-        mask_folder_name=MASK_FOLDER_NAME,
+    dataset_args: DatasetArgs = field(default_factory=lambda: kits23)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            zfill=2,
+            img_id_extractor=ImgIdExtractor(),  #
+            study_id_extractor=StudyIdExtractor(),
+            window_center=50,  # Window of abddominal cavity CTs
+            window_width=400,
+            img_prefix="imaging",  # prefix of the source image file names
+            segmentation_prefix="segmentation",  # prefix of the source mask file names
+            mask_folder_name=MASK_FOLDER_NAME,
+        )
     )
 
     def prepare_pipeline(self) -> None:

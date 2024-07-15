@@ -1,14 +1,16 @@
 """Base pipeline class."""
 
-import json
-import os
 from abc import abstractmethod
 from dataclasses import asdict, dataclass
 from typing import Callable, Optional
 
 from sklearn.pipeline import Pipeline
 
-from base.extractors.img_id import BaseImgIdExtractor
+from base.extractors import (
+    BaseImgIdExtractor,
+    BasePhaseIdExtractor,
+    BaseStudyIdExtractor,
+)
 from base.step import BaseStep
 from config.dataset_config import DatasetArgs
 from src.constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
@@ -31,8 +33,10 @@ class PipelineArgs:
     image_folder_name: str = IMG_FOLDER_NAME  # name of folder, where images will be stored
     mask_folder_name: str = MASK_FOLDER_NAME  # name of folder, where masks will be stored
     img_id_extractor: BaseImgIdExtractor = BaseImgIdExtractor()  # function to extract image id from the image path
-    study_id_extractor: Callable = lambda x: x  # function to extract study id from the image path
-    phase_id_extractor: Callable = lambda x: "0"  # function to extract phase from the image path
+    study_id_extractor: BaseStudyIdExtractor = (
+        BaseStudyIdExtractor()
+    )  # function to extract study id from the image path
+    phase_id_extractor: BasePhaseIdExtractor = BasePhaseIdExtractor({})  # function to extract phase from the image path
     zfill: Optional[int] = None  # number of digits to pad the image id with
     window_center: Optional[int] = None  # value used to process DICOM images
     window_width: Optional[int] = None  # value used to process DICOM images

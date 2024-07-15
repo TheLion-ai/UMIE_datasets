@@ -1,7 +1,6 @@
 """Preprocessing pipeline for Finding_and_Measuring_Lungs_in_CT_Data dataset."""
 import os
-from ast import Delete
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseStudyIdExtractor, study_id
@@ -53,15 +52,17 @@ class FindingAndMeasuringLungsPipeline(BasePipeline):
         ("add_new_ids", AddUmieIds),
         ("delete_temp_files", DeleteTempFiles),
     )
-    dataset_args: DatasetArgs = finding_and_measuring_lungs
-    pipeline_args: PipelineArgs = PipelineArgs(
-        image_folder_name=IMG_FOLDER_NAME,
-        mask_folder_name=MASK_FOLDER_NAME,
-        img_prefix="images",  # prefix of the source image file names
-        segmentation_prefix="masks",  # prefix of the source mask file names
-        mask_selector="2d_masks",
-        study_id_extractor=StudyIdExtractor(),
-        img_id_extractor=ImgIdExtractor(),
+    dataset_args: DatasetArgs = field(default_factory=lambda: finding_and_measuring_lungs)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            image_folder_name=IMG_FOLDER_NAME,
+            mask_folder_name=MASK_FOLDER_NAME,
+            img_prefix="images",  # prefix of the source image file names
+            segmentation_prefix="masks",  # prefix of the source mask file names
+            mask_selector="2d_masks",
+            study_id_extractor=StudyIdExtractor(),
+            img_id_extractor=ImgIdExtractor(),
+        )
     )
 
     def prepare_pipeline(self) -> None:

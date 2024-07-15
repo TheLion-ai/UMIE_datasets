@@ -70,12 +70,14 @@ class BrainTumorDetectionPipeline(BasePipeline):
         ("delete_temp_files", DeleteTempFiles),
         ("delete_temp_png", DeleteTempPng),
     )
-    dataset_args: DatasetArgs = brain_tumor_detection
-    pipeline_args: PipelineArgs = PipelineArgs(
-        image_folder_name="Images",
-        img_prefix="",
-        img_id_extractor=ImgIdExtractor(),
-        study_id_extractor=StudyIdExtractor(),
+    dataset_args: DatasetArgs = field(default_factory=lambda: brain_tumor_detection)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            image_folder_name="Images",
+            img_prefix="",
+            img_id_extractor=ImgIdExtractor(),
+            study_id_extractor=StudyIdExtractor(),
+        )
     )
 
     def prepare_pipeline(self) -> None:

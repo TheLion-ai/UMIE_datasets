@@ -2,7 +2,6 @@
 
 import glob
 import os
-from calendar import c
 from pathlib import Path
 
 import cv2
@@ -58,7 +57,12 @@ class DatasetTestingLibrary:
     @staticmethod
     def verify_jsonl_identical(expected_jsonl: list[dict], current_jsonl: list[dict]) -> bool:
         """Check if json lines files are identical."""
-        return expected_jsonl == current_jsonl
+        identical = True
+        for expected_line, current_line in zip(expected_jsonl, current_jsonl):
+            if expected_line != current_line:
+                identical = False
+                print(f"Expected: {expected_line} \n but found: {current_line}")
+        return identical
 
     @staticmethod
     def clean_up(directory_to_erase: Path) -> None:

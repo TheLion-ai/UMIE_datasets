@@ -36,7 +36,7 @@ datasets = [
     ),
     AlzheimersPipeline(
         path_args=PathArgs(
-            source_path="/home/basia/UMIE_datasets/testing/test_dummy_data/02_alzheimers/input",  # Path to archive directory from kaggle
+            source_path="",  # Path to archive directory from kaggle
             target_path=TARGET_PATH,
         ),
     ),

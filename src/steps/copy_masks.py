@@ -24,7 +24,8 @@ class CopyMasks(BaseStep):
         print("Copying masks...")
         if len(X) == 0:
             raise ValueError("No list of files provided.")
-        for mask_path in glob.glob(os.path.join(self.masks_path, "**/*.png"), recursive=True):
+        mask_paths = glob.glob(os.path.join(self.masks_path, "**/*.png"), recursive=True)
+        for mask_path in mask_paths:
             if (
                 os.path.exists(mask_path)
                 and self.segmentation_prefix is not None

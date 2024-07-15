@@ -88,12 +88,14 @@ class COVID19DetectionPipeline(BasePipeline):
         ("delete_temp_files", DeleteTempFiles),
         ("delete_temp_png", DeleteTempPng),
     )
-    dataset_args: DatasetArgs = covid19_detection
-    pipeline_args: PipelineArgs = PipelineArgs(
-        image_folder_name=IMG_FOLDER_NAME,
-        img_prefix="",
-        img_id_extractor=ImgIdExtractor(),
-        study_id_extractor=StudyIdExtractor(),
+    dataset_args: DatasetArgs = field(default_factory=lambda: covid19_detection)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            image_folder_name=IMG_FOLDER_NAME,
+            img_prefix="",
+            img_id_extractor=ImgIdExtractor(),
+            study_id_extractor=StudyIdExtractor(),
+        )
     )
 
     def prepare_pipeline(self) -> None:

@@ -2,7 +2,7 @@
 
 
 import os
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -88,12 +88,14 @@ class BrainTumorClassificationPipeline(BasePipeline):
         ("delete_temp_png", DeleteTempPng),
         ("delete_temp_files", DeleteTempFiles),
     )
-    dataset_args: DatasetArgs = brain_tumor_classification
-    pipeline_args: PipelineArgs = PipelineArgs(
-        image_folder_name="Images",
-        img_id_extractor=ImgIdExtractor(),
-        study_id_extractor=StudyIdExtractor(),
-        img_prefix="",
+    dataset_args: DatasetArgs = field(default_factory=lambda: brain_tumor_classification)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            image_folder_name="Images",
+            img_id_extractor=ImgIdExtractor(),
+            study_id_extractor=StudyIdExtractor(),
+            img_prefix="",
+        )
     )
 
     def prepare_pipeline(self) -> None:

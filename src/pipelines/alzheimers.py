@@ -1,7 +1,7 @@
 """Preprocessing pipeline for Alzheimers dataset."""
 import os
 import re
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
@@ -103,12 +103,14 @@ class AlzheimersPipeline(BasePipeline):
         ("delete_temp_png", DeleteTempPng),
         ("delete_temp_files", DeleteTempFiles),
     )
-    dataset_args: DatasetArgs = alzheimers
-    pipeline_args: PipelineArgs = PipelineArgs(
-        image_folder_name=IMG_FOLDER_NAME,
-        img_prefix="",
-        img_id_extractor=ImgIdExtractor(),
-        study_id_extractor=StudyIdExtractor(),
+    dataset_args: DatasetArgs = field(default_factory=lambda: alzheimers)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            image_folder_name=IMG_FOLDER_NAME,
+            img_prefix="",
+            img_id_extractor=ImgIdExtractor(),
+            study_id_extractor=StudyIdExtractor(),
+        )
     )
 
     def prepare_pipeline(self) -> None:

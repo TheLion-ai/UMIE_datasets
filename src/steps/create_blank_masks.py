@@ -41,7 +41,8 @@ class CreateBlankMasks(BaseStep):
         with jsonlines.open(self.json_path, mode="r") as reader:
             for obj in reader:
                 if obj["umie_path"] in self.blank_masks:
-                    obj["mask_path"] = self.get_umie_mask_path(obj["umie_path"])
+                    mask_path = self.get_umie_mask_path(obj["umie_path"])
+                    obj["mask_path"] = self.get_path_without_target_path(mask_path)
 
                 updated_lines.append(obj)
 
@@ -66,4 +67,4 @@ class CreateBlankMasks(BaseStep):
         cv2.imwrite(new_path, mask)
 
         umie_path = new_path.replace(self.mask_folder_name, self.image_folder_name)
-        self.blank_masks.append(umie_path.replace(self.target_path, ""))
+        self.blank_masks.append(self.get_path_without_target_path(umie_path))

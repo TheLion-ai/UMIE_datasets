@@ -135,6 +135,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   2. Login to your Kaggle account.
   3. Download the data.
   4. Extract `archive.zip`.
+  5. REMOVE **TrainData** folder. We do not want augmented data at this stage.
   5. Fill in the `source_path` to the location of the `archive` folder in `COVID19DetectionPipeline()` in `config/runner_config.py`.
 
 </details>

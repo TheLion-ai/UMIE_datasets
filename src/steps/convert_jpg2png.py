@@ -25,7 +25,8 @@ class ConvertJpg2Png(BaseStep):
             list: List of paths to the images with labels.
         """
         print("Converting jpg to png...")
-        for img_path in tqdm(X):
+        paths = glob.glob(os.path.join(self.source_path, "**/*.*"), recursive=True)
+        for img_path in tqdm(paths):
             if img_path.endswith(".jpg") or img_path.endswith(".jpeg") or img_path.endswith(".JPG"):
                 # Convert each jpg or jpeg file to png
                 self.convert_jpg2png(img_path)

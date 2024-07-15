@@ -43,11 +43,15 @@ class BrainMETSharePipeline(BasePipeline):
         ("add_new_ids", AddUmieIds),
         ("recolor_masks", RecolorMasks),
     )
-    dataset_args: DatasetArgs = brain_met_share
-    pipeline_args: PipelineArgs = PipelineArgs(
-        zfill=3,
-        study_id_extractor=StudyIdExtractor(),
-        # Phase name is the folder one level above the image
+    dataset_args: DatasetArgs = field(
+        default_factory=lambda: brain_met_share
+    )  # Update default value to use default_factory
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            zfill=3,
+            study_id_extractor=StudyIdExtractor(),
+            # Phase name is the folder one level above the image
+        )
     )
 
     def prepare_pipeline(self) -> None:

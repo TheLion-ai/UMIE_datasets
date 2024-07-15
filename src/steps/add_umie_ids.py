@@ -55,9 +55,12 @@ class AddUmieIds(BaseStep):
         elif "POST" in img_id:
             comparative = "POST"
 
+        if mask_path != "":
+            mask_path = self.get_path_without_target_path(mask_path)
+
         img_info = {}
         img_info = {
-            "umie_path": umie_path.replace(self.target_path, ""),
+            "umie_path": self.get_path_without_target_path(umie_path),
             "dataset_name": self.dataset_name,
             "dataset_uid": self.dataset_uid,
             "phase_name": phase_name,

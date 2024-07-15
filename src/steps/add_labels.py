@@ -65,4 +65,5 @@ class AddLabels(BaseStep):
         else:
             labels = self.label_extractor(img_path, mask_path)
         if labels:
-            self.json_updates[img_path.replace(self.target_path, "")] = labels
+            key = self.get_path_without_target_path(img_path)
+            self.json_updates[key] = labels

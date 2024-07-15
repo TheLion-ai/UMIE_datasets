@@ -36,7 +36,7 @@ class GetFilePaths(BaseStep):
             for filename in filenames:
                 if filename.startswith("."):
                     continue
-                if filename.endswith((".csv", ".json", ".xslx")):
+                if filename.endswith((".csv", ".json", ".xslx", ".yml", ".txt")):
                     continue
                 if filename.startswith("LICENSE"):
                     continue

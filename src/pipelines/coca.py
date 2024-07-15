@@ -52,13 +52,15 @@ class COCAPipeline(BasePipeline):
         ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ("delete_temp_png", DeleteTempPng),
     )
-    dataset_args: DatasetArgs = coca
-    pipeline_args: PipelineArgs = PipelineArgs(
-        zfill=4,
-        # Image id is in the source file name after the last underscore
-        img_id_extractor=ImgIdExtractor(),
-        # Study name is the folder two levels above the image
-        study_id_extractor=StudyIdExtractor(),
+    dataset_args: DatasetArgs = field(default_factory=lambda: coca)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            zfill=4,
+            # Image id is in the source file name after the last underscore
+            img_id_extractor=ImgIdExtractor(),
+            # Study name is the folder two levels above the image
+            study_id_extractor=StudyIdExtractor(),
+        )
     )
 
     def prepare_pipeline(self) -> None:

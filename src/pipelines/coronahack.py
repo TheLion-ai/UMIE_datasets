@@ -88,10 +88,12 @@ class CoronaHackPipeline(BasePipeline):
         ("add_labels", AddLabels),
         ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
     )
-    dataset_args: DatasetArgs = coronahack
-    pipeline_args: PipelineArgs = PipelineArgs(
-        zfill=4,
-        img_id_extractor=ImgIdExtractor(),
+    dataset_args: DatasetArgs = field(default_factory=lambda: coronahack)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            zfill=4,
+            img_id_extractor=ImgIdExtractor(),
+        )
     )
 
     def prepare_pipeline(self) -> None:
