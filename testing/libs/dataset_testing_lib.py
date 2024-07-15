@@ -24,7 +24,7 @@ class DatasetTestingLibrary:
         if differences:
             expected_differences = expected_set - current_set
             if expected_differences:
-                print(f"Expected but not found in current: {expected_differences}\n")
+                print(f"Expected but not in current: {expected_differences}\n")
             else:
                 current_differences = current_set - expected_set
                 print(f"Found in current but not expected: {current_differences}")
