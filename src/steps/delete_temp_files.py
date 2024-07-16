@@ -7,7 +7,6 @@ from base.step import BaseStep
 class DeleteTempFiles(BaseStep):
     """Delete temporary files."""
 
-
     def transform(
         self,
         X: list,  # img_paths

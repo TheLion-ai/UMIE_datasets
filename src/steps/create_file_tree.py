@@ -45,15 +45,14 @@ class CreateFileTree(BaseStep):
         for phase in self.phases.values():
             self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}", phase)
 
-            if self.image_folder_name:
-                self._create_dir(
-                    self.target_path,
-                    f"{self.dataset_uid}_{self.dataset_name}",
-                    phase,
-                    self.image_folder_name,
-                )
+            self._create_dir(
+                self.target_path,
+                f"{self.dataset_uid}_{self.dataset_name}",
+                phase,
+                self.image_folder_name,
+            )
 
-            if self.mask_folder_name:
+            if self.masks_path:
                 self._create_dir(
                     self.target_path,
                     f"{self.dataset_uid}_{self.dataset_name}",
