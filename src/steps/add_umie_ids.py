@@ -32,6 +32,7 @@ class AddUmieIds(BaseStep):
             raise ValueError("No list of files provided.")
 
         self.new_json: list = []
+        X.sort(key=lambda x: self.get_umie_id(x))  # Sort the list of paths based on umie_id
         for img_path in tqdm(X):
             self.add_umie_ids(img_path)
 
