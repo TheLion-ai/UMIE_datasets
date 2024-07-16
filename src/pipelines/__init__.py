@@ -1,6 +1,8 @@
 """
-This module contains the pipeline classes for various medical imaging tasks.
+This module contains the pipeline classes for opensource medical imaging datasets supported by UMIE.
 
+Each pipeline class defines how to preprocess a specific dataset.
+A pipline class consists of a set of steps that are executed in a specific order.
 The pipelines included in this module are:
 - AlzheimersPipeline
 - BrainMETSharePipeline
