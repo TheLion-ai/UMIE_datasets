@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="thelion.ai">
+        <link rel="canonical" href="https://github.com/TheLion-ai/UMIE_datasets/datasets/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Datasets - UMIE Datastes</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">UMIE Datastes</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Datasets</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href=".." class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/TheLion-ai/UMIE_datasets/blob/master/docs/datasets.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#datasets" class="nav-link">Datasets</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#0kits-23" class="nav-link">0.KITS-23</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#1-xray-coronahack-chest-x-ray-dataset" class="nav-link">1. Xray CoronaHack -Chest X-Ray-Dataset</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#2-alzheimers-dataset-4-class-of-images" class="nav-link">2. Alzheimer's Dataset ( 4 class of Images)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#3-brain-tumor-classification-mri" class="nav-link">3. Brain Tumor Classification (MRI)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#4-covid-19-detection-x-ray" class="nav-link">4. COVID-19 Detection X-Ray</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#5-finding-and-measuring-lungs-in-ct-data" class="nav-link">5. Finding and Measuring Lungs in CT Data</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#6-brain-ct-images-with-intracranial-hemorrhage-masks" class="nav-link">6. Brain CT Images with Intracranial Hemorrhage Masks</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#7-liver-and-liver-tumor-segmentation-lits" class="nav-link">7. Liver and Liver Tumor Segmentation (LITS)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#8-brain-mri-images-for-brain-tumor-detection" class="nav-link">8. Brain MRI Images for Brain Tumor Detection</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#9-knee-osteoarthrithis-dataset-with-severity-grading" class="nav-link">9. Knee Osteoarthrithis Dataset with Severity Grading</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#10-brain-tumor-progression" class="nav-link">10. Brain-Tumor-Progression</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#11-chest-x-ray-14" class="nav-link">11. Chest X-ray 14</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#12-coca-coronary-calcium-and-chest-cts" class="nav-link">12. COCA- Coronary Calcium and chest CTs</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#13-brainmetshare" class="nav-link">13. BrainMetShare</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="datasets">Datasets</h1>
+<hr />
+<h2 id="0kits-23">0.KITS-23</h2>
+<ol>
+<li>Clone the <a href="https://github.com/neheller/kits23">KITS-23 repository</a>.</li>
+<li>Enter the KITS-23 directory and install the packages with pip.</li>
+</ol>
+<pre><code class="language-bash">cd kits23
+pip3 install -e .
+</code></pre>
+<ol>
+<li>Run the following command to download the data to the <code>dataset/</code> folder.</li>
+</ol>
+<pre><code>kits23_download_data
+</code></pre>
+<ol>
+<li>Fill in the <code>source_path</code> and <code>target_path</code> <code>KITS-23Pipeline()</code> in <code>config/runner_config.py</code>.
+ e.g.</li>
+</ol>
+<pre><code class="language-python">    KITS23Pipeline(
+        path_args={
+            &quot;source_path&quot;: &quot;kits23/dataset&quot;,  # Path to the dataset directory in KITS23 repo
+            &quot;target_path&quot;: TARGET_PATH,
+            &quot;labels_path&quot;: &quot;kits23/dataset/kits23.json&quot;,  # Path to kits23.json
+        },
+        dataset_args=dataset_config.KITS23
+    ),
+</code></pre>
+<hr />
+<h2 id="1-xray-coronahack-chest-x-ray-dataset">1. Xray CoronaHack -Chest X-Ray-Dataset</h2>
+<ol>
+<li>Go to <a href="https://www.kaggle.com/datasets/praveengovi/coronahack-chest-xraydataset">CoronaHack</a> page on Kaggle.</li>
+<li>Login to your Kaggle account.</li>
+<li>Download the data.</li>
+<li>Extract <code>archive.zip</code>.</li>
+<li>Fill in the <code>source_path</code> to the location of the <code>archive</code> folder in <code>CoronaHackPipeline()</code> in <code>config/runner_config.py</code>.</li>
+</ol>
+<h2 id="2-alzheimers-dataset-4-class-of-images">2. Alzheimer's Dataset ( 4 class of Images)</h2>
+<ol>
+<li>Go to <a href="https://www.kaggle.com/datasets/tourist55/alzheimers-dataset-4-class-of-images">Alzheimer's Dataset</a> page on Kaggle.</li>
+<li>Login to your Kaggle account.</li>
+<li>Download the data.</li>
+<li>Extract <code>archive.zip</code>.</li>
+<li>Fill in the <code>source_path</code> to the location of the <code>archive</code> folder in <code>AlzheimersPipeline()</code> in <code>config/runner_config.py</code>.</li>
+</ol>
+<h2 id="3-brain-tumor-classification-mri">3. Brain Tumor Classification (MRI)</h2>
+<ol>
+<li>Go to <a href="https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels">Brain Tumor Classification</a> page on Kaggle.</li>
+<li>Login to your Kaggle account.</li>
+<li>Download the data.</li>
+<li>Extract <code>archive.zip</code>.</li>
+<li>Fill in the <code>source_path</code> to the location of the <code>archive</code> folder in <code>BrainTumorClassificationPipeline()</code> in <code>config/runner_config.py</code>.</li>
+</ol>
+<h2 id="4-covid-19-detection-x-ray">4. COVID-19 Detection X-Ray</h2>
+<ol>
+<li>Go to <a href="https://www.kaggle.com/datasets/darshan1504/covid19-detection-xray-dataset">COVID-19 Detection X-Ray</a> page on Kaggle.</li>
+<li>Login to your Kaggle account.</li>
+<li>Download the data.</li>
+<li>Extract <code>archive.zip</code>.</li>
+<li>Fill in the <code>source_path</code> to the location of the <code>archive</code> folder in <code>COVID19DetectionPipeline()</code> in <code>config/runner_config.py</code>.</li>
+</ol>
+<h2 id="5-finding-and-measuring-lungs-in-ct-data">5. Finding and Measuring Lungs in CT Data</h2>
+<ol>
+<li>Go to <a href="https://www.kaggle.com/datasets/kmader/finding-lungs-in-ct-data">Finding and Measuring Lungs in CT Data</a> page on Kaggle.</li>
+<li>Login to your Kaggle account.</li>
+<li>Download the data.</li>
+<li>Extract <code>archive.zip</code>.</li>
+<li>Fill in the <code>source_path</code> to the location of the <code>archive/2d_images</code> folder in <code>FindingAndMeasuringLungsPipeline()</code> in <code>config/runner_config.py</code>. Fill in <code>masks_path</code> with the location of the <code>archive/2d_masks</code> folder.</li>
+</ol>
+<h2 id="6-brain-ct-images-with-intracranial-hemorrhage-masks">6. Brain CT Images with Intracranial Hemorrhage Masks</h2>
+<ol>
+<li>Go to <a href="https://www.kaggle.com/datasets/vbookshelf/computed-tomography-ct-images">Brain With Intracranial Hemorrhage</a> page on Kaggle.</li>
+<li>Login to your Kaggle account.</li>
+<li>Download the data.</li>
+<li>Extract <code>archive.zip</code>.</li>
+<li>Fill in the <code>source_path</code> to the location of the <code>archive</code> folder in <code>BrainWithIntracranialHemorrhagePipeline()</code> in <code>config/runner_config.py</code>. Fill in <code>masks_path</code> with the same path as the <code>source_path</code>.</li>
+</ol>
+<h2 id="7-liver-and-liver-tumor-segmentation-lits">7. Liver and Liver Tumor Segmentation (LITS)</h2>
+<ol>
+<li>Go to   <a href="https://www.kaggle.com/datasets/andrewmvd/lits-png">Liver and Liver Tumor Segmentation</a>.</li>
+<li>Login to your Kaggle account.</li>
+<li>Download the data.</li>
+<li>Extract <code>archive.zip</code>.</li>
+<li>Fill in the <code>source_path</code> to the location of the <code>archive</code> folder in <code>COVID19DetectionPipeline()</code> in <code>config/runner_config.py</code>. Fill in <code>masks_path</code> too.</li>
+</ol>
+<h2 id="8-brain-mri-images-for-brain-tumor-detection">8. Brain MRI Images for Brain Tumor Detection</h2>
+<ol>
+<li>Go to <a href="https://www.kaggle.com/datasets/jjprotube/brain-mri-images-for-brain-tumor-detection">Brain MRI Images for Brain Tumor Detection</a> page on Kaggle.</li>
+<li>Login to your Kaggle account.</li>
+<li>Download the data.</li>
+<li>Extract <code>archive.zip</code>.</li>
+<li>Fill in the <code>source_path</code> to the location of the <code>archive</code> folder in <code>BrainTumorDetectionPipeline()</code> in <code>config/runner_config.py</code>.</li>
+</ol>
+<h2 id="9-knee-osteoarthrithis-dataset-with-severity-grading">9. Knee Osteoarthrithis Dataset with Severity Grading</h2>
+<ol>
+<li>Go to <a href="https://www.kaggle.com/datasets/shashwatwork/knee-osteoarthritis-dataset-with-severity">Knee Osteoarthritis Dataset with Severity Grading</a>.</li>
+<li>Login to your Kaggle account.</li>
+<li>Download the data.</li>
+<li>Extract <code>archive.zip</code>.</li>
+<li>Fill in the <code>source_path</code> to the location of the <code>archive</code> folder in <code>COVID19DetectionPipeline()</code> in <code>config/runner_config.py</code>.</li>
+</ol>
+<h2 id="10-brain-tumor-progression">10. Brain-Tumor-Progression</h2>
+<ol>
+<li>Go to <a href="https://wiki.cancerimagingarchive.net/display/Public/Brain-Tumor-Progression#339481190e2ccc0d07d7455ab87b3ebb625adf48">Brain Tumor Progression</a> dataset from the cancer imaging archive.</li>
+</ol>
+<h2 id="11-chest-x-ray-14">11. Chest X-ray 14</h2>
+<ol>
+<li>Go to <a href="https://nihcc.app.box.com/v/ChestXray-NIHCC/folder/36938765345">Chest X-ray 14</a>.</li>
+<li>Create an account.</li>
+<li>Download the <code>images</code> folder and <code>DataEntry2017_v2020.csv</code>.</li>
+</ol>
+<h2 id="12-coca-coronary-calcium-and-chest-cts">12. COCA- Coronary Calcium and chest CTs</h2>
+<ol>
+<li>Go to <a href="https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa">COCA- Coronary Calcium and chest CTs</a>.</li>
+<li>Log in or sign up for a Stanford AIMI account.</li>
+<li>Fill in your contact details.</li>
+<li>Download the data with <a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10">azcopy</a>.</li>
+<li>Fill in the <code>source_path</code> with the location of the <code>cocacoronarycalciumandchestcts-2/Gated_release_final/patient</code> folder. Fill in <code>masks_path</code> with <code>cocacoronarycalciumandchestcts-2/Gated_release_final/calcium_xml</code> xml file.</li>
+</ol>
+<h2 id="13-brainmetshare">13. BrainMetShare</h2>
+<ol>
+<li>Go to <a href="https://aimi.stanford.edu/brainmetshare">BrainMetShare</a>.</li>
+<li>Log in or sign up for a Stanford AIMI account.</li>
+<li>Fill in your contact details.</li>
+<li>Download the data with <a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10">azcopy</a>.</li>
+</ol></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>Copyright &copy; 2024 <a href="https://thelion.ai">thelion.ai</a></p>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

@@ -1,0 +1,21 @@
+site_name: UMIE Datastes
+site_url: https://github.com/TheLion-ai/UMIE_datasets
+site_description: Universal Medical Image Encoding Datasets
+site_author: thelion.ai
+
+repo_url: https://github.com/TheLion-ai/UMIE_datasets
+edit_uri: blob/master/docs/
+
+nav:
+  - Home: index.md
+  - Datasets: datasets.md
+
+
+exclude_docs: |
+  *.py
+
+
+
+
+copyright: Copyright &copy; 2024 <a href="https://thelion.ai">thelion.ai</a>
+

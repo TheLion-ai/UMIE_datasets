@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Universal Medical Image Encoding Datasets">
+        <meta name="author" content="thelion.ai">
+        <link rel="canonical" href="https://github.com/TheLion-ai/UMIE_datasets/">
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>UMIE Datastes</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="js/jquery-1.10.2.min.js" defer></script>
+        <script src="js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">UMIE Datastes</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem active">
+                                <a href="." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="datasets/" class="nav-link">Datasets</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" class="nav-link disabled">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="datasets/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/TheLion-ai/UMIE_datasets/blob/master/docs/index.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#umie-datasets" class="nav-link">UMIE Datasets.</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#datasets" class="nav-link">Datasets</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="umie-datasets">UMIE Datasets.</h1>
+<hr />
+<p>This project presents a suite of unified scripts to standardize, preprocess, and integrate 882,774 images from 20 open-source medical imaging datasets, spanning modalities such as X-ray, CT, and MR. The scripts allow for seamless and fast download of a diverse medical data set. We create a unified set of annotations allowing for merging the datasets together without mislabelling. Each dataset is preprocessed with a custom sklearn pipeline. The pipeline steps are reusable across the datasets. The code was designed so that preorocessing a new dataset is simple and requires only reusing the available pipeline steps with customization performed through setting the appropriate values of the pipeline params.</p>
+<p>The labels and segmentation masks were unified to be compliant with RadLex ontology.</p>
+<h2 id="datasets">Datasets</h2>
+<table>
+<thead>
+<tr>
+<th align="center">uid</th>
+<th align="center">Dataset</th>
+<th align="center">Modality</th>
+<th align="center">TASK</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">0</td>
+<td align="center"><a href="https://kits-challenge.org/kits23/">KITS-23</a></td>
+<td align="center">CT</td>
+<td align="center">classification/segmentation</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center"><a href="https://www.kaggle.com/datasets/praveengovi/coronahack-chest-xraydataset">CoronaHack</a></td>
+<td align="center">XRAY</td>
+<td align="center">classification</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center"><a href="https://www.kaggle.com/datasets/tourist55/alzheimers-dataset-4-class-of-images">Alzheimers Dataset</a></td>
+<td align="center">MRI</td>
+<td align="center">Classification</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center"><a href="https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri">Brain Tumor Classification</a></td>
+<td align="center">MRI</td>
+<td align="center">classification</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center"><a href="https://www.kaggle.com/datasets/darshan1504/covid19-detection-xray-dataset">COVID-19 Detection X-Ray</a></td>
+<td align="center">XRAY</td>
+<td align="center">classification</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center"><a href="https://www.kaggle.com/datasets/kmader/finding-lungs-in-ct-data">Finding and Measuring Lungs in CT Data</a></td>
+<td align="center">CT</td>
+<td align="center">Segmentation</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center"><a href="https://www.kaggle.com/datasets/vbookshelf/computed-tomography-ct-images">Brain CT Images with Intracranial Hemorrhage Masks</a></td>
+<td align="center">CT</td>
+<td align="center">Classification</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center"><a href="https://www.kaggle.com/datasets/andrewmvd/lits-png">Liver and Liver Tumor Segmentation</a></td>
+<td align="center">CT</td>
+<td align="center">Classification, Segmentation</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center"><a href="https://www.kaggle.com/datasets/jjprotube/brain-mri-images-for-brain-tumor-detection">Brain MRI Images for Brain Tumor Detection</a></td>
+<td align="center">MRI</td>
+<td align="center">Classification</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center"><a href="https://www.kaggle.com/datasets/shashwatwork/knee-osteoarthritis-dataset-with-severity">Knee Osteoarthritis Dataset with Severity Grading</a></td>
+<td align="center">X-Ray</td>
+<td align="center">Classification</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center"><a href="https://www.cancerimagingarchive.net/collection/brain-tumor-progression/">Brain Tumor Progression</a></td>
+<td align="center">MRI</td>
+<td align="center">segmentation</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center"><a href="https://nihcc.app.box.com/v/ChestXray-NIHCC/folder/36938765345">Chest X-ray 14</a></td>
+<td align="center">XRAY</td>
+<td align="center">classification</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center"><a href="https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa">COCA- Coronary Calcium and chest CTs</a></td>
+<td align="center">CT</td>
+<td align="center">Segmentation</td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="center"><a href="https://aimi.stanford.edu/brainmetshare">BrainMetShare</a></td>
+<td align="center">MRI</td>
+<td align="center">Segmentation</td>
+</tr>
+</tbody>
+</table></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>Copyright &copy; 2024 <a href="https://thelion.ai">thelion.ai</a></p>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js" defer></script>
+        <script src="search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.4.3
+Build Date UTC : 2024-06-15 20:54:22.526609+00:00
+-->
