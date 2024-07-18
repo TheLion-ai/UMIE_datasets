@@ -271,3 +271,4 @@ brain_met_share = DatasetArgs(
     },
     masks={masks.Metastasis.radlex_name: MaskColor(source_color=255, target_color=masks.Metastasis.color)},
 )
+all_datasets = [obj for name, obj in globals().items() if isinstance(obj, DatasetArgs)]
