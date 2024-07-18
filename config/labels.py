@@ -389,3 +389,5 @@ HeartFailure = Label(
     radlex_id="RID34795",
     source_names={"PadChest": ["heart insufficiency"]},
 )
+
+all_labels = [obj for name, obj in globals().items() if isinstance(obj, Label)]
