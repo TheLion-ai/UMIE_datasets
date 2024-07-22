@@ -271,4 +271,16 @@ brain_met_share = DatasetArgs(
     },
     masks={masks.Metastasis.radlex_name: MaskColor(source_color=255, target_color=masks.Metastasis.color)},
 )
+
+chest_xray_masks_and_labels = DatasetArgs(
+    dataset_uid="14",
+    dataset_name="chest_xray_masks_and_labels",
+    phases={"0": "Xray"},
+    # labels={
+    #     "No Finding": [{labels.NormalityDecriptor.radlex_name: 1}],
+    #     "Tubeculosis": [{labels.Tubeculosis.radlex_id: 1}]
+    # }
+    masks={},
+)
+
 all_datasets = [obj for name, obj in globals().items() if isinstance(obj, DatasetArgs)]
