@@ -111,14 +111,14 @@ alzheimers = DatasetArgs(
     dataset_name="alzheimers",
     phases={"0": "MRI"},
     labels={
-        "MildDemented": [{labels.Dementia.radlex_name: 2 / 3}],
+        "MildDemented": [{labels.Dementia.radlex_name: round(2 / 3, 2)}],
         "ModerateDemented": [{labels.Dementia.radlex_name: 1}],
         "NonDemented": [{labels.NormalityDecriptor.radlex_name: 1}],
-        "VeryMildDemented": [{labels.Dementia.radlex_name: 1 / 3}],
-        "mildDem": [{labels.Dementia.radlex_name: 2 / 3}],
+        "VeryMildDemented": [{labels.Dementia.radlex_name: round(1 / 3, 2)}],
+        "mildDem": [{labels.Dementia.radlex_name: round(2 / 3, 2)}],
         "moderateDem": [{labels.Dementia.radlex_name: 1}],
         "nonDem": [{labels.NormalityDecriptor.radlex_name: 1}],
-        "verymildDem": [{labels.Dementia.radlex_name: 1 / 3}],
+        "verymildDem": [{labels.Dementia.radlex_name: round(1 / 3, 2)}],
     },
 )
 
@@ -204,9 +204,9 @@ knee_osteoarthritis = DatasetArgs(
     phases={"0": "CT"},
     labels={
         "0": [{labels.NormalityDecriptor.radlex_name: 1}],
-        "1": [{labels.Osteoarthritis.radlex_name: 0.25}],
-        "2": [{labels.Osteoarthritis.radlex_name: 0.5}],
-        "3": [{labels.Osteoarthritis.radlex_name: 0.75}],
+        "1": [{labels.Osteoarthritis.radlex_name: round(0.25, 2)}],
+        "2": [{labels.Osteoarthritis.radlex_name: round(0.5, 2)}],
+        "3": [{labels.Osteoarthritis.radlex_name: round(0.75, 2)}],
         "4": [{labels.Osteoarthritis.radlex_name: 1}],
     },
 )
