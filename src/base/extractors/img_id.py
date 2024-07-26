@@ -39,3 +39,11 @@ class BaseImgIdExtractor(ABC):
         """
         # by default, extract the image ID from the file name
         return os.path.basename(path)
+
+    def _extract_zero(self) -> str:
+        """Extract "0.png" as image ID.
+
+        Returns:
+            str: The extracted image ID.
+        """
+        return "0.png"
