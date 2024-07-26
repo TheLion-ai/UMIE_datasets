@@ -29,7 +29,7 @@ class ImgIdExtractor(BaseImgIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        return os.path.basename(img_path).split("-")[-1]
+        return self._extract_by_separator(img_path, "-")
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):

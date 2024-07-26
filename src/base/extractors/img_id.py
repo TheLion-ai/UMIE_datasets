@@ -47,3 +47,17 @@ class BaseImgIdExtractor(ABC):
             str: The extracted image ID.
         """
         return "0.png"
+
+    def _extract_by_separator(self, path: str, separator: str, index: int = -1, maxsplit: int = -1) -> str:
+        """Extract image ID from the path by the separator.
+
+        Args:
+            path (str): The file path from which to extract the image ID.
+            separator (str): The separator to split the path.
+            index (int): The index of the image ID in the split path. Defaults to -1.
+            maxsplit (int): The maximum number of splits to perform. Defaults to -1.
+
+        Returns:
+            str: The extracted image ID.
+        """
+        return os.path.basename(path).rsplit(separator, maxsplit=maxsplit)[index]
