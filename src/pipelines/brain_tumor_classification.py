@@ -25,7 +25,7 @@ class ImgIdExtractor(BaseImgIdExtractor):
     """Extractor for image IDs specific to the Brain Tumor Classification dataset."""
 
     def _extract(self, img_path: str) -> str:
-        return "0.png"
+        return self._extract_zero()
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):

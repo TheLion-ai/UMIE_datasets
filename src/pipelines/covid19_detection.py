@@ -25,7 +25,7 @@ class ImgIdExtractor(BaseImgIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        return "0.png"
+        return self._extract_zero()
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):
