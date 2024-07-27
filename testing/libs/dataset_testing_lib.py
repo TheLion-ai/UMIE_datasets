@@ -58,7 +58,9 @@ class DatasetTestingLibrary:
     def verify_jsonl_identical(expected_jsonl: list[dict], current_jsonl: list[dict]) -> bool:
         """Check if json lines files are identical."""
         identical = True
-        for expected_line, current_line in zip(expected_jsonl, current_jsonl):
+        for expected_line, current_line in zip(
+            sorted(expected_jsonl, key=lambda d: d["umie_id"]), sorted(current_jsonl, key=lambda d: d["umie_id"])
+        ):
             if expected_line != current_line:
                 identical = False
                 print(f"Expected: {expected_line} \n but found: {current_line}")
