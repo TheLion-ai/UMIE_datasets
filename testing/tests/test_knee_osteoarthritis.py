@@ -22,7 +22,7 @@ expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/09_kne
 
 def test_run_knee_osteoarthritis():
     """Test to verify, that there are no exceptions while running pipeline."""
-    DatasetTestingLibrary.clean_up(target_path)
+    # DatasetTestingLibrary.clean_up(target_path)
     dataset = KneeOsteoarthritisPipeline(
         path_args=PathArgs(
             source_path=source_path,
