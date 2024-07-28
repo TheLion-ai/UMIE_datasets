@@ -20,7 +20,6 @@ target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/02_alzheimers/o
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/02_alzheimers/expected_output")
 
 
-
 def test_run_alzheimers():
     """Test to verify, that there are no exceptions while running pipeline."""
     DatasetTestingLibrary.clean_up(target_path)
