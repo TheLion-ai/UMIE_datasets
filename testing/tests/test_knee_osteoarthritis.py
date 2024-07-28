@@ -47,7 +47,9 @@ def test_knee_osteoarthritis_verify_file_tree():
 def test_knee_osteoarthritis_verify_images_correct():
     """Test to verify whether all images have contents as expected."""
     expected_file_tree = glob.glob(f"{str(expected_output_path)}/**/*.png", recursive=True)
+    print(expected_file_tree)
     current_file_tree = glob.glob(f"{str(target_path)}/**/*.png", recursive=True)
+    print(current_file_tree)
 
     if not DatasetTestingLibrary.verify_all_images_identical(expected_file_tree, current_file_tree):
         pytest.fail("Knee Osteoarthritis pipeline created image contents different than expected.")
