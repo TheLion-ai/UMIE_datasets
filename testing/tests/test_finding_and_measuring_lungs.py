@@ -27,6 +27,7 @@ expected_output_path = os.path.join(
 
 def test_run_finding_and_measuring_lungs():
     """Test to verify, that there are no exceptions while running pipeline."""
+    DatasetTestingLibrary.clean_up(target_path)
     dataset = FindingAndMeasuringLungsPipeline(
         path_args=PathArgs(
             source_path=source_path,

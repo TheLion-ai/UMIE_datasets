@@ -24,6 +24,7 @@ expected_output_path = os.path.join(
 
 def test_run_brain_tumor_classification():
     """Test to verify, that there are no exceptions while running pipeline."""
+    DatasetTestingLibrary.clean_up(target_path)
     dataset = BrainTumorClassificationPipeline(
         path_args=PathArgs(
             source_path=source_path,

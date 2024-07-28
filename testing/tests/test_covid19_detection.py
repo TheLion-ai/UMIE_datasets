@@ -22,6 +22,7 @@ expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/04_cov
 
 def test_run_covid19_detection():
     """Test to verify, that there are no exceptions while running pipeline."""
+    DatasetTestingLibrary.clean_up(target_path)
     dataset = COVID19DetectionPipeline(
         path_args=PathArgs(
             source_path=source_path,

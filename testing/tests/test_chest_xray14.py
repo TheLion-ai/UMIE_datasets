@@ -23,6 +23,7 @@ expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/11_che
 
 def test_run_chest_xray14():
     """Test to verify, that there are no exceptions while running pipeline."""
+    DatasetTestingLibrary.clean_up(target_path)
     dataset = ChestXray14Pipeline(
         path_args=PathArgs(source_path=source_path, target_path=target_path, labels_path=labels_path),
     )

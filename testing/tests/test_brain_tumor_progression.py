@@ -25,9 +25,9 @@ masks_path = os.path.join(
 target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/10_brain_tumor_progression/output")
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/10_brain_tumor_progression/expected_output")
 
-
 def test_run_brain_tumor_progression():
     """Test to verify, that there are no exceptions while running pipeline."""
+    DatasetTestingLibrary.clean_up(target_path)
     dataset = BrainTumorProgressionPipeline(
         path_args=PathArgs(
             source_path=source_path,

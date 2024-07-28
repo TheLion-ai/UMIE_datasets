@@ -24,6 +24,7 @@ expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_kit
 
 def test_run_kits23():
     """Test to verify, that there are no exceptions while running pipeline."""
+    DatasetTestingLibrary.clean_up(target_path)
     dataset = KITS23Pipeline(
         path_args=PathArgs(
             source_path=source_path,

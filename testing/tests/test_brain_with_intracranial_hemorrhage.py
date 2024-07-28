@@ -34,6 +34,7 @@ expected_output_path = os.path.join(
 
 def test_run_brain_with_intracranial_hemorrhage():
     """Test to verify, that there are no exceptions while running pipeline."""
+    DatasetTestingLibrary.clean_up(target_path)
     dataset = BrainWithIntracranialHemorrhagePipeline(
         path_args=PathArgs(
             source_path=source_path,

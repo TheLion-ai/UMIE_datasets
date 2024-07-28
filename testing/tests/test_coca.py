@@ -29,6 +29,7 @@ expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/12_coc
 
 def test_run_coca():
     """Test to verify, that there are no exceptions while running pipeline."""
+    DatasetTestingLibrary.clean_up(target_path)
     dataset = COCAPipeline(
         path_args=PathArgs(source_path=source_path, target_path=target_path, masks_path=masks_path),
     )
