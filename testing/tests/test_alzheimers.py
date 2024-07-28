@@ -38,7 +38,9 @@ def test_run_alzheimers():
 def test_alzheimers_verify_file_tree():
     """Test to verify if file tree is as expected."""
     expected_file_tree = glob.glob(f"{str(expected_output_path)}/**", recursive=True)
+    print(expected_file_tree)
     current_file_tree = glob.glob(f"{str(target_path)}/**", recursive=True)
+    print(current_file_tree)
 
     if not DatasetTestingLibrary.verify_file_tree(expected_file_tree, current_file_tree):
         pytest.fail("Alzheimer's pipeline created file tree different than expected.")
