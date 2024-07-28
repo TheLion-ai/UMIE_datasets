@@ -43,7 +43,7 @@ datasets = [
     ),
     AlzheimersPipeline(
         path_args=PathArgs(
-            source_path="/home/mikolaj/Programs/UMIE_datasets/data/Alzheimer_s Dataset",  # Path to archive directory from kaggle
+            source_path="",  # Path to archive directory from kaggle
             target_path=TARGET_PATH,
         ),
     ),
