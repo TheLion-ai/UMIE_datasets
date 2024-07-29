@@ -43,18 +43,23 @@ class ConvertNii2Png(BaseStep):
         Args:
             img_path (str): Path to the image.
         """
-        nii_img = nib.load(img_path)
-        nii_data = nii_img.get_fdata()
-        slices = nii_data.shape[0]
-        for idx in range(slices):
-            root_path = os.path.dirname(img_path)
-            name = os.path.basename(img_path).split(".")[0] + f"_{str(idx).zfill(self.zfill)}.png"
-            new_path = os.path.join(root_path, name)
-            img = np.array(nii_data[idx, :, :])
-            if self.segmentation_prefix not in new_path:
-                img = self._apply_window(img)
+        try:
+            nii_img = nib.load(img_path)
+            nii_data = nii_img.get_fdata()
+            slices = nii_data.shape[0]
+            for idx in range(slices):
+                root_path = os.path.dirname(img_path)
+                name = os.path.basename(img_path).split(".")[0] + f"_{str(idx).zfill(self.zfill)}.png"
+                new_path = os.path.join(root_path, name)
+                img = np.array(nii_data[idx, :, :])
+                if self.segmentation_prefix not in new_path:
+                    img = self._apply_window(img)
 
-            cv2.imwrite(new_path, img)
+                cv2.imwrite(new_path, img)
+        except Exception as e:
+            print(f"Error {e} occured while converting {img_path}")
+            if self.on_error_remove:
+                os.remove(img_path)
 
     def _apply_window(self, pixel_data: np.ndarray) -> np.ndarray:
         """Apply window to the image.
@@ -75,5 +80,7 @@ class ConvertNii2Png(BaseStep):
         min = -1000 if min < -1000 else min
         pixel_data = pixel_data - min
         ratio = np.max(pixel_data) / 255
+        if ratio == 0:
+            ratio = 1
         pixel_data = np.divide(pixel_data, ratio).astype(int)
         return pixel_data
