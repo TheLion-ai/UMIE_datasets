@@ -1,6 +1,6 @@
 """Preprocessing pipeline for Finding_and_Measuring_Lungs_in_CT_Data dataset."""
 import os
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from base.pipeline import BasePipeline, PipelineArgs
@@ -29,15 +29,17 @@ class FindingAndMeasuringLungsPipeline(BasePipeline):
         ("recolor_masks", RecolorMasks),
         ("add_new_ids", AddUmieIds),
     )
-    dataset_args: DatasetArgs = finding_and_measuring_lungs
-    pipeline_args: PipelineArgs = PipelineArgs(
-        # Study id is the folder name of all images in the study
-        study_id_extractor=lambda x: os.path.basename((os.path.dirname(os.path.dirname(x)))).split("_")[-1],
-        image_folder_name=IMG_FOLDER_NAME,
-        mask_folder_name=MASK_FOLDER_NAME,
-        img_prefix="images",  # prefix of the source image file names
-        segmentation_prefix="masks",  # prefix of the source mask file names
-        mask_selector="2d_masks",
+    dataset_args: DatasetArgs = field(default_factory=lambda: finding_and_measuring_lungs)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            # Study id is the folder name of all images in the study
+            study_id_extractor=lambda x: os.path.basename((os.path.dirname(os.path.dirname(x)))).split("_")[-1],
+            image_folder_name=IMG_FOLDER_NAME,
+            mask_folder_name=MASK_FOLDER_NAME,
+            img_prefix="images",  # prefix of the source image file names
+            segmentation_prefix="masks",  # prefix of the source mask file names
+            mask_selector="2d_masks",
+        )
     )
 
     def study_id_extractor(self, img_path: str) -> str:

@@ -42,11 +42,13 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
         ("delete_temp_files", DeleteTempFiles),
         ("delete_temp_png", DeleteTempPng),
     )
-    dataset_args: DatasetArgs = brain_with_intracranial_hemorrhage
-    pipeline_args: PipelineArgs = PipelineArgs(
-        img_prefix=".",  # prefix of the source image file names
-        segmentation_prefix="_HGE_Seg.",  # prefix of the source mask file names
-        mask_selector="_HGE_Seg",
+    dataset_args: DatasetArgs = field(default_factory=lambda: brain_with_intracranial_hemorrhage)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            img_prefix=".",  # prefix of the source image file names
+            segmentation_prefix="_HGE_Seg.",  # prefix of the source mask file names
+            mask_selector="_HGE_Seg",
+        )
     )
 
     def img_id_extractor(self, img_path: str) -> str:

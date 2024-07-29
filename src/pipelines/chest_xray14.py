@@ -28,9 +28,11 @@ class ChestXray14Pipeline(BasePipeline):
         ("add_labels", AddLabels),
         ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
     )
-    dataset_args: DatasetArgs = chest_xray14
-    pipeline_args: PipelineArgs = PipelineArgs(
-        zfill=4, phase_extractor=lambda x: "0", mask_folder_name=None  # All images are from the same phase
+    dataset_args: DatasetArgs = field(default_factory=lambda: chest_xray14)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            zfill=4, phase_extractor=lambda x: "0", mask_folder_name=None  # All images are from the same phase
+        )
     )
 
     def get_img_id(self, img_path: os.PathLike, add_extension: bool) -> str | None:

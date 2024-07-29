@@ -34,13 +34,15 @@ class BrainTumorDetectionPipeline(BasePipeline):
         ("delete_temp_files", DeleteTempFiles),
         ("delete_temp_png", DeleteTempPng),
     )
-    dataset_args: DatasetArgs = brain_tumor_detection
-    pipeline_args: PipelineArgs = PipelineArgs(
-        phase_extractor=lambda x: "0",  # All images are from the same phase
-        image_folder_name="Images",
-        mask_folder_name=None,
-        img_id_extractor=lambda x: 0,
-        img_prefix="",
+    dataset_args: DatasetArgs = field(default_factory=lambda: brain_tumor_detection)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            phase_extractor=lambda x: "0",  # All images are from the same phase
+            image_folder_name="Images",
+            mask_folder_name=None,
+            img_id_extractor=lambda x: 0,
+            img_prefix="",
+        )
     )
 
     # Dictionary used to replace characters in file names to get numerical study_id

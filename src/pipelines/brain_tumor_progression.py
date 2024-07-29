@@ -39,15 +39,19 @@ class BrainTumorProgressionPipeline(BasePipeline):
         ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ("delete_temp_png", DeleteTempPng),
     )
-    dataset_args: DatasetArgs = brain_tumor_progression
-    pipeline_args: PipelineArgs = PipelineArgs(
-        zfill=4,
-        # Image id is in the source file name after the last underscore
-        img_id_extractor=lambda x: os.path.basename(x).split("-")[-1],  # lambda x: os.path.basename(x).split("-")[-1],
-        # Study name is the folder two levels above the image
-        study_id_extractor=lambda x: os.path.basename(os.path.dirname(os.path.dirname(x))),
-        mask_selector="MaskTumor",
-        segmentation_prefix="MaskTumor",
+    dataset_args: DatasetArgs = field(default_factory=lambda: brain_tumor_progression)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            zfill=4,
+            # Image id is in the source file name after the last underscore
+            img_id_extractor=lambda x: os.path.basename(x).split("-")[
+                -1
+            ],  # lambda x: os.path.basename(x).split("-")[-1],
+            # Study name is the folder two levels above the image
+            study_id_extractor=lambda x: os.path.basename(os.path.dirname(os.path.dirname(x))),
+            mask_selector="MaskTumor",
+            segmentation_prefix="MaskTumor",
+        )
     )
 
     def study_id_extractor(self, img_path: str) -> str:

@@ -13,6 +13,7 @@ from src.pipelines.chest_xray14 import ChestXray14Pipeline
 from src.pipelines.coca import COCAPipeline
 from src.pipelines.coronahack import CoronaHackPipeline
 from src.pipelines.covid19_detection import COVID19DetectionPipeline
+from src.pipelines.ct_org import CTORGPipeline
 from src.pipelines.finding_and_measuring_lungs import FindingAndMeasuringLungsPipeline
 from src.pipelines.kits23 import KITS23Pipeline
 from src.pipelines.knee_osteoarthritis import KneeOsteoarthritisPipeline
@@ -108,6 +109,13 @@ datasets = [
     BrainMETSharePipeline(
         path_args={
             "source_path": "",
+            "target_path": TARGET_PATH,
+        },
+    ),
+    CTORGPipeline(
+        path_args={
+            "source_path": "",
+            "masks_path": "",
             "target_path": TARGET_PATH,
         },
     ),

@@ -38,12 +38,14 @@ class KneeOsteoarthritisPipeline(BasePipeline):
         ("add_new_ids", AddLabels),
         ("delete_temp_files", DeleteTempFiles),
     )
-    dataset_args: DatasetArgs = knee_osteoarthritis
-    pipeline_args: PipelineArgs = PipelineArgs(
-        phase_extractor=lambda x: "0",  # All images are from the same phase
-        image_folder_name=IMG_FOLDER_NAME,
-        mask_folder_name=None,
-        img_id_extractor=ImgIdExtractor(),
+    dataset_args: DatasetArgs = field(default_factory=lambda: knee_osteoarthritis)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            phase_extractor=lambda x: "0",  # All images are from the same phase
+            image_folder_name=IMG_FOLDER_NAME,
+            mask_folder_name=None,
+            img_id_extractor=ImgIdExtractor(),
+        )
     )
 
     def study_id_extractor(self, img_path: str) -> str:

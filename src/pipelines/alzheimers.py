@@ -91,14 +91,16 @@ class AlzheimersPipeline(BasePipeline):
         ("add_labels", AddLabels),
         ("delete_temp_png", DeleteTempPng),
     )
-    dataset_args: DatasetArgs = alzheimers
-    pipeline_args: PipelineArgs = PipelineArgs(
-        phase_extractor=lambda x: "0",  # All images are from the same phase
-        image_folder_name=IMG_FOLDER_NAME,
-        mask_folder_name=None,
-        img_prefix="",
-        img_id_extractor=ImgIdExtractor(),
-        study_id_extractor=StudyIdExtractor(),
+    dataset_args: DatasetArgs = field(default_factory=lambda: alzheimers)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            phase_extractor=lambda x: "0",  # All images are from the same phase
+            image_folder_name=IMG_FOLDER_NAME,
+            mask_folder_name=None,
+            img_prefix="",
+            img_id_extractor=ImgIdExtractor(),
+            study_id_extractor=StudyIdExtractor(),
+        )
     )
 
     def get_label(self, img_path: str) -> list:

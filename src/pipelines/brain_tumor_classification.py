@@ -43,12 +43,14 @@ class BrainTumorClassificationPipeline(BasePipeline):
         ("delete_temp_png", DeleteTempPng),
         ("delete_temp_files", DeleteTempFiles),
     )
-    dataset_args: DatasetArgs = brain_tumor_classification
-    pipeline_args: PipelineArgs = PipelineArgs(
-        image_folder_name="Images",
-        img_id_extractor=ImgIdExtractor(),
-        mask_folder_name=None,
-        img_prefix="",
+    dataset_args: DatasetArgs = field(default_factory=lambda: brain_tumor_classification)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            image_folder_name="Images",
+            img_id_extractor=ImgIdExtractor(),
+            mask_folder_name=None,
+            img_prefix="",
+        )
     )
 
     def study_id_extractor(self, img_path: str) -> str:

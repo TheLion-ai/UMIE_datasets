@@ -38,13 +38,15 @@ class LITSPipeline(BasePipeline):
         ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
     )
 
-    dataset_args: DatasetArgs = lits
-    pipeline_args: PipelineArgs = PipelineArgs(
-        img_prefix="volume",  # prefix of the source image file names
-        mask_selector="segmentation",
-        segmentation_prefix="segmentation",
-        multiple_masks_selector={"livermask": "liver", "lesionmask": "liver_tumor"},
-        phase_extractor=lambda x: "0",
+    dataset_args: DatasetArgs = field(default_factory=lambda: lits)
+    pipeline_args: PipelineArgs = field(
+        default_factory=lambda: PipelineArgs(
+            img_prefix="volume",  # prefix of the source image file names
+            mask_selector="segmentation",
+            segmentation_prefix="segmentation",
+            multiple_masks_selector={"livermask": "liver", "lesionmask": "liver_tumor"},
+            phase_extractor=lambda x: "0",
+        )
     )
 
     def img_id_extractor(self, img_path: str) -> str:
