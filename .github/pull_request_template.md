@@ -12,6 +12,6 @@ Please, go through these steps before you submit a PR.
 4. If your PR is not yet ready for final review/merging, submit it as a draft pull request.
 5. Before submitting your non-draft PR make sure, that all the pre-commits, and tests are passing locally on your computer.
 
-You can see an example of correct PR description and title in #.
+You can see an example of correct PR description and title in #86.
 
 **PLEASE REMOVE THIS TEMPLATE BEFORE SUBMITTING**
