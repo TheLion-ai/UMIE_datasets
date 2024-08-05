@@ -71,4 +71,5 @@ def test_brain_tumor_detection_verify_jsonl_correct():
 
 def test_clean_up_brain_tumor_detection():
     """Removes output folder with it's contents."""
-    DatasetTestingLibrary.clean_up(target_path)
+    pass
+    # DatasetTestingLibrary.clean_up(target_path)
