@@ -38,6 +38,7 @@ class DatasetTestingLibrary:
         current_file_tree.sort()
 
         if len(expected_file_tree) != len(current_file_tree):
+            print("Len is different")
             return False
 
         for i in range(len(expected_file_tree)):
@@ -50,6 +51,8 @@ class DatasetTestingLibrary:
             diff = cv2.subtract(expected_image, current_image)
 
             if np.any(diff):
+                print(f"Image {expected_image_path} is different from {current_image_path}")
+                print(f"Diff: {diff}")
                 return False
 
         return True
