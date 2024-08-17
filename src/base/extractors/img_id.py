@@ -40,11 +40,11 @@ class BaseImgIdExtractor(ABC):
         # by default, extract the image ID from the file name
         return os.path.basename(path)
 
-    def _extract_zero(self) -> str:
-        """Extract "0.png" as image ID.
+    def _return_zero(self) -> str:
+        """Return "0.png" as image ID.
 
         Returns:
-            str: The extracted image ID.
+            str: "0.png".
         """
         return "0.png"
 
@@ -63,7 +63,7 @@ class BaseImgIdExtractor(ABC):
         return os.path.basename(path).rsplit(separator, maxsplit=maxsplit)[index]
 
     def _extract_first_two_chars(self, path: str, extract_zeros: bool = False) -> str:
-        """Extract last two characters of filename from the path.
+        """Extract first two characters of filename from the path.
 
         Args:
             path (str): The file path from which to extract the image ID.

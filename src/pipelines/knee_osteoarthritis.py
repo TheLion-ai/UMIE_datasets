@@ -22,7 +22,7 @@ class ImgIdExtractor(BaseImgIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Extract image id from img path."""
-        return self._extract_zero()
+        return self._return_zero()
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):
