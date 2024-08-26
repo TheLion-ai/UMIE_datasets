@@ -12,8 +12,8 @@ import os
 import pytest
 from zipp import Path
 
-from base.pipeline import PathArgs
-from src.pipelines.brain_tumor_progression import BrainTumorProgressionPipeline
+from umie_datasets.base.pipeline import PathArgs
+from umie_datasets.pipelines.brain_tumor_progression import BrainTumorProgressionPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(

@@ -1,6 +1,6 @@
 """Main script to run dataset preprocessing pipelines."""
 
-from config.runner_config import datasets
+from umie_datasets.config.runner_config import datasets
 
 for dataset in datasets:
     # Check whether source_path is defined

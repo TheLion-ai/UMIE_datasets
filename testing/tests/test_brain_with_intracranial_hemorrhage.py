@@ -12,8 +12,8 @@ import os
 import pytest
 from zipp import Path
 
-from base.pipeline import PathArgs
-from src.pipelines.brain_with_intracranial_hemorrhage import (
+from umie_datasets.base.pipeline import PathArgs
+from umie_datasets.pipelines.brain_with_intracranial_hemorrhage import (
     BrainWithIntracranialHemorrhagePipeline,
 )
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
