@@ -11,8 +11,8 @@ import os
 
 import pytest
 
-from base.pipeline import PathArgs
-from src.pipelines.finding_and_measuring_lungs import FindingAndMeasuringLungsPipeline
+from umie_datasets.base.pipeline import PathArgs
+from umie_datasets.pipelines.finding_and_measuring_lungs import FindingAndMeasuringLungsPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(

@@ -11,8 +11,8 @@ import os
 
 import pytest
 
-from base.pipeline import PathArgs
-from src.pipelines.coca import COCAPipeline
+from umie_datasets.base.pipeline import PathArgs
+from umie_datasets.pipelines.coca import COCAPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(

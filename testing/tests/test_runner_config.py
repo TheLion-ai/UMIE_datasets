@@ -10,8 +10,8 @@ from dataclasses import fields
 
 import pytest
 
-from config.runner_config import datasets
-from src.constants import TARGET_PATH
+from umie_datasets.config.runner_config import datasets
+from umie_datasets.constants import TARGET_PATH
 
 
 def test_runner_config_target_paths_default():

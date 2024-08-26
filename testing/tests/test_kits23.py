@@ -11,8 +11,8 @@ import os
 
 import pytest
 
-from base.pipeline import PathArgs
-from src.pipelines.kits23 import KITS23Pipeline
+from umie_datasets.base.pipeline import PathArgs
+from umie_datasets.pipelines.kits23 import KITS23Pipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/00_kits23/input")

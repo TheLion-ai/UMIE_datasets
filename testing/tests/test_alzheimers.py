@@ -11,8 +11,8 @@ import os
 
 import pytest
 
-from src.base.pipeline import PathArgs
-from src.pipelines.alzheimers import AlzheimersPipeline
+from umie_datasets.base.pipeline import PathArgs
+from umie_datasets.pipelines.alzheimers import AlzheimersPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/02_alzheimers/input/Alzheimer_s Dataset")

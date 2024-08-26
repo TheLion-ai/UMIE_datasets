@@ -6,7 +6,7 @@ import os
 import click
 from datasets import Image, Value, load_dataset
 
-from config.dataset_config import all_datasets
+from umie_datasets.config.dataset_config import all_datasets
 
 hf_repo_name = "lion-ai/umie_datasets"
 

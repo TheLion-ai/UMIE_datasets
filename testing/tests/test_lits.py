@@ -11,8 +11,8 @@ import os
 
 import pytest
 
-from base.pipeline import PathArgs
-from src.pipelines.lits import LITSPipeline
+from umie_datasets.base.pipeline import PathArgs
+from umie_datasets.pipelines.lits import LITSPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/07_lits/input")

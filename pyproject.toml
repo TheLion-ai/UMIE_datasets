@@ -1,10 +1,10 @@
 [tool.poetry]
 name = "umie-datasets"
-version = "0.1.0"
+version = "0.1.4"
 description = ""
 authors = ["a-huli <klaudel.b@gmail.com>"]
 readme = "README.md"
-packages = [{include = "base", from = "src"}, {include = "src"}]
+packages = [{include = "umie_datasets"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
