@@ -21,6 +21,7 @@ from steps import (
     StoreSourcePaths,
     ValidateData,
 )
+from steps.create_blank_masks import CreateBlankMasks
 
 
 class ImgIdExtractor(BaseImgIdExtractor):

@@ -34,17 +34,13 @@ class GetFilePaths(BaseStep):
         file_paths = []
         for root, _, filenames in os.walk(source_path):
             for filename in filenames:
-                if filename.lower().endswith(
-                    (
-                        ".png",
-                        ".jpg",
-                        ".jpeg",
-                        ".tif",
-                        ".tiff",
-                        ".dcm",
-                        ".nii.gz",
-                    )
-                ):
+                if filename.startswith("."):
+                    continue
+                if filename.endswith((".csv", ".json", ".xslx", ".yml", ".txt", ".py", ".md")):
+                    continue
+                if filename.startswith("LICENSE"):
+                    continue
+                else:
                     path = os.path.join(root, filename)
                     # Verify if file is not a mask
                     if self.mask_prefix is None or self.img_selector(path):
