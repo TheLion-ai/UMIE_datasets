@@ -41,7 +41,10 @@ class ValidateData(BaseStep):
     def _validate_jsonl(self, json_path: str) -> None:
         with jsonlines.open(json_path, mode="r") as reader:
             for obj in tqdm(reader):
-                self._validate_object(obj)
+                try:
+                    self._validate_object(obj)
+                except Exception as e:
+                    print(f"Error in image {obj['umie_path']}: {e}")
 
     def _validate_object(self, obj: dict) -> None:
         self._validate_string_keys(obj)
@@ -53,7 +56,7 @@ class ValidateData(BaseStep):
         str_keys = ["umie_path", "dataset_name", "dataset_uid", "phase_name", "study_id", "umie_id"]
         for str_key in str_keys:
             if str_key not in obj.keys():
-                print(f"Key {str_key} not found {obj['umie_path']}")
+                print(f"Key {str_key} not found in {obj['umie_path']}")
                 continue
             if not isinstance(obj[str_key], str) or len(obj[str_key]) == 0:
                 print(f"{str_key} is not a string or is empty in {obj['umie_path']}")

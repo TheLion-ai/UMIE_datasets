@@ -63,6 +63,9 @@ class AddLabels(BaseStep):
         if source_path_dict:
             if img_path in source_path_dict.keys():
                 labels = self.label_extractor(source_path_dict[img_path], mask_path)
+            else:
+                print(f"Image path {img_path} not found in source_paths.json")
+                labels = []
         else:
             labels = self.label_extractor(img_path, mask_path)
         if labels:
