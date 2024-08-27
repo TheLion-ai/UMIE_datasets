@@ -32,9 +32,13 @@ expected_output_path = os.path.join(
 )
 
 
+def test_initial_clean_up_brain_with_intracranial_hemorrhage():
+    """Removes output folder with it's contents."""
+    DatasetTestingLibrary.clean_up(target_path)
+
+
 def test_run_brain_with_intracranial_hemorrhage():
     """Test to verify, that there are no exceptions while running pipeline."""
-    DatasetTestingLibrary.clean_up(target_path)
     dataset = BrainWithIntracranialHemorrhagePipeline(
         path_args=PathArgs(
             source_path=source_path,

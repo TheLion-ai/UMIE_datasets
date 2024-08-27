@@ -21,9 +21,13 @@ masks_path = os.path.join(os.getcwd(), "testing/test_dummy_data/07_lits/input")
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/07_lits/expected_output")
 
 
+def test_initial_clean_up_lits():
+    """Removes output folder with it's contents."""
+    DatasetTestingLibrary.clean_up(target_path)
+
+
 def test_run_lits():
     """Test to verify, that there are no exceptions while running pipeline."""
-    DatasetTestingLibrary.clean_up(target_path)
     dataset = LITSPipeline(
         path_args=PathArgs(
             source_path=source_path,
