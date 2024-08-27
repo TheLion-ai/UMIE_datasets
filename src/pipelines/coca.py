@@ -24,7 +24,7 @@ class ImgIdExtractor(BaseImgIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Retrieve image id from path."""
         # Image id is in the source file name after the last underscore
-        return os.path.basename(img_path).split("-")[-1]
+        return self._extract_by_separator(img_path, "-")
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):
