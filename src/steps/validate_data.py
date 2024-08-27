@@ -56,7 +56,7 @@ class ValidateData(BaseStep):
         str_keys = ["umie_path", "dataset_name", "dataset_uid", "phase_name", "study_id", "umie_id"]
         for str_key in str_keys:
             if str_key not in obj.keys():
-                print(f"Key {str_key} not found in {obj['umie_path']}")
+                print(f"Key {str_key} not found {obj['umie_path']}")
                 continue
             if not isinstance(obj[str_key], str) or len(obj[str_key]) == 0:
                 print(f"{str_key} is not a string or is empty in {obj['umie_path']}")
