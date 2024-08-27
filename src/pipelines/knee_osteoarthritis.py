@@ -14,6 +14,7 @@ from steps import (
     DeleteTempFiles,
     GetFilePaths,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -60,6 +61,7 @@ class KneeOsteoarthritisPipeline(BasePipeline):
         ("add_new_ids", AddUmieIds),
         ("add_new_ids", AddLabels),
         ("delete_temp_files", DeleteTempFiles),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: knee_osteoarthritis)
     pipeline_args: PipelineArgs = field(

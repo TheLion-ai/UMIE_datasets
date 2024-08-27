@@ -21,6 +21,7 @@ from steps import (
     DeleteTempFiles,
     GetFilePaths,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -58,10 +59,12 @@ class LabelExtractor(BaseLabelExtractor):
         """Extract label from img path."""
         img_name = os.path.basename(img_path)
         img_row = self.source_labels.loc[self.source_labels["Image Index"] == img_name]
+        if img_row.empty:
+            return []
         labels = [label for label in img_row["Finding Labels"].values[0].split("|")]
         radlex_labels: list[dict] = []
         for label in labels:
-            radlex_labels.append(*self.labels[label])
+            radlex_labels.extend(self.labels[label])
 
         return radlex_labels
 
@@ -77,8 +80,9 @@ class ChestXray14Pipeline(BasePipeline):
         ("store_source_paths", StoreSourcePaths),
         ("add_new_ids", AddUmieIds),
         ("add_labels", AddLabels),
-        ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
+        # ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ("delete_temp_files", DeleteTempFiles),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: chest_xray14)
     pipeline_args: PipelineArgs = field(

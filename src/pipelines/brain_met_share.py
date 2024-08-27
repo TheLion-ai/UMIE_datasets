@@ -7,7 +7,14 @@ from typing import Any
 from base.extractors import BasePhaseIdExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
 from config.dataset_config import DatasetArgs, brain_met_share
-from steps import AddUmieIds, CopyMasks, CreateFileTree, GetFilePaths, RecolorMasks
+from steps import (
+    AddUmieIds,
+    CopyMasks,
+    CreateFileTree,
+    GetFilePaths,
+    RecolorMasks,
+    ValidateData,
+)
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):
@@ -42,6 +49,7 @@ class BrainMETSharePipeline(BasePipeline):
         ("copy_png_masks", CopyMasks),
         ("add_new_ids", AddUmieIds),
         ("recolor_masks", RecolorMasks),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(
         default_factory=lambda: brain_met_share

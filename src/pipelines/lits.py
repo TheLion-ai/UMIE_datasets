@@ -19,6 +19,7 @@ from steps import (
     DeleteImgsWithNoAnnotations,
     GetFilePaths,
     RecolorMasks,
+    ValidateData,
 )
 
 
@@ -74,6 +75,7 @@ class LITSPipeline(BasePipeline):
         ("add_labels", AddLabels),
         # Recommended to delete images without masks, because they contain neither liver nor tumor
         ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
+        ("validate_data", ValidateData),
     )
 
     dataset_args: DatasetArgs = field(default_factory=lambda: lits)
@@ -82,7 +84,7 @@ class LITSPipeline(BasePipeline):
             img_prefix="volume",  # prefix of the source image file names
             mask_selector="segmentation",
             segmentation_prefix="segmentation",
-            multiple_masks_selector={"livermask": "liver", "lesionmask": "liver_tumor"},
+            multiple_masks_selector={"livermask": "Liver", "lesionmask": "Neoplasm"},
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
         )

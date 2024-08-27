@@ -25,6 +25,7 @@ from steps import (
     GetFilePaths,
     MasksToBinaryColors,
     RecolorMasks,
+    ValidateData,
 )
 
 
@@ -93,6 +94,7 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
         ("create_blank_masks", CreateBlankMasks),
         ("delete_temp_files", DeleteTempFiles),
         ("delete_temp_png", DeleteTempPng),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: brain_with_intracranial_hemorrhage)
     pipeline_args: PipelineArgs = field(

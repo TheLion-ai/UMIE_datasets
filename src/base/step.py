@@ -66,6 +66,7 @@ class BaseStep(TransformerMixin):
             multiple_masks_selector (Optional[dict], optional): Dictionary containing multiple masks selectors. Defaults to None.
             labels (dict[str, list[dict[str, float]]], optional): Dictionary containing labels with multiple RadLex codes. Defaults to {}.
             masks (dict[str, MaskColor], optional): Dictionary containing masks. Defaults to {}.
+            on_error_remove (bool, optional): If True, remove the image if an error occurs. Defaults to True.
         """
         self.target_path = target_path
         self.dataset_name = dataset_name

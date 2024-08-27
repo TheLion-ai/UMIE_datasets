@@ -24,3 +24,4 @@ from .get_file_paths import GetFilePaths
 from .masks_to_binary_colors import MasksToBinaryColors
 from .recolor_masks import RecolorMasks
 from .store_source_paths import StoreSourcePaths
+from .validate_data import ValidateData
