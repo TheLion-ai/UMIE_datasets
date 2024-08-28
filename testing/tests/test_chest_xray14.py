@@ -21,6 +21,11 @@ labels_path = os.path.join(os.getcwd(), "testing/test_dummy_data/11_chest_xray14
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/11_chest_xray14/expected_output")
 
 
+def test_initial_lean_up_chest_xray14():
+    """Removes output folder with it's contents."""
+    DatasetTestingLibrary.clean_up(target_path)
+
+
 def test_run_chest_xray14():
     """Test to verify, that there are no exceptions while running pipeline."""
     dataset = ChestXray14Pipeline(
