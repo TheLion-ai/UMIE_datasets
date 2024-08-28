@@ -2,7 +2,6 @@
 import json
 import os
 
-from base.extractors.img_id import BaseImgIdExtractor
 from base.step import BaseStep
 
 

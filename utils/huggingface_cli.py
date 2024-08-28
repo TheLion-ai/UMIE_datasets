@@ -1,10 +1,10 @@
 """Hugging Face CLI for uploading datasets to the Hub."""
-import importlib.util
 import json
 import os
 
 import click
-from datasets import Image, Value, load_dataset
+import pandas as pd
+from datasets import Dataset, Image, Value
 
 from config.dataset_config import all_datasets
 
@@ -86,28 +86,36 @@ def upload(dataset_name: str, commit_message: str) -> None:
     if not os.path.exists(dataset_file):
         raise FileNotFoundError(f"Dataset jsonl file {dataset_file} does not exist")
 
-    dataset = load_dataset("json", data_files={dataset_name: dataset_file})[dataset_name]
+    # Load dataset using pandas
+    df = pd.read_json(dataset_file, lines=True)
 
     # Rename columns
-    dataset = dataset.rename_column("umie_path", "image")
-    dataset = dataset.rename_column("mask_path", "mask")
+    df = df.rename(columns={"umie_path": "image", "mask_path": "mask"})
 
-    # convert image mask columns from string to Image type
-    dataset = dataset.map(lambda example: {"image": to_absolute_path(example["image"], data_dir)})
-    dataset = dataset.cast_column("image", Image())
-
+    # Process image and mask paths
+    df["image"] = df["image"].apply(lambda x: to_absolute_path(x, data_dir))
     if dataset_config.masks != {}:
-        dataset = dataset.map(lambda example: {"mask": to_absolute_path(example["mask"], data_dir)})
-        dataset = dataset.cast_column("mask", Image())
+        df["mask"] = df["mask"].apply(lambda x: to_absolute_path(x, data_dir))
     else:
-        dataset = dataset.map(lambda example: {"mask": None})
+        df["mask"] = None
 
-    # convert labels to string dump of dictionary
-    label_schema = Value("string")
-    dataset = dataset.map(transform_labels)
-    new_features = dataset.features.copy()
-    new_features["labels"] = label_schema
-    dataset = dataset.cast(new_features)
+    # Transform labels
+    df["labels"] = df["labels"].apply(lambda x: json.dumps(transform_labels({"labels": x})["labels"]))
+
+    # Convert int64 columns to string to match the Hub's schema
+    df["dataset_uid"] = df["dataset_uid"].astype(str)
+    df["study_id"] = df["study_id"].astype(str)
+
+    # Convert pandas DataFrame to Hugging Face Dataset
+    dataset = Dataset.from_pandas(df)
+
+    # Cast columns to appropriate types
+    dataset = dataset.cast_column("image", Image())
+    if dataset_config.masks != {}:
+        dataset = dataset.cast_column("mask", Image())
+    dataset = dataset.cast_column("labels", Value("string"))
+    dataset = dataset.cast_column("dataset_uid", Value("string"))
+    dataset = dataset.cast_column("study_id", Value("string"))
 
     dataset.push_to_hub(
         hf_repo_name,
@@ -118,6 +126,8 @@ def upload(dataset_name: str, commit_message: str) -> None:
 
 
 if __name__ == "__main__":
+    upload()
+
     # Add the main CLI group and commands
     @click.group()
     def cli() -> None:
