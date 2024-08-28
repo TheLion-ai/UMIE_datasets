@@ -20,6 +20,11 @@ target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/09_knee_osteoar
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/09_knee_osteoarthritis/expected_output")
 
 
+def test_initial_clean_up_knee_osteoarthritis():
+    """Removes output folder with it's contents."""
+    DatasetTestingLibrary.clean_up(target_path)
+
+
 def test_run_knee_osteoarthritis():
     """Test to verify, that there are no exceptions while running pipeline."""
     dataset = KneeOsteoarthritisPipeline(

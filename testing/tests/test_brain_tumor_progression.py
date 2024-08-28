@@ -26,6 +26,11 @@ target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/10_brain_tumor_
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/10_brain_tumor_progression/expected_output")
 
 
+def test_initial_clean_up_brain_tumor_progression():
+    """Removes output folder with it's contents."""
+    DatasetTestingLibrary.clean_up(target_path)
+
+
 def test_run_brain_tumor_progression():
     """Test to verify, that there are no exceptions while running pipeline."""
     dataset = BrainTumorProgressionPipeline(
