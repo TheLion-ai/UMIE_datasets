@@ -30,11 +30,8 @@ class ImgIdExtractor(BaseImgIdExtractor):
 
     def _extract(self, img_path: os.PathLike) -> str:
         """Retrieve image id from path."""
-        img_name = os.path.split(img_path)[-1]
         # Study id is the second part of the image name before the first underscore
-        img_id = img_name.split("_")[1]
-
-        return img_id
+        return self._extract_by_separator(img_path, "_", 1)
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):

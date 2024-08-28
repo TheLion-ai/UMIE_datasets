@@ -26,14 +26,10 @@ class ImgIdExtractor(BaseImgIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        img_id = os.path.basename(img_path)
-        ext = os.path.splitext(img_id)[1]
         if "train" in img_path:
-            img_id = "00"
+            return self._extract_first_two_chars(img_path, True)
         else:
-            img_id = img_id[:2]
-        img_id = img_id + ext
-        return img_id
+            return self._extract_first_two_chars(img_path)
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):
