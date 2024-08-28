@@ -41,10 +41,7 @@ class ValidateData(BaseStep):
     def _validate_jsonl(self, json_path: str) -> None:
         with jsonlines.open(json_path, mode="r") as reader:
             for obj in tqdm(reader):
-                try:
-                    self._validate_object(obj)
-                except Exception as e:
-                    print(f"Error in image {obj['umie_path']}: {e}")
+                self._validate_object(obj)
 
     def _validate_object(self, obj: dict) -> None:
         self._validate_string_keys(obj)

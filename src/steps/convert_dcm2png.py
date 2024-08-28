@@ -73,7 +73,6 @@ class ConvertDcm2Png(BaseStep):
 
         except Exception as e:
             print(f"Error {e} occured while converting {img_path} {ds.is_little_endian}")
-            os.remove(img_path)
 
     def _convert2little_endian(self, ds: pydicom.dataset.FileDataset, img_path: str) -> pydicom.dataset.FileDataset:
         """Convert dicom image to little endian.
