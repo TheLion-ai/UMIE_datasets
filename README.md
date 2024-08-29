@@ -53,6 +53,7 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 | 11 | [Chest X-ray 14](https://nihcc.app.box.com/v/ChestXray-NIHCC/folder/36938765345) | XRAY | classification|
 | 12 | [COCA- Coronary Calcium and chest CTs](https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa) | CT | Segmentation |
 | 13 | [BrainMetShare](https://aimi.stanford.edu/brainmetshare) | MRI | Segmentation |
+| 18 | [CMMD](https://www.cancerimagingarchive.net/collection/cmmd/) | MG | Classification |
 
 
 # **Using the datasets**
@@ -240,6 +241,19 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   2. Log in or sign up for a Stanford AIMI account.
   3. Fill in your contact details.
   4. Download the data with [azcopy](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
+</details>
+
+
+<details>
+  <summary>18. CMMD - The Chinese Mammography Database</summary>
+
+**18. CMMD**
+  1. Go to [CMMD](https://www.cancerimagingarchive.net/collection/cmmd/).
+  2. Download .tcia file from Data Access table (first row).
+  3. Download [NBIA Data Retriver](https://wiki.cancerimagingarchive.net/display/NBIA/Downloading+TCIA+Images) to be able to download images.
+  4. Download CMMD_clinicaldata_revision.xlsx from Data Access table (second row) for labels information.
+  5. Fill in the `source_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `manifest-1616439774456/CMMD` folder.
+  6. Fill in the `labels_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `CMMD_clinicaldata_revision.xlsx` file.
 </details>
 
 
