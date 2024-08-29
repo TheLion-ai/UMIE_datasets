@@ -32,4 +32,5 @@ from .covid19_detection import COVID19DetectionPipeline
 from .finding_and_measuring_lungs import FindingAndMeasuringLungsPipeline
 from .kits23 import KITS23Pipeline
 from .knee_osteoarthritis import KneeOsteoarthritisPipeline
+from .lidc_idri import LidcIdriPipeline
 from .lits import LITSPipeline

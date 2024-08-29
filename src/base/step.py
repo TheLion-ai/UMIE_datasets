@@ -39,6 +39,7 @@ class BaseStep(TransformerMixin):
         masks: dict[str, MaskColor] = {},
         labels_path: Optional[str] = None,  # path to the labels file
         masks_path: Optional[str] = None,  #
+        dicom_mapping_attribute: Optional[str] = None,
     ):
         """
         Initialize a Step object.
@@ -95,6 +96,7 @@ class BaseStep(TransformerMixin):
             f"{self.dataset_uid}_{self.dataset_name}",
             f"{self.dataset_uid}_{self.dataset_name}.jsonl",
         )
+        self.dicom_mapping_attribute = dicom_mapping_attribute
 
     def transform(
         self,

@@ -271,4 +271,14 @@ brain_met_share = DatasetArgs(
     },
     masks={masks.Metastasis.radlex_name: MaskColor(source_color=255, target_color=masks.Metastasis.color)},
 )
+
+lidc_idri = DatasetArgs(
+    dataset_uid="17",
+    dataset_name="lidc_idri",
+    phases={"0": "CT"},
+    masks={
+        masks.Nodule.radlex_name: MaskColor(source_color=1, target_color=masks.Nodule.color),
+        masks.Lesion.radlex_name: MaskColor(source_color=2, target_color=masks.Lesion.color),
+    },
+)
 all_datasets = [obj for name, obj in globals().items() if isinstance(obj, DatasetArgs)]

@@ -53,6 +53,7 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 | 11 | [Chest X-ray 14](https://nihcc.app.box.com/v/ChestXray-NIHCC/folder/36938765345) | XRAY | classification|
 | 12 | [COCA- Coronary Calcium and chest CTs](https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa) | CT | Segmentation |
 | 13 | [BrainMetShare](https://aimi.stanford.edu/brainmetshare) | MRI | Segmentation |
+| 17 | [LIDC-IDRI](https://www.cancerimagingarchive.net/collection/lidc-idri/) | CT | Segmentation |
 
 
 # **Using the datasets**
@@ -243,9 +244,18 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 </details>
 
 
+<details>
+  <summary>17. LIDC-IDRI</summary>
+
+**13. BrainMetShare**
+  1. Go to [LIDC-IDRI](https://www.cancerimagingarchive.net/collection/lidc-idri/).
+  2. Download "Images" using [NBIA Data Retriever](https://wiki.cancerimagingarchive.net/display/NBIA/Downloading+TCIA+Images), and "Radiologist Annotations/Segmentations".
+  <!-- 3. TODO, next steps -->
+</details>
+
 To preprocess the dataset that is not among the above, search the preprocessing folder. It contains the reusable steps for changing imaging formats, extracting masks, creating file trees, etc. Go to the config file to check which masks and label encodings are available. Append new labels and mask encodings if needed.
 
-Overall the dataset should have ** 882,774** images in **.png** format
+Overall the dataset should have **882,774** images in **.png** format
 * **CT - 500k+**
 * **X-Ray - 250k+**
 * **MRI - 100k+**
