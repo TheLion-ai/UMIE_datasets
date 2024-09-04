@@ -8,7 +8,7 @@ Each dataset should have a comment suggesting the name of the source file the pa
 """
 from src.base.pipeline import PathArgs
 from src.constants import TARGET_PATH
-from src.pipelines import (  # CmmdPipeline,
+from src.pipelines import (
     AlzheimersPipeline,
     BrainMETSharePipeline,
     BrainTumorClassificationPipeline,
@@ -16,6 +16,7 @@ from src.pipelines import (  # CmmdPipeline,
     BrainTumorProgressionPipeline,
     BrainWithIntracranialHemorrhagePipeline,
     ChestXray14Pipeline,
+    CmmdPipeline,
     COCAPipeline,
     CoronaHackPipeline,
     COVID19DetectionPipeline,
@@ -24,7 +25,6 @@ from src.pipelines import (  # CmmdPipeline,
     KneeOsteoarthritisPipeline,
     LITSPipeline,
 )
-from src.pipelines.cmmd import CmmdPipeline
 
 datasets = [
     KITS23Pipeline(
@@ -122,9 +122,9 @@ datasets = [
     ),
     CmmdPipeline(
         path_args=PathArgs(
-            source_path="",  # Path to 'manifest-1616439774456/CMMD' folder 
+            source_path="",  # Path to 'manifest-1616439774456/CMMD' folder
             target_path=TARGET_PATH,
-            labels_path="",  # Path to 'CMMD_clinicaldata_revision.xlsx' file 
+            labels_path="",  # Path to 'CMMD_clinicaldata_revision.xlsx' file
         ),
     ),
 ]

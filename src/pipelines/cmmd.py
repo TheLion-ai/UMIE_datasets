@@ -29,17 +29,17 @@ class ImgIdExtractor(BaseImgIdExtractor):
         """Retrieve image id from path."""
         img_id = self._extract_by_separator(img_path, "-")
 
-        # Each image has a name '1-1.dcm' or '1-2.dcm'. This does not
-        # ensure uniqueness from the perspective of the entire dataset.
-        # Hence in the img_id construction it was decided to use the
-        # name of the folder one level higher. From the name in the
-        # format '1.000000-NA-xxxxx' (where xxxxx is a series of digits)
-        # xxxxx was used. Hence the unique img_id will have the structure
-        # xxxxx_1 or xxxxx_2.
+        # Each image has a name '1-n.dcm', where n = 1,2,3,4. This does
+        # not ensure uniqueness from the perspective of the entire
+        # dataset. Hence in the img_id construction it was decided to
+        # use the name of the folder one level higher. From the name in
+        # the format '1.000000-NA-xxxxx' (where xxxxx is a series of
+        # digits) xxxxx was used. Hence the unique img_id will have the
+        # structure xxxxxn, i.e. xxxxx1, xxxxx2, xxxxx3 or xxxxx4.
 
         lvl_higher = os.path.basename(os.path.dirname(img_path)).split("-")[2]
 
-        img_id_final = lvl_higher + "_" + img_id 
+        img_id_final = lvl_higher + img_id
 
         return img_id_final
 
@@ -67,17 +67,56 @@ class LabelExtractor(BaseLabelExtractor):
         """Initialize label extractor."""
         super().__init__(labels)
         self.source_labels = pd.read_excel(labels_path)
-        self.source_labels = self.source_labels[["ID1", "abnormality", "classification"]]
-        self.source_labels.rename(columns={"ID1": "id", "abnormality": "label1", "classification": "label2"}, inplace=True)
+        self.source_labels = self.source_labels[["ID1", "LeftRight", "abnormality", "classification"]]
+        self.source_labels.rename(
+            columns={"ID1": "id", "LeftRight": "LR", "abnormality": "label1", "classification": "label2"}, inplace=True
+        )
 
     def _extract(self, img_path: os.PathLike, *args: Any) -> list[dict[str, int]]:
         """Extract label from img path."""
-        img_path_label = os.path.basename(os.path.dirname(os.path.dirname(os.path.dirname(img_path))))
-        pre_label = self.source_labels[self.source_labels["id"] == img_path_label].values[0]
-        label1 = pre_label[1]
-        label2 = pre_label[2]
+        img_path_label = os.path.basename(
+            os.path.dirname(os.path.dirname(os.path.dirname(img_path)))
+        )  # ID1 value stored in the image path
+        img_numb = int(
+            os.path.basename(img_path).split("-")[1].split(".")[0]
+        )  # a number defining the order of the .dcm file in the folder
 
-        radlex_label = self.labels[label1] + self.labels[label2]
+        # In some cases it happens that despite the same ID1 values ​​in
+        # the CMMD_clinicaldata_revision.xlsx file the left and right
+        # breast have different abnormality or classification values
+        # ​​assigned. Hence, the 'L' and 'R' values in LeftRight column
+        # must be taken into account additionally.
+        pre_label_Right = self.source_labels[
+            (self.source_labels["id"] == img_path_label) & (self.source_labels["LR"] == "R")
+        ].values
+        pre_label_Left = self.source_labels[
+            (self.source_labels["id"] == img_path_label) & (self.source_labels["LR"] == "L")
+        ].values
+
+        if pre_label_Right.shape[0] == 0:
+            label1 = pre_label_Left[0][2]
+            label2 = pre_label_Left[0][3]
+            radlex_label = self.labels[label1] + self.labels[label2]
+
+        elif pre_label_Left.shape[0] == 0:
+            label1 = pre_label_Right[0][2]
+            label2 = pre_label_Right[0][3]
+            radlex_label = self.labels[label1] + self.labels[label2]
+
+        else:
+            # Based on the entire data set, it was determined that if
+            # there are 4 .dcm files in a folder, files '1-1.dcm' and
+            # '1-2.dcm' correspond to the left breast. The other two
+            # correspond to the right breast.
+            if img_numb == 1 or img_numb == 2:
+                label1 = pre_label_Left[0][2]
+                label2 = pre_label_Left[0][3]
+                radlex_label = self.labels[label1] + self.labels[label2]
+
+            else:
+                label1 = pre_label_Right[0][2]
+                label2 = pre_label_Right[0][3]
+                radlex_label = self.labels[label1] + self.labels[label2]
 
         return radlex_label
 
