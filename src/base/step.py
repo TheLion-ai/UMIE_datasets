@@ -171,21 +171,41 @@ class BaseStep(TransformerMixin):
         )
         return new_path
 
-    def get_umie_mask_path(self, img_path: str) -> str:
+    def get_umie_mask_path(self, mask_path: str) -> str:
         """Create a unique path for the mask.
 
         Args:
-            img_path (str): Path to the image.
+            mask_path (str): Path to the mask.
 
         Returns:
             str: Unique path for the mask.
         """
-        umie_id = self.get_umie_id(img_path)
-        phase_id = self.phase_id_extractor(img_path)
+        umie_id = self.get_umie_id(mask_path)
+        phase_id = self.phase_id_extractor(mask_path)
 
         if phase_id not in self.phases.keys():
             raise ValueError(f"Phase id {phase_id} not in the list of phases.")
         phase_name = self.phases[phase_id]
+
+        new_path = os.path.join(
+            self.target_path,
+            f"{self.dataset_uid}_{self.dataset_name}",
+            phase_name,
+            self.mask_folder_name,
+            umie_id,
+        )
+        return new_path
+
+    def get_umie_mask_path_from_img_path(self, img_path: str) -> str:
+        """Create a unique path for the mask based on image path.
+
+        Args:
+            img_path (str): Path to the image.
+        Returns:
+            str: Unique path for the mask.
+        """
+        umie_id = os.path.basename(img_path)
+        phase_name = self.decode_umie_img_path(img_path)[0]
 
         new_path = os.path.join(
             self.target_path,
