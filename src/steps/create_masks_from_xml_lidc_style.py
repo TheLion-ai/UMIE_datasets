@@ -95,7 +95,6 @@ class CreateMasksFromXmlLidcStyle(BaseStep):
 
                 if os.path.exists(corresponding_mask_path):
                     current_mask = cv2.imread(corresponding_mask_path, cv2.IMREAD_GRAYSCALE)
-                    print(current_mask.shape)
                     points = list()
                     for edge_map in roi.find_all("edgeMap"):
                         points.append(
