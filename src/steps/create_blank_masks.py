@@ -63,7 +63,10 @@ class CreateBlankMasks(BaseStep):
 
         new_path = os.path.dirname(os.path.dirname(img_path))
         new_path = os.path.join(new_path, self.mask_folder_name, img_name)
-        mask = np.zeros(img.shape, np.uint8)  # Create a black mask
+        original_image_shape = img.shape
+        mask_shape = (original_image_shape[0], original_image_shape[1])  # Flatten the mask to grayscale
+        mask = np.zeros(mask_shape, np.uint8)  # Create a black mask
+        print(mask.shape)
         cv2.imwrite(new_path, mask)
 
         umie_path = new_path.replace(self.mask_folder_name, self.image_folder_name)

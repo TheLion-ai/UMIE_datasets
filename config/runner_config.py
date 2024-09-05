@@ -123,7 +123,7 @@ datasets = [
     LidcIdriPipeline(
         path_args=PathArgs(
             source_path="",  # Path to LIDC-IDRI/ directory
-            target_path="TARGET_PATH",
+            target_path=TARGET_PATH,
             masks_path="",  # Path to extracted LIDC-XML-only/ directory (from LIDC-XML-only.zip)
         ),
     ),

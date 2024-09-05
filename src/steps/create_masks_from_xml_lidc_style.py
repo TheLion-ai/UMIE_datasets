@@ -70,13 +70,13 @@ class CreateMasksFromXmlLidcStyle(BaseStep):
                 except KeyError:
                     continue
                 if os.path.exists(corresponding_mask_path):
-                    current_mask = cv2.imread(corresponding_mask_path)
+                    current_mask = cv2.imread(corresponding_mask_path, cv2.IMREAD_GRAYSCALE)
                     points = list()
                     for locus in roi.find_all("locus"):
-                        points.append([locus.find("xCoord").get_text()][locus.find("yCoord").get_text()])
+                        points.append([int(locus.find("xCoord").get_text()), int(locus.find("yCoord").get_text())])
 
-                    color = self.masks["Lesion"].target_color
-                    cv2.fillPoly(current_mask, points, (color))
+                    color = self.masks["Lesion"]["target_color"]
+                    cv2.fillPoly(current_mask, [np.array(points)], (color))
                     print(f"Drawing on {corresponding_mask_path}")
                     cv2.imwrite(corresponding_mask_path, current_mask)
 
@@ -94,15 +94,21 @@ class CreateMasksFromXmlLidcStyle(BaseStep):
                     continue
 
                 if os.path.exists(corresponding_mask_path):
-                    current_mask = cv2.imread(corresponding_mask_path)
+                    current_mask = cv2.imread(corresponding_mask_path, cv2.IMREAD_GRAYSCALE)
+                    print(current_mask.shape)
                     points = list()
                     for edge_map in roi.find_all("edgeMap"):
-                        points.append([edge_map.find("xCoord").get_text()][edge_map.find("yCoord").get_text()])
+                        points.append(
+                            [int(edge_map.find("xCoord").get_text()), int(edge_map.find("yCoord").get_text())]
+                        )
 
-                    if roi.find("inclusion").get_text() == "TRUE":
-                        color = self.masks["Nodule"].target_color
-                    else:
+                    inclusion_string = roi.find("inclusion").get_text()
+                    if inclusion_string == "TRUE":
+                        color = self.masks["Nodule"]["target_color"]
+                    elif inclusion_string == "FALSE":
                         color = 0
-                    cv2.fillPoly(current_mask, points, (color))
-                    print(f"Drawing on {corresponding_mask_path}")
+                    else:
+                        print(f"Unsupported inclusion value {inclusion_string}")
+                        color = 0
+                    cv2.fillPoly(current_mask, [np.array(points)], (color))
                     cv2.imwrite(corresponding_mask_path, current_mask)
