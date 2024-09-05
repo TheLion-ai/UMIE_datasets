@@ -21,6 +21,11 @@ labels_path = os.path.join(os.getcwd(), "testing/test_dummy_data/01_coronahack/i
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/01_coronahack/expected_output")
 
 
+def test_initial_clean_up_coronahack():
+    """Removes output folder with it's contents."""
+    DatasetTestingLibrary.clean_up(target_path)
+
+
 def test_run_coronahack():
     """Test to verify, that there are no exceptions while running pipeline."""
     dataset = CoronaHackPipeline(
