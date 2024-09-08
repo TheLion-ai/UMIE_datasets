@@ -15,7 +15,7 @@ from src.base.pipeline import PathArgs
 from src.pipelines.cmmd import CmmdPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
-source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/18_cmmd/input/CMMD")
+source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/18_cmmd/input/manifest-1616439774456/CMMD")
 target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/18_cmmd/output")
 labels_path = os.path.join(os.getcwd(), "testing/test_dummy_data/18_cmmd/input/CMMD_clinicaldata_revision.xlsx")
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/18_cmmd/expected_output")
@@ -57,7 +57,7 @@ def test_cmmd_verify_images_correct():
     current_file_tree = glob.glob(f"{str(target_path)}/**/*.png", recursive=True)
 
     if not DatasetTestingLibrary.verify_all_images_identical(expected_file_tree, current_file_tree):
-        pytest.fail("Cmmd pipeline created image contents different than expected.") 
+        pytest.fail("Cmmd pipeline created image contents different than expected.")
 
 
 def test_cmmd_verify_jsonl_correct():

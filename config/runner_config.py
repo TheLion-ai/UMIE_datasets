@@ -122,7 +122,7 @@ datasets = [
     ),
     CmmdPipeline(
         path_args=PathArgs(
-            source_path="",  # Path to 'manifest-1616439774456/CMMD' folder
+            source_path="",  # Path to 'manifest-{xxxxxxxxxxxxx}/CMMD' folder
             target_path=TARGET_PATH,
             labels_path="",  # Path to 'CMMD_clinicaldata_revision.xlsx' file
         ),

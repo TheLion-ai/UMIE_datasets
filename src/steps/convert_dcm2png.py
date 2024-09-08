@@ -34,7 +34,7 @@ class ConvertDcm2Png(BaseStep):
         if self.masks_path:
             # Further steps related to converting masks to .png will be
             # performed if the masks_path argument is provided in
-            # config/runner_config.py for a given dataset. 
+            # config/runner_config.py for a given dataset.
             mask_paths = []
             for root, _, filenames in os.walk(self.masks_path):
                 for filename in filenames:

@@ -252,7 +252,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   2. Download .tcia file from Data Access table.
   3. Download [NBIA Data Retriver](https://wiki.cancerimagingarchive.net/display/NBIA/Downloading+TCIA+Images) to be able to download images.
   4. Download CMMD_clinicaldata_revision.xlsx from Data Access table for labels information.
-  5. Fill in the `source_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `manifest-1616439774456/CMMD` folder.
+  5. Fill in the `source_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `manifest-{xxxxxxxxxxxxx}/CMMD` folder.
   6. Fill in the `labels_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `CMMD_clinicaldata_revision.xlsx` file.
 </details>
 
