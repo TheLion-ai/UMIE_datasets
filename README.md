@@ -11,8 +11,12 @@
   <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
     <img src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg" alt="license" />
   </a>
+  <a hread="https://github.com/TheLion-ai/UMIE_datasets/actions/workflows/python-app.yml">
+  <img src="https://github.com/TheLion-ai/UMIE_datasets/actions/workflows/python-app.yml/badge.svg?branch=main" />
+  </a>
 
 </p>
+
 
 <!-- Table of Contents -->
 
@@ -131,6 +135,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   2. Login to your Kaggle account.
   3. Download the data.
   4. Extract `archive.zip`.
+  5. REMOVE **TrainData** folder. We do not want augmented data at this stage.
   5. Fill in the `source_path` to the location of the `archive` folder in `COVID19DetectionPipeline()` in `config/runner_config.py`.
 
 </details>

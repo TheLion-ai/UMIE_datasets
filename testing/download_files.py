@@ -1,8 +1,29 @@
+"""
+This script downloads all files from a specified S3 bucket to a local directory.
+
+Usage:
+    python download_files.py
+
+Environment Variables:
+    - S3_ENDPOINT: The endpoint URL of the S3 service.
+    - S3_ACCESS_KEY: The access key for the S3 service.
+    - S3_SECRET_KEY: The secret key for the S3 service.
+
+Constants:
+    - BUCKET_NAME (str): The name of the S3 bucket.
+    - LOCAL_DIR (str): The local directory to download the files to.
+
+Functions:
+    - download_s3_folder(bucket_name, local_dir=None): Downloads all files from a specified S3 bucket to a local directory.
+
+"""
+
 import os
-from tqdm import tqdm
-from dotenv import load_dotenv
+
 import boto3
 from botocore.config import Config
+from dotenv import load_dotenv
+from tqdm import tqdm
 
 load_dotenv()
 
@@ -17,9 +38,10 @@ client = boto3.client(
     config=Config(signature_version="s3v4"),
 )
 
-def download_s3_folder(bucket_name, local_dir=None):
+
+def download_s3_folder(bucket_name: str, local_dir: str = None) -> None:
     """
-    Downloads all files from a specified S3 bucket to a local directory.
+    Download all files from a specified S3 bucket to a local directory.
 
     Args:
         bucket_name (str): The name of the S3 bucket.
@@ -29,23 +51,23 @@ def download_s3_folder(bucket_name, local_dir=None):
         None
     """
     print(f"Downloading files from {bucket_name} to {local_dir}...")
-    paginator = client.get_paginator('list_objects')
+    paginator = client.get_paginator("list_objects")
     pages = paginator.paginate(Bucket=bucket_name)
 
     for i, page in enumerate(pages):
         print(f"Downloading page {i + 1}...")
-        for obj in tqdm(page['Contents']):
-            target = obj["Key"] if local_dir is None \
-                else os.path.join(local_dir, obj["Key"])
+        for obj in tqdm(page["Contents"]):
+            target = obj["Key"] if local_dir is None else os.path.join(local_dir, obj["Key"])
             if not os.path.exists(os.path.dirname(target)):
                 os.makedirs(os.path.dirname(target))
-            if obj["Key"][-1] == '/':
+            if obj["Key"][-1] == "/":
                 continue
             with open(target, "wb") as f:
                 client.download_fileobj(BUCKET_NAME, obj["Key"], f)
+
 
 if __name__ == "__main__":
     if os.path.exists(LOCAL_DIR):
         print(f"Directory {LOCAL_DIR} already exists.")
     else:
-        download_s3_folder(BUCKET_NAME,LOCAL_DIR)
+        download_s3_folder(BUCKET_NAME, LOCAL_DIR)

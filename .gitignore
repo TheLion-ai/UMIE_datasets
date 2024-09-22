@@ -8,3 +8,4 @@ data/
 **/__pycache__/
 .DS_Store
 .env
+testing/test_dummy_data/

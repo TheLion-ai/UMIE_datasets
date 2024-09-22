@@ -9,6 +9,7 @@ from typing import Any
 import cv2
 import numpy as np
 
+from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
 from config import dataset_config
 from config.dataset_config import DatasetArgs
@@ -24,6 +25,23 @@ from steps import (
     GetFilePaths,
     RecolorMasks,
 )
+
+
+class ImgIdExtractor(BaseImgIdExtractor):
+    """Extractor for image IDs specific to the Knee Osteoarthritis dataset."""
+
+    def _extract(self, img_path: str) -> str:
+        """Extract image id from img path."""
+        return os.path.basename(img_path).split("_")[-1]
+
+
+class StudyIdExtractor(BaseStudyIdExtractor):
+    """Extractor for study IDs specific to the Knee Osteoarthritis dataset."""
+
+    def _extract(self, img_path: str) -> str:
+        """Extract study id from img path."""
+        study_id = os.path.basename(img_path).replace("-", "_").split("_")[-2]
+        return study_id
 
 
 @dataclass
@@ -48,9 +66,9 @@ class CTORGPipeline(BasePipeline):
         default_factory=lambda: PipelineArgs(
             zfill=2,
             # Image id is in the source file name after the last underscore
-            img_id_extractor=lambda x: os.path.basename(x).split("_")[-1],  #
+            img_id_extractor=ImgIdExtractor(),  #
             # Study id is the folder name of all images in the study
-            study_id_extractor=lambda x: os.path.basename(x).replace("-", "_").split("_")[-2],
+            study_id_extractor=StudyIdExtractor(),
             window_center=50,  # Window of abddominal cavity CTs
             window_width=400,
             img_prefix="volume",  # prefix of the source image file names

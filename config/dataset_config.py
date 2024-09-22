@@ -1,4 +1,10 @@
-"""This module contains datasets used in the project. The datasets are defined as dataset dataclasses."""
+"""
+This module contains information about datasets used in the project.
+
+The datasets are defined as dataset dataclasses.
+Each dataset dataclass contains information about the dataset, such as the dataset name, the phases and annotations provided in the source dataset.
+It also contains information about how to translate source labels and masks into UMIE format.
+"""
 from dataclasses import dataclass, field
 
 from config import labels, masks
@@ -6,7 +12,7 @@ from config import labels, masks
 
 @dataclass
 class MaskColor:
-    """A class for storing information about how to recolor a given mask."""
+    """A class for storing information about how to recolor a given mask from the source color to the target color."""
 
     source_color: int
     target_color: int
@@ -14,19 +20,25 @@ class MaskColor:
 
 @dataclass
 class DatasetArgs:
-    """This class represents a dataset."""
+    """This class represents required configuration information about each dataset."""
 
-    dataset_uid: str  # unique identifier for the dataset
-    dataset_name: str  # name of the dataset
-    phases: dict[str, str]  # phase_id used for encoding the phase in img name, phase_name used for naming the folder
-    labels: dict[str, list[dict[str, float]]] = field(default_factory=dict)  # some labels have multiple RadLex codes
-    masks: dict[str, MaskColor] = field(default_factory=dict)  # color that is used to encode source mask
+    dataset_uid: str  # unique identifier for the dataset in UMIE
+    dataset_name: str  # name of the dataset in UMIE
+    phases: dict[
+        str, str
+    ]  # phase_id is used for encoding the phase in umie img name, phase_name is used for naming the folder
+    labels: dict[str, list[dict[str, float]]] = field(
+        default_factory=dict
+    )  # we allow many-to-many label translations, some labels have multiple RadLex codes
+    masks: dict[str, MaskColor] = field(
+        default_factory=dict
+    )  # mask name and MaskColor object specifying how to recolor the mask
 
 
 kits23 = DatasetArgs(
     dataset_uid="00",
     dataset_name="kits23",
-    phases={"0": "CT"},  # arterial or nephrogenic
+    phases={"0": "CT"},  # arterial or nephrogenic CT phase (no way to distinguish them in the dataset easily)
     labels={
         "normal": [{labels.NormalityDecriptor.radlex_name: 1}],
         "angiomyolipoma": [{labels.Angiomyolipoma.radlex_name: 1}, {labels.Neoplasm.radlex_name: 1}],
@@ -99,21 +111,23 @@ alzheimers = DatasetArgs(
     dataset_name="alzheimers",
     phases={"0": "MRI"},
     labels={
-        "MildDemented": [{labels.Dementia.radlex_name: 2 / 3}],
+        "MildDemented": [{labels.Dementia.radlex_name: round(2 / 3, 2)}],
         "ModerateDemented": [{labels.Dementia.radlex_name: 1}],
         "NonDemented": [{labels.NormalityDecriptor.radlex_name: 1}],
-        "VeryMildDemented": [{labels.Dementia.radlex_name: 1 / 3}],
-        "mildDem": [{labels.Dementia.radlex_name: 2 / 3}],
+        "VeryMildDemented": [{labels.Dementia.radlex_name: round(1 / 3, 2)}],
+        "mildDem": [{labels.Dementia.radlex_name: round(2 / 3, 2)}],
         "moderateDem": [{labels.Dementia.radlex_name: 1}],
         "nonDem": [{labels.NormalityDecriptor.radlex_name: 1}],
-        "verymildDem": [{labels.Dementia.radlex_name: 1 / 3}],
+        "verymildDem": [{labels.Dementia.radlex_name: round(1 / 3, 2)}],
     },
 )
 
 brain_tumor_classification = DatasetArgs(
     dataset_uid="03",
     dataset_name="brain_tumor_classification",
-    phases={"0": "T1_weighted_postCM"},  # occasionally T2_weighted!
+    phases={
+        "0": "T1_weighted_postCM"
+    },  # occasionally T2_weighted! (but no way to distinguish them in the dataset easily)
     labels={
         "no_tumor": [{labels.NormalityDecriptor.radlex_name: 1}],
         "glioma_tumor": [{labels.Glioma.radlex_name: 1}],
@@ -190,9 +204,9 @@ knee_osteoarthritis = DatasetArgs(
     phases={"0": "CT"},
     labels={
         "0": [{labels.NormalityDecriptor.radlex_name: 1}],
-        "1": [{labels.Osteoarthritis.radlex_name: 0.25}],
-        "2": [{labels.Osteoarthritis.radlex_name: 0.5}],
-        "3": [{labels.Osteoarthritis.radlex_name: 0.75}],
+        "1": [{labels.Osteoarthritis.radlex_name: round(0.25, 2)}],
+        "2": [{labels.Osteoarthritis.radlex_name: round(0.5, 2)}],
+        "3": [{labels.Osteoarthritis.radlex_name: round(0.75, 2)}],
         "4": [{labels.Osteoarthritis.radlex_name: 1}],
     },
 )
@@ -271,3 +285,5 @@ ct_org = DatasetArgs(
         masks.Brain.radlex_name: MaskColor(source_color=6, target_color=masks.Brain.color),
     },
 )
+
+all_datasets = [obj for name, obj in globals().items() if isinstance(obj, DatasetArgs)]

@@ -6,13 +6,14 @@ from typing import Callable
 
 import numpy as np
 import PIL
-from base.step import BaseStep
 from tqdm import tqdm
+
 from base.extractors.img_id import BaseImgIdExtractor
+from base.step import BaseStep
+
 
 class ConvertTif2Png(BaseStep):
     """Converts tif files to png images."""
-
 
     def transform(
         self,
@@ -57,7 +58,7 @@ class ConvertTif2Png(BaseStep):
         """
         if self.mask_folder_name not in img_path:
 
-            phase_id = self.phase_extractor(img_path)
+            phase_id = self.phase_id_extractor(img_path)
             if phase_id not in self.phases.keys():
                 return None
             phase_name = self.phases[phase_id]

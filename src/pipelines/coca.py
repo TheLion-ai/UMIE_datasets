@@ -4,6 +4,7 @@ import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from base.extractors import BaseImgIdExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
 from config.dataset_config import DatasetArgs, coca
 from steps import (
@@ -15,6 +16,24 @@ from steps import (
     DeleteTempPng,
     GetFilePaths,
 )
+
+
+class ImgIdExtractor(BaseImgIdExtractor):
+    """Extractor for image IDs specific to the Brain Tumor Progression dataset."""
+
+    def _extract(self, img_path: str) -> str:
+        """Retrieve image id from path."""
+        # Image id is in the source file name after the last underscore
+        return self._extract_by_separator(img_path, "-")
+
+
+class StudyIdExtractor(BaseStudyIdExtractor):
+    """Extractor for study IDs specific to the Brain Tumor Progression dataset."""
+
+    def _extract(self, img_path: str) -> str:
+        """Extract study id from img path."""
+        # Study name is the folder two levels above the image
+        return os.path.basename(os.path.dirname(os.path.dirname(img_path)))
 
 
 @dataclass
@@ -38,9 +57,9 @@ class COCAPipeline(BasePipeline):
         default_factory=lambda: PipelineArgs(
             zfill=4,
             # Image id is in the source file name after the last underscore
-            img_id_extractor=lambda x: os.path.basename(x).split("-")[-1],
+            img_id_extractor=ImgIdExtractor(),
             # Study name is the folder two levels above the image
-            study_id_extractor=lambda x: os.path.basename(os.path.dirname(os.path.dirname(x))),
+            study_id_extractor=StudyIdExtractor(),
         )
     )
 

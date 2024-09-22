@@ -16,11 +16,20 @@ class DatasetTestingLibrary:
         """Check if current directories and files are the same as expected."""
         # Change expected_file_tree folder name from expected_output to output
         expected_file_tree = [filepath.replace("expected_output", "output") for filepath in expected_file_tree]
-        # Make sure lists have the same order
-        expected_file_tree.sort()
-        current_file_tree.sort()
+        # Find differences
+        expected_set = set(expected_file_tree)
+        current_set = set(current_file_tree)
 
-        return True if expected_file_tree == current_file_tree else False
+        differences = expected_set.symmetric_difference(current_set)
+        if differences:
+            expected_differences = expected_set - current_set
+            if expected_differences:
+                print(f"Expected but not in current: {expected_differences}\n")
+            else:
+                current_differences = current_set - expected_set
+                print(f"Found in current but not expected: {current_differences}")
+            return False
+        return True
 
     @staticmethod
     def verify_all_images_identical(expected_file_tree: list, current_file_tree: list) -> bool:
@@ -37,7 +46,6 @@ class DatasetTestingLibrary:
 
             expected_image = cv2.imread(expected_image_path)
             current_image = cv2.imread(current_image_path)
-            # print(expected_image_path)
 
             diff = cv2.subtract(expected_image, current_image)
 
@@ -45,6 +53,16 @@ class DatasetTestingLibrary:
                 return False
 
         return True
+
+    @staticmethod
+    def verify_jsonl_identical(expected_jsonl: list[dict], current_jsonl: list[dict]) -> bool:
+        """Check if json lines files are identical."""
+        identical = True
+        for expected_line, current_line in zip(expected_jsonl, current_jsonl):
+            if expected_line != current_line:
+                identical = False
+                print(f"Expected: {expected_line} \n but found: {current_line}")
+        return identical
 
     @staticmethod
     def clean_up(directory_to_erase: Path) -> None:

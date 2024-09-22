@@ -1,4 +1,13 @@
-"""This file contains the masks used in the datasets. The masks are defined as mask dataclasses."""
+"""
+This file contains the masks used in the datasets. The masks are defined as mask dataclasses.
+
+Each mask has the following attributes:
+- id: int - the id of the mask
+- radlex_name: str - the name of the mask in RadLex
+- color: int - the color of the mask
+- radlex_id: str - the id of the mask in RadLex
+- source_names: dict - the names of the mask in other datasets, meant to be helpful when translating new source dataset masks to UMIE.
+"""
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -7,13 +16,13 @@ from typing import Optional
 class Mask:
     """This class represents a mask."""
 
-    id: int
-    radlex_name: str
-    color: int
-    radlex_id: str
+    id: int  # The unique id of the mask in UMIE (also the value of the mask in the mask image)
+    radlex_name: str  # The name of the mask in RadLex
+    color: int  # The color of the mask in the mask image
+    radlex_id: str  # The id of the mask in RadLex
     source_names: Optional[dict] = field(
         default_factory=dict
-    )  # How the mask is named in other datasets, key - dataset name, value - mask name
+    )  # How the mask is named in other datasets, key - dataset name, value - source mask name in this dataset
 
 
 Background = Mask(
