@@ -16,6 +16,7 @@ from src.pipelines import (
     BrainTumorProgressionPipeline,
     BrainWithIntracranialHemorrhagePipeline,
     ChestXray14Pipeline,
+    CmmdPipeline,
     COCAPipeline,
     CoronaHackPipeline,
     COVID19DetectionPipeline,
@@ -117,6 +118,13 @@ datasets = [
         path_args=PathArgs(
             source_path="",
             target_path=TARGET_PATH,
+        ),
+    ),
+    CmmdPipeline(
+        path_args=PathArgs(
+            source_path="",  # Path to 'manifest-{xxxxxxxxxxxxx}/CMMD' folder
+            target_path=TARGET_PATH,
+            labels_path="",  # Path to 'CMMD_clinicaldata_revision.xlsx' file
         ),
     ),
 ]
