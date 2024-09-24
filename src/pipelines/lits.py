@@ -78,7 +78,7 @@ class LITSPipeline(BasePipeline):
     pipeline_args: PipelineArgs = field(
         default_factory=lambda: PipelineArgs(
             img_prefix="volume",  # prefix of the source image file names
-            mask_selector="segmentation",
+            mask_prefix="segmentation",
             segmentation_prefix="segmentation",
             multiple_masks_selector={"livermask": "liver", "lesionmask": "liver_tumor"},
             img_id_extractor=ImgIdExtractor(),

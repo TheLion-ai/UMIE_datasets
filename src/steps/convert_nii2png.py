@@ -32,7 +32,7 @@ class ConvertNii2Png(BaseStep):
             raise ValueError("No list of files provided.")
         for img_path in tqdm(X):
             if img_path.endswith(".nii.gz"):
-                if self.segmentation_prefix in img_path or self.img_prefix in img_path:
+                if self.segmentation_prefix in img_path or self.img_selector(self.img_prefix, img_path):
                     self.convert_nii2png(img_path)
         new_paths = glob.glob(os.path.join(self.source_path, f"**/{self.img_prefix}*.png"), recursive=True)
         return new_paths

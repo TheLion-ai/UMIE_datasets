@@ -59,7 +59,7 @@ class FindingAndMeasuringLungsPipeline(BasePipeline):
             mask_folder_name=MASK_FOLDER_NAME,
             img_prefix="images",  # prefix of the source image file names
             segmentation_prefix="masks",  # prefix of the source mask file names
-            mask_selector="2d_masks",
+            mask_prefix="2d_masks",
             study_id_extractor=StudyIdExtractor(),
             img_id_extractor=ImgIdExtractor(),
         )

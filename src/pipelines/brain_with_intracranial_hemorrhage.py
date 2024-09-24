@@ -99,7 +99,7 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
         default_factory=lambda: PipelineArgs(
             img_prefix=".",  # prefix of the source image file names
             segmentation_prefix="_HGE_Seg",  # prefix of the source mask file names
-            mask_selector="_HGE_Seg",
+            mask_prefix="_HGE_Seg",
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
         )

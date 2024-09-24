@@ -80,7 +80,7 @@ class BrainTumorProgressionPipeline(BasePipeline):
             img_id_extractor=ImgIdExtractor(),  # lambda x: os.path.basename(x).split("-")[-1],
             # Study name is the folder two levels above the image
             study_id_extractor=StudyIdExtractor(),
-            mask_selector="MaskTumor",
+            mask_prefix="MaskTumor",
             segmentation_prefix="MaskTumor",
         )
     )

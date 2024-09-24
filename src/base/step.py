@@ -6,6 +6,8 @@ import numpy as np
 from sklearn.base import TransformerMixin
 
 from base.extractors.img_id import BaseImgIdExtractor
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import MaskColor
 from constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
 
@@ -32,8 +34,10 @@ class BaseStep(TransformerMixin):
         window_width: Optional[int] = None,  # value used to process DICOM images
         label_extractor: Optional[Callable] = None,  # function to get label for the individual image
         img_prefix: Optional[str] = None,  # prefix of the source image file names
+        img_selector: BaseImageSelector = BaseImgIdExtractor(),  # TODO:
         segmentation_prefix: Optional[str] = None,  # prefix of the source mask file names
-        mask_selector: Optional[str] = None,  # string included only in masks names
+        mask_prefix: Optional[str] = None,  # string included only in masks names
+        mask_selector: BaseMaskSelector = BaseMaskSelector(),  # TODO:
         multiple_masks_selector: Optional[dict] = None,
         labels: dict[str, list[dict[str, float]]] = {},  # some labels have multiple RadLex codes
         masks: dict[str, MaskColor] = {},
@@ -62,7 +66,7 @@ class BaseStep(TransformerMixin):
             label_extractor (Optional[Callable], optional): Function to get label for the individual image. Defaults to None.
             img_prefix (Optional[str], optional): Prefix of the source image file names. Defaults to None.
             segmentation_prefix (Optional[str], optional): Prefix of the source mask file names. Defaults to None.
-            mask_selector (Optional[str], optional): String included only in masks names. Defaults to None.
+            mask_prefix (Optional[str], optional): String included only in masks names. Defaults to None.
             multiple_masks_selector (Optional[dict], optional): Dictionary containing multiple masks selectors. Defaults to None.
             labels (dict[str, list[dict[str, float]]], optional): Dictionary containing labels with multiple RadLex codes. Defaults to {}.
             masks (dict[str, MaskColor], optional): Dictionary containing masks. Defaults to {}.
@@ -86,10 +90,12 @@ class BaseStep(TransformerMixin):
         self.window_width = window_width
         self.label_extractor = label_extractor
         self.img_prefix = img_prefix
-        self.mask_selector = mask_selector
+        self.mask_prefix = mask_prefix
         self.multiple_masks_selector = multiple_masks_selector
         self.labels = labels
         self.masks = masks
+        self.img_selector = img_selector
+        self.mask_selector = mask_selector
         self.json_path = os.path.join(
             self.target_path,
             f"{self.dataset_uid}_{self.dataset_name}",

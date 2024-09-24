@@ -19,6 +19,7 @@ from base.extractors import (
     BasePhaseIdExtractor,
     BaseStudyIdExtractor,
 )
+from base.selectors.mask_selector import BaseMaskSelector
 from base.step import BaseStep
 from config.dataset_config import DatasetArgs
 from src.constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
@@ -50,6 +51,7 @@ class PipelineArgs:
         BaseStudyIdExtractor()
     )  # function to extract study id from the image path
     phase_id_extractor: BasePhaseIdExtractor = BasePhaseIdExtractor({})  # function to extract phase from the image path
+    mask_selector: BaseMaskSelector = BaseMaskSelector()  # function to select masks from the source masks
     zfill: Optional[int] = None  # number of digits to pad the **image id** with
     window_center: Optional[int] = None  # value used to process DICOM images
     window_width: Optional[int] = None  # value used to process DICOM images
@@ -60,7 +62,7 @@ class PipelineArgs:
     segmentation_prefix: Optional[
         str
     ] = None  # prefix of the source mask file names, used to differentiate between images and masks
-    mask_selector: Optional[
+    mask_prefix: Optional[
         str
     ] = None  # string included only in masks names, used to differentiate between images and masks
     multiple_masks_selector: Optional[
