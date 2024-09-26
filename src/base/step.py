@@ -34,7 +34,7 @@ class BaseStep(TransformerMixin):
         window_width: Optional[int] = None,  # value used to process DICOM images
         label_extractor: Optional[Callable] = None,  # function to get label for the individual image
         img_prefix: Optional[str] = None,  # prefix of the source image file names
-        img_selector: BaseImageSelector = BaseImgIdExtractor(),  # TODO:
+        img_selector: BaseImageSelector = BaseImageSelector(),  # TODO:
         segmentation_prefix: Optional[str] = None,  # prefix of the source mask file names
         mask_prefix: Optional[str] = None,  # string included only in masks names
         mask_selector: BaseMaskSelector = BaseMaskSelector(),  # TODO:
