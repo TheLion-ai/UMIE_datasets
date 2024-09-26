@@ -102,3 +102,19 @@ Hemorrhage = Mask(
     radlex_id="RID4700",
     source_names={"brain_with_intracranial_hemorrhage": ["brain_hemorrhage"]},
 )
+
+Calcification = Mask(
+    id=15,
+    radlex_name="Calcification",
+    color=15,
+    radlex_id="RID5196",
+    source_names={"Chest_X-ray_Abnormalities_Detection": ["Calcification"], "cmmd": ["calcification"]},
+)
+
+Mass = Mask(
+    id=16,
+    radlex_name="Mass",
+    color=16,
+    radlex_id="RID3874",
+    source_names={"ChestX-ray14": ["Mass"], "cmmd": ["mass"]},
+)

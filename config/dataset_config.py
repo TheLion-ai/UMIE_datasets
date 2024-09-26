@@ -271,4 +271,17 @@ brain_met_share = DatasetArgs(
     },
     masks={masks.Metastasis.radlex_name: MaskColor(source_color=255, target_color=masks.Metastasis.color)},
 )
+
+cmmd = DatasetArgs(
+    dataset_uid="18",
+    dataset_name="cmmd",
+    phases={"0": "MG"},
+    labels={
+        "calcification": [{labels.Calcification.radlex_name: 1}],
+        "mass": [{labels.Mass.radlex_name: 1}, {labels.Lesion.radlex_name: 1}],
+        "both": [{labels.Calcification.radlex_name: 1}, {labels.Mass.radlex_name: 1}, {labels.Lesion.radlex_name: 1}],
+        "Benign": [{labels.Benign.radlex_name: 1}],
+        "Malignant": [{labels.Malignant.radlex_name: 1}],
+    },
+)
 all_datasets = [obj for name, obj in globals().items() if isinstance(obj, DatasetArgs)]

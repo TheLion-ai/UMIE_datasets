@@ -31,21 +31,25 @@ class ConvertDcm2Png(BaseStep):
             if img_path.endswith(".dcm"):
                 self.convert_dcm2png(img_path)
 
-        mask_paths = []
-        for root, _, filenames in os.walk(self.masks_path):
-            for filename in filenames:
-                if filename.startswith("."):
-                    continue
-                elif filename.endswith(".dcm"):
-                    path = os.path.join(root, filename)
-                    # Verify if file is not a mask
-                    if self.mask_prefix is not None and self.mask_selector(self.mask_prefix, path):
-                        mask_paths.append(path)
-        if mask_paths:
-            for mask_path in mask_paths:
-                self.convert_dcm2png(mask_path)
-        else:
-            print("Masks not found.")
+        if self.masks_path:
+            # Further steps related to converting masks to .png will be
+            # performed if the masks_path argument is provided in
+            # config/runner_config.py for a given dataset.
+            mask_paths = []
+            for root, _, filenames in os.walk(self.masks_path):
+                for filename in filenames:
+                    if filename.startswith("."):
+                        continue
+                    elif filename.endswith(".dcm"):
+                        path = os.path.join(root, filename)
+                        # Verify if file is not a mask
+                        if self.mask_selector is not None and self.mask_selector in path:
+                            mask_paths.append(path)
+            if mask_paths:
+                for mask_path in mask_paths:
+                    self.convert_dcm2png(mask_path)
+            else:
+                print("Masks not found.")
 
         root_path = self.source_path
         new_paths = glob.glob(os.path.join(root_path, "**/*.png"), recursive=True)

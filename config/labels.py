@@ -174,7 +174,7 @@ Calcification = Label(
     id=16,
     radlex_name="Calcification",
     radlex_id="RID5196",
-    source_names={"Chest_X-ray_Abnormalities_Detection": ["Calcification"]},
+    source_names={"Chest_X-ray_Abnormalities_Detection": ["Calcification"], "cmmd": ["calcification"]},
 )
 
 BoxlikeHeart = Label(
@@ -215,6 +215,7 @@ Lesion = Label(
     source_names={
         "Chest_X-ray_Abnormalities_Detection": ["Nodule/Mass", "Other Lesion"],
         "ChestX-ray14": ["Mass", "Nodule"],
+        "cmmd": ["mass"],
     },
 )
 
@@ -253,7 +254,7 @@ Fibrosis = Label(
     },
 )
 
-Mass = Label(id=26, radlex_name="Mass", radlex_id="RID3874", source_names={"ChestX-ray14": ["Mass"]})
+Mass = Label(id=26, radlex_name="Mass", radlex_id="RID3874", source_names={"ChestX-ray14": ["Mass"], "cmmd": ["mass"]})
 
 PulmonaryEdema = Label(
     id=27,
@@ -388,6 +389,20 @@ HeartFailure = Label(
     radlex_name="HeartFailure",
     radlex_id="RID34795",
     source_names={"PadChest": ["heart insufficiency"]},
+)
+
+Benign = Label(
+    id=46,
+    radlex_name="Benign",
+    radlex_id="RID15654",
+    source_names={"cmmd": ["Benign"]},
+)
+
+Malignant = Label(
+    id=47,
+    radlex_name="Malignant",
+    radlex_id="RID15655",
+    source_names={"cmmd": ["Malignant"]},
 )
 
 all_labels = [obj for name, obj in globals().items() if isinstance(obj, Label)]
