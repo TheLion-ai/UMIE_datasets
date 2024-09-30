@@ -14,29 +14,27 @@ class BaseImageSelector:
     Subclasses should override the `_extract` method to provide custom extraction logic.
     """
 
-    def __call__(self, img_prefix: str, path: str) -> bool:
+    def __call__(self, path: str) -> bool:
         """
         Check if the file is the intended image.
 
         Args:
-            img_prefix (str): The prefix of the image file.
             path (str): The file path to check.
 
         Returns:
             bool: True if the file is the intended image, False otherwise.
 
         """
-        return self._is_image_file(img_prefix, path)
+        return self._is_image_file(path)
 
-    def _is_image_file(self, img_prefix: str, path: str) -> bool:
+    def _is_image_file(self, path: str) -> bool:
         """
         Check if the file is the intended image.
 
         Args:
-            img_prefix (str): The prefix of the image file.
             path (str): The file path to check.
 
         Returns:
             bool: True if the file is the intended image, False otherwise.
         """
-        return img_prefix in path
+        return True

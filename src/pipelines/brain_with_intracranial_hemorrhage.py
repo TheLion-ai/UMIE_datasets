@@ -12,6 +12,8 @@ from base.extractors import (
     BaseStudyIdExtractor,
 )
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, brain_with_intracranial_hemorrhage
 from steps import (
     AddLabels,
@@ -74,6 +76,22 @@ class LabelExtractor(BaseLabelExtractor):
             return self.labels["normal"]
 
 
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Brain with hemorrhage dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return "." in path
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Brain with hemorrhage dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return "_HGE_Seg" in path
+
+
 @dataclass
 class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
     """Preprocessing pipeline for Brain with hemorrhage dataset."""
@@ -102,6 +120,8 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
             mask_prefix="_HGE_Seg",
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

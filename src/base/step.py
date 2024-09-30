@@ -1,5 +1,6 @@
 """Change img ids to match the format of the rest of the dataset."""
 import os
+from pathlib import PureWindowsPath
 from typing import Callable, Optional
 
 import numpy as np
@@ -34,10 +35,10 @@ class BaseStep(TransformerMixin):
         window_width: Optional[int] = None,  # value used to process DICOM images
         label_extractor: Optional[Callable] = None,  # function to get label for the individual image
         img_prefix: Optional[str] = None,  # prefix of the source image file names
-        img_selector: BaseImageSelector = BaseImageSelector(),  # TODO:
+        img_selector: BaseImageSelector = BaseImageSelector(),  # function to select image intended mask by path
         segmentation_prefix: Optional[str] = None,  # prefix of the source mask file names
         mask_prefix: Optional[str] = None,  # string included only in masks names
-        mask_selector: BaseMaskSelector = BaseMaskSelector(),  # TODO:
+        mask_selector: BaseMaskSelector = BaseMaskSelector(),  # function to select masks intended mask by path
         multiple_masks_selector: Optional[dict] = None,
         labels: dict[str, list[dict[str, float]]] = {},  # some labels have multiple RadLex codes
         masks: dict[str, MaskColor] = {},
@@ -221,4 +222,4 @@ class BaseStep(TransformerMixin):
         Returns:
             str: Path to the image without the target path.
         """
-        return os.path.relpath(path, self.target_path)
+        return PureWindowsPath(os.path.relpath(path, self.target_path)).as_posix()

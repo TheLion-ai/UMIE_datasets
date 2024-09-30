@@ -43,6 +43,6 @@ class GetFilePaths(BaseStep):
                 else:
                     path = os.path.join(root, filename)
                     # Verify if file is not a mask
-                    if self.mask_prefix is None or self.mask_selector.is_not_mask_file(self.mask_prefix, path):
+                    if self.mask_prefix is None or self.img_selector(path):
                         file_paths.append(path)
         return file_paths

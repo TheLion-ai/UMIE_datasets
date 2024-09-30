@@ -13,6 +13,7 @@ import numpy as np
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
 from config.dataset_config import DatasetArgs, kits23
 from constants import MASK_FOLDER_NAME
 from steps import (
@@ -85,6 +86,14 @@ class LabelExtractor(BaseLabelExtractor):
         return []
 
 
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the KITS23 dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return "imaging" in path
+
+
 @dataclass
 class KITS23Pipeline(BasePipeline):
     """Preprocessing pipeline for KITS23 dataset."""
@@ -114,6 +123,7 @@ class KITS23Pipeline(BasePipeline):
             img_prefix="imaging",  # prefix of the source image file names
             segmentation_prefix="segmentation",  # prefix of the source mask file names
             mask_folder_name=MASK_FOLDER_NAME,
+            img_selector=ImageSelector(),
         )
     )
 

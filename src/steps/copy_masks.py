@@ -45,7 +45,7 @@ class CopyMasks(BaseStep):
         study_id = self.study_id_extractor(img_path)
         if self.segmentation_prefix not in img_path:
             return None
-        if self.mask_prefix is not None and self.mask_selector(self.mask_prefix, img_id):
+        if self.mask_prefix is not None and self.mask_selector(img_id):
             img_id = img_id.replace(self.mask_prefix, "")
         for phase_id in self.phases.keys():
             if self.multiple_masks_selector and any(

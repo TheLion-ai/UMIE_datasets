@@ -32,7 +32,7 @@ class CombineMultipleMasks(BaseStep):
                 else:
                     path = os.path.join(root, filename)
                     # Verify if file is not a mask
-                    if self.mask_selector(self.mask_prefix, path):
+                    if self.mask_selector(path):
                         self.combine_multiple_masks(path)
 
         return X
