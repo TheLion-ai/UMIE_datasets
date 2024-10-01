@@ -54,6 +54,7 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 | 12 | [COCA- Coronary Calcium and chest CTs](https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa) | CT | Segmentation |
 | 13 | [BrainMetShare](https://aimi.stanford.edu/brainmetshare) | MRI | Segmentation |
 | 17 | [LIDC-IDRI](https://www.cancerimagingarchive.net/collection/lidc-idri/) | CT | Segmentation |
+| 18 | [CMMD](https://www.cancerimagingarchive.net/collection/cmmd/) | MG | Classification |
 
 
 # **Using the datasets**
@@ -247,11 +248,23 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>17. LIDC-IDRI</summary>
 
-**13. BrainMetShare**
+**17. LIDC-IDRI**
   1. Go to [LIDC-IDRI](https://www.cancerimagingarchive.net/collection/lidc-idri/).
   2. Download "Images" using [NBIA Data Retriever](https://wiki.cancerimagingarchive.net/display/NBIA/Downloading+TCIA+Images), and "Radiologist Annotations/Segmentations".
   <!-- 3. TODO, next steps -->
 </details>
+
+  <summary>18. CMMD - The Chinese Mammography Database</summary>
+
+**18. CMMD**
+  1. Go to [CMMD](https://www.cancerimagingarchive.net/collection/cmmd/).
+  2. Download .tcia file from Data Access table.
+  3. Download [NBIA Data Retriver](https://wiki.cancerimagingarchive.net/display/NBIA/Downloading+TCIA+Images) to be able to download images.
+  4. Download CMMD_clinicaldata_revision.xlsx from Data Access table for labels information.
+  5. Fill in the `source_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `manifest-{xxxxxxxxxxxxx}/CMMD` folder.
+  6. Fill in the `labels_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `CMMD_clinicaldata_revision.xlsx` file.
+</details>
+
 
 To preprocess the dataset that is not among the above, search the preprocessing folder. It contains the reusable steps for changing imaging formats, extracting masks, creating file trees, etc. Go to the config file to check which masks and label encodings are available. Append new labels and mask encodings if needed.
 

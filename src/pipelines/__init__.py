@@ -26,6 +26,7 @@ from .brain_tumor_detection import BrainTumorDetectionPipeline
 from .brain_tumor_progression import BrainTumorProgressionPipeline
 from .brain_with_intracranial_hemorrhage import BrainWithIntracranialHemorrhagePipeline
 from .chest_xray14 import ChestXray14Pipeline
+from .cmmd import CmmdPipeline
 from .coca import COCAPipeline
 from .coronahack import CoronaHackPipeline
 from .covid19_detection import COVID19DetectionPipeline
