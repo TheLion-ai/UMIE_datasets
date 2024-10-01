@@ -251,7 +251,9 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 **17. LIDC-IDRI**
   1. Go to [LIDC-IDRI](https://www.cancerimagingarchive.net/collection/lidc-idri/).
   2. Download "Images" using [NBIA Data Retriever](https://wiki.cancerimagingarchive.net/display/NBIA/Downloading+TCIA+Images), and "Radiologist Annotations/Segmentations".
-  <!-- 3. TODO, next steps -->
+  3. Extract `LIDC-XML-only.zip`.
+  4. Fill in the `source_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `manifest-{xxxxxxxxxxxxx}/LIDC-IDRI` directory.
+  5. Fill in the `masks_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `LIDC-XML-only/` directory.
 </details>
 
   <summary>18. CMMD - The Chinese Mammography Database</summary>

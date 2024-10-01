@@ -40,8 +40,8 @@ class BaseStep(TransformerMixin):
         masks: dict[str, MaskColor] = {},
         labels_path: Optional[str] = None,  # path to the labels file
         masks_path: Optional[str] = None,  #
-        xml_mask_creator: Optional[BaseXmlMaskCreator] = None,
-        dicom_mapping_attribute: Optional[str] = None,
+        xml_mask_creator: Optional[BaseXmlMaskCreator] = None,  # function to create masks from xml files
+        dicom_mapping_attribute: Optional[str] = None,  # dicom attribute to map paths to
     ):
         """
         Initialize a Step object.
@@ -69,6 +69,8 @@ class BaseStep(TransformerMixin):
             multiple_masks_selector (Optional[dict], optional): Dictionary containing multiple masks selectors. Defaults to None.
             labels (dict[str, list[dict[str, float]]], optional): Dictionary containing labels with multiple RadLex codes. Defaults to {}.
             masks (dict[str, MaskColor], optional): Dictionary containing masks. Defaults to {}.
+            xml_mask_creator (BaseXmlMaskCreator, optional): Function to create masks from xml files. Defaults to None.
+            dicom_mapping_attribute (str, optional): Dicom attribute to map paths to. Defaults to None.
         """
         self.target_path = target_path
         self.dataset_name = dataset_name

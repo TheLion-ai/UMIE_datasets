@@ -67,8 +67,8 @@ class PipelineArgs:
     multiple_masks_selector: Optional[
         dict
     ] = None  # dict including mask selector and its meaning for each mask, used when there are multiple masks and each mask has a different selector
-    xml_mask_creator: Optional[BaseXmlMaskCreator] = None
-    dicom_mapping_attribute: Optional[str] = None
+    xml_mask_creator: Optional[BaseXmlMaskCreator] = None  # function to create masks from xml files
+    dicom_mapping_attribute: Optional[str] = None  # dicom attribute to map paths to
 
 
 @dataclass  # type: ignore[misc]
