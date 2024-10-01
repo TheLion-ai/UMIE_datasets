@@ -5,6 +5,7 @@ from typing import Callable, Optional
 import numpy as np
 from sklearn.base import TransformerMixin
 
+from base.creators.xml_mask import BaseXmlMaskCreator
 from base.extractors.img_id import BaseImgIdExtractor
 from config.dataset_config import MaskColor
 from constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
@@ -39,6 +40,7 @@ class BaseStep(TransformerMixin):
         masks: dict[str, MaskColor] = {},
         labels_path: Optional[str] = None,  # path to the labels file
         masks_path: Optional[str] = None,  #
+        xml_mask_creator: Optional[BaseXmlMaskCreator] = None,
         dicom_mapping_attribute: Optional[str] = None,
     ):
         """
@@ -96,6 +98,7 @@ class BaseStep(TransformerMixin):
             f"{self.dataset_uid}_{self.dataset_name}",
             f"{self.dataset_uid}_{self.dataset_name}.jsonl",
         )
+        self.xml_mask_creator = xml_mask_creator
         self.dicom_mapping_attribute = dicom_mapping_attribute
 
     def transform(
