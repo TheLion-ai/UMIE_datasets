@@ -131,9 +131,9 @@ class LidcIdriPipeline(BasePipeline):
 
     name: str = "lidc_idri"  # dataset name used in configs
     steps: tuple = (
+        ("create_file_tree", CreateFileTree),
         ("get_file_paths", GetFilePaths),
         ("store_source_paths", StoreSourcePaths),
-        ("create_file_tree", CreateFileTree),
         ("create_file_to_dcm_attribute_mapping", CreateFileToDcmAttributeMapping),
         ("convert_dcm2png", ConvertDcm2Png),
         ("add_new_ids", AddUmieIds),
