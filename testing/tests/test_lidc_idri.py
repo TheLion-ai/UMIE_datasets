@@ -73,6 +73,6 @@ def test_lidc_idri_verify_jsonl_correct():
         pytest.fail("LIDC-IDRI pipeline created jsonl contents different than expected.")
 
 
-# def test_clean_up_lidc_idri():
-#     """Removes output folder with it's contents."""
-#     DatasetTestingLibrary.clean_up(target_path)
+def test_clean_up_lidc_idri():
+    """Removes output folder with it's contents."""
+    DatasetTestingLibrary.clean_up(target_path)
