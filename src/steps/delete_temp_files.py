@@ -22,4 +22,8 @@ class DeleteTempFiles(BaseStep):
         if os.path.exists(source_paths_file):
             os.remove(source_paths_file)
 
+        file_to_dicom_attr_mapping_file = os.path.join(self.target_path, "file_to_dcm_attribute_mapping.json")
+        if os.path.exists(file_to_dicom_attr_mapping_file):
+            os.remove(file_to_dicom_attr_mapping_file)
+
         return X
