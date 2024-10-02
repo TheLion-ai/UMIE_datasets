@@ -118,3 +118,4 @@ Mass = Mask(
     radlex_id="RID3874",
     source_names={"ChestX-ray14": ["Mass"], "cmmd": ["mass"]},
 )
+all_masks = [obj for name, obj in globals().items() if isinstance(obj, Mask)]

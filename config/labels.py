@@ -279,9 +279,9 @@ ChronicObstructivePulmonaryDisease = Label(
     source_names={"PadChest": ["COPD signs"]},
 )
 
-Tubeculosis = Label(
+Tuberculosis = Label(
     id=31,
-    radlex_name="Tubeculosis",
+    radlex_name="Tuberculosis",
     radlex_id="RID29116",
     source_names={"PadChest": ["Tuberculosis", "Tuberculosis seqelae"]},
 )
