@@ -74,6 +74,5 @@ def test_chest_xray14_verify_jsonl_correct():
 
 
 def test_clean_up_ct_org():
-    """Removes output folder with it's contents."""
-    # DatasetTestingLibrary.clean_up(target_path)
-    pass
+    """Removes output folder with its contents."""
+    DatasetTestingLibrary.clean_up(target_path)
