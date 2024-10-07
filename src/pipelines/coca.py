@@ -6,6 +6,8 @@ from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, coca
 from steps import (
     AddUmieIds,
@@ -36,6 +38,22 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         return os.path.basename(os.path.dirname(os.path.dirname(img_path)))
 
 
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Brain Tumor Progression dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return True
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Brain Tumor Progression dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return True
+
+
 @dataclass
 class COCAPipeline(BasePipeline):
     """Preprocessing pipeline for the Stanford COCA dataset."""
@@ -60,6 +78,8 @@ class COCAPipeline(BasePipeline):
             img_id_extractor=ImgIdExtractor(),
             # Study name is the folder two levels above the image
             study_id_extractor=StudyIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

@@ -43,7 +43,7 @@ class ConvertDcm2Png(BaseStep):
                     elif filename.endswith(".dcm"):
                         path = os.path.join(root, filename)
                         # Verify if file is not a mask
-                        if self.mask_selector is not None and self.mask_selector(path):
+                        if self.mask_selector(path):
                             mask_paths.append(path)
             if mask_paths:
                 for mask_path in mask_paths:

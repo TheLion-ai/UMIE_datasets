@@ -71,6 +71,6 @@ def test_alzheimers_verify_jsonl_correct():
         pytest.fail("Alzheimer's pipeline created json contents different than expected.")
 
 
-# def test_clean_up_alzheimers():
-#     """Removes output folder with it's contents."""
-#     DatasetTestingLibrary.clean_up(target_path)
+def test_clean_up_alzheimers():
+    """Removes output folder with it's contents."""
+    DatasetTestingLibrary.clean_up(target_path)

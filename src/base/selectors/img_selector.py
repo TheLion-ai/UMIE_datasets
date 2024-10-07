@@ -4,9 +4,10 @@ This module contains the definition of the BaseImageSelector class.
 The BaseImageSelector class is a base class for Images selection. It provides a default implementation
 for checking whether a file is the intended image based on the given path.
 """
+from abc import ABC, abstractmethod
 
 
-class BaseImageSelector:
+class BaseImageSelector(ABC):
     """
     Base class for Image selection.
 
@@ -27,6 +28,7 @@ class BaseImageSelector:
         """
         return self._is_image_file(path)
 
+    @abstractmethod
     def _is_image_file(self, path: str) -> bool:
         """
         Check if the file is the intended image.
@@ -37,4 +39,4 @@ class BaseImageSelector:
         Returns:
             bool: True if the file is the intended image, False otherwise.
         """
-        return True
+        raise NotImplementedError("This method must be implemented in a subclass.")

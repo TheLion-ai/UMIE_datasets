@@ -4,9 +4,10 @@ This module contains the definition of the BaseMaskSelector class.
 The BaseMaskSelector class is a base class for Masks selection. It provides a default implementation
 for checking whether a file is the intended mask based on the given path.
 """
+from abc import ABC, abstractmethod
 
 
-class BaseMaskSelector:
+class BaseMaskSelector(ABC):
     """
     Base class for Mask selection.
 
@@ -26,6 +27,7 @@ class BaseMaskSelector:
         """
         return self._is_mask_file(path)
 
+    @abstractmethod
     def _is_mask_file(self, path: str) -> bool:
         """
         Check if the file is the intended mask.
@@ -36,4 +38,4 @@ class BaseMaskSelector:
         Returns:
             bool: True if the file is the intended mask, False otherwise.
         """
-        return True
+        raise NotImplementedError("This method must be implemented in a subclass.")

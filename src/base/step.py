@@ -35,10 +35,10 @@ class BaseStep(TransformerMixin):
         window_width: Optional[int] = None,  # value used to process DICOM images
         label_extractor: Optional[Callable] = None,  # function to get label for the individual image
         img_prefix: Optional[str] = None,  # prefix of the source image file names
-        img_selector: BaseImageSelector = BaseImageSelector(),  # function to select image intended mask by path
+        img_selector: BaseImageSelector = None,  # function to select image intended mask by path
         segmentation_prefix: Optional[str] = None,  # prefix of the source mask file names
         mask_prefix: Optional[str] = None,  # string included only in masks names
-        mask_selector: BaseMaskSelector = BaseMaskSelector(),  # function to select masks intended mask by path
+        mask_selector: BaseMaskSelector = None,  # function to select masks intended mask by path
         multiple_masks_selector: Optional[dict] = None,
         labels: dict[str, list[dict[str, float]]] = {},  # some labels have multiple RadLex codes
         masks: dict[str, MaskColor] = {},
@@ -66,8 +66,10 @@ class BaseStep(TransformerMixin):
             window_width (Optional[int], optional): Value used to process DICOM images. Defaults to None.
             label_extractor (Optional[Callable], optional): Function to get label for the individual image. Defaults to None.
             img_prefix (Optional[str], optional): Prefix of the source image file names. Defaults to None.
+            img_selector (BaseImageSelector, optional): Function to select intended images by path. Defaults to None
             segmentation_prefix (Optional[str], optional): Prefix of the source mask file names. Defaults to None.
             mask_prefix (Optional[str], optional): String included only in masks names. Defaults to None.
+            mask_selector (BaseMaskSelector, optional): Function to select intended masks by path. Defaults to None.
             multiple_masks_selector (Optional[dict], optional): Dictionary containing multiple masks selectors. Defaults to None.
             labels (dict[str, list[dict[str, float]]], optional): Dictionary containing labels with multiple RadLex codes. Defaults to {}.
             masks (dict[str, MaskColor], optional): Dictionary containing masks. Defaults to {}.
