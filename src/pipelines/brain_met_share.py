@@ -6,6 +6,8 @@ from typing import Any
 
 from base.extractors import BasePhaseIdExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, brain_met_share
 from steps import AddUmieIds, CopyMasks, CreateFileTree, GetFilePaths, RecolorMasks
 
@@ -31,6 +33,22 @@ class PhaseIdExtractor(BasePhaseIdExtractor):
         return str(phase_id)
 
 
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Brain MET dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return True
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Brain MET dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return True
+
+
 @dataclass
 class BrainMETSharePipeline(BasePipeline):
     """Preprocessing pipeline for the Stanford Brain MET dataset."""
@@ -50,6 +68,8 @@ class BrainMETSharePipeline(BasePipeline):
         default_factory=lambda: PipelineArgs(
             zfill=3,
             study_id_extractor=StudyIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
             # Phase name is the folder one level above the image
         )
     )
