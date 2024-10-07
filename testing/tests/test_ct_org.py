@@ -21,9 +21,9 @@ masks_path = os.path.join(os.getcwd(), "testing/test_dummy_data/14_ct_org/input"
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/14_ct_org/expected_output")
 
 
-# def test_initial_clean_up_ct_org():
-#     """Removes output folder with it's contents."""
-#     DatasetTestingLibrary.clean_up(target_path)
+def test_initial_clean_up_ct_org():
+    """Removes output folder with it's contents."""
+    DatasetTestingLibrary.clean_up(target_path)
 
 
 def test_run_ct_org():
