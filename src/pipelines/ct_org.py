@@ -45,7 +45,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 
 
 @dataclass
-class CTORGPipeline(BasePipeline):
+class CtOrgPipeline(BasePipeline):
     """Preprocessing pipeline for CT-ORG dataset."""
 
     name: str = "ct_org"  # dataset name used in configs

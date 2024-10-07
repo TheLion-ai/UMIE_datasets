@@ -19,7 +19,7 @@ from src.pipelines import (
     COCAPipeline,
     CoronaHackPipeline,
     COVID19DetectionPipeline,
-    CTORGPipeline,
+    CtOrgPipeline,
     FindingAndMeasuringLungsPipeline,
     KITS23Pipeline,
     KneeOsteoarthritisPipeline,
@@ -120,11 +120,11 @@ datasets = [
             target_path=TARGET_PATH,
         ),
     ),
-    CTORGPipeline(
+    CtOrgPipeline(
         path_args=PathArgs(
             source_path="",
-            masks_path="",
             target_path=TARGET_PATH,
+            masks_path="",
         ),
     ),
 ]

@@ -1,17 +1,18 @@
 """
-test_coronahack.
+test_ct_org.
 
 Objective:
 This test checks whether the Pipeline for CT-ORG dataset runs correctly.
 """
 
 import glob
+import json
 import os
 
 import pytest
 
 from base.pipeline import PathArgs
-from src.pipelines.ct_org import CTORGPipeline
+from src.pipelines.ct_org import CtOrgPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
 source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/14_ct_org/input")
@@ -20,9 +21,14 @@ masks_path = os.path.join(os.getcwd(), "testing/test_dummy_data/14_ct_org/input"
 expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/14_ct_org/expected_output")
 
 
+# def test_initial_clean_up_ct_org():
+#     """Removes output folder with it's contents."""
+#     DatasetTestingLibrary.clean_up(target_path)
+
+
 def test_run_ct_org():
     """Test to verify, that there are no exceptions while running pipeline."""
-    dataset = CTORGPipeline(
+    dataset = CtOrgPipeline(
         path_args=PathArgs(
             source_path=source_path,
             target_path=target_path,
@@ -54,6 +60,20 @@ def test_ct_org_verify_images_correct():
         pytest.fail("CT-ORG pipeline created image contents different than expected.")
 
 
+def test_chest_xray14_verify_jsonl_correct():
+    """Test to verify whether all json files have contents as expected."""
+    expected_jsonl_path = glob.glob(f"{expected_output_path}/**/**.jsonl", recursive=True)[0]
+    current_jsonl_path = glob.glob(f"{target_path}/**/**.jsonl", recursive=True)[0]
+    with open(expected_jsonl_path, "r") as file:
+        expected_jsonl = [json.loads(line) for line in file]
+    with open(current_jsonl_path, "r") as file:
+        current_jsonl = [json.loads(line) for line in file]
+
+    if not DatasetTestingLibrary.verify_jsonl_identical(expected_jsonl, current_jsonl):
+        pytest.fail("Brain Tumor Progression pipeline created jsonl contents different than expected.")
+
+
 def test_clean_up_ct_org():
     """Removes output folder with it's contents."""
-    DatasetTestingLibrary.clean_up(target_path)
+    # DatasetTestingLibrary.clean_up(target_path)
+    pass
