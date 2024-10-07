@@ -39,6 +39,11 @@ class RecolorMasks(BaseStep):
         """
         mask = cv2.imread(mask_path)
         # changing pixel values
+        # add and then subtract factor of 255 to prevent changing color of the same area more than once
+        mask = mask.astype("uint16")
         for mask_color in self.masks.values():
-            np.place(mask, mask == mask_color["source_color"], mask_color["target_color"])
+            np.place(mask, mask == mask_color["source_color"], mask_color["target_color"] + 255)
+
+        mask[mask > 255] -= 255
+        mask = mask.astype("uint8")
         cv2.imwrite(mask_path, mask)
