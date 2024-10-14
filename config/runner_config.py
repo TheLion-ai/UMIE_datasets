@@ -20,6 +20,7 @@ from src.pipelines import (
     COCAPipeline,
     CoronaHackPipeline,
     COVID19DetectionPipeline,
+    CtOrgPipeline,
     FindingAndMeasuringLungsPipeline,
     KITS23Pipeline,
     KneeOsteoarthritisPipeline,
@@ -118,6 +119,13 @@ datasets = [
         path_args=PathArgs(
             source_path="",
             target_path=TARGET_PATH,
+        ),
+    ),
+    CtOrgPipeline(
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+            masks_path="",
         ),
     ),
     CmmdPipeline(
