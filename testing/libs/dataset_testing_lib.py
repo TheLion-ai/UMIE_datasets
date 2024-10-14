@@ -69,7 +69,6 @@ class DatasetTestingLibrary:
         """Recursively remove files from directory_to_erase."""
         files_to_erase = glob.glob(f"{str(directory_to_erase)}/**", recursive=True)
         dirs_to_erase = []
-        print(files_to_erase)
 
         # Remove files first
         for file in files_to_erase:
