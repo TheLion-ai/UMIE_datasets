@@ -66,7 +66,7 @@ class CtOrgPipeline(BasePipeline):
         default_factory=lambda: PipelineArgs(
             zfill=2,
             # Image id is in the source file name after the last underscore
-            img_id_extractor=ImgIdExtractor(),  #
+            img_id_extractor=ImgIdExtractor(),
             # Study id is the folder name of all images in the study
             study_id_extractor=StudyIdExtractor(),
             window_center=50,  # Window of abddominal cavity CTs

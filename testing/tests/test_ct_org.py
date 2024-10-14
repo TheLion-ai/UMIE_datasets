@@ -60,7 +60,7 @@ def test_ct_org_verify_images_correct():
         pytest.fail("CT-ORG pipeline created image contents different than expected.")
 
 
-def test_chest_xray14_verify_jsonl_correct():
+def test_ct_org_verify_jsonl_correct():
     """Test to verify whether all json files have contents as expected."""
     expected_jsonl_path = glob.glob(f"{expected_output_path}/**/**.jsonl", recursive=True)[0]
     current_jsonl_path = glob.glob(f"{target_path}/**/**.jsonl", recursive=True)[0]
