@@ -5,6 +5,8 @@ from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, brain_tumor_detection
 from steps import (
     AddLabels,
@@ -56,6 +58,22 @@ class LabelExtractor(BaseLabelExtractor):
             return []
 
 
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Brain Tumor Detection dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return True
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Brain Tumor Detection dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return True
+
+
 @dataclass
 class BrainTumorDetectionPipeline(BasePipeline):
     """Preprocessing pipeline for Brain Tumor Detection dataset."""
@@ -79,6 +97,8 @@ class BrainTumorDetectionPipeline(BasePipeline):
             img_prefix="",
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

@@ -1,6 +1,5 @@
 """Preprocessing pipeline for brain tumor classification dataset."""
 
-
 import os
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -8,6 +7,8 @@ from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, brain_tumor_classification
 from steps import (
     AddLabels,
@@ -75,6 +76,22 @@ class LabelExtractor(BaseLabelExtractor):
         return self.labels[image_folder]
 
 
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Brain Tumor Classification dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return True
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Brain Tumor Classification dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return True
+
+
 @dataclass
 class BrainTumorClassificationPipeline(BasePipeline):
     """Preprocessing pipeline for Brain Tumor Classification dataset."""
@@ -98,6 +115,8 @@ class BrainTumorClassificationPipeline(BasePipeline):
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
             img_prefix="",
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

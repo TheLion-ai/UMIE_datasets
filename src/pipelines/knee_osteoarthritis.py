@@ -5,6 +5,8 @@ from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, knee_osteoarthritis
 from constants import IMG_FOLDER_NAME
 from steps import (
@@ -49,6 +51,22 @@ class LabelExtractor(BaseLabelExtractor):
         return self.labels[source_label]
 
 
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Knee Osteoarthritis dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return "imaging" in path
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Knee Osteoarthritis dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return True
+
+
 @dataclass
 class KneeOsteoarthritisPipeline(BasePipeline):
     """Preprocessing pipeline for Knee Osteoarthritis dataset."""
@@ -69,6 +87,8 @@ class KneeOsteoarthritisPipeline(BasePipeline):
             image_folder_name=IMG_FOLDER_NAME,
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

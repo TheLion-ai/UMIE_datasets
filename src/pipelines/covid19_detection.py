@@ -6,6 +6,8 @@ from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, covid19_detection
 from constants import IMG_FOLDER_NAME
 from steps import (
@@ -74,6 +76,22 @@ class LabelExtractor(BaseLabelExtractor):
         return self.labels[label]
 
 
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Covid 19 detection dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return True
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Covid 19 detection dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return True
+
+
 @dataclass
 class COVID19DetectionPipeline(BasePipeline):
     """Preprocessing pipeline for Covid 19 detection dataset."""
@@ -97,6 +115,8 @@ class COVID19DetectionPipeline(BasePipeline):
             img_prefix="",
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

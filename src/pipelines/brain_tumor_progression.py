@@ -10,6 +10,8 @@ from base.extractors import (
     BaseStudyIdExtractor,
 )
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, brain_tumor_progression
 from steps import (
     AddUmieIds,
@@ -54,6 +56,22 @@ class PhaseIdExtractor(BasePhaseIdExtractor):
         return ""
 
 
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Brain Tumor Progression dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return "MaskTumor" not in path
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Brain Tumor Progression dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return "MaskTumor" in path
+
+
 @dataclass
 class BrainTumorProgressionPipeline(BasePipeline):
     """Preprocessing pipeline for the Brain Tumor Progression dataset."""
@@ -82,8 +100,10 @@ class BrainTumorProgressionPipeline(BasePipeline):
             img_id_extractor=ImgIdExtractor(),  # lambda x: os.path.basename(x).split("-")[-1],
             # Study name is the folder two levels above the image
             study_id_extractor=StudyIdExtractor(),
-            mask_selector="MaskTumor",
+            mask_prefix="MaskTumor",
             segmentation_prefix="MaskTumor",
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 
