@@ -11,6 +11,8 @@ import numpy as np
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config import dataset_config
 from config.dataset_config import DatasetArgs
 from constants import MASK_FOLDER_NAME
@@ -44,6 +46,14 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         return study_id
 
 
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the KITS23 dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return "volume" in path
+
+
 @dataclass
 class CtOrgPipeline(BasePipeline):
     """Preprocessing pipeline for CT-ORG dataset."""
@@ -74,6 +84,7 @@ class CtOrgPipeline(BasePipeline):
             img_prefix="volume",  # prefix of the source image file names
             segmentation_prefix="labels",  # prefix of the source mask file names
             mask_folder_name=MASK_FOLDER_NAME,
+            img_selector=ImageSelector(),
         )
     )
 
