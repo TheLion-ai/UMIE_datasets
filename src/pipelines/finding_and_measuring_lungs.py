@@ -36,7 +36,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         """Get study ID for dataset."""
         # Getting study id depends on location of the file.
         # Study_id is retrieved in a different way when image already is moved to target directory with new name.
-        return os.path.basename(img_path).split("_")[-3]
+        return self._extract_basename(img_path).split("_")[-3]
 
 
 class ImageSelector(BaseImageSelector):
