@@ -5,7 +5,6 @@ The BaseStudyIdExtractor class is a base class for study ID extraction. It provi
 for extracting the study ID from a given path.
 Each medical imaging examination contains many imgs, study id identifies all the imgs from the same examination.
 """
-import os
 from pathlib import Path
 
 
@@ -42,17 +41,17 @@ class BaseStudyIdExtractor:
         return img_path
 
     @staticmethod
-    def _extract_basename(input_path: str) -> str:
+    def _extract_filename(input_path: str) -> str:
         """
-        Extract the base name (stem) from a given file path.
+        Extract the filename without its suffix from a given file path.
 
         Args:
             input_path (str): The path to the file.
 
         Returns:
-            str: The base name (stem) of the file, without its extension and directory path.
+            str: The filename, without its extension and directory path.
         """
-        return Path(input_path).stem
+        return Path(input_path).with_suffix("").stem
 
     @staticmethod
     def _extract_parent_dir(

@@ -56,7 +56,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
-        basename = self._extract_basename(img_path)
+        basename = self._extract_filename(img_path)
         # If brackets exist in filename, then study id is within them, else it is 0.
         if "(" in basename:
             pattern = r"[()]"
@@ -69,7 +69,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
                 basename = basename.replace(id, self.ids_dict_train[id])
             study_id = study_id + basename
         else:
-            folder = self._extract_basename(self._extract_parent_dir(img_path, node=-1))
+            folder = self._extract_filename(self._extract_parent_dir(img_path, node=-1))
             for id in self.ids_dict_test.keys():
                 folder = folder.replace(id, self.ids_dict_test[id])
             study_id = folder + study_id

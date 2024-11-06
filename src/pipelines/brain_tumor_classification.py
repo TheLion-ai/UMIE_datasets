@@ -54,7 +54,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 
         parent_directory = self._extract_parent_dir(img_path, node=1, basename_only=False)
 
-        image_folder = self._extract_basename(parent_directory)
+        image_folder = self._extract_filename(parent_directory)
         unique_id = unique_id + self.unique_id_conversion_dict[image_folder]
 
         # after conversion to png there are additional png files
@@ -66,7 +66,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         # makes sure that we get the same order
         jpg_files.sort()
 
-        img_basename = self._extract_basename(img_path)
+        img_basename = self._extract_filename(img_path)
 
         return unique_id + str(jpg_files.index(img_basename))
 

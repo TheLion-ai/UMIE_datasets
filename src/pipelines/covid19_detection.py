@@ -54,7 +54,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
         """Get study id with added postfix depending on source location to prevent repeated names."""
-        img_basename = self._extract_basename(img_path)
+        img_basename = self._extract_filename(img_path)
         parent_basename = self._extract_parent_dir(img_path, node=-1, basename_only=True)
         if "ValData" in img_path:
             study_id = img_basename + self.ids_dict_val[parent_basename]

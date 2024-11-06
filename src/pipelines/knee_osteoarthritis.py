@@ -36,7 +36,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         # letters can't be deleted because they make names unique
         # replace letters and delete underscore from filenames
         # letters can't be deleted because they make names unique
-        study_id = self._extract_basename(img_path).replace("R", "0").replace("L", "1").replace("_", "")
+        study_id = self._extract_filename(img_path).replace("R", "0").replace("L", "1").replace("_", "")
         study_id = study_id + self._extract_parent_dir(img_path, node=-1, basename_only=True)
         return study_id
 
