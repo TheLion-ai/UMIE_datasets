@@ -43,7 +43,6 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         # Study id is the first part of the image name before the first underscore
         return self._extract_filename(img_path).split("_")[0]
 
-
 class LabelExtractor(BaseLabelExtractor):
     """Extractor for labels specific to the Chest Xray 14 dataset."""
 
