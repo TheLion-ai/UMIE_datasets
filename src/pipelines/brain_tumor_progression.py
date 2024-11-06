@@ -49,10 +49,14 @@ class PhaseIdExtractor(BasePhaseIdExtractor):
 
     def _extract(self, img_path: str, *args: Any) -> str:
         """Extract phase id from img path."""
-        for phase in self.phases.keys():
-            if self.phases[phase] in img_path:
-                return str(phase)
-        return ""
+        # dot in folder name breaks the code
+        img_path = img_path.replace(".", "-")
+        print(img_path)
+        phase_name = self._extract_parent_dir(img_path=img_path, node=1, basename_only=True).split("-")[-2]
+        print(phase_name)
+        print(self._match_to_phases_dict(phase_name))
+
+        return self._match_to_phases_dict(phase_name)
 
 
 class ImageSelector(BaseImageSelector):

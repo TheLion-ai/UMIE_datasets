@@ -52,11 +52,9 @@ class PhaseExtractor(BasePhaseIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Extract phase from img path."""
-        # Phase is the name of folder 2 levels above image in source directory
-        phase_name = os.path.basename(os.path.dirname(img_path))
-        lowercase_phases = [x.lower() for x in list(self.phases.values())]
-        phase_id = list(self.phases.keys())[lowercase_phases.index(phase_name.lower())]
-        return str(phase_id) if phase_id else ""
+        # Phase is the name of folder 1 level above image in source directory
+        phase_name = self._extract_parent_dir(img_path=img_path, node=1, basename_only=True)
+        return self._match_to_phases_dict(phase_name)
 
 
 class LabelExtractor(BaseLabelExtractor):
