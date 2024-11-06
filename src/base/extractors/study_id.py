@@ -44,7 +44,6 @@ class BaseStudyIdExtractor:
     def _extract_filename(input_path: str) -> str:
         """
         Extract the filename without its suffix from a given file path.
-
         Args:
             input_path (str): The path to the file.
 
@@ -52,7 +51,6 @@ class BaseStudyIdExtractor:
             str: The filename, without its extension and directory path.
         """
         return Path(input_path).with_suffix("").stem
-
     @staticmethod
     def _extract_parent_dir(
         img_path: str,

@@ -38,11 +38,10 @@ class ImgIdExtractor(BaseImgIdExtractor):
 class StudyIdExtractor(BaseStudyIdExtractor):
     """Extractor for study IDs specific to the Chest Xray 14 dataset."""
 
-    def _extract(self, img_path: os.PathLike) -> str:
+    def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
         # Study id is the first part of the image name before the first underscore
         return self._extract_filename(img_path).split("_")[0]
-
 
 class LabelExtractor(BaseLabelExtractor):
     """Extractor for labels specific to the Chest Xray 14 dataset."""
