@@ -35,7 +35,7 @@ class ImgIdExtractor(BaseImgIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        return os.path.basename(img_path)
+        return self._extract_filename(img_path, with_suffix=True)
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):
@@ -47,7 +47,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         return self._extract_parent_dir(img_path, parent_dir_level=-2, include_path=False)
 
 
-class PhaseExtractor(BasePhaseIdExtractor):
+class PhaseIdExtractor(BasePhaseIdExtractor):
     """Extractor for phase specific to the Brain with hemorrhage dataset."""
 
     def _extract(self, img_path: str) -> str:
@@ -127,5 +127,5 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
         """Post initialization actions."""
         # Update args with pipeline_args
         self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
-        self.args["phase_id_extractor"] = PhaseExtractor(self.args["phases"])
+        self.args["phase_id_extractor"] = PhaseIdExtractor(self.args["phases"])
         self.args["label_extractor"] = LabelExtractor(self.args["labels"], self.args["masks"])

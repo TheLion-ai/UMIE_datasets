@@ -7,7 +7,7 @@ import numpy as np
 from sklearn.base import TransformerMixin
 
 from base.creators.xml_mask import BaseXmlMaskCreator
-from base.extractors.img_id import BaseImgIdExtractor
+from base.extractors.img_id import BaseImgIdExtractor, DefaultImgIdExtractor
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import MaskColor
@@ -28,7 +28,7 @@ class BaseStep(TransformerMixin):
         ],  # phase_id used for encoding the phase in img name, phase_name used for naming the folder
         image_folder_name: str = IMG_FOLDER_NAME,  # name of folder, where images will be stored
         mask_folder_name: str = MASK_FOLDER_NAME,  # name of folder, where masks will be stored
-        img_id_extractor: BaseImgIdExtractor = BaseImgIdExtractor(),  # function to extract image id from the image path
+        img_id_extractor: BaseImgIdExtractor = DefaultImgIdExtractor(),  # function to extract image id from the image path
         study_id_extractor: Callable = lambda x: x,  # function to extract study id from the image path
         phase_id_extractor: Callable = lambda x: "0",  # function to extract phase from the image path
         zfill: Optional[int] = None,  # number of digits to pad the image id with

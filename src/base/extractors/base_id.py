@@ -39,10 +39,10 @@ class BaseIdExtractor(ABC):
         Returns:
             str: The extracted information.
         """
-        raise NotImplementedError
+        raise NotImplementedError("The method _extract must be implemented in the derived class.")
 
     @staticmethod
-    def _extract_filename(input_path: str) -> str:
+    def _extract_filename(input_path: str, with_suffix: bool = False) -> str:
         """
         Extract the filename without its suffix from a given file path.
 
@@ -52,7 +52,10 @@ class BaseIdExtractor(ABC):
         Returns:
             str: The filename, without its suffix (extension) and directory path.
         """
-        return Path(input_path).with_suffix("").stem
+        if with_suffix:
+            return Path(input_path).name
+        else:
+            return Path(input_path).with_suffix("").stem
 
     @staticmethod
     def _extract_parent_dir(
@@ -82,3 +85,26 @@ class BaseIdExtractor(ABC):
             return output_path.stem
 
         return str(output_path)
+
+    def _extract_by_separator(self, path: str, separator: str, index: int = -1, maxsplit: int = -1) -> str:
+        """Extract image ID from the path by the separator.
+
+        Args:
+            path (str): The file path from which to extract the image ID.
+            separator (str): The separator to split the path.
+            index (int): The index of the image ID in the split path. Defaults to -1.
+            maxsplit (int): The maximum number of splits to perform. Defaults to -1.
+
+        Returns:
+            str: The extracted image ID.
+        """
+        return Path(path).name.rsplit(separator, maxsplit=maxsplit)[index]
+
+    @staticmethod
+    def _return_zero(suffix: str = "") -> str:
+        """Return "0" with appropriate suffix.
+
+        Returns:
+            str: "0" + suffix.
+        """
+        return "0" + suffix

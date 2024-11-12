@@ -5,15 +5,32 @@ The BaseStudyIdExtractor class is a base class for study ID extraction. It provi
 for extracting the study ID from a given path.
 Each medical imaging examination contains many imgs, study id identifies all the imgs from the same examination.
 """
+from abc import ABC
+
 from .base_id import BaseIdExtractor
 
 
-class BaseStudyIdExtractor(BaseIdExtractor):
+class BaseStudyIdExtractor(BaseIdExtractor, ABC):
     """
     Base class for study ID extractors.
 
     This class provides a base implementation for extracting study IDs from file paths.
     Subclasses should override the `_extract` method to provide custom extraction logic.
+    """
+
+    pass
+
+
+class DefaultStudyIdExtractor(BaseStudyIdExtractor):
+    """
+    This class provides a default implementation for extracting the study ID from a given path.
+
+    Attributes:
+        None
+
+    Methods:
+        _extract(self, path: str) -> str: Default implementation of the study ID extraction.
+
     """
 
     def _extract(self, img_path: str) -> str:

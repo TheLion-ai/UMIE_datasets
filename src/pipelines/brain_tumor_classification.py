@@ -1,5 +1,4 @@
 """Preprocessing pipeline for brain tumor classification dataset."""
-
 import os
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -27,7 +26,7 @@ class ImgIdExtractor(BaseImgIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        return self._return_zero()
+        return self._return_zero(suffix=".png")
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):
@@ -38,7 +37,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     /Training/ -> 0 added /Testing/ -> 1 added then there are 4 folders one for each label.
     This fact is used to assign unique ids
     """
-    unique_id_conversion_dict = {
+    study_id_conversion_dict: dict[str, str] = {
         "glioma_tumor": "00",
         "meningioma_tumor": "01",
         "pituitary_tumor": "10",
@@ -46,16 +45,15 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     }
 
     def _extract(self, img_path: str) -> str:
-        unique_id = ""
-        if "Training" in img_path:
-            unique_id = "0"
-        else:
-            unique_id = "1"
+        study_id_prefix = "0" if "Training" in img_path else "1"
 
+        image_folder = self._extract_parent_dir(img_path, include_path=False)
+        study_id = study_id_prefix + self.study_id_conversion_dict[image_folder]
+
+        return study_id + self._get_study_id_suffix(img_path=img_path)
+
+    def _get_study_id_suffix(self, img_path: str) -> str:
         parent_directory = self._extract_parent_dir(img_path, parent_dir_level=1)
-
-        image_folder = self._extract_filename(parent_directory)
-        unique_id = unique_id + self.unique_id_conversion_dict[image_folder]
 
         # after conversion to png there are additional png files
         jpg_files = [
@@ -66,15 +64,15 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         # makes sure that we get the same order
         jpg_files.sort()
 
-        img_basename = self._extract_filename(img_path)
+        filename = self._extract_filename(img_path)
 
-        return unique_id + str(jpg_files.index(img_basename))
+        return str(jpg_files.index(filename))
 
 
 class LabelExtractor(BaseLabelExtractor):
     """Extractor for labels specific to the Brain Tumor Classification dataset."""
 
-    def _extract(self, source_img_path: str, *args: Any) -> list:
+    def _extract(self, img_path: str, *args: Any) -> list:
         image_folder = os.path.basename(os.path.dirname(source_img_path))
         return self.labels[image_folder]
 

@@ -20,6 +20,9 @@ from base.extractors import (
     BasePhaseIdExtractor,
     BaseStudyIdExtractor,
 )
+from base.extractors.img_id import DefaultImgIdExtractor
+from base.extractors.phase_id import DefaultPhaseIDExtractor
+from base.extractors.study_id import DefaultStudyIdExtractor
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
 from base.step import BaseStep
@@ -48,11 +51,13 @@ class PipelineArgs:
 
     image_folder_name: str = IMG_FOLDER_NAME  # name of folder, where images will be stored
     mask_folder_name: str = MASK_FOLDER_NAME  # name of folder, where masks will be stored
-    img_id_extractor: BaseImgIdExtractor = BaseImgIdExtractor()  # function to extract image id from the image path
+    img_id_extractor: BaseImgIdExtractor = DefaultImgIdExtractor()  # function to extract image id from the image path
     study_id_extractor: BaseStudyIdExtractor = (
-        BaseStudyIdExtractor()
+        DefaultStudyIdExtractor()
     )  # function to extract study id from the image path
-    phase_id_extractor: BasePhaseIdExtractor = BasePhaseIdExtractor({})  # function to extract phase from the image path
+    phase_id_extractor: BasePhaseIdExtractor = DefaultPhaseIDExtractor(
+        {}
+    )  # function to extract phase from the image path
     mask_selector: BaseMaskSelector = None  # function to select intended masks by path
     img_selector: BaseImageSelector = None  # function to select intended images by path
     zfill: Optional[int] = None  # number of digits to pad the **image id** with

@@ -4,6 +4,7 @@ import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from numpy import where
 import pandas as pd
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
@@ -39,11 +40,9 @@ class ImgIdExtractor(BaseImgIdExtractor):
         # digits) xxxxx was used. Hence the unique img_id will have the
         # structure xxxxxn, i.e. xxxxx1, xxxxx2, xxxxx3 or xxxxx4.
 
-        lvl_higher = os.path.basename(os.path.dirname(img_path)).split("-")[2]
+        folder_prefix = self._extract_by_separator(self._extract_parent_dir(img_path), separator="-")
 
-        img_id_final = lvl_higher + img_id
-
-        return img_id_final
+        return folder_prefix + img_id
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):
@@ -55,7 +54,9 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         # image name. This folder is written in the format
         # 'mm-dd-yyyy-NA-NA-xxxxx', where xxxxx is a series of numbers
         # representing the study id.
-        return self._extract_parent_dir(img_path, parent_dir_level=-2, include_path=False).split("-")[5]
+        parent_dir = self._extract_parent_dir(img_path, parent_dir_level=-2, include_path=False)
+
+        return self._extract_by_separator(parent_dir, separator="-")
 
 
 class ImageSelector(BaseImageSelector):
