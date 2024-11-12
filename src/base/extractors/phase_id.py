@@ -56,6 +56,15 @@ class BasePhaseIdExtractor(BaseIdExtractor):
         return "0"
 
     def _get_phase_id_from_dict(self, phase_name: str) -> str:
+        """
+        Get phase ID from phases dict based on the phase name.
+
+        Args:
+            phase_name (str): Name of the phase
+
+        Returns:
+            str: Phase ID. If none found it returns an empty string.
+        """
         for key, value in self.phases.items():
             if phase_name.casefold() == value.casefold():
                 return str(key)

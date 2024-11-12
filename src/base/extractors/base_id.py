@@ -10,9 +10,9 @@ from pathlib import Path
 
 class BaseIdExtractor(ABC):
     """
-    Base class for study ID extractors.
+    Base class for ID extractors.
 
-    This class provides a base implementation for extracting study IDs from file paths.
+    This class provides a base implementation for extracting IDs from file paths.
     Subclasses should override the `_extract` method to provide custom extraction logic.
     """
 
