@@ -54,7 +54,7 @@ class PhaseExtractor(BasePhaseIdExtractor):
         """Extract phase from img path."""
         # Phase is the name of folder 1 level above image in source directory
         phase_name = self._extract_parent_dir(img_path=img_path, node=1, basename_only=True)
-        return self._match_to_phases_dict(phase_name)
+        return self._get_phase_id_from_dict(phase_name)
 
 
 class LabelExtractor(BaseLabelExtractor):

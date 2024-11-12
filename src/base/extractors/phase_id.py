@@ -7,10 +7,10 @@ Subclasses can override the `_extract` method to provide custom extraction logic
 Phases are the different stages of the medical imaging examination process, e.g. pre-contrast CT, arterial phase CT, venous phase CT, etc.
 For most datasets we use broad categories like CT, MRI, X-ray.
 """
-from .base import BaseExtractor
+from .base_id import BaseIdExtractor
 
 
-class BasePhaseIdExtractor(BaseExtractor):
+class BasePhaseIdExtractor(BaseIdExtractor):
     """
     Base class for phase ID extractors.
 
@@ -55,7 +55,7 @@ class BasePhaseIdExtractor(BaseExtractor):
         # By default, each dataset has a single phase, so we do not need any extraction logic.
         return "0"
 
-    def _match_to_phases_dict(self, phase_name: str) -> str:
+    def _get_phase_id_from_dict(self, phase_name: str) -> str:
         for key, value in self.phases.items():
             if phase_name.casefold() == value.casefold():
                 return str(key)

@@ -29,7 +29,7 @@ class PhaseIdExtractor(BasePhaseIdExtractor):
         # Phase name is the folder one level above the image
         phase_name = self._extract_parent_dir(img_path=img_path, node=1, basename_only=True)
 
-        return self._match_to_phases_dict(phase_name=phase_name)
+        return self._get_phase_id_from_dict(phase_name=phase_name)
 
 
 class ImageSelector(BaseImageSelector):
