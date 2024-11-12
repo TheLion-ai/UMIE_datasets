@@ -39,11 +39,9 @@ class ImgIdExtractor(BaseImgIdExtractor):
         # digits) xxxxx was used. Hence the unique img_id will have the
         # structure xxxxxn, i.e. xxxxx1, xxxxx2, xxxxx3 or xxxxx4.
 
-        lvl_higher = os.path.basename(os.path.dirname(img_path)).split("-")[2]
+        folder_prefix = self._extract_by_separator(self._extract_parent_dir(img_path), separator="-")
 
-        img_id_final = lvl_higher + img_id
-
-        return img_id_final
+        return folder_prefix + img_id
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):
@@ -55,7 +53,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         # image name. This folder is written in the format
         # 'mm-dd-yyyy-NA-NA-xxxxx', where xxxxx is a series of numbers
         # representing the study id.
-        return self._extract_parent_dir(img_path, node=-2, basename_only=True).split("-")[5]
+        return self._extract_by_separator(self._extract_parent_dir(img_path, node=-2), separator="-")
 
 
 class ImageSelector(BaseImageSelector):

@@ -25,14 +25,14 @@ class ImgIdExtractor(BaseImgIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        return self._return_zero()
+        return self._return_zero(suffix=".png")
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):
     """Extractor for study IDs specific to the Brain Tumor Detection dataset."""
 
     # Dictionary used to replace characters in file names to get numerical study_id
-    ids_dict = {" ": "0", "n": "1", "o": "2", "N": "3", "Y": "4"}
+    ids_dict: dict[str, str] = {" ": "0", "n": "1", "o": "2", "N": "3", "Y": "4"}
 
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""

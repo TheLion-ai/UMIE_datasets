@@ -1,5 +1,6 @@
 """Preprocessing pipeline for Finding_and_Measuring_Lungs_in_CT_Data dataset."""
 from dataclasses import asdict, dataclass, field
+from operator import index
 from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseStudyIdExtractor
@@ -25,7 +26,7 @@ class ImgIdExtractor(BaseImgIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        return self._return_zero()
+        return self._return_zero(suffix=".png")
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):
@@ -35,7 +36,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         """Get study ID for dataset."""
         # Getting study id depends on location of the file.
         # Study_id is retrieved in a different way when image already is moved to target directory with new name.
-        return self._extract_filename(img_path).split("_")[-3]
+        return self._extract_by_separator(img_path, separator="_", index=-3)
 
 
 class ImageSelector(BaseImageSelector):

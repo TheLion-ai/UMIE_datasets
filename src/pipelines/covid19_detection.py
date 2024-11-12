@@ -27,7 +27,7 @@ class ImgIdExtractor(BaseImgIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        return self._return_zero()
+        return self._return_zero(suffix=".png")
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):
@@ -37,14 +37,14 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     # Dictionaries below are used to make them unique across whole dataset.
 
     # Ids added to image names in ValData folder based on their classes
-    ids_dict_val = {
+    ids_dict_val: dict[str, str] = {
         "Normal": "000",
         "BacterialPneumonia": "111",
         "ViralPneumonia": "222",
         "COVID-19": "333",
     }
     # Ids added to image names in NonAugmentedTrain folder based on their classes
-    ids_dict_non_aug = {
+    ids_dict_non_aug: dict[str, str] = {
         "Normal": "444",
         "BacterialPneumonia": "555",
         "ViralPneumonia": "666",

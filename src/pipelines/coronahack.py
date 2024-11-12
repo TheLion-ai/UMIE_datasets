@@ -26,11 +26,13 @@ class ImgIdExtractor(BaseImgIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Retrieve image id from path."""
-        return self._return_zero()
+        return self._return_zero(suffix=".png")
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):
     """Extractor for study IDs specific to the Coronahack dataset."""
+
+    metadata: pd.DataFrame
 
     def __init__(self, labels_path: os.PathLike):
         """Initialize study id extractor."""
