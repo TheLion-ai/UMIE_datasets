@@ -1,6 +1,4 @@
 """Preprocessing pipeline for the Stanford COCA dataset."""
-
-import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 

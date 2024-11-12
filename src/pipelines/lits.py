@@ -1,7 +1,5 @@
 """Preprocessing pipeline for Liver and liver tumor dataset."""
-import os
 from dataclasses import asdict, dataclass, field
-from functools import partial
 from typing import Any
 
 import cv2
@@ -11,7 +9,6 @@ from base.pipeline import BasePipeline, PipelineArgs
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, lits
-from constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
 from steps import (
     AddLabels,
     AddUmieIds,

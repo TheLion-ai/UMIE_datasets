@@ -1,6 +1,5 @@
 """Preprocessing pipeline for Finding_and_Measuring_Lungs_in_CT_Data dataset."""
 from dataclasses import asdict, dataclass, field
-from operator import index
 from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseStudyIdExtractor

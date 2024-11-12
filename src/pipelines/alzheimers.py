@@ -2,7 +2,6 @@
 import os
 import re
 from dataclasses import asdict, dataclass, field
-from os.path import basename
 from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor

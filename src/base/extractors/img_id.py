@@ -8,7 +8,6 @@ you must either create a subclass of BaseImgIdExtractor and override the _extrac
 import os
 from abc import ABC
 from pathlib import Path
-from typing import Any
 
 from .base_id import BaseIdExtractor
 
@@ -46,7 +45,7 @@ class DefaultImgIdExtractor(BaseImgIdExtractor):
 
     """
 
-    def _extract(self, img_path: str, **kwargs: Any) -> str:
+    def _extract(self, img_path: str) -> str:
         """Use the default method to extract the image ID from the path.
 
         Args:

@@ -5,12 +5,7 @@ from typing import Any
 
 import pandas as pd
 
-from base.extractors import (
-    BaseImgIdExtractor,
-    BaseLabelExtractor,
-    BaseStudyIdExtractor,
-    study_id,
-)
+from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
