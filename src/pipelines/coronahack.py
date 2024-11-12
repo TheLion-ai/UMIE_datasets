@@ -2,6 +2,7 @@
 
 import os
 from dataclasses import asdict, dataclass, field
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
@@ -38,7 +39,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
-        img_name = os.path.split(img_path)[-1]
+        img_name = Path(img_path).name
         img_row = self.metadata.loc[self.metadata["X_ray_image_name"] == img_name]
 
         if img_row.empty or img_name.endswith("csv"):

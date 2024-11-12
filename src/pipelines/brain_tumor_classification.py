@@ -33,38 +33,42 @@ class ImgIdExtractor(BaseImgIdExtractor):
 class StudyIdExtractor(BaseStudyIdExtractor):
     """Extractor for study IDs specific to the Brain Tumor Classification dataset."""
 
-    def _extract(self, img_path: str) -> str:
-        """Extract study id from img path. Img names are not unique.
+    """
+    Img names are not unique. To make them unique there is system based on image folder path
+    /Training/ -> 0 added /Testing/ -> 1 added then there are 4 folders one for each label.
+    This fact is used to assign unique ids
+    """
+    unique_id_conversion_dict = {
+        "glioma_tumor": "00",
+        "meningioma_tumor": "01",
+        "pituitary_tumor": "10",
+        "no_tumor": "11",
+    }
 
-        To make them unique there is system based on image folder path
-        /Training/ -> 0 added /Testing/ -> 1 added then there are 4 folders one for each label.
-        This fact is used to assign unique ids
-        """
-        unique_id_conversion_dict = {
-            "glioma_tumor": "00",
-            "meningioma_tumor": "01",
-            "pituitary_tumor": "10",
-            "no_tumor": "11",
-        }
+    def _extract(self, img_path: str) -> str:
         unique_id = ""
         if "Training" in img_path:
             unique_id = "0"
         else:
             unique_id = "1"
 
-        image_folder = os.path.basename(os.path.dirname(img_path))
-        unique_id = unique_id + unique_id_conversion_dict[image_folder]
+        parent_directory = self._extract_parent_dir(img_path, node=1, basename_only=False)
 
-        parent_directory = Path(img_path).parent
-        files_in_parent_directory = os.listdir(parent_directory)
+        image_folder = self._extract_filename(parent_directory)
+        unique_id = unique_id + self.unique_id_conversion_dict[image_folder]
 
         # after conversion to png there are additional png files
-        jpg_files = [Path(file).stem for file in files_in_parent_directory if file.lower().endswith(".jpg")]
+        jpg_files = [
+            Path(file_path).stem
+            for file_path in Path(parent_directory).iterdir()
+            if file_path.name.lower().endswith(".jpg")
+        ]
         # makes sure that we get the same order
         jpg_files.sort()
 
-        img_filename = Path(img_path).name
-        return unique_id + str(jpg_files.index(Path(img_filename).stem))
+        img_basename = self._extract_filename(img_path)
+
+        return unique_id + str(jpg_files.index(img_basename))
 
 
 class LabelExtractor(BaseLabelExtractor):

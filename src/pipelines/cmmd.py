@@ -55,11 +55,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         # image name. This folder is written in the format
         # 'mm-dd-yyyy-NA-NA-xxxxx', where xxxxx is a series of numbers
         # representing the study id.
-
-        study_id = os.path.basename(os.path.dirname(os.path.dirname(img_path)))
-        study_id = study_id.split("-")[5]
-
-        return study_id
+        return self._extract_parent_dir(img_path, node=-2, basename_only=True).split("-")[5]
 
 
 class ImageSelector(BaseImageSelector):
