@@ -1,4 +1,5 @@
 data/
+cropped_data/
 .ruff_cache/
 .vscode
 .venv

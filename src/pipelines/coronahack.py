@@ -57,24 +57,24 @@ class LabelExtractor(BaseLabelExtractor):
         self.source_labels = pd.read_csv(labels_path)
         self.source_labels.rename(columns={"Unnamed: 0": "id"}, inplace=True)
 
-    def _extract(self, img_path: os.PathLike, *args: Any) -> list[dict[str, int]]:
+    def _extract(self, img_path: os.PathLike, *args: Any) -> tuple[list[dict[str, int]], list[str]]:
         """Extract label from img path."""
         img_name = os.path.split(img_path)[-1]
         study_id = img_name.split("_")[2]
         img_row = self.source_labels.loc[self.source_labels["id"] == int(study_id)]
-        label = img_row["Label"].values[0]
+        source_label = img_row["Label"].values[0]
 
         radlex_labels = []
-        if label == "Pnemonia":
+        if source_label == "Pnemonia":
             if img_row["Label_1_Virus_category"].values[0] == "bacteria":
-                label = "PneumoniaBacteria"
+                source_label = "PneumoniaBacteria"
             elif img_row["Label_1_Virus_category"].values[0] == "Virus":
-                label = "PneumoniaVirus"
+                source_label = "PneumoniaVirus"
 
-        if label in self.labels.keys():
-            radlex_labels = self.labels[label]
+        if source_label in self.labels.keys():
+            radlex_labels = self.labels[source_label]
 
-        return radlex_labels
+        return radlex_labels, [source_label]
 
 
 class ImageSelector(BaseImageSelector):

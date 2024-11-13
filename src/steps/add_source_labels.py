@@ -11,14 +11,14 @@ from src.base.extractors.img_id import BaseImgIdExtractor
 from src.base.step import BaseStep
 
 
-class AddLabels(BaseStep):
-    """Add labels to the images and masks based on the function for mapping the images with annotations specified by the pipeline."""
+class AddSourceLabels(BaseStep):
+    """Add labels according to the original source labels."""
 
     def transform(
         self,
         X: list,  # img_paths
     ) -> list:
-        """Add labels to the images and masks.
+        """Add labels to the dataset json file.
 
         Args:
             X (list): List of paths to the images.
@@ -41,8 +41,7 @@ class AddLabels(BaseStep):
         with jsonlines.open(self.json_path, mode="r") as reader:
             for obj in reader:
                 if obj["umie_path"] in self.json_updates.keys():
-                    obj["labels"] = self.json_updates[obj["umie_path"]]["labels"]
-                    obj["source_labels"] = self.json_updates[obj["umie_path"]]["source_labels"]
+                    obj["labels"] = self.json_updates[obj["umie_path"]]
                 updated_lines.append(obj)
 
         with jsonlines.open(self.json_path, mode="w") as writer:
@@ -62,9 +61,9 @@ class AddLabels(BaseStep):
         """
         mask_path = self.get_umie_mask_path(img_path)
         if source_path_dict:
-            labels, source_labels = self.label_extractor(source_path_dict[img_path], mask_path)
+            labels = self.label_extractor(source_path_dict[img_path], mask_path, return_source_label=True)
         else:
-            labels, source_labels = self.label_extractor(img_path, mask_path)
+            labels = self.label_extractor(img_path, mask_path, return_source_label=True)
         if labels:
             key = self.get_path_without_target_path(img_path)
-            self.json_updates[key] = {"labels": labels, "source_labels": source_labels}
+            self.json_updates[key] = labels

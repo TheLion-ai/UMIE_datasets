@@ -7,6 +7,7 @@ These steps are used to construct the pipelines defined in the `pipelines` modul
 
 
 from .add_labels import AddLabels
+from .add_source_labels import AddSourceLabels
 from .add_umie_ids import AddUmieIds
 from .combine_multiple_masks import CombineMultipleMasks
 from .convert_dcm2png import ConvertDcm2Png

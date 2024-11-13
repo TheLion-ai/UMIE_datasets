@@ -70,6 +70,7 @@ class AddUmieIds(BaseStep):
             "umie_id": os.path.basename(umie_path),
             "mask_path": mask_path,
             "labels": [],
+            "source_labels": [],
         }
 
         self.new_json.append(img_info)
