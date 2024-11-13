@@ -41,7 +41,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         """Extract study id from img path."""
         # Getting study id depends on location of the file.
         # Study_id is retrieved in a different way when image already is moved to target directory with new name.
-        return os.path.basename(os.path.dirname(os.path.dirname(img_path)))[-5:]
+        return self._extract_parent_dir(img_path, node=-2, basename_only=True)[-5:]
 
 
 class PhaseIdExtractor(BasePhaseIdExtractor):

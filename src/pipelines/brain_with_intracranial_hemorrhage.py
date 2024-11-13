@@ -44,7 +44,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
         # Study id is name of parent folder of images in source directory
-        return os.path.basename(os.path.dirname(os.path.dirname(img_path)))
+        return self._extract_parent_dir(img_path, node=-2, basename_only=True)
 
 
 class PhaseExtractor(BasePhaseIdExtractor):
