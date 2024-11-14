@@ -18,7 +18,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
         # Study name is the folder two levels above the image
-        return self._extract_parent_dir(img_path, node=-2, basename_only=True).split("_")[-1]
+        return self._extract_parent_dir(img_path, parent_dir_level=-2, basename_only=True).split("_")[-1]
 
 
 class PhaseIdExtractor(BasePhaseIdExtractor):
@@ -27,7 +27,7 @@ class PhaseIdExtractor(BasePhaseIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Extract phase id from img path."""
         # Phase name is the folder one level above the image
-        phase_name = self._extract_parent_dir(img_path=img_path, node=1, basename_only=True)
+        phase_name = self._extract_parent_dir(img_path=img_path, parent_dir_level=1, basename_only=True)
 
         return self._get_phase_id_from_dict(phase_name=phase_name)
 

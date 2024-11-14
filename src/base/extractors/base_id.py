@@ -1,7 +1,7 @@
 """
-This module contains the definition of the BaseExtractor class.
+This module contains the definition of the BaseIdExtractor class.
 
-The BaseExtractor class is an abstract base class for extraction of information from image path.
+The BaseIdExtractor class is an abstract base class for extraction of information from image path.
 It provides a default implementation as well as helper methods for its children.
 """
 from abc import ABC, abstractmethod
@@ -50,14 +50,14 @@ class BaseIdExtractor(ABC):
             input_path (str): The path to the file.
 
         Returns:
-            str: The filename, without its extension and directory path.
+            str: The filename, without its suffix (extension) and directory path.
         """
         return Path(input_path).with_suffix("").stem
 
     @staticmethod
     def _extract_parent_dir(
         img_path: str,
-        node: int = 1,
+        parent_dir_level: int = 1,
         basename_only: bool = False,
     ) -> str:
         """
@@ -65,7 +65,7 @@ class BaseIdExtractor(ABC):
 
         Args:
             img_path (str): The path to the file.
-            node (int, optional): The number of levels up to go from the file path.
+            parent_dir_level (int, optional): The number of levels up to go from the file path.
                                 Defaults to 1, which gets the immediate parent directory.
             basename_only (bool, optional): If True, returns only the base name (stem) of the final directory.
                                             Defaults to False, returning the full directory path.
@@ -75,7 +75,7 @@ class BaseIdExtractor(ABC):
         """
         output_path = Path(img_path)
 
-        for _ in range(abs(node)):
+        for _ in range(abs(parent_dir_level)):
             output_path = output_path.parent
 
         if basename_only:
