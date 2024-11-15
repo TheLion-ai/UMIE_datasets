@@ -35,7 +35,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
         # Study name is the folder two levels above the image
-        return self._extract_parent_dir(img_path, node=-2, basename_only=True)
+        return self._extract_parent_dir(img_path, parent_dir_level=-2, basename_only=True)
 
 
 class ImageSelector(BaseImageSelector):
