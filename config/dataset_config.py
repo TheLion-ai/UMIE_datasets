@@ -286,6 +286,15 @@ ct_org = DatasetArgs(
     },
 )
 
+lidc_idri = DatasetArgs(
+    dataset_uid="17",
+    dataset_name="lidc_idri",
+    phases={"0": "CT"},
+    masks={
+        masks.Nodule.radlex_name: MaskColor(source_color=1, target_color=masks.Nodule.color),
+        masks.Lesion.radlex_name: MaskColor(source_color=2, target_color=masks.Lesion.color),
+    },
+)
 
 cmmd = DatasetArgs(
     dataset_uid="18",

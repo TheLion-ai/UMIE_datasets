@@ -76,7 +76,11 @@ Nodule = Mask(
 )
 
 Lesion = Mask(
-    id=11, radlex_name="Lesion", color=11, radlex_id="RID38780", source_names={"lidc_idri": ["Non-nodule>=3mm"]}
+    id=11,
+    radlex_name="Lesion",
+    color=11,
+    radlex_id="RID38780",
+    source_names={"lidc_idri": ["Non-nodule>=3mm"]},
 )  # That is not a nodule
 
 CalciumScore = Mask(

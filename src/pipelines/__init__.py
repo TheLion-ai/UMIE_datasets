@@ -34,4 +34,5 @@ from .ct_org import CtOrgPipeline
 from .finding_and_measuring_lungs import FindingAndMeasuringLungsPipeline
 from .kits23 import KITS23Pipeline
 from .knee_osteoarthritis import KneeOsteoarthritisPipeline
+from .lidc_idri import LidcIdriPipeline
 from .lits import LITSPipeline
