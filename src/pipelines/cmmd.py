@@ -8,6 +8,8 @@ import pandas as pd
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, cmmd
 from constants import IMG_FOLDER_NAME
 from steps import (
@@ -53,11 +55,23 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         # image name. This folder is written in the format
         # 'mm-dd-yyyy-NA-NA-xxxxx', where xxxxx is a series of numbers
         # representing the study id.
+        return self._extract_parent_dir(img_path, node=-2, basename_only=True).split("-")[5]
 
-        study_id = os.path.basename(os.path.dirname(os.path.dirname(img_path)))
-        study_id = study_id.split("-")[5]
 
-        return study_id
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the cmmd dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return True
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the cmmd dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return True
 
 
 class LabelExtractor(BaseLabelExtractor):
@@ -143,6 +157,8 @@ class CmmdPipeline(BasePipeline):
             img_prefix="",
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

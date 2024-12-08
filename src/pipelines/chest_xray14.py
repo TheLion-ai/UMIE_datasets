@@ -12,6 +12,8 @@ from base.extractors import (
     study_id,
 )
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, chest_xray14
 from steps import (
     AddLabels,
@@ -38,13 +40,12 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 
     def _extract(self, img_path: os.PathLike) -> str:
         """Extract study id from img path."""
-        img_name = os.path.split(img_path)[-1]
         # Study id is the first part of the image name before the first underscore
-        return img_name.split("_")[0]
+        return self._extract_filename(img_path).split("_")[0]
 
 
 class LabelExtractor(BaseLabelExtractor):
-    """Extractor for labels specific to the Brain Tumor Detection dataset."""
+    """Extractor for labels specific to the Chest Xray 14 dataset."""
 
     def __init__(self, labels: dict[str, str], labels_path: os.PathLike):
         """Initialize the extractor."""
@@ -61,6 +62,22 @@ class LabelExtractor(BaseLabelExtractor):
             radlex_labels.append(*self.labels[label])
 
         return radlex_labels
+
+
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Chest Xray 14 dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return True
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Chest Xray 14 dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return True
 
 
 @dataclass
@@ -83,6 +100,8 @@ class ChestXray14Pipeline(BasePipeline):
             zfill=4,
             study_id_extractor=StudyIdExtractor(),
             img_id_extractor=ImgIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

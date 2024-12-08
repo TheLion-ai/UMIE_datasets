@@ -12,6 +12,8 @@ from base.extractors import (
     BaseStudyIdExtractor,
 )
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, brain_with_intracranial_hemorrhage
 from steps import (
     AddLabels,
@@ -42,7 +44,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
         # Study id is name of parent folder of images in source directory
-        return os.path.basename(os.path.dirname(os.path.dirname(img_path)))
+        return self._extract_parent_dir(img_path, node=-2, basename_only=True)
 
 
 class PhaseExtractor(BasePhaseIdExtractor):
@@ -74,6 +76,22 @@ class LabelExtractor(BaseLabelExtractor):
             return self.labels["normal"]
 
 
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Brain with hemorrhage dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return "." in path
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Brain with hemorrhage dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return "_HGE_Seg" in path
+
+
 @dataclass
 class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
     """Preprocessing pipeline for Brain with hemorrhage dataset."""
@@ -99,9 +117,11 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
         default_factory=lambda: PipelineArgs(
             img_prefix=".",  # prefix of the source image file names
             segmentation_prefix="_HGE_Seg",  # prefix of the source mask file names
-            mask_selector="_HGE_Seg",
+            mask_prefix="_HGE_Seg",
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

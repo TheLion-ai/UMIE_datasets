@@ -37,4 +37,8 @@ class CreateMasksFromXml(BaseStep):
 
         for mask_path in tqdm(mask_paths):
             self.xml_mask_creator(mask_path)
+
+        # Free the memory occupied by whole json file as it will not be used anymore
+        self.file_to_dicom_attr_mapping = None
+
         return X

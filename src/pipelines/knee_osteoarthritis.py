@@ -5,6 +5,8 @@ from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, knee_osteoarthritis
 from constants import IMG_FOLDER_NAME
 from steps import (
@@ -34,8 +36,8 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         # letters can't be deleted because they make names unique
         # replace letters and delete underscore from filenames
         # letters can't be deleted because they make names unique
-        study_id = os.path.splitext(os.path.basename(img_path))[0].replace("R", "0").replace("L", "1").replace("_", "")
-        study_id = study_id + os.path.basename(os.path.dirname(img_path))
+        study_id = self._extract_filename(img_path).replace("R", "0").replace("L", "1").replace("_", "")
+        study_id = study_id + self._extract_parent_dir(img_path, node=-1, basename_only=True)
         return study_id
 
 
@@ -46,6 +48,22 @@ class LabelExtractor(BaseLabelExtractor):
         """Extract label from img path."""
         source_label = os.path.basename(os.path.dirname(img_path))
         return self.labels[source_label]
+
+
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Knee Osteoarthritis dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return "imaging" in path
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Knee Osteoarthritis dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return True
 
 
 @dataclass
@@ -67,6 +85,8 @@ class KneeOsteoarthritisPipeline(BasePipeline):
             image_folder_name=IMG_FOLDER_NAME,
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

@@ -6,6 +6,8 @@ from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, covid19_detection
 from constants import IMG_FOLDER_NAME
 from steps import (
@@ -52,15 +54,16 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
         """Get study id with added postfix depending on source location to prevent repeated names."""
-        img_id = os.path.basename(img_path)
-        img_basename = os.path.splitext(img_id)[0]
+        img_basename = self._extract_filename(img_path)
+        parent_basename = self._extract_parent_dir(img_path, node=-1, basename_only=True)
         if "ValData" in img_path:
-            study_id = img_basename + self.ids_dict_val[os.path.basename(os.path.dirname(img_path))]
+            study_id = img_basename + self.ids_dict_val[parent_basename]
         elif "NonAugmentedTrain" in img_path:
-            study_id = img_basename + self.ids_dict_non_aug[os.path.basename(os.path.dirname(img_path))]
+            study_id = img_basename + self.ids_dict_non_aug[parent_basename]
         else:
             study_id = img_basename
         study_id = study_id.replace("_", "")
+
         return study_id
 
 
@@ -71,6 +74,22 @@ class LabelExtractor(BaseLabelExtractor):
         """Extract label from img path."""
         label = os.path.basename(os.path.dirname(img_path))
         return self.labels[label]
+
+
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Covid 19 detection dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return True
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Covid 19 detection dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return True
 
 
 @dataclass
@@ -95,6 +114,8 @@ class COVID19DetectionPipeline(BasePipeline):
             img_prefix="",
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

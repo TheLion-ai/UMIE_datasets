@@ -6,6 +6,8 @@ from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, alzheimers
 from constants import IMG_FOLDER_NAME
 from steps import (
@@ -54,7 +56,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
-        basename = os.path.splitext(os.path.basename(img_path))[0]
+        basename = self._extract_filename(img_path)
         # If brackets exist in filename, then study id is within them, else it is 0.
         if "(" in basename:
             pattern = r"[()]"
@@ -67,7 +69,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
                 basename = basename.replace(id, self.ids_dict_train[id])
             study_id = study_id + basename
         else:
-            folder = os.path.basename(os.path.dirname(img_path))
+            folder = self._extract_filename(self._extract_parent_dir(img_path, node=-1))
             for id in self.ids_dict_test.keys():
                 folder = folder.replace(id, self.ids_dict_test[id])
             study_id = folder + study_id
@@ -82,6 +84,22 @@ class LabelExtractor(BaseLabelExtractor):
         source_label = os.path.basename(os.path.dirname(img_path))
         radlex_label = self.labels[source_label]
         return radlex_label
+
+
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Alzheimer's dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return True
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Alzheimer's dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return True
 
 
 @dataclass
@@ -106,6 +124,8 @@ class AlzheimersPipeline(BasePipeline):
             img_prefix="",
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

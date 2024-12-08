@@ -272,6 +272,20 @@ brain_met_share = DatasetArgs(
     masks={masks.Metastasis.radlex_name: MaskColor(source_color=255, target_color=masks.Metastasis.color)},
 )
 
+ct_org = DatasetArgs(
+    dataset_uid="14",
+    dataset_name="ct_org",
+    phases={"0": "CT"},
+    masks={
+        masks.Liver.radlex_name: MaskColor(source_color=1, target_color=masks.Liver.color),
+        masks.UrinaryBladder.radlex_name: MaskColor(source_color=2, target_color=masks.UrinaryBladder.color),
+        masks.Lung.radlex_name: MaskColor(source_color=3, target_color=masks.Lung.color),
+        masks.Kidney.radlex_name: MaskColor(source_color=4, target_color=masks.Kidney.color),
+        masks.BoneOrgan.radlex_name: MaskColor(source_color=5, target_color=masks.BoneOrgan.color),
+        masks.Brain.radlex_name: MaskColor(source_color=6, target_color=masks.Brain.color),
+    },
+)
+
 lidc_idri = DatasetArgs(
     dataset_uid="17",
     dataset_name="lidc_idri",

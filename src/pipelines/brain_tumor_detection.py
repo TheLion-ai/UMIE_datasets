@@ -5,6 +5,8 @@ from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, brain_tumor_detection
 from steps import (
     AddLabels,
@@ -34,8 +36,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
-        img_id = os.path.basename(img_path)
-        img_basename = os.path.splitext(img_id)[0]
+        img_basename = self._extract_filename(img_path)
         # study id based on ids in source dataset, with replaced non-numerical characters
         for id in self.ids_dict.keys():
             img_basename = img_basename.replace(id, self.ids_dict[id])
@@ -53,6 +54,22 @@ class LabelExtractor(BaseLabelExtractor):
             return self.labels["N"]
         else:
             return []
+
+
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Brain Tumor Detection dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return True
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Brain Tumor Detection dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return True
 
 
 @dataclass
@@ -77,6 +94,8 @@ class BrainTumorDetectionPipeline(BasePipeline):
             img_prefix="",
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

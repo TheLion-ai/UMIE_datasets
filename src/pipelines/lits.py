@@ -8,6 +8,8 @@ import cv2
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, lits
 from constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
 from steps import (
@@ -35,9 +37,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Retrieve study id from path."""
-        basename = os.path.basename(img_path).split(".")[0]
-        study_id = basename.rsplit("_", 1)[0].rsplit("-", 1)[1]
-        return study_id
+        return self._extract_filename(img_path).rsplit("_", 1)[0].rsplit("-", 1)[1]
 
 
 class LabelExtractor(BaseLabelExtractor):
@@ -55,6 +55,22 @@ class LabelExtractor(BaseLabelExtractor):
             return self.labels["Neoplasm"]
         else:
             return self.labels["NormalityDescriptor"]
+
+
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Liver and liver tumor dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return "volume" in path
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Liver and liver tumor dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return "segmentation" in path
 
 
 @dataclass
@@ -78,11 +94,13 @@ class LITSPipeline(BasePipeline):
     pipeline_args: PipelineArgs = field(
         default_factory=lambda: PipelineArgs(
             img_prefix="volume",  # prefix of the source image file names
-            mask_selector="segmentation",
+            mask_prefix="segmentation",
             segmentation_prefix="segmentation",
             multiple_masks_selector={"livermask": "liver", "lesionmask": "liver_tumor"},
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

@@ -12,6 +12,8 @@ import numpy as np
 from base.creators.xml_mask import BaseXmlMaskCreator
 from base.extractors import BaseImgIdExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, coca
 from steps import (
     AddUmieIds,
@@ -39,7 +41,23 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
         # Study name is the folder two levels above the image
-        return os.path.basename(os.path.dirname(os.path.dirname(img_path)))
+        return self._extract_parent_dir(img_path, node=-2, basename_only=True)
+
+
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Stanford COCA dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return path.endswith(".dcm")
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Stanford COCA dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return path.endswith(".xml")
 
 
 class XmlMaskCreator(BaseXmlMaskCreator):
@@ -106,6 +124,8 @@ class COCAPipeline(BasePipeline):
             # Study name is the folder two levels above the image
             study_id_extractor=StudyIdExtractor(),
             xml_mask_creator=XmlMaskCreator(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 

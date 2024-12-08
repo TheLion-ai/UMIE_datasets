@@ -2,12 +2,15 @@
 
 import os
 from dataclasses import asdict, dataclass, field
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
+from base.selectors.img_selector import BaseImageSelector
+from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, coronahack
 from steps import (
     AddLabels,
@@ -36,7 +39,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
-        img_name = os.path.split(img_path)[-1]
+        img_name = Path(img_path).name
         img_row = self.metadata.loc[self.metadata["X_ray_image_name"] == img_name]
 
         if img_row.empty or img_name.endswith("csv"):
@@ -75,6 +78,22 @@ class LabelExtractor(BaseLabelExtractor):
         return radlex_labels
 
 
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Coronahack dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return True
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Coronahack dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return True
+
+
 @dataclass
 class CoronaHackPipeline(BasePipeline):
     """Preprocessing pipeline for Coronahack Chest XRay dataset."""
@@ -93,6 +112,8 @@ class CoronaHackPipeline(BasePipeline):
         default_factory=lambda: PipelineArgs(
             zfill=4,
             img_id_extractor=ImgIdExtractor(),
+            img_selector=ImageSelector(),
+            mask_selector=MaskSelector(),
         )
     )
 
