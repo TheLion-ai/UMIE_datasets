@@ -104,18 +104,35 @@ class ConvertDcm2Png(BaseStep):
         # Sometimes window center is stored as a list of values, sometimes as a single value
         # If it is a list, we take the first value for simplicity
         if self.window_center is None:
-            window_center = (
-                int(ds.WindowCenter[0])
-                if type(ds.WindowCenter) is pydicom.multival.MultiValue
-                else int(ds.WindowCenter)
-            )
+            try:
+                window_center = (
+                    int(ds.WindowCenter[0])
+                    if type(ds.WindowCenter) is pydicom.multival.MultiValue
+                    else int(ds.WindowCenter)
+                )
+            except AttributeError:
+                # There is no WindowCenter Attribute in dicom file
+                # Using middle of Hounsfield Unit Scale
+                window_center = 1023
+                print(
+                    f"There is no WindowCenter Attribute in {ds.filename} file. Using {window_center} as window center."
+                )
         else:
             window_center = self.window_center
 
         if self.window_width is None:
-            window_width = (
-                int(ds.WindowWidth[0]) if type(ds.WindowWidth) is pydicom.multival.MultiValue else int(ds.WindowWidth)
-            )
+            try:
+                window_width = (
+                    int(ds.WindowWidth[0])
+                    if type(ds.WindowWidth) is pydicom.multival.MultiValue
+                    else int(ds.WindowWidth)
+                )
+            except AttributeError:
+                # There is no WindowWidth Attribute in dicom file
+                # Using half of Hounsfield Unit Range
+                window_width = 2048
+                print(f"There is no WindowWidth Attribute in {ds.filename} file. Using {window_width} as window width.")
+
         else:
             window_width = self.window_width
         return window_center, window_width
