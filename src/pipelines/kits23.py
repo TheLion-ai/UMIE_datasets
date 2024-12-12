@@ -46,7 +46,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Get study ID for dataset."""
         # Study id is the folder name of all images in the study
-        return self._extract_parent_dir(img_path, node=-1, basename_only=True).split("_")[-1]
+        return self._extract_parent_dir(img_path, parent_dir_level=-1, include_path=False).split("_")[-1]
 
 
 class LabelExtractor(BaseLabelExtractor):

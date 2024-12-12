@@ -69,7 +69,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
                 basename = basename.replace(id, self.ids_dict_train[id])
             study_id = study_id + basename
         else:
-            folder = self._extract_filename(self._extract_parent_dir(img_path, node=-1))
+            folder = self._extract_filename(self._extract_parent_dir(img_path, parent_dir_level=-1))
             for id in self.ids_dict_test.keys():
                 folder = folder.replace(id, self.ids_dict_test[id])
             study_id = folder + study_id
