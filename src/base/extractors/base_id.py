@@ -58,7 +58,7 @@ class BaseIdExtractor(ABC):
     def _extract_parent_dir(
         img_path: str,
         parent_dir_level: int = 1,
-        basename_only: bool = False,
+        include_path: bool = True,
     ) -> str:
         """
         Extract the parent directory of a given file path, with options for depth and base name only.
@@ -67,18 +67,18 @@ class BaseIdExtractor(ABC):
             img_path (str): The path to the file.
             parent_dir_level (int, optional): The number of levels up to go from the file path.
                                 Defaults to 1, which gets the immediate parent directory.
-            basename_only (bool, optional): If True, returns only the base name (stem) of the final directory.
+            include_path (bool, optional): If False, returns only the directory name (stem) of the whole directory path.
                                             Defaults to False, returning the full directory path.
 
         Returns:
-            str: The parent directory path (or its base name if `basename_only` is True) at the specified level.
+            str: The parent directory path (or its base name if `include_path` is False) at the specified level.
         """
         output_path = Path(img_path)
 
         for _ in range(abs(parent_dir_level)):
             output_path = output_path.parent
 
-        if basename_only:
+        if not include_path:
             return output_path.stem
 
         return str(output_path)
