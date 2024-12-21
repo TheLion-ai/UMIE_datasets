@@ -1,6 +1,5 @@
 """Preprocessing pipeline for the Stanford Brain MET dataset."""
 
-import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
@@ -18,7 +17,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
         # Study name is the folder two levels above the image
-        return self._extract_parent_dir(img_path, node=-2, basename_only=True).split("_")[-1]
+        return self._extract_parent_dir(img_path, parent_dir_level=-2, include_path=False).split("_")[-1]
 
 
 class PhaseIdExtractor(BasePhaseIdExtractor):
@@ -27,9 +26,9 @@ class PhaseIdExtractor(BasePhaseIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Extract phase id from img path."""
         # Phase name is the folder one level above the image
-        phase_name = os.path.basename(os.path.dirname(img_path))
-        phase_id = [key for key, value in self.phases.items() if value == phase_name][0]
-        return str(phase_id)
+        phase_name = self._extract_parent_dir(img_path=img_path, parent_dir_level=1, include_path=False)
+
+        return self._get_phase_id_from_dict(phase_name=phase_name)
 
 
 class ImageSelector(BaseImageSelector):
