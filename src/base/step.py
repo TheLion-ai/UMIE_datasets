@@ -6,6 +6,7 @@ from typing import Callable, Optional
 import numpy as np
 from sklearn.base import TransformerMixin
 
+from base.creators.xml_mask import BaseXmlMaskCreator
 from base.extractors.img_id import BaseImgIdExtractor
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
@@ -44,6 +45,8 @@ class BaseStep(TransformerMixin):
         masks: dict[str, MaskColor] = {},
         labels_path: Optional[str] = None,  # path to the labels file
         masks_path: Optional[str] = None,  #
+        xml_mask_creator: Optional[BaseXmlMaskCreator] = None,  # function to create masks from xml files
+        dicom_mapping_attribute: Optional[str] = None,  # dicom attribute to map paths to
     ):
         """
         Initialize a Step object.
@@ -73,7 +76,8 @@ class BaseStep(TransformerMixin):
             multiple_masks_selector (Optional[dict], optional): Dictionary containing multiple masks selectors. Defaults to None.
             labels (dict[str, list[dict[str, float]]], optional): Dictionary containing labels with multiple RadLex codes. Defaults to {}.
             masks (dict[str, MaskColor], optional): Dictionary containing masks. Defaults to {}.
-            on_error_remove (bool, optional): If True, remove the image if an error occurs. Defaults to True.
+            xml_mask_creator (BaseXmlMaskCreator, optional): Function to create masks from xml files. Defaults to None.
+            dicom_mapping_attribute (str, optional): Dicom attribute to map paths to. Defaults to None.
         """
         self.target_path = target_path
         self.dataset_name = dataset_name
@@ -105,6 +109,8 @@ class BaseStep(TransformerMixin):
             f"{self.dataset_uid}_{self.dataset_name}",
             f"{self.dataset_uid}_{self.dataset_name}.jsonl",
         )
+        self.xml_mask_creator = xml_mask_creator
+        self.dicom_mapping_attribute = dicom_mapping_attribute
 
     def transform(
         self,
@@ -179,12 +185,36 @@ class BaseStep(TransformerMixin):
         )
         return new_path
 
-    def get_umie_mask_path(self, img_path: str) -> str:
+    def get_umie_mask_path(self, mask_path: str) -> str:
         """Create a unique path for the mask.
 
         Args:
-            img_path (str): Path to the image.
+            mask_path (str): Path to the mask.
 
+        Returns:
+            str: Unique path for the mask.
+        """
+        umie_id = self.get_umie_id(mask_path)
+        phase_id = self.phase_id_extractor(mask_path)
+
+        if phase_id not in self.phases.keys():
+            raise ValueError(f"Phase id {phase_id} not in the list of phases.")
+        phase_name = self.phases[phase_id]
+
+        new_path = os.path.join(
+            self.target_path,
+            f"{self.dataset_uid}_{self.dataset_name}",
+            phase_name,
+            self.mask_folder_name,
+            umie_id,
+        )
+        return new_path
+
+    def get_umie_mask_path_from_img_path(self, img_path: str) -> str:
+        """Create a unique path for the mask based on image path.
+
+        Args:
+            img_path (str): Path to the image.
         Returns:
             str: Unique path for the mask.
         """

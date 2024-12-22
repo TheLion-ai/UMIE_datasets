@@ -37,8 +37,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
-        img_id = os.path.basename(img_path)
-        img_basename = os.path.splitext(img_id)[0]
+        img_basename = self._extract_filename(img_path)
         # study id based on ids in source dataset, with replaced non-numerical characters
         for id in self.ids_dict.keys():
             img_basename = img_basename.replace(id, self.ids_dict[id])

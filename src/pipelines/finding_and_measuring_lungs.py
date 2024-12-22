@@ -1,9 +1,8 @@
 """Preprocessing pipeline for Finding_and_Measuring_Lungs_in_CT_Data dataset."""
-import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
-from base.extractors import BaseImgIdExtractor, BaseStudyIdExtractor, study_id
+from base.extractors import BaseImgIdExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
@@ -39,7 +38,23 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         """Get study ID for dataset."""
         # Getting study id depends on location of the file.
         # Study_id is retrieved in a different way when image already is moved to target directory with new name.
-        return os.path.basename(img_path).split("_")[-3]
+        return self._extract_filename(img_path).split("_")[-3]
+
+
+class ImageSelector(BaseImageSelector):
+    """Selector for images specific to the Finding_and_Measuring_Lungs_in_CT_Data dataset."""
+
+    def _is_image_file(self, path: str) -> bool:
+        """Check if the file is the intended image."""
+        return "images" in path
+
+
+class MaskSelector(BaseMaskSelector):
+    """Selector for masks specific to the Finding_and_Measuring_Lungs_in_CT_Data dataset."""
+
+    def _is_mask_file(self, path: str) -> bool:
+        """Check if the file is the intended mask."""
+        return "2d_masks" in path
 
 
 class ImageSelector(BaseImageSelector):
