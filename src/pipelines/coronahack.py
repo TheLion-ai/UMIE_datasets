@@ -11,15 +11,7 @@ from base.pipeline import BasePipeline, PipelineArgs
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, coronahack
-from steps import (
-    AddLabels,
-    AddUmieIds,
-    CreateBlankMasks,
-    CreateFileTree,
-    DeleteImgsWithNoAnnotations,
-    GetFilePaths,
-    ValidateData,
-)
+from steps import AddLabels, AddUmieIds, CreateFileTree, GetFilePaths, ValidateData
 
 
 class ImgIdExtractor(BaseImgIdExtractor):

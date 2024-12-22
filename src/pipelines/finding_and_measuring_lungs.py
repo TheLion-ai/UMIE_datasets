@@ -13,6 +13,7 @@ from steps import (
     AddUmieIds,
     ConvertTif2Png,
     CopyMasks,
+    CreateBlankMasks,
     CreateFileTree,
     DeleteTempFiles,
     GetFilePaths,
@@ -20,7 +21,6 @@ from steps import (
     StoreSourcePaths,
     ValidateData,
 )
-from steps.create_blank_masks import CreateBlankMasks
 
 
 class ImgIdExtractor(BaseImgIdExtractor):
