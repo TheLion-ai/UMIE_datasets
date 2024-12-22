@@ -26,6 +26,7 @@ from steps import (
     DeleteTempPng,
     GetFilePaths,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -160,6 +161,7 @@ class LidcIdriPipeline(BasePipeline):
         ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ("delete_temp_files", DeleteTempFiles),
         ("delete_temp_png", DeleteTempPng),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: lidc_idri)
     pipeline_args: PipelineArgs = field(
