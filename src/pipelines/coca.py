@@ -101,22 +101,6 @@ class XmlMaskCreator(BaseXmlMaskCreator):
                 cv2.imwrite(new_path, img)
 
 
-class ImageSelector(BaseImageSelector):
-    """Selector for images specific to the Brain Tumor Progression dataset."""
-
-    def _is_image_file(self, path: str) -> bool:
-        """Check if the file is the intended image."""
-        return True
-
-
-class MaskSelector(BaseMaskSelector):
-    """Selector for masks specific to the Brain Tumor Progression dataset."""
-
-    def _is_mask_file(self, path: str) -> bool:
-        """Check if the file is the intended mask."""
-        return True
-
-
 @dataclass
 class COCAPipeline(BasePipeline):
     """Preprocessing pipeline for the Stanford COCA dataset."""

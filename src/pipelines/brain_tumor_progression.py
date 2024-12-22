@@ -73,22 +73,6 @@ class MaskSelector(BaseMaskSelector):
         return "MaskTumor" in path
 
 
-class ImageSelector(BaseImageSelector):
-    """Selector for images specific to the Brain Tumor Progression dataset."""
-
-    def _is_image_file(self, path: str) -> bool:
-        """Check if the file is the intended image."""
-        return "MaskTumor" not in path
-
-
-class MaskSelector(BaseMaskSelector):
-    """Selector for masks specific to the Brain Tumor Progression dataset."""
-
-    def _is_mask_file(self, path: str) -> bool:
-        """Check if the file is the intended mask."""
-        return "MaskTumor" in path
-
-
 @dataclass
 class BrainTumorProgressionPipeline(BasePipeline):
     """Preprocessing pipeline for the Brain Tumor Progression dataset."""

@@ -54,22 +54,6 @@ class MaskSelector(BaseMaskSelector):
         return True
 
 
-class ImageSelector(BaseImageSelector):
-    """Selector for images specific to the Brain MET dataset."""
-
-    def _is_image_file(self, path: str) -> bool:
-        """Check if the file is the intended image."""
-        return True
-
-
-class MaskSelector(BaseMaskSelector):
-    """Selector for masks specific to the Brain MET dataset."""
-
-    def _is_mask_file(self, path: str) -> bool:
-        """Check if the file is the intended mask."""
-        return True
-
-
 @dataclass
 class BrainMETSharePipeline(BasePipeline):
     """Preprocessing pipeline for the Stanford Brain MET dataset."""
