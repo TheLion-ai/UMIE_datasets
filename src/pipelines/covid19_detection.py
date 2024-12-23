@@ -19,6 +19,7 @@ from steps import (
     DeleteTempPng,
     GetFilePaths,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -106,6 +107,7 @@ class COVID19DetectionPipeline(BasePipeline):
         ("add_labels", AddLabels),
         ("delete_temp_files", DeleteTempFiles),
         ("delete_temp_png", DeleteTempPng),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: covid19_detection)
     pipeline_args: PipelineArgs = field(

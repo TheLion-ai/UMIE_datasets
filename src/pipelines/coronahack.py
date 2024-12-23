@@ -15,9 +15,11 @@ from config.dataset_config import DatasetArgs, coronahack
 from steps import (
     AddLabels,
     AddUmieIds,
+    CreateBlankMasks,
     CreateFileTree,
     DeleteImgsWithNoAnnotations,
     GetFilePaths,
+    ValidateData,
 )
 
 
@@ -105,7 +107,7 @@ class CoronaHackPipeline(BasePipeline):
         # add_new_ids is used here to also add labels
         ("add_new_ids", AddUmieIds),
         ("add_labels", AddLabels),
-        ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: coronahack)
     pipeline_args: PipelineArgs = field(

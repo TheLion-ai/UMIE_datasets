@@ -19,6 +19,7 @@ from steps import (
     DeleteTempPng,
     GetFilePaths,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -109,6 +110,7 @@ class BrainTumorClassificationPipeline(BasePipeline):
         ("add_labels", AddLabels),
         ("delete_temp_png", DeleteTempPng),
         ("delete_temp_files", DeleteTempFiles),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: brain_tumor_classification)
     pipeline_args: PipelineArgs = field(

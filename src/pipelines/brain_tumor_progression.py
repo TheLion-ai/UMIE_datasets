@@ -23,6 +23,7 @@ from steps import (
     GetFilePaths,
     RecolorMasks,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -90,6 +91,7 @@ class BrainTumorProgressionPipeline(BasePipeline):
         # or create blank masks
         ("create_blank_masks", CreateBlankMasks),
         ("delete_temp_files", DeleteTempFiles),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: brain_tumor_progression)
     pipeline_args: PipelineArgs = field(
