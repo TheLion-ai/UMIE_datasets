@@ -19,6 +19,7 @@ from steps import (
     CopyMasks,
     CreateBlankMasks,
     CreateFileTree,
+    DeleteOldPreprocessedData,
     DeleteTempFiles,
     GetFilePaths,
     RecolorMasks,
@@ -79,6 +80,8 @@ class BrainTumorProgressionPipeline(BasePipeline):
 
     name: str = field(default="brain_tumor_progression")  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("get_file_paths", GetFilePaths),
         ("create_file_tree", CreateFileTree),
         ("store_source_paths", StoreSourcePaths),
