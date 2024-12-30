@@ -17,6 +17,7 @@ from steps import (
     AddUmieIds,
     ConvertDcm2Png,
     CreateFileTree,
+    DeleteOldPreprocessedData,
     DeleteTempFiles,
     DeleteTempPng,
     GetFilePaths,
@@ -142,6 +143,8 @@ class CmmdPipeline(BasePipeline):
 
     name: str = "cmmd"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("create_file_tree", CreateFileTree),
         ("get_file_paths", GetFilePaths),
         ("store_source_paths", StoreSourcePaths),
