@@ -69,10 +69,10 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 class LabelExtractor(BaseLabelExtractor):
     """Extractor for labels specific to the Covid 19 detection dataset."""
 
-    def _extract(self, img_path: str, *args: Any) -> list:
+    def _extract(self, img_path: str, *args: Any) -> tuple[list, list]:
         """Extract label from img path."""
         label = os.path.basename(os.path.dirname(img_path))
-        return self.labels[label]
+        return self.labels[label], [label]
 
 
 class ImageSelector(BaseImageSelector):

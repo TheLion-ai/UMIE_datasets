@@ -22,7 +22,6 @@ from src.pipelines import (
     COVID19DetectionPipeline,
     FindingAndMeasuringLungsPipeline,
     KITS23Pipeline,
-    KITS23SourcePipeline,
     KneeOsteoarthritisPipeline,
     LITSPipeline,
 )
@@ -30,10 +29,10 @@ from src.pipelines import (
 datasets = [
     KITS23Pipeline(
         path_args=PathArgs(
-            source_path="/home/basia/UMIE_source_data/00_kits23/kits23/dataset",  # Path to the "dataset" directory in KITS23 repo
-            masks_path="/home/basia/UMIE_source_data/00_kits23/kits23/dataset",  # Path to the "dataset" directory in KITS23 repo
+            source_path="",  # Path to the "dataset" directory in KITS23 repo
+            masks_path="",  # Path to the "dataset" directory in KITS23 repo
             target_path=TARGET_PATH,
-            labels_path="/home/basia/UMIE_source_data/00_kits23/kits23/dataset/kits23.json",  # Path to kits23.json
+            labels_path="",  # Path to kits23.json
         ),
     ),
     CoronaHackPipeline(

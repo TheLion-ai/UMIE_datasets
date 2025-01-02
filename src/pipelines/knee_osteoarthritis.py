@@ -44,10 +44,10 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 class LabelExtractor(BaseLabelExtractor):
     """Extractor for labels specific to the Knee Osteoarthritis dataset."""
 
-    def _extract(self, img_path: str, *args: Any) -> list:
+    def _extract(self, img_path: str, *args: Any) -> tuple[list, list]:
         """Extract label from img path."""
         source_label = os.path.basename(os.path.dirname(img_path))
-        return self.labels[source_label]
+        return self.labels[source_label], [source_label]
 
 
 class ImageSelector(BaseImageSelector):

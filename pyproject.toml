@@ -23,7 +23,6 @@ numpy = "^1.26.4"
 jsonlines = "^4.0.0"
 datasets = "^2.20.0"
 openpyxl = "^3.1.5"
-scikit-image = "^0.24.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"
