@@ -58,9 +58,9 @@ class LabelExtractor(BaseLabelExtractor):
         img_name = os.path.basename(img_path)
         img_row = self.source_labels.loc[self.source_labels["Image Index"] == img_name]
         if img_row.empty:
-            return []
+            return [], []
         labels = [label for label in img_row["Finding Labels"].values[0].split("|")]
-        radlex_labels: list[dict] = []
+        radlex_labels: list = []
         for label in labels:
             radlex_labels.extend(self.labels[label])
 

@@ -19,6 +19,7 @@ Functions:
 """
 
 import os
+import zipfile
 
 import boto3
 from botocore.config import Config
@@ -64,6 +65,11 @@ def download_s3_folder(bucket_name: str, local_dir: str = None) -> None:
                 continue
             with open(target, "wb") as f:
                 client.download_fileobj(BUCKET_NAME, obj["Key"], f)
+
+    if local_dir and os.path.exists(local_dir):
+        zip_file_path = os.path.join(local_dir, "downloaded_files.zip")
+        with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
+            zip_ref.extractall(local_dir)
 
 
 if __name__ == "__main__":
