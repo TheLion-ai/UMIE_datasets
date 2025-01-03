@@ -91,15 +91,15 @@ datasets = [
     ),
     KneeOsteoarthritisPipeline(
         path_args=PathArgs(
-            source_path="/mnt/data/UMIE_source_data/09_knee_osteoarthrithis",
+            source_path="",
             target_path=TARGET_PATH,
         ),
     ),
     BrainTumorProgressionPipeline(
         path_args=PathArgs(
-            source_path="/mnt/data/UMIE_source_data/10_brain_tumor_progression/brain_tumor_progression",
+            source_path="",
             target_path=TARGET_PATH,
-            masks_path="/mnt/data/UMIE_source_data/10_brain_tumor_progression/brain_tumor_progression",
+            masks_path="",
         )
     ),
     ChestXray14Pipeline(

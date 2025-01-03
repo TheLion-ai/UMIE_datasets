@@ -66,10 +66,10 @@ def download_s3_folder(bucket_name: str, local_dir: str = None) -> None:
             with open(target, "wb") as f:
                 client.download_fileobj(BUCKET_NAME, obj["Key"], f)
 
-    if local_dir and os.path.exists(local_dir):
-        zip_file_path = os.path.join(local_dir, "downloaded_files.zip")
-        with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
-            zip_ref.extractall(local_dir)
+            # Unzip if the file is a zip file
+            if target.endswith(".zip"):
+                with zipfile.ZipFile(target, "r") as zip_ref:
+                    zip_ref.extractall(os.path.dirname(target))  # Unzip to the same directory
 
 
 if __name__ == "__main__":
