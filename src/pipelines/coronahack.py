@@ -2,6 +2,7 @@
 
 import os
 from dataclasses import asdict, dataclass, field
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
@@ -14,9 +15,11 @@ from config.dataset_config import DatasetArgs, coronahack
 from steps import (
     AddLabels,
     AddUmieIds,
+    CreateBlankMasks,
     CreateFileTree,
     DeleteImgsWithNoAnnotations,
     GetFilePaths,
+    ValidateData,
 )
 
 
@@ -38,7 +41,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
-        img_name = os.path.split(img_path)[-1]
+        img_name = Path(img_path).name
         img_row = self.metadata.loc[self.metadata["X_ray_image_name"] == img_name]
 
         if img_row.empty or img_name.endswith("csv"):
@@ -104,7 +107,7 @@ class CoronaHackPipeline(BasePipeline):
         # add_new_ids is used here to also add labels
         ("add_new_ids", AddUmieIds),
         ("add_labels", AddLabels),
-        ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: coronahack)
     pipeline_args: PipelineArgs = field(

@@ -23,6 +23,7 @@ from steps import (
     DeleteTempFiles,
     GetFilePaths,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -38,11 +39,10 @@ class ImgIdExtractor(BaseImgIdExtractor):
 class StudyIdExtractor(BaseStudyIdExtractor):
     """Extractor for study IDs specific to the Chest Xray 14 dataset."""
 
-    def _extract(self, img_path: os.PathLike) -> str:
+    def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
-        img_name = os.path.split(img_path)[-1]
         # Study id is the first part of the image name before the first underscore
-        return img_name.split("_")[0]
+        return self._extract_filename(img_path).split("_")[0]
 
 
 class LabelExtractor(BaseLabelExtractor):
@@ -57,10 +57,12 @@ class LabelExtractor(BaseLabelExtractor):
         """Extract label from img path."""
         img_name = os.path.basename(img_path)
         img_row = self.source_labels.loc[self.source_labels["Image Index"] == img_name]
+        if img_row.empty:
+            return []
         labels = [label for label in img_row["Finding Labels"].values[0].split("|")]
         radlex_labels: list[dict] = []
         for label in labels:
-            radlex_labels.append(*self.labels[label])
+            radlex_labels.extend(self.labels[label])
 
         return radlex_labels, labels
 
@@ -92,8 +94,9 @@ class ChestXray14Pipeline(BasePipeline):
         ("store_source_paths", StoreSourcePaths),
         ("add_new_ids", AddUmieIds),
         ("add_labels", AddLabels),
-        ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
+        # ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ("delete_temp_files", DeleteTempFiles),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: chest_xray14)
     pipeline_args: PipelineArgs = field(

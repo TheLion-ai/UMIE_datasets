@@ -1,9 +1,8 @@
 """Preprocessing pipeline for Finding_and_Measuring_Lungs_in_CT_Data dataset."""
-import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
-from base.extractors import BaseImgIdExtractor, BaseStudyIdExtractor, study_id
+from base.extractors import BaseImgIdExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
@@ -13,11 +12,13 @@ from steps import (
     AddUmieIds,
     ConvertTif2Png,
     CopyMasks,
+    CreateBlankMasks,
     CreateFileTree,
     DeleteTempFiles,
     GetFilePaths,
     RecolorMasks,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -36,7 +37,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         """Get study ID for dataset."""
         # Getting study id depends on location of the file.
         # Study_id is retrieved in a different way when image already is moved to target directory with new name.
-        return os.path.basename(img_path).split("_")[-3]
+        return self._extract_filename(img_path).split("_")[-3]
 
 
 class ImageSelector(BaseImageSelector):
@@ -68,7 +69,9 @@ class FindingAndMeasuringLungsPipeline(BasePipeline):
         ("copy_png_masks", CopyMasks),
         ("recolor_masks", RecolorMasks),
         ("add_new_ids", AddUmieIds),
+        ("create_blank_masks", CreateBlankMasks),
         ("delete_temp_files", DeleteTempFiles),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: finding_and_measuring_lungs)
     pipeline_args: PipelineArgs = field(

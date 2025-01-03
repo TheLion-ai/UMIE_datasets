@@ -21,6 +21,7 @@ from steps import (
     DeleteImgsWithNoAnnotations,
     GetFilePaths,
     RecolorMasks,
+    ValidateData,
 )
 
 
@@ -37,9 +38,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 
     def _extract(self, img_path: str) -> str:
         """Retrieve study id from path."""
-        basename = os.path.basename(img_path).split(".")[0]
-        study_id = basename.rsplit("_", 1)[0].rsplit("-", 1)[1]
-        return study_id
+        return self._extract_filename(img_path).rsplit("_", 1)[0].rsplit("-", 1)[1]
 
 
 class LabelExtractor(BaseLabelExtractor):
@@ -90,6 +89,7 @@ class LITSPipeline(BasePipeline):
         ("add_labels", AddLabels),
         # Recommended to delete images without masks, because they contain neither liver nor tumor
         ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
+        ("validate_data", ValidateData),
     )
 
     dataset_args: DatasetArgs = field(default_factory=lambda: lits)
@@ -98,7 +98,7 @@ class LITSPipeline(BasePipeline):
             img_prefix="volume",  # prefix of the source image file names
             mask_prefix="segmentation",
             segmentation_prefix="segmentation",
-            multiple_masks_selector={"livermask": "liver", "lesionmask": "liver_tumor"},
+            multiple_masks_selector={"livermask": "Liver", "lesionmask": "Neoplasm"},
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
             img_selector=ImageSelector(),

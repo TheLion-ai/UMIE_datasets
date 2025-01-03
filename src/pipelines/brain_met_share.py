@@ -1,6 +1,5 @@
 """Preprocessing pipeline for the Stanford Brain MET dataset."""
 
-import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
@@ -9,7 +8,14 @@ from base.pipeline import BasePipeline, PipelineArgs
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, brain_met_share
-from steps import AddUmieIds, CopyMasks, CreateFileTree, GetFilePaths, RecolorMasks
+from steps import (
+    AddUmieIds,
+    CopyMasks,
+    CreateFileTree,
+    GetFilePaths,
+    RecolorMasks,
+    ValidateData,
+)
 
 
 class StudyIdExtractor(BaseStudyIdExtractor):
@@ -18,8 +24,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Extract study id from img path."""
         # Study name is the folder two levels above the image
-        study_id = os.path.basename(os.path.dirname(os.path.dirname(img_path))).split("_")[-1]
-        return study_id
+        return self._extract_parent_dir(img_path, parent_dir_level=-2, include_path=False).split("_")[-1]
 
 
 class PhaseIdExtractor(BasePhaseIdExtractor):
@@ -28,9 +33,9 @@ class PhaseIdExtractor(BasePhaseIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Extract phase id from img path."""
         # Phase name is the folder one level above the image
-        phase_name = os.path.basename(os.path.dirname(img_path))
-        phase_id = [key for key, value in self.phases.items() if value == phase_name][0]
-        return str(phase_id)
+        phase_name = self._extract_parent_dir(img_path=img_path, parent_dir_level=1, include_path=False)
+
+        return self._get_phase_id_from_dict(phase_name=phase_name)
 
 
 class ImageSelector(BaseImageSelector):
@@ -60,6 +65,7 @@ class BrainMETSharePipeline(BasePipeline):
         ("copy_png_masks", CopyMasks),
         ("add_new_ids", AddUmieIds),
         ("recolor_masks", RecolorMasks),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(
         default_factory=lambda: brain_met_share

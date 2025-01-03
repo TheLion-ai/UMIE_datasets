@@ -20,9 +20,11 @@ from src.pipelines import (
     COCAPipeline,
     CoronaHackPipeline,
     COVID19DetectionPipeline,
+    CtOrgPipeline,
     FindingAndMeasuringLungsPipeline,
     KITS23Pipeline,
     KneeOsteoarthritisPipeline,
+    LidcIdriPipeline,
     LITSPipeline,
 )
 
@@ -102,7 +104,7 @@ datasets = [
     ),
     ChestXray14Pipeline(
         path_args=PathArgs(
-            source_path="",
+            source_path="",  # path to images/
             target_path=TARGET_PATH,
             labels_path="",  # Path to Data_Entry_2017_v2020.csv
         ),
@@ -118,6 +120,20 @@ datasets = [
         path_args=PathArgs(
             source_path="",
             target_path=TARGET_PATH,
+        ),
+    ),
+    LidcIdriPipeline(
+        path_args=PathArgs(
+            source_path="",  # Path to LIDC-IDRI/ directory
+            target_path=TARGET_PATH,
+            masks_path="",  # Path to extracted LIDC-XML-only/ directory (from LIDC-XML-only.zip)
+        ),
+    ),
+    CtOrgPipeline(
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+            masks_path="",
         ),
     ),
     CmmdPipeline(

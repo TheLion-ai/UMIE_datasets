@@ -26,6 +26,7 @@ from steps import (
     DeleteTempPng,
     GetFilePaths,
     RecolorMasks,
+    ValidateData,
 )
 
 
@@ -44,7 +45,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Get study ID for dataset."""
         # Study id is the folder name of all images in the study
-        return os.path.basename((os.path.dirname(img_path))).split("_")[-1]
+        return self._extract_parent_dir(img_path, parent_dir_level=-1, include_path=False).split("_")[-1]
 
 
 class LabelExtractor(BaseLabelExtractor):
@@ -118,6 +119,7 @@ class KITS23Pipeline(BasePipeline):
         # ("create_blank_masks", CreateBlankMasks),
         ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ("delete_temp_png", DeleteTempPng),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: kits23)
     pipeline_args: PipelineArgs = field(

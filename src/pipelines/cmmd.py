@@ -21,6 +21,7 @@ from steps import (
     DeleteTempPng,
     GetFilePaths,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -55,11 +56,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         # image name. This folder is written in the format
         # 'mm-dd-yyyy-NA-NA-xxxxx', where xxxxx is a series of numbers
         # representing the study id.
-
-        study_id = os.path.basename(os.path.dirname(os.path.dirname(img_path)))
-        study_id = study_id.split("-")[5]
-
-        return study_id
+        return self._extract_parent_dir(img_path, parent_dir_level=-2, include_path=False).split("-")[5]
 
 
 class ImageSelector(BaseImageSelector):
@@ -153,6 +150,7 @@ class CmmdPipeline(BasePipeline):
         ("add_labels", AddLabels),
         ("delete_temp_png", DeleteTempPng),
         ("delete_temp_files", DeleteTempFiles),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: cmmd)
     pipeline_args: PipelineArgs = field(

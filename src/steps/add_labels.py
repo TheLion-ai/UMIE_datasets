@@ -60,9 +60,13 @@ class AddLabels(BaseStep):
             img_path (str): Path to the image.
             labels_list (list): List of labels.
         """
-        mask_path = self.get_umie_mask_path(img_path)
+        mask_path = self.get_umie_mask_path_from_img_path(img_path)
         if source_path_dict:
-            labels, source_labels = self.label_extractor(source_path_dict[img_path], mask_path)
+            if img_path in source_path_dict.keys():
+                labels = self.label_extractor(source_path_dict[img_path], mask_path)
+            else:
+                print(f"Image path {img_path} not in source_paths.json")
+                labels = []
         else:
             labels, source_labels = self.label_extractor(img_path, mask_path)
         if labels:
