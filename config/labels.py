@@ -45,6 +45,7 @@ NormalityDecriptor = Label(
         "brain_with_intracranial_hemorrhage": ["normal"],
         "brain_tumor_detection": ["N"],
         "lits": ["NormalityDescriptor"],
+        "chest_xray_masks_and_labels": ["normal"],
     },
 )
 
@@ -279,11 +280,11 @@ ChronicObstructivePulmonaryDisease = Label(
     source_names={"PadChest": ["COPD signs"]},
 )
 
-Tubeculosis = Label(
+Tuberculosis = Label(
     id=31,
-    radlex_name="Tubeculosis",
+    radlex_name="Tuberculosis",
     radlex_id="RID29116",
-    source_names={"PadChest": ["Tuberculosis", "Tuberculosis seqelae"]},
+    source_names={"PadChest": ["Tuberculosis", "Tuberculosis seqelae"], "chest_xray_masks_and_labels": ["TB"]},
 )
 
 Metastasis = Label(
