@@ -74,5 +74,4 @@ def test_chest_xray_masks_and_labels_verify_jsonl_correct():
 
 def test_clean_up_chest_xray_masks_and_labels():
     """Removes output folder with it's contents."""
-    # DatasetTestingLibrary.clean_up(target_path)
-    print()
+    DatasetTestingLibrary.clean_up(target_path)
