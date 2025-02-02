@@ -301,7 +301,7 @@ cmmd = DatasetArgs(
 )
 
 chest_xray_masks_and_labels = DatasetArgs(
-    dataset_uid="26",
+    dataset_uid="20",
     dataset_name="chest_xray_masks_and_labels",
     phases={"0": "Xray"},
     labels={

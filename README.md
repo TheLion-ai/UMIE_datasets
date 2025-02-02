@@ -55,7 +55,7 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 | 13  |                                           [BrainMetShare](https://aimi.stanford.edu/brainmetshare)                                           |   MRI    |         Segmentation         |
 | 14  |                                      [CT-ORG](https://www.cancerimagingarchive.net/collection/ct-org/)                                       |    CT    |         Segmentation         |
 | 18  |                                        [CMMD](https://www.cancerimagingarchive.net/collection/cmmd/)                                         |    MG    |        Classification        |
-| 19  |                                        [Chest Xray Masks and Labels](https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels)                                         |  X-Ray   | Segmentation, Classification |
+| 20  |                                        [Chest Xray Masks and Labels](https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels)                                         |  X-Ray   | Segmentation, Classification |
 
 
 # **Using the datasets**
@@ -271,9 +271,9 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 </details>
 
 <details>
-  <summary>19. Chest X-Ray Masks and Labels Dataset</summary>
+  <summary>20. Chest X-Ray Masks and Labels Dataset</summary>
 
-**1. Chest X-Ray Masks and Labels Dataset**
+**20. Chest X-Ray Masks and Labels Dataset**
   1. Go to [Chest Xray Masks and Labels](https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels) page on Kaggle.
   2. Login to your Kaggle account.
   3. Download the data.

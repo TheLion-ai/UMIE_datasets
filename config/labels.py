@@ -284,7 +284,10 @@ Tuberculosis = Label(
     id=31,
     radlex_name="Tuberculosis",
     radlex_id="RID29116",
-    source_names={"PadChest": ["Tuberculosis", "Tuberculosis seqelae"], "chest_xray_masks_and_labels": ["TB"]},
+    source_names={
+        "PadChest": ["Tuberculosis", "Tuberculosis seqelae"],
+        "chest_xray_masks_and_labels": ["TB", "tuberculosis"],
+    },
 )
 
 Metastasis = Label(

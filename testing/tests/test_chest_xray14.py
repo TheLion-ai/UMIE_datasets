@@ -44,7 +44,7 @@ def test_chest_xray14_verify_file_tree():
     current_file_tree = glob.glob(f"{str(target_path)}/**", recursive=True)
 
     if not DatasetTestingLibrary.verify_file_tree(expected_file_tree, current_file_tree):
-        pytest.fail("ChestX-ray14 pipeline created file tree different than expected.")
+        pytest.fail("Chest X-ray14 pipeline created file tree different than expected.")
 
 
 def test_chest_xray14_verify_images_correct():
@@ -53,7 +53,7 @@ def test_chest_xray14_verify_images_correct():
     current_file_tree = glob.glob(f"{str(target_path)}/**/*.png", recursive=True)
 
     if not DatasetTestingLibrary.verify_all_images_identical(expected_file_tree, current_file_tree):
-        pytest.fail("ChestX-ray14 pipeline created image contents different than expected.")
+        pytest.fail("Chest X-ray14 pipeline created image contents different than expected.")
 
 
 def test_chest_xray14_verify_jsonl_correct():
@@ -66,7 +66,7 @@ def test_chest_xray14_verify_jsonl_correct():
         current_jsonl = [json.loads(line) for line in file]
 
     if not DatasetTestingLibrary.verify_jsonl_identical(expected_jsonl, current_jsonl):
-        pytest.fail("ChestX-ray14 pipeline created jsonl contents different than expected.")
+        pytest.fail("Chest X-ray14 pipeline created jsonl contents different than expected.")
 
 
 def test_clean_up_chest_xray14():

@@ -15,11 +15,11 @@ from base.pipeline import PathArgs
 from src.pipelines.chest_xray_masks_and_labels import ChestXrayMasksAndLabelsPipeline
 from testing.libs.dataset_testing_lib import DatasetTestingLibrary
 
-source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/26_chest_xray/input")
-target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/26_chest_xray/output")
-labels_path = os.path.join(os.getcwd(), "testing/test_dummy_data/26_chest_xray/input")
-masks_path = os.path.join(os.getcwd(), "testing/test_dummy_data/26_chest_xray/input")
-expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/26_chest_xray/expected_output")
+source_path = os.path.join(os.getcwd(), "testing/test_dummy_data/20_chest_xray/input")
+target_path = os.path.join(os.getcwd(), "testing/test_dummy_data/20_chest_xray/output")
+labels_path = os.path.join(os.getcwd(), "testing/test_dummy_data/20_chest_xray/input")
+masks_path = os.path.join(os.getcwd(), "testing/test_dummy_data/20_chest_xray/input")
+expected_output_path = os.path.join(os.getcwd(), "testing/test_dummy_data/20_chest_xray/expected_output")
 
 
 def test_initial_lean_up_chest_xray_masks_and_labels():
