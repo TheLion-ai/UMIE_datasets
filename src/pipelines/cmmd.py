@@ -21,6 +21,7 @@ from steps import (
     DeleteTempPng,
     GetFilePaths,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -55,7 +56,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         # image name. This folder is written in the format
         # 'mm-dd-yyyy-NA-NA-xxxxx', where xxxxx is a series of numbers
         # representing the study id.
-        return self._extract_parent_dir(img_path, node=-2, basename_only=True).split("-")[5]
+        return self._extract_parent_dir(img_path, parent_dir_level=-2, include_path=False).split("-")[5]
 
 
 class ImageSelector(BaseImageSelector):
@@ -86,7 +87,7 @@ class LabelExtractor(BaseLabelExtractor):
             columns={"ID1": "id", "LeftRight": "LR", "abnormality": "label1", "classification": "label2"}, inplace=True
         )
 
-    def _extract(self, img_path: os.PathLike, *args: Any) -> list[dict[str, int]]:
+    def _extract(self, img_path: os.PathLike, *args: Any) -> tuple[list, list]:
         """Extract label from img path."""
         img_path_label = os.path.basename(
             os.path.dirname(os.path.dirname(os.path.dirname(img_path)))
@@ -132,7 +133,7 @@ class LabelExtractor(BaseLabelExtractor):
                 label2 = pre_label_Right[0][3]
                 radlex_label = self.labels[label1] + self.labels[label2]
 
-        return radlex_label
+        return radlex_label, [label1, label2]
 
 
 @dataclass
@@ -149,6 +150,7 @@ class CmmdPipeline(BasePipeline):
         ("add_labels", AddLabels),
         ("delete_temp_png", DeleteTempPng),
         ("delete_temp_files", DeleteTempFiles),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: cmmd)
     pipeline_args: PipelineArgs = field(

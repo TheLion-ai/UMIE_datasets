@@ -15,8 +15,9 @@ from .convert_nii2png import ConvertNii2Png
 from .convert_tif2png import ConvertTif2Png
 from .copy_masks import CopyMasks
 from .create_blank_masks import CreateBlankMasks
+from .create_file_to_dcm_attribute_mapping import CreateFileToDcmAttributeMapping
 from .create_file_tree import CreateFileTree
-from .create_masks_from_xml import CreateMasksFromXML
+from .create_masks_from_xml import CreateMasksFromXml
 from .delete_imgs_with_no_annotations import DeleteImgsWithNoAnnotations
 from .delete_temp_files import DeleteTempFiles
 from .delete_temp_png import DeleteTempPng
@@ -24,3 +25,4 @@ from .get_file_paths import GetFilePaths
 from .masks_to_binary_colors import MasksToBinaryColors
 from .recolor_masks import RecolorMasks
 from .store_source_paths import StoreSourcePaths
+from .validate_data import ValidateData

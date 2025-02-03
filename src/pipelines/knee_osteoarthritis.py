@@ -16,6 +16,7 @@ from steps import (
     DeleteTempFiles,
     GetFilePaths,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -37,17 +38,17 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         # replace letters and delete underscore from filenames
         # letters can't be deleted because they make names unique
         study_id = self._extract_filename(img_path).replace("R", "0").replace("L", "1").replace("_", "")
-        study_id = study_id + self._extract_parent_dir(img_path, node=-1, basename_only=True)
+        study_id = study_id + self._extract_parent_dir(img_path, parent_dir_level=-1, include_path=False)
         return study_id
 
 
 class LabelExtractor(BaseLabelExtractor):
     """Extractor for labels specific to the Knee Osteoarthritis dataset."""
 
-    def _extract(self, img_path: str, *args: Any) -> list:
+    def _extract(self, img_path: str, *args: Any) -> tuple[list, list]:
         """Extract label from img path."""
         source_label = os.path.basename(os.path.dirname(img_path))
-        return self.labels[source_label]
+        return self.labels[source_label], [source_label]
 
 
 class ImageSelector(BaseImageSelector):
@@ -78,6 +79,7 @@ class KneeOsteoarthritisPipeline(BasePipeline):
         ("add_new_ids", AddUmieIds),
         ("add_new_ids", AddLabels),
         ("delete_temp_files", DeleteTempFiles),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: knee_osteoarthritis)
     pipeline_args: PipelineArgs = field(

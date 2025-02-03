@@ -39,21 +39,22 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 ## Datasets
 | uid |                                                                   Dataset                                                                    | Modality |             TASK             |
 |:---:|:--------------------------------------------------------------------------------------------------------------------------------------------:|:--------:|:----------------------------:|
-|  0  |                                                [KITS-23](https://kits-challenge.org/kits23/)                                                 |    CT    | classification/segmentation  |
-|  1  |                            [CoronaHack](https://www.kaggle.com/datasets/praveengovi/coronahack-chest-xraydataset)                            |   XRAY   |        classification        |
+|  0  |                                                [KITS-23](https://kits-challenge.org/kits23/)                                                 |    CT    | Classification/Segmentation  |
+|  1  |                            [CoronaHack](https://www.kaggle.com/datasets/praveengovi/coronahack-chest-xraydataset)                            |   XRAY   |        Classification        |
 |  2  |                    [Alzheimers Dataset](https://www.kaggle.com/datasets/tourist55/alzheimers-dataset-4-class-of-images)	                     |   MRI    |        Classification        |
-|  3  |                  [Brain Tumor Classification](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri)                  |   MRI    |        classification        |
-|  4  |                    [COVID-19 Detection X-Ray](https://www.kaggle.com/datasets/darshan1504/covid19-detection-xray-dataset)                    |   XRAY   |        classification        |
-|  5  |                  [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/datasets/kmader/finding-lungs-in-ct-data)	                  |    CT    |         Segmentation         |
-|  6  |       [Brain CT Images with Intracranial Hemorrhage Masks](https://www.kaggle.com/datasets/vbookshelf/computed-tomography-ct-images)	        |    CT    |        Classification        |
+|  3  |                  [Brain Tumor Classification](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri)                  |   MRI    |        Classification        |
+|  4  |                    [COVID-19 Detection X-Ray](https://www.kaggle.com/datasets/darshan1504/covid19-detection-xray-dataset)                    |   XRAY   |        Classification        |
+|  5  |                  [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/datasets/kmader/finding-lungs-in-ct-data)	                 |    CT    |         Segmentation         |
+|  6  |       [Brain CT Images with Intracranial Hemorrhage Masks](https://www.kaggle.com/datasets/vbookshelf/computed-tomography-ct-images)	       |    CT    |        Classification        |
 |  7  |                           [Liver and Liver Tumor Segmentation](https://www.kaggle.com/datasets/andrewmvd/lits-png)                           |    CT    | Classification, Segmentation |
 |  8  |      [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/jjprotube/brain-mri-images-for-brain-tumor-detection)      |   MRI    |        Classification        |
-|  9  | [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/datasets/shashwatwork/knee-osteoarthritis-dataset-with-severity)	 |  	X-Ray  |        Classification        |
-| 10  |                     [Brain Tumor Progression](https://www.cancerimagingarchive.net/collection/brain-tumor-progression/)                      |   MRI    |         segmentation         |
-| 11  |                               [Chest X-ray 14](https://nihcc.app.box.com/v/ChestXray-NIHCC/folder/36938765345)                               |   XRAY   |        classification        |
+|  9  | [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/datasets/shashwatwork/knee-osteoarthritis-dataset-with-severity)	 |   XRAY   |        Classification        |
+| 10  |                     [Brain Tumor Progression](https://www.cancerimagingarchive.net/collection/brain-tumor-progression/)                      |   MRI    |         Segmentation         |
+| 11  |                               [Chest X-ray 14](https://nihcc.app.box.com/v/ChestXray-NIHCC/folder/36938765345)                               |   XRAY   |        Classification        |
 | 12  |         [COCA- Coronary Calcium and chest CTs](https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa)         |    CT    |         Segmentation         |
 | 13  |                                           [BrainMetShare](https://aimi.stanford.edu/brainmetshare)                                           |   MRI    |         Segmentation         |
 | 14  |                                      [CT-ORG](https://www.cancerimagingarchive.net/collection/ct-org/)                                       |    CT    |         Segmentation         |
+| 17  |                                   [LIDC-IDRI](https://www.cancerimagingarchive.net/collection/lidc-idri/)                                    |    CT    |         Segmentation         |
 | 18  |                                        [CMMD](https://www.cancerimagingarchive.net/collection/cmmd/)                                         |    MG    |        Classification        |
 | 20  |                                        [Chest Xray Masks and Labels](https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels)                                         |  X-Ray   | Segmentation, Classification |
 
@@ -254,7 +255,18 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   2. Download the data.
   3. Extract `PKG - CT-ORG`.
   4. Fill in the `source_path` to the location of the `OrganSegmentations` folder in `CtOrgPipeline()` in `config/runner_config.py`. Fill in `masks_path` with the same path as the `source_path`.
+</details>
 
+
+<details>
+  <summary>17. LIDC-IDRI</summary>
+
+**17. LIDC-IDRI**
+  1. Go to [LIDC-IDRI](https://www.cancerimagingarchive.net/collection/lidc-idri/).
+  2. Download "Images" using [NBIA Data Retriever](https://wiki.cancerimagingarchive.net/display/NBIA/Downloading+TCIA+Images), and "Radiologist Annotations/Segmentations".
+  3. Extract `LIDC-XML-only.zip`.
+  4. Fill in the `source_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `manifest-{xxxxxxxxxxxxx}/LIDC-IDRI` directory.
+  5. Fill in the `masks_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `LIDC-XML-only/` directory.
 </details>
 
 
@@ -284,7 +296,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 
 To preprocess the dataset that is not among the above, search the preprocessing folder. It contains the reusable steps for changing imaging formats, extracting masks, creating file trees, etc. Go to the config file to check which masks and label encodings are available. Append new labels and mask encodings if needed.
 
-Overall the dataset should have ** 882,774** images in **.png** format
+Overall the dataset should have **882,774** images in **.png** format
 * **CT - 500k+**
 * **X-Ray - 250k+**
 * **MRI - 100k+**

@@ -19,6 +19,7 @@ from steps import (
     DeleteTempPng,
     GetFilePaths,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -55,7 +56,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         """Extract study id from img path."""
         """Get study id with added postfix depending on source location to prevent repeated names."""
         img_basename = self._extract_filename(img_path)
-        parent_basename = self._extract_parent_dir(img_path, node=-1, basename_only=True)
+        parent_basename = self._extract_parent_dir(img_path, parent_dir_level=-1, include_path=False)
         if "ValData" in img_path:
             study_id = img_basename + self.ids_dict_val[parent_basename]
         elif "NonAugmentedTrain" in img_path:
@@ -70,10 +71,10 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 class LabelExtractor(BaseLabelExtractor):
     """Extractor for labels specific to the Covid 19 detection dataset."""
 
-    def _extract(self, img_path: str, *args: Any) -> list:
+    def _extract(self, img_path: str, *args: Any) -> tuple[list, list]:
         """Extract label from img path."""
         label = os.path.basename(os.path.dirname(img_path))
-        return self.labels[label]
+        return self.labels[label], [label]
 
 
 class ImageSelector(BaseImageSelector):
@@ -106,6 +107,7 @@ class COVID19DetectionPipeline(BasePipeline):
         ("add_labels", AddLabels),
         ("delete_temp_files", DeleteTempFiles),
         ("delete_temp_png", DeleteTempPng),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: covid19_detection)
     pipeline_args: PipelineArgs = field(

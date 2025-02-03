@@ -10,7 +10,6 @@ import json
 import os
 
 import pytest
-from zipp import Path
 
 from base.pipeline import PathArgs
 from src.pipelines.brain_tumor_progression import BrainTumorProgressionPipeline

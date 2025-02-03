@@ -3,9 +3,7 @@
 import json
 import os
 import re
-from cProfile import label
 from dataclasses import asdict, dataclass, field
-from functools import partial
 from typing import Any
 
 import cv2
@@ -28,6 +26,7 @@ from steps import (
     DeleteTempPng,
     GetFilePaths,
     RecolorMasks,
+    ValidateData,
 )
 
 
@@ -46,7 +45,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     def _extract(self, img_path: str) -> str:
         """Get study ID for dataset."""
         # Study id is the folder name of all images in the study
-        return self._extract_parent_dir(img_path, node=-1, basename_only=True).split("_")[-1]
+        return self._extract_parent_dir(img_path, parent_dir_level=-1, include_path=False).split("_")[-1]
 
 
 class LabelExtractor(BaseLabelExtractor):
@@ -59,7 +58,7 @@ class LabelExtractor(BaseLabelExtractor):
             self.labels_list = json.load(f)
         self.kidney_findings_colors = kidney_findings_colors
 
-    def _extract(self, img_path: str, *args: Any) -> list:
+    def _extract(self, img_path: str, *args: Any) -> tuple[list, list]:
         """Extract label from img path."""
         img_id = os.path.basename(img_path)
         root_path = os.path.dirname(os.path.dirname(img_path))
@@ -83,8 +82,8 @@ class LabelExtractor(BaseLabelExtractor):
                     if source_label in self.labels.keys():
                         labels = self.labels[source_label]
                     break
-            return labels
-        return []
+            return labels, [source_label]
+        return [], []
 
 
 class ImageSelector(BaseImageSelector):
@@ -117,9 +116,10 @@ class KITS23Pipeline(BasePipeline):
         ("recolor_masks", RecolorMasks),
         ("add_labels", AddLabels),
         # Choose either to create blank masks or delete images without masks
-        ("create_blank_masks", CreateBlankMasks),
-        # ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
+        # ("create_blank_masks", CreateBlankMasks),
+        ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ("delete_temp_png", DeleteTempPng),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: kits23)
     pipeline_args: PipelineArgs = field(
