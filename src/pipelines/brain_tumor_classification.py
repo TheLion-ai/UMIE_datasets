@@ -15,6 +15,7 @@ from steps import (
     AddUmieIds,
     ConvertJpg2Png,
     CreateFileTree,
+    DeleteOldPreprocessedData,
     DeleteTempFiles,
     DeleteTempPng,
     GetFilePaths,
@@ -103,6 +104,8 @@ class BrainTumorClassificationPipeline(BasePipeline):
 
     name: str = "Brain_Tumor_Classification"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("create_file_tree", CreateFileTree),
         ("get_file_paths", GetFilePaths),
         ("store_source_paths", StoreSourcePaths),

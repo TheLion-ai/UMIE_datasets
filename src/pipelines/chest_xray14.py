@@ -20,6 +20,7 @@ from steps import (
     AddUmieIds,
     CreateFileTree,
     DeleteImgsWithNoAnnotations,
+    DeleteOldPreprocessedData,
     DeleteTempFiles,
     GetFilePaths,
     StoreSourcePaths,
@@ -89,6 +90,8 @@ class ChestXray14Pipeline(BasePipeline):
 
     name: str = "chest_xray14"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("create_file_tree", CreateFileTree),
         ("get_file_paths", GetFilePaths),
         ("store_source_paths", StoreSourcePaths),

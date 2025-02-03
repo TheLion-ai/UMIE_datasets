@@ -14,6 +14,7 @@ from steps import (
     CopyMasks,
     CreateBlankMasks,
     CreateFileTree,
+    DeleteOldPreprocessedData,
     DeleteTempFiles,
     GetFilePaths,
     RecolorMasks,
@@ -62,6 +63,8 @@ class FindingAndMeasuringLungsPipeline(BasePipeline):
 
     name: str = "finding_and_measuring_lungs"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("create_file_tree", CreateFileTree),
         ("get_file_paths", GetFilePaths),
         ("store_source_paths", StoreSourcePaths),

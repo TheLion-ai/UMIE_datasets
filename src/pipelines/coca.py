@@ -22,6 +22,7 @@ from steps import (
     CreateFileTree,
     CreateMasksFromXml,
     DeleteImgsWithNoAnnotations,
+    DeleteOldPreprocessedData,
     DeleteTempPng,
     GetFilePaths,
     ValidateData,
@@ -107,6 +108,8 @@ class COCAPipeline(BasePipeline):
 
     name: str = "coca"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("get_file_paths", GetFilePaths),
         ("create_file_tree", CreateFileTree),
         ("convert_dcm2png", ConvertDcm2Png),

@@ -12,6 +12,7 @@ from steps import (
     AddUmieIds,
     CopyMasks,
     CreateFileTree,
+    DeleteOldPreprocessedData,
     GetFilePaths,
     RecolorMasks,
     ValidateData,
@@ -60,6 +61,8 @@ class BrainMETSharePipeline(BasePipeline):
 
     name: str = "brain_met_share"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("create_file_tree", CreateFileTree),
         ("get_file_paths", GetFilePaths),
         ("copy_png_masks", CopyMasks),
