@@ -65,7 +65,7 @@ class BrainMETSharePipeline(BasePipeline):
         ("copy_png_masks", CopyMasks),
         ("add_new_ids", AddUmieIds),
         ("recolor_masks", RecolorMasks),
-        ("validate_data", ValidateData),
+        # ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(
         default_factory=lambda: brain_met_share

@@ -87,7 +87,7 @@ class LabelExtractor(BaseLabelExtractor):
             columns={"ID1": "id", "LeftRight": "LR", "abnormality": "label1", "classification": "label2"}, inplace=True
         )
 
-    def _extract(self, img_path: os.PathLike, *args: Any) -> list[dict[str, int]]:
+    def _extract(self, img_path: os.PathLike, *args: Any) -> tuple[list, list]:
         """Extract label from img path."""
         img_path_label = os.path.basename(
             os.path.dirname(os.path.dirname(os.path.dirname(img_path)))
@@ -133,7 +133,7 @@ class LabelExtractor(BaseLabelExtractor):
                 label2 = pre_label_Right[0][3]
                 radlex_label = self.labels[label1] + self.labels[label2]
 
-        return radlex_label
+        return radlex_label, [label1, label2]
 
 
 @dataclass

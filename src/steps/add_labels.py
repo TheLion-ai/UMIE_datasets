@@ -41,7 +41,8 @@ class AddLabels(BaseStep):
         with jsonlines.open(self.json_path, mode="r") as reader:
             for obj in reader:
                 if obj["umie_path"] in self.json_updates.keys():
-                    obj["labels"] = self.json_updates[obj["umie_path"]]
+                    obj["labels"] = self.json_updates[obj["umie_path"]]["labels"]
+                    obj["source_labels"] = self.json_updates[obj["umie_path"]]["source_labels"]
                 updated_lines.append(obj)
 
         with jsonlines.open(self.json_path, mode="w") as writer:
@@ -62,12 +63,12 @@ class AddLabels(BaseStep):
         mask_path = self.get_umie_mask_path_from_img_path(img_path)
         if source_path_dict:
             if img_path in source_path_dict.keys():
-                labels = self.label_extractor(source_path_dict[img_path], mask_path)
+                labels, source_labels = self.label_extractor(source_path_dict[img_path], mask_path)
             else:
                 print(f"Image path {img_path} not in source_paths.json")
-                labels = []
+                labels, source_labels = [], []
         else:
-            labels = self.label_extractor(img_path, mask_path)
+            labels, source_labels = self.label_extractor(img_path, mask_path)
         if labels:
             key = self.get_path_without_target_path(img_path)
-            self.json_updates[key] = labels
+            self.json_updates[key] = {"labels": labels, "source_labels": source_labels}

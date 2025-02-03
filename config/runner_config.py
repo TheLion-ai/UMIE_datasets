@@ -122,18 +122,18 @@ datasets = [
             target_path=TARGET_PATH,
         ),
     ),
-    LidcIdriPipeline(
-        path_args=PathArgs(
-            source_path="",  # Path to LIDC-IDRI/ directory
-            target_path=TARGET_PATH,
-            masks_path="",  # Path to extracted LIDC-XML-only/ directory (from LIDC-XML-only.zip)
-        ),
-    ),
     CtOrgPipeline(
         path_args=PathArgs(
             source_path="",
             target_path=TARGET_PATH,
             masks_path="",
+        ),
+    ),
+    LidcIdriPipeline(
+        path_args=PathArgs(
+            source_path="",  # Path to LIDC-IDRI/ directory
+            target_path=TARGET_PATH,
+            masks_path="",  # Path to extracted LIDC-XML-only/ directory (from LIDC-XML-only.zip)
         ),
     ),
     CmmdPipeline(

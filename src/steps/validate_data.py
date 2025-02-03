@@ -7,7 +7,6 @@ from tqdm import tqdm
 
 from base.step import BaseStep
 from config import labels
-from src.constants import TARGET_PATH
 
 
 class ValidateData(BaseStep):
@@ -26,6 +25,7 @@ class ValidateData(BaseStep):
         """
         print("Validating output data...")
         self.validate_dataset()
+        print("Validation complete.")
         return X
 
     def validate_dataset(
@@ -62,7 +62,7 @@ class ValidateData(BaseStep):
                 print(f"{str_key} is not a string or is empty in {obj['umie_path']}")
 
     def _validate_image(self, obj: dict) -> None:
-        umie_path = os.path.join(TARGET_PATH, obj["umie_path"])
+        umie_path = os.path.join(self.target_path, obj["umie_path"])
         img = cv2.imread(umie_path)
         if img is None:
             print(f"Image {obj['umie_path']} is not found.")
@@ -71,7 +71,7 @@ class ValidateData(BaseStep):
         if not isinstance(obj["mask_path"], str):
             print("mask_path is not a string.")
         elif len(obj["mask_path"]) != 0:
-            mask_path = os.path.join(TARGET_PATH, obj["mask_path"])
+            mask_path = os.path.join(self.target_path, obj["mask_path"])
             mask = cv2.imread(mask_path)
             if mask is None:
                 print(f"Mask {obj['mask_path']} is not found.")

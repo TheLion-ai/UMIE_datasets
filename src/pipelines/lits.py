@@ -49,13 +49,13 @@ class LabelExtractor(BaseLabelExtractor):
         super().__init__(labels)
         self.target_color = target_color
 
-    def _extract(self, img_path: str, mask_path: str, *args: Any) -> list:
+    def _extract(self, img_path: str, mask_path: str, *args: Any) -> tuple[list, list]:
         """Get image label based on path."""
         mask = cv2.imread(mask_path)
         if mask is not None and (mask == self.target_color).all(axis=-1).any():
-            return self.labels["Neoplasm"]
+            return self.labels["Neoplasm"], ["Neoplasm"]
         else:
-            return self.labels["NormalityDescriptor"]
+            return self.labels["NormalityDescriptor"], ["NormalityDescriptor"]
 
 
 class ImageSelector(BaseImageSelector):

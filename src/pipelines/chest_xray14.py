@@ -53,18 +53,18 @@ class LabelExtractor(BaseLabelExtractor):
         super().__init__(labels)
         self.source_labels = pd.read_csv(labels_path)[["Image Index", "Finding Labels"]]
 
-    def _extract(self, img_path: os.PathLike, *args: Any) -> list:
+    def _extract(self, img_path: os.PathLike, *args: Any) -> tuple[list, list]:
         """Extract label from img path."""
         img_name = os.path.basename(img_path)
         img_row = self.source_labels.loc[self.source_labels["Image Index"] == img_name]
         if img_row.empty:
-            return []
+            return [], []
         labels = [label for label in img_row["Finding Labels"].values[0].split("|")]
-        radlex_labels: list[dict] = []
+        radlex_labels: list = []
         for label in labels:
             radlex_labels.extend(self.labels[label])
 
-        return radlex_labels
+        return radlex_labels, labels
 
 
 class ImageSelector(BaseImageSelector):
