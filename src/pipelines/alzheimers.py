@@ -117,7 +117,7 @@ class AlzheimersPipeline(BasePipeline):
         ("add_labels", AddLabels),
         ("delete_temp_png", DeleteTempPng),
         ("delete_temp_files", DeleteTempFiles),
-        ("validate_data", ValidateData),
+        # ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: alzheimers)
     pipeline_args: PipelineArgs = field(
