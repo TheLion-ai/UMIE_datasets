@@ -44,12 +44,12 @@ datasets = [
             labels_path="",  # Path to Chest_xray_Corona_Metadata.csv
         ),
     ),
-    # AlzheimersPipeline(
-    #     path_args=PathArgs(
-    #         source_path="/mnt/data/UMIE_source_data/02_alzheimers",  # Path to archive directory from kaggle
-    #         target_path=TARGET_PATH,
-    #     ),
-    # ),
+    AlzheimersPipeline(
+        path_args=PathArgs(
+            source_path="",  # Path to archive directory from kaggle
+            target_path=TARGET_PATH,
+        ),
+    ),
     BrainTumorClassificationPipeline(
         path_args=PathArgs(
             source_path="",
@@ -104,16 +104,16 @@ datasets = [
     ),
     ChestXray14Pipeline(
         path_args=PathArgs(
-            source_path="/mnt/data/UMIE_source_data/11_chest_xray14/images",  # path to images/
+            source_path="",  # path to images/
             target_path=TARGET_PATH,
-            labels_path="/mnt/data/UMIE_source_data/11_chest_xray14/Data_Entry_2017_v2020.csv",  # Path to Data_Entry_2017_v2020.csv
+            labels_path="",  # Path to Data_Entry_2017_v2020.csv
         ),
     ),
     COCAPipeline(
         path_args=PathArgs(
-            source_path="/mnt/data/UMIE_source_data/12_coca/cocacoronarycalciumandchestcts-2/Gated_release_final/patient",  # Path to Gated_release_final/patient
+            source_path="",  # Path to Gated_release_final/patient
             target_path=TARGET_PATH,
-            masks_path="/mnt/data/UMIE_source_data/12_coca/cocacoronarycalciumandchestcts-2/Gated_release_final/calcium_xml",  # Path to Gated_release_final/calcium_xml
+            masks_path="",  # Path to Gated_release_final/calcium_xml
         ),
     ),
     BrainMETSharePipeline(
@@ -124,23 +124,23 @@ datasets = [
     ),
     CtOrgPipeline(
         path_args=PathArgs(
-            source_path="/mnt/data/UMIE_source_data/14_ct_org/CT-ORG",
+            source_path="",
             target_path=TARGET_PATH,
-            masks_path="/mnt/data/UMIE_source_data/14_ct_org/CT-ORG",
+            masks_path="",
         ),
     ),
     LidcIdriPipeline(
         path_args=PathArgs(
-            source_path="",  # Path to LIDC-IDRI/ directory
+            source_path="/mnt/data/UMIE_source_data/17_lidc_idri/manifest-1600709154662/LIDC-IDRI",  # Path to LIDC-IDRI/ directory
             target_path=TARGET_PATH,
-            masks_path="",  # Path to extracted LIDC-XML-only/ directory (from LIDC-XML-only.zip)
+            masks_path="/mnt/data/UMIE_source_data/17_lidc_idri/LIDC-XML-only",  # Path to extracted LIDC-XML-only/ directory (from LIDC-XML-only.zip)
         ),
     ),
     CmmdPipeline(
         path_args=PathArgs(
-            source_path="/mnt/data/UMIE_source_data/18_cmmd/manifest-1616439774456/CMMD",  # Path to 'manifest-{xxxxxxxxxxxxx}/CMMD' folder
+            source_path="",  # Path to 'manifest-{xxxxxxxxxxxxx}/CMMD' folder
             target_path=TARGET_PATH,
-            labels_path="/mnt/data/UMIE_source_data/18_cmmd/CMMD_clinicaldata_revision.xlsx",  # Path to 'CMMD_clinicaldata_revision.xlsx' file
+            labels_path="",  # Path to 'CMMD_clinicaldata_revision.xlsx' file
         ),
     ),
 ]

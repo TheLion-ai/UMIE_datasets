@@ -41,14 +41,20 @@ kits23 = DatasetArgs(
     phases={"0": "CT"},  # arterial or nephrogenic CT phase (no way to distinguish them in the dataset easily)
     labels={
         "normal": [{labels.NormalityDecriptor.radlex_name: 1}],
-        "angiomyolipoma": [{labels.Angiomyolipoma.radlex_name: 1}, {labels.Neoplasm.radlex_name: 1}],
+        "angiomyolipoma": [
+            {labels.Benign.radlex_name: 1},
+            {labels.Angiomyolipoma.radlex_name: 1},
+            {labels.Neoplasm.radlex_name: 1},
+        ],
         "chromophobe_rcc": [
+            {labels.Malignant.radlex_name: 1},
             {labels.ChromophobeAdenocarcinoma.radlex_name: 1},
             {labels.RenalAdenocarcinoma.radlex_name: 1},
             {labels.Adenocarcinoma.radlex_name: 1},
             {labels.Neoplasm.radlex_name: 1},
         ],
         "clear_cell_papillary": [
+            {labels.Malignant.radlex_name: 1},
             {labels.ClearCellAdenocarcinoma.radlex_name: 1},
             {labels.PapillaryRenalAdenocarcinoma.radlex_name: 1},
             {labels.RenalAdenocarcinoma.radlex_name: 1},
@@ -56,6 +62,7 @@ kits23 = DatasetArgs(
             {labels.Neoplasm.radlex_name: 1},
         ],
         "clear_cell_rcc": [
+            {labels.Malignant.radlex_name: 1},
             {labels.ClearCellAdenocarcinoma.radlex_name: 1},
             {labels.RenalAdenocarcinoma.radlex_name: 1},
             {labels.Adenocarcinoma.radlex_name: 1},
@@ -63,25 +70,32 @@ kits23 = DatasetArgs(
         ],
         "mest": [{labels.Neoplasm.radlex_name: 1}],
         "multilocular_cystic_rcc": [
+            {labels.Malignant.radlex_name: 1},
             {labels.MultilocularCysticRenalTumor.radlex_name: 1},
             {labels.RenalAdenocarcinoma.radlex_name: 1},
             {labels.Adenocarcinoma.radlex_name: 1},
             {labels.Neoplasm.radlex_name: 1},
         ],
-        "oncocytoma": [{labels.Oncocytoma.radlex_name: 1}, {labels.Neoplasm.radlex_name: 1}],
+        "oncocytoma": [
+            {labels.Benign.radlex_name: 1},
+            {labels.Oncocytoma.radlex_name: 1},
+            {labels.Neoplasm.radlex_name: 1},
+        ],
         "papillary_rcc": [
+            {labels.Malignant.radlex_name: 1},
             {labels.PapillaryRenalAdenocarcinoma.radlex_name: 1},
             {labels.RenalAdenocarcinoma.radlex_name: 1},
             {labels.Adenocarcinoma.radlex_name: 1},
             {labels.Neoplasm.radlex_name: 1},
         ],
         "rcc_unclassified": [
+            {labels.Malignant.radlex_name: 1},
             {labels.RenalAdenocarcinoma.radlex_name: 1},
             {labels.Adenocarcinoma.radlex_name: 1},
             {labels.Neoplasm.radlex_name: 1},
         ],
         "spindle_cell_neoplasm": [{labels.Neoplasm.radlex_name: 1}],
-        "urothelial": [{labels.Neoplasm.radlex_name: 1}],
+        "urothelial": [{labels.Benign.radlex_name: 1}, {labels.Neoplasm.radlex_name: 1}],
         "wilms": [{labels.WilmsTumor.radlex_name: 1}, {labels.Neoplasm.radlex_name: 1}],
     },
     masks={
