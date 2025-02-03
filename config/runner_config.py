@@ -131,9 +131,9 @@ datasets = [
     ),
     LidcIdriPipeline(
         path_args=PathArgs(
-            source_path="/mnt/data/UMIE_source_data/17_lidc_idri/manifest-1600709154662/LIDC-IDRI",  # Path to LIDC-IDRI/ directory
+            source_path="",  # Path to LIDC-IDRI/ directory
             target_path=TARGET_PATH,
-            masks_path="/mnt/data/UMIE_source_data/17_lidc_idri/LIDC-XML-only",  # Path to extracted LIDC-XML-only/ directory (from LIDC-XML-only.zip)
+            masks_path="",  # Path to extracted LIDC-XML-only/ directory (from LIDC-XML-only.zip)
         ),
     ),
     CmmdPipeline(
