@@ -54,9 +54,8 @@ class LabelExtractor(BaseLabelExtractor):
     def __init__(self, labels: dict[str, str], labels_path: os.PathLike):
         """Initialize the extractor."""
         super().__init__(labels)
-        # self.source_labels = pd.read_csv(labels_path)[["Image Index", "Finding Labels"]]
 
-    def _extract(self, img_path: os.PathLike, *args: Any) -> list:
+    def _extract(self, img_path: os.PathLike, *args: Any) -> tuple[list, list]:
         """Extract label from img path."""
         labels_path = str(img_path).replace("CXR_png", "ClinicalReadings").replace(".png", ".txt")
         label = None
@@ -68,10 +67,11 @@ class LabelExtractor(BaseLabelExtractor):
                     label = line.strip()
                     break
         radlex_label = None
-        for list_label in self.labels.keys():
-            if label is not None and list_label in label:
-                radlex_label = self.labels[list_label]
-        return [radlex_label]
+        source_label = None
+        for source_label in self.labels.keys():
+            if label is not None and source_label in label:
+                radlex_label = self.labels[source_label]
+        return [radlex_label], [source_label]
 
 
 class ImageSelector(BaseImageSelector):
