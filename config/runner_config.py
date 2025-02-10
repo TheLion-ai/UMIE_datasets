@@ -130,10 +130,10 @@ datasets = [
     ),
     CbisDdsmPipeline(
         path_args=PathArgs(
-            source_path=r"E:\Breast cancer\manifest-1724589157619\CBIS-DDSM",  # Path to CBIS-DDSM dataset
+            source_path="",  # Path to CBIS-DDSM dataset
             target_path=TARGET_PATH,
-            masks_path=r"E:\Breast cancer\manifest-1724589157619\CBIS-DDSM",  # Path to CBIS-DDSM dataset
-            labels_path=r"E:\Pobrane\Breast Cancer",  # Path to: 'calc_case_description_test_set.csv', 'calc_case_description_train_set.csv', 'mass_case_description_test_set.csv', 'mass_case_description_train_set.csv'
+            masks_path="",  # Path to CBIS-DDSM dataset
+            labels_path="",  # Path to: 'calc_case_description_test_set.csv', 'calc_case_description_train_set.csv', 'mass_case_description_test_set.csv', 'mass_case_description_train_set.csv'
         ),
     ),
 ]
