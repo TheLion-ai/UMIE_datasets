@@ -30,6 +30,7 @@ class CopyMasks(BaseStep):
                 os.path.exists(mask_path)
                 and self.segmentation_prefix is not None
                 and self.segmentation_prefix in mask_path
+                and self.mask_selector(mask_path)
             ):
                 self.copy_masks(mask_path)
         return X
