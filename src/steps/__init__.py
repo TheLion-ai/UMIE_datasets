@@ -19,6 +19,7 @@ from .create_file_to_dcm_attribute_mapping import CreateFileToDcmAttributeMappin
 from .create_file_tree import CreateFileTree
 from .create_masks_from_xml import CreateMasksFromXml
 from .delete_imgs_with_no_annotations import DeleteImgsWithNoAnnotations
+from .delete_old_preprocessed_data import DeleteOldPreprocessedData
 from .delete_temp_files import DeleteTempFiles
 from .delete_temp_png import DeleteTempPng
 from .get_file_paths import GetFilePaths

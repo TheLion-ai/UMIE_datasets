@@ -15,6 +15,7 @@ from steps import (
     AddUmieIds,
     ConvertJpg2Png,
     CreateFileTree,
+    DeleteOldPreprocessedData,
     DeleteTempFiles,
     DeleteTempPng,
     GetFilePaths,
@@ -99,6 +100,8 @@ class COVID19DetectionPipeline(BasePipeline):
 
     name: str = "covid19_detection"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("create_file_tree", CreateFileTree),
         ("get_file_paths", GetFilePaths),
         ("get_source_paths", StoreSourcePaths),

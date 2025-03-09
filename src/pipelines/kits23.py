@@ -23,6 +23,7 @@ from steps import (
     CreateBlankMasks,
     CreateFileTree,
     DeleteImgsWithNoAnnotations,
+    DeleteOldPreprocessedData,
     DeleteTempPng,
     GetFilePaths,
     RecolorMasks,
@@ -108,6 +109,8 @@ class KITS23Pipeline(BasePipeline):
 
     name: str = "kits23"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("create_file_tree", CreateFileTree),
         ("get_file_paths", GetFilePaths),
         ("convert_nii2png", ConvertNii2Png),

@@ -22,6 +22,7 @@ from steps import (
     CopyMasks,
     CreateBlankMasks,
     CreateFileTree,
+    DeleteOldPreprocessedData,
     DeleteTempFiles,
     DeleteTempPng,
     GetFilePaths,
@@ -97,6 +98,8 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
 
     name: str = "brain_with_intracranial_hemorrhage"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("get_file_paths", GetFilePaths),
         ("create_file_tree", CreateFileTree),
         ("convert_jpg2png", ConvertJpg2Png),

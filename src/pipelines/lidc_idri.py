@@ -22,6 +22,7 @@ from steps import (
     CreateFileTree,
     CreateMasksFromXml,
     DeleteImgsWithNoAnnotations,
+    DeleteOldPreprocessedData,
     DeleteTempFiles,
     DeleteTempPng,
     GetFilePaths,
@@ -150,6 +151,8 @@ class LidcIdriPipeline(BasePipeline):
 
     name: str = "lidc_idri"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("create_file_tree", CreateFileTree),
         ("get_file_paths", GetFilePaths),
         ("store_source_paths", StoreSourcePaths),
