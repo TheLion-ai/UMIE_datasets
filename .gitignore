@@ -9,3 +9,4 @@ data/
 .DS_Store
 .env
 testing/test_dummy_data/
+dist/

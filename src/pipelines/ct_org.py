@@ -26,6 +26,7 @@ from steps import (
     DeleteTempPng,
     GetFilePaths,
     RecolorMasks,
+    ValidateData,
 )
 
 
@@ -70,6 +71,7 @@ class CtOrgPipeline(BasePipeline):
         ("create_blank_masks", CreateBlankMasks),
         # ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
         ("delete_temp_png", DeleteTempPng),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: dataset_config.ct_org)
     pipeline_args: PipelineArgs = field(

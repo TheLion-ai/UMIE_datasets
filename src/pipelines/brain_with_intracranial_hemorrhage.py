@@ -27,6 +27,7 @@ from steps import (
     GetFilePaths,
     MasksToBinaryColors,
     RecolorMasks,
+    ValidateData,
 )
 
 
@@ -65,13 +66,13 @@ class LabelExtractor(BaseLabelExtractor):
         super().__init__(labels)
         self.target_colors = [mask["target_color"] for mask in masks.values()]
 
-    def _extract(self, img_path: str, mask_path: str) -> list:
+    def _extract(self, img_path: str, mask_path: str) -> tuple[list, list]:
         """Extract label from img path."""
         # If there is a mask associated with the image in a source directory, then the label is 'hemorrhage'
         if os.path.exists(mask_path) and self.target_colors in cv2.imread(mask_path):
-            return self.labels["brain_hemorrhage"]
+            return self.labels["brain_hemorrhage"], ["brain_hemorrhage"]
         else:
-            return self.labels["normal"]
+            return self.labels["normal"], ["normal"]
 
 
 class ImageSelector(BaseImageSelector):
@@ -109,6 +110,7 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
         ("create_blank_masks", CreateBlankMasks),
         ("delete_temp_files", DeleteTempFiles),
         ("delete_temp_png", DeleteTempPng),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: brain_with_intracranial_hemorrhage)
     pipeline_args: PipelineArgs = field(

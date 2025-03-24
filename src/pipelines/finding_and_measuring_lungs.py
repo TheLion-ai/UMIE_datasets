@@ -12,11 +12,13 @@ from steps import (
     AddUmieIds,
     ConvertTif2Png,
     CopyMasks,
+    CreateBlankMasks,
     CreateFileTree,
     DeleteTempFiles,
     GetFilePaths,
     RecolorMasks,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -67,7 +69,9 @@ class FindingAndMeasuringLungsPipeline(BasePipeline):
         ("copy_png_masks", CopyMasks),
         ("recolor_masks", RecolorMasks),
         ("add_new_ids", AddUmieIds),
+        ("create_blank_masks", CreateBlankMasks),
         ("delete_temp_files", DeleteTempFiles),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: finding_and_measuring_lungs)
     pipeline_args: PipelineArgs = field(

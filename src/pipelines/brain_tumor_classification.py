@@ -20,6 +20,7 @@ from steps import (
     DeleteTempPng,
     GetFilePaths,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -75,9 +76,10 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 class LabelExtractor(BaseLabelExtractor):
     """Extractor for labels specific to the Brain Tumor Classification dataset."""
 
-    def _extract(self, source_img_path: str, *args: Any) -> list:
+    def _extract(self, source_img_path: str, *args: Any) -> tuple[list, list]:
         image_folder = os.path.basename(os.path.dirname(source_img_path))
-        return self.labels[image_folder]
+        source_label = image_folder
+        return self.labels[image_folder], [source_label]
 
 
 class ImageSelector(BaseImageSelector):
@@ -110,6 +112,7 @@ class BrainTumorClassificationPipeline(BasePipeline):
         ("add_labels", AddLabels),
         ("delete_temp_png", DeleteTempPng),
         ("delete_temp_files", DeleteTempFiles),
+        ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: brain_tumor_classification)
     pipeline_args: PipelineArgs = field(

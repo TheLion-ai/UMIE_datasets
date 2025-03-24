@@ -21,6 +21,7 @@ from steps import (
     DeleteImgsWithNoAnnotations,
     GetFilePaths,
     RecolorMasks,
+    ValidateData,
 )
 
 
@@ -48,13 +49,13 @@ class LabelExtractor(BaseLabelExtractor):
         super().__init__(labels)
         self.target_color = target_color
 
-    def _extract(self, img_path: str, mask_path: str, *args: Any) -> list:
+    def _extract(self, img_path: str, mask_path: str, *args: Any) -> tuple[list, list]:
         """Get image label based on path."""
         mask = cv2.imread(mask_path)
         if mask is not None and (mask == self.target_color).all(axis=-1).any():
-            return self.labels["Neoplasm"]
+            return self.labels["Neoplasm"], ["Neoplasm"]
         else:
-            return self.labels["NormalityDescriptor"]
+            return self.labels["NormalityDescriptor"], ["NormalityDescriptor"]
 
 
 class ImageSelector(BaseImageSelector):
@@ -88,6 +89,7 @@ class LITSPipeline(BasePipeline):
         ("add_labels", AddLabels),
         # Recommended to delete images without masks, because they contain neither liver nor tumor
         ("delete_imgs_with_no_annotations", DeleteImgsWithNoAnnotations),
+        ("validate_data", ValidateData),
     )
 
     dataset_args: DatasetArgs = field(default_factory=lambda: lits)
@@ -96,7 +98,7 @@ class LITSPipeline(BasePipeline):
             img_prefix="volume",  # prefix of the source image file names
             mask_prefix="segmentation",
             segmentation_prefix="segmentation",
-            multiple_masks_selector={"livermask": "liver", "lesionmask": "liver_tumor"},
+            multiple_masks_selector={"livermask": "Liver", "lesionmask": "Neoplasm"},
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
             img_selector=ImageSelector(),

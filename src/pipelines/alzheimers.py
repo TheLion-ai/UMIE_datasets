@@ -19,6 +19,7 @@ from steps import (
     DeleteTempPng,
     GetFilePaths,
     StoreSourcePaths,
+    ValidateData,
 )
 
 
@@ -79,11 +80,11 @@ class StudyIdExtractor(BaseStudyIdExtractor):
 class LabelExtractor(BaseLabelExtractor):
     """Extractor for labels specific to the Alzheimer's dataset."""
 
-    def _extract(self, img_path: str, *args: Any) -> str:
+    def _extract(self, img_path: str, *args: Any) -> tuple[list, list]:
         """Extract label from img path."""
         source_label = os.path.basename(os.path.dirname(img_path))
         radlex_label = self.labels[source_label]
-        return radlex_label
+        return radlex_label, [source_label]
 
 
 class ImageSelector(BaseImageSelector):
@@ -116,6 +117,7 @@ class AlzheimersPipeline(BasePipeline):
         ("add_labels", AddLabels),
         ("delete_temp_png", DeleteTempPng),
         ("delete_temp_files", DeleteTempFiles),
+        # ("validate_data", ValidateData),
     )
     dataset_args: DatasetArgs = field(default_factory=lambda: alzheimers)
     pipeline_args: PipelineArgs = field(

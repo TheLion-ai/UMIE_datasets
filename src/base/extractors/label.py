@@ -18,7 +18,7 @@ class BaseLabelExtractor(ABC):
         """Initialize the BaseLabelExtractor class."""
         self.labels = labels
 
-    def __call__(self, img_path: str, mask_path: str) -> list:
+    def __call__(self, img_path: str, mask_path: str) -> tuple[list, list]:
         """
         Extract labels from the labels file.
 
@@ -31,7 +31,7 @@ class BaseLabelExtractor(ABC):
         return self._extract(img_path, mask_path)
 
     @abstractmethod
-    def _extract(self, img_path: str, mask_path: str) -> list:
+    def _extract(self, img_path: str, mask_path: str) -> tuple[list, list]:
         """
         Extract the label from the image path.
 

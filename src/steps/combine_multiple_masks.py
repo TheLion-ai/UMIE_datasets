@@ -52,7 +52,7 @@ class CombineMultipleMasks(BaseStep):
             mask = cv2.imread(mask_path)
             mask_name = self.multiple_masks_selector[active_selector[0]]
             source_color = self.masks[mask_name]["source_color"]
-            target_color = self.mask_encodings[mask_name]["target_color"]
+            target_color = self.masks[mask_name]["target_color"]
             np.place(mask, mask == source_color, target_color)
             for k, v in self.multiple_masks_selector.items():
                 other_mask_path = mask_path.replace(active_selector[0], k)
