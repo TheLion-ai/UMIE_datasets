@@ -322,4 +322,22 @@ cmmd = DatasetArgs(
         "Malignant": [{labels.Malignant.radlex_name: 1}],
     },
 )
+cbis_ddsm = DatasetArgs(
+    dataset_uid="19",
+    dataset_name="cbis_ddsm",
+    phases={"0": "MG"},
+    labels={
+        "0": [{labels.BI_RADS_1.radlex_name: 1}],
+        "1": [{labels.BI_RADS_2.radlex_name: 1}],
+        "2": [{labels.BI_RADS_3.radlex_name: 1}],
+        "3": [{labels.BI_RADS_4.radlex_name: 1}],
+        "4": [{labels.BI_RADS_5.radlex_name: 1}],
+        "5": [{labels.BI_RADS_6.radlex_name: 1}],
+        "BENIGN": [{labels.Benign.radlex_name: 1}],
+        "BENIGN_WITHOUT_CALLBACK": [{labels.Benign.radlex_name: 1}],
+        "MALIGANT": [{labels.Malignant.radlex_name: 1}],
+    },
+    masks={masks.Neoplasm.radlex_name: MaskColor(source_color=255, target_color=masks.Neoplasm.color)},
+)
+
 all_datasets = [obj for name, obj in globals().items() if isinstance(obj, DatasetArgs)]

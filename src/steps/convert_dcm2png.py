@@ -29,7 +29,8 @@ class ConvertDcm2Png(BaseStep):
             raise ValueError("No list of files provided.")
         for img_path in tqdm(X):
             if img_path.endswith(".dcm"):
-                self.convert_dcm2png(img_path)
+                if self.img_selector(img_path):
+                    self.convert_dcm2png(img_path)
 
         if self.masks_path:
             # Further steps related to converting masks to .png will be

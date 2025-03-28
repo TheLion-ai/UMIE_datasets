@@ -84,7 +84,7 @@ class AddUmieIds(BaseStep):
         # Extract relevant information from the source path
         # The logic of the extraction functions depends on the dataset
 
-        if self.segmentation_prefix is not None and self.segmentation_prefix in img_path:
+        if self.segmentation_prefix is not None and self.mask_selector(img_path):
             return None
 
         umie_path = self.get_umie_img_path(img_path)

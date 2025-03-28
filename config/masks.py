@@ -38,7 +38,12 @@ Neoplasm = Mask(
     radlex_name="Neoplasm",
     color=2,
     radlex_id="RID3957",
-    source_names={"kits23": ["kidney tumor"], "brain_tumor_progression": ["Brain tumor"], "lits": ["liver_tumor"]},
+    source_names={
+        "kits23": ["kidney tumor"],
+        "brain_tumor_progression": ["Brain tumor"],
+        "lits": ["liver_tumor"],
+        "cbis_ddsm": ["Neoplasm"],
+    },
 )
 RenalCyst = Mask(id=3, radlex_name="RenalCyst", color=3, radlex_id="RID35811", source_names={"kits23": ["cyst"]})
 ViralInfection = Mask(
