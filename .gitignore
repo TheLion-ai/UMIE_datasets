@@ -10,3 +10,4 @@ data/
 .env
 testing/test_dummy_data/
 dist/
+.idea/

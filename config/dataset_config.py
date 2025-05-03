@@ -300,6 +300,20 @@ ct_org = DatasetArgs(
     },
 )
 
+dbt = DatasetArgs(
+    dataset_uid="15",
+    dataset_name="dbt",
+    # Unsure - DBT is different from Mammo
+    phases={"0": "MG"},
+    labels={
+        "ArchitecturalDistortion": [{labels.ArchitecturalDistortion.radlex_name: 1}],
+        "Mass": [{labels.Mass.radlex_name: 1}, {labels.Lesion.radlex_name: 1}],
+        "Benign": [{labels.Benign.radlex_name: 1}],
+        # Do we divide malignant into invasive and DCIS (no radlex code for DCIS, only for CIS)?
+        "Malignant": [{labels.Malignant.radlex_name: 1}],
+    },
+)
+
 lidc_idri = DatasetArgs(
     dataset_uid="17",
     dataset_name="lidc_idri",

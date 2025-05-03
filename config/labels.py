@@ -216,6 +216,7 @@ Lesion = Label(
         "Chest_X-ray_Abnormalities_Detection": ["Nodule/Mass", "Other Lesion"],
         "ChestX-ray14": ["Mass", "Nodule"],
         "cmmd": ["mass"],
+        "dbt": ["Mass"],
     },
 )
 
@@ -254,7 +255,12 @@ Fibrosis = Label(
     },
 )
 
-Mass = Label(id=26, radlex_name="Mass", radlex_id="RID3874", source_names={"ChestX-ray14": ["Mass"], "cmmd": ["mass"]})
+Mass = Label(
+    id=26,
+    radlex_name="Mass",
+    radlex_id="RID3874",
+    source_names={"ChestX-ray14": ["Mass"], "cmmd": ["mass"], "dbt": ["Mass"]},
+)
 
 PulmonaryEdema = Label(
     id=27,
@@ -395,14 +401,21 @@ Benign = Label(
     id=46,
     radlex_name="Benign",
     radlex_id="RID15654",
-    source_names={"cmmd": ["Benign"]},
+    source_names={"cmmd": ["Benign"], "dbt": ["Benign"]},
 )
 
 Malignant = Label(
     id=47,
     radlex_name="Malignant",
     radlex_id="RID15655",
-    source_names={"cmmd": ["Malignant"]},
+    source_names={"cmmd": ["Malignant"], "dbt": ["Malignant"]},
+)
+
+ArchitecturalDistortion = Label(
+    id=48,
+    radlex_name="ArchitecturalDistortion",
+    radlex_id="RID34261",
+    source_names={"dbt": ["ArchitecturalDistortion"]},
 )
 
 all_labels = [obj for name, obj in globals().items() if isinstance(obj, Label)]
