@@ -47,6 +47,7 @@ class BaseStep(TransformerMixin):
         masks_path: Optional[str] = None,  #
         xml_mask_creator: Optional[BaseXmlMaskCreator] = None,  # function to create masks from xml files
         dicom_mapping_attribute: Optional[str] = None,  # dicom attribute to map paths to
+        nii_slice_by_axis: int = None,  # axis by which nii images are sliced
     ):
         """
         Initialize a Step object.
@@ -111,6 +112,7 @@ class BaseStep(TransformerMixin):
         )
         self.xml_mask_creator = xml_mask_creator
         self.dicom_mapping_attribute = dicom_mapping_attribute
+        self.nii_slice_by_axis = nii_slice_by_axis
 
     def transform(
         self,

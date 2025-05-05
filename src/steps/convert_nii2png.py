@@ -46,12 +46,17 @@ class ConvertNii2Png(BaseStep):
         try:
             nii_img = nib.load(img_path)
             nii_data = nii_img.get_fdata()
-            slices = nii_data.shape[0]
+            slices = nii_data.shape[self.nii_slice_by_axis]
             for idx in range(slices):
                 root_path = os.path.dirname(img_path)
                 name = os.path.basename(img_path).split(".")[0] + f"_{str(idx).zfill(self.zfill)}.png"
                 new_path = os.path.join(root_path, name)
-                img = np.array(nii_data[idx, :, :])
+                if self.nii_slice_by_axis == 1:
+                    img = np.array(nii_data[:, idx, :])
+                elif self.nii_slice_by_axis == 2:
+                    img = np.array(nii_data[:, :, idx])
+                else:
+                    img = np.array(nii_data[idx, :, :])
                 if self.segmentation_prefix not in new_path:
                     img = self._apply_window(img)
 

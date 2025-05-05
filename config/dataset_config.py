@@ -322,4 +322,22 @@ cmmd = DatasetArgs(
         "Malignant": [{labels.Malignant.radlex_name: 1}],
     },
 )
+
+amos22 = DatasetArgs(
+    dataset_uid="21",
+    dataset_name="amos22",
+    phases={"0": "CT", "1": "MRI"},
+    masks={
+        masks.Nodule.radlex_name: MaskColor(source_color=1, target_color=masks.Nodule.color),
+        masks.Kidney.radlex_name: MaskColor(source_color=2, target_color=masks.Kidney.color),
+        masks.Kidney.radlex_name: MaskColor(source_color=3, target_color=masks.Kidney.color),
+    },
+    labels={
+        "calcification": [{labels.Calcification.radlex_name: 1}],
+        "mass": [{labels.Mass.radlex_name: 1}, {labels.Lesion.radlex_name: 1}],
+        "both": [{labels.Calcification.radlex_name: 1}, {labels.Mass.radlex_name: 1}, {labels.Lesion.radlex_name: 1}],
+        "Benign": [{labels.Benign.radlex_name: 1}],
+        "Malignant": [{labels.Malignant.radlex_name: 1}],
+    },
+)
 all_datasets = [obj for name, obj in globals().items() if isinstance(obj, DatasetArgs)]
