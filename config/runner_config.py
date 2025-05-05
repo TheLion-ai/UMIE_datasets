@@ -10,6 +10,7 @@ from src.base.pipeline import PathArgs
 from src.constants import TARGET_PATH
 from src.pipelines import (
     AlzheimersPipeline,
+    Amos22Pipeline,
     BrainMETSharePipeline,
     BrainTumorClassificationPipeline,
     BrainTumorDetectionPipeline,
@@ -141,6 +142,13 @@ datasets = [
             source_path="",  # Path to 'manifest-{xxxxxxxxxxxxx}/CMMD' folder
             target_path=TARGET_PATH,
             labels_path="",  # Path to 'CMMD_clinicaldata_revision.xlsx' file
+        ),
+    ),
+    Amos22Pipeline(
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+            masks_path="",
         ),
     ),
 ]

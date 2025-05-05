@@ -20,6 +20,7 @@ The pipelines included in this module are:
 - LITSPipeline
 """
 from .alzheimers import AlzheimersPipeline
+from .amos22 import Amos22Pipeline
 from .brain_met_share import BrainMETSharePipeline
 from .brain_tumor_classification import BrainTumorClassificationPipeline
 from .brain_tumor_detection import BrainTumorDetectionPipeline

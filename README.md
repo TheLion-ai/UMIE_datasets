@@ -44,8 +44,8 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 |  2  |                    [Alzheimers Dataset](https://www.kaggle.com/datasets/tourist55/alzheimers-dataset-4-class-of-images)	                     |   MRI    |        Classification        |
 |  3  |                  [Brain Tumor Classification](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri)                  |   MRI    |        Classification        |
 |  4  |                    [COVID-19 Detection X-Ray](https://www.kaggle.com/datasets/darshan1504/covid19-detection-xray-dataset)                    |   XRAY   |        Classification        |
-|  5  |                  [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/datasets/kmader/finding-lungs-in-ct-data)	                 |    CT    |         Segmentation         |
-|  6  |       [Brain CT Images with Intracranial Hemorrhage Masks](https://www.kaggle.com/datasets/vbookshelf/computed-tomography-ct-images)	       |    CT    |        Classification        |
+|  5  |                  [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/datasets/kmader/finding-lungs-in-ct-data)	                  |    CT    |         Segmentation         |
+|  6  |       [Brain CT Images with Intracranial Hemorrhage Masks](https://www.kaggle.com/datasets/vbookshelf/computed-tomography-ct-images)	        |    CT    |        Classification        |
 |  7  |                           [Liver and Liver Tumor Segmentation](https://www.kaggle.com/datasets/andrewmvd/lits-png)                           |    CT    | Classification, Segmentation |
 |  8  |      [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/jjprotube/brain-mri-images-for-brain-tumor-detection)      |   MRI    |        Classification        |
 |  9  | [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/datasets/shashwatwork/knee-osteoarthritis-dataset-with-severity)	 |   XRAY   |        Classification        |
@@ -56,6 +56,7 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 | 14  |                                      [CT-ORG](https://www.cancerimagingarchive.net/collection/ct-org/)                                       |    CT    |         Segmentation         |
 | 17  |                                   [LIDC-IDRI](https://www.cancerimagingarchive.net/collection/lidc-idri/)                                    |    CT    |         Segmentation         |
 | 18  |                                        [CMMD](https://www.cancerimagingarchive.net/collection/cmmd/)                                         |    MG    |        Classification        |
+| 19  |                                                  [AMOS](https://amos22.grand-challenge.org)                                                  | MRI, CT  |         Segmentation         |
 
 
 # **Using the datasets**
@@ -279,6 +280,18 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   4. Download CMMD_clinicaldata_revision.xlsx from Data Access table for labels information.
   5. Fill in the `source_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `manifest-{xxxxxxxxxxxxx}/CMMD` folder.
   6. Fill in the `labels_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `CMMD_clinicaldata_revision.xlsx` file.
+</details>
+
+
+<details>
+  <summary>19. AMOS - Abdominal multi-organ segmentation</summary>
+
+**19. AMOS**
+  1. Go to [AMOS](https://amos22.grand-challenge.org).
+  2. Request access and Download .zip file.
+  3. Extract amos22.zip file.
+  4. Fill in the `source_path` in `AmosPipeline()` in `config/runner_config.py` with the location of the `amos22` folder.
+  5. Fill in the `masks_path` in `AmosPipeline()` in `config/runner_config.py` with the location of the `amos22` folder.
 </details>
 
 
