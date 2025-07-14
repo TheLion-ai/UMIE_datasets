@@ -287,7 +287,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>29. Pneumothorax</summary>
 
-**18. Pneumothorax**
+**29. Pneumothorax**
   1. Go to [Pneumothorax](https://www.kaggle.com/datasets/vbookshelf/pneumothorax-chest-xray-images-and-masks).
   2. Download zip file with all data.
   3. Unpack file.
