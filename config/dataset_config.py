@@ -303,8 +303,7 @@ ct_org = DatasetArgs(
 dbt = DatasetArgs(
     dataset_uid="15",
     dataset_name="dbt",
-    # Unsure - DBT is different from Mammo
-    phases={"0": "MG"},
+    phases={"0": "DBT"},
     labels={
         "ArchitecturalDistortion": [{labels.ArchitecturalDistortion.radlex_name: 1}],
         "Mass": [{labels.Mass.radlex_name: 1}, {labels.Lesion.radlex_name: 1}],
