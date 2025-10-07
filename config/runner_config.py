@@ -31,47 +31,47 @@ from src.pipelines import (
 datasets = [
     KITS23Pipeline(
         path_args=PathArgs(
-            source_path="",  # Path to the "dataset" directory in KITS23 repo
-            masks_path="",  # Path to the "dataset" directory in KITS23 repo
+            source_path="../datasets/kits23/dataset",  # Path to the "dataset" directory in KITS23 repo
+            masks_path="../datasets/kits23/dataset",  # Path to the "dataset" directory in KITS23 repo
             target_path=TARGET_PATH,
-            labels_path="",  # Path to kits23.json
+            labels_path="../datasets/kits23/dataset/kits23.json",  # Path to kits23.json
         ),
     ),
     CoronaHackPipeline(
         path_args=PathArgs(
-            source_path="",
+            source_path="../datasets/praveengovi/coronahack-chest-xraydataset/versions/3",
             target_path=TARGET_PATH,
-            labels_path="",  # Path to Chest_xray_Corona_Metadata.csv
+            labels_path="./datasets/praveengovi/coronahack-chest-xraydataset/versions/3/Chest_xray_Corona_Metadata.csv",  # Path to Chest_xray_Corona_Metadata.csv
         ),
     ),
     AlzheimersPipeline(
         path_args=PathArgs(
-            source_path="",  # Path to archive directory from kaggle
+            source_path=".../datasets/preetpalsingh25/alzheimers-dataset-4-class-of-images/versions/1",  # Path to archive directory from kaggle
             target_path=TARGET_PATH,
         ),
     ),
     BrainTumorClassificationPipeline(
         path_args=PathArgs(
-            source_path="",
+            source_path="../datasets/nikhilpandey360/chest-xray-masks-and-labels/versions/1",
             target_path=TARGET_PATH,
         ),
     ),
     COVID19DetectionPipeline(
         path_args=PathArgs(
-            source_path="",
+            source_path="../datasets/darshan1504/covid19-detection-xray-dataset/versions/1",
             target_path=TARGET_PATH,
         ),
     ),
     FindingAndMeasuringLungsPipeline(
         path_args=PathArgs(
-            source_path="",  # Path to 2d_images directory
+            source_path="../datasets/kmader/finding-lungs-in-ct-data/versions/2",  # Path to 2d_images directory
             target_path=TARGET_PATH,
             masks_path="",  # Path to 2d_masks directory
         ),
     ),
     BrainWithIntracranialHemorrhagePipeline(
         path_args=PathArgs(
-            source_path="",
+            source_path="../datasets/vbookshelf/computed-tomography-ct-images/versions/1",
             target_path=TARGET_PATH,
             masks_path="",  # same as source path
         ),
@@ -85,7 +85,7 @@ datasets = [
     ),
     BrainTumorDetectionPipeline(
         path_args=PathArgs(
-            source_path="",
+            source_path="./datasets/jjprotube/brain-mri-images-for-brain-tumor-detection/versions/1",
             target_path=TARGET_PATH,
         ),
     ),
