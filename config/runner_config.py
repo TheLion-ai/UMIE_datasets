@@ -89,58 +89,58 @@ datasets = [
             target_path=TARGET_PATH,
         ),
     ),
-    KneeOsteoarthritisPipeline(
-        path_args=PathArgs(
-            source_path="",
-            target_path=TARGET_PATH,
-        ),
-    ),
-    BrainTumorProgressionPipeline(
-        path_args=PathArgs(
-            source_path="",
-            target_path=TARGET_PATH,
-            masks_path="",
-        )
-    ),
-    ChestXray14Pipeline(
-        path_args=PathArgs(
-            source_path="",  # path to images/
-            target_path=TARGET_PATH,
-            labels_path="",  # Path to Data_Entry_2017_v2020.csv
-        ),
-    ),
-    COCAPipeline(
-        path_args=PathArgs(
-            source_path="",  # Path to Gated_release_final/patient
-            target_path=TARGET_PATH,
-            masks_path="",  # Path to Gated_release_final/calcium_xml
-        ),
-    ),
-    BrainMETSharePipeline(
-        path_args=PathArgs(
-            source_path="",
-            target_path=TARGET_PATH,
-        ),
-    ),
-    CtOrgPipeline(
-        path_args=PathArgs(
-            source_path="",
-            target_path=TARGET_PATH,
-            masks_path="",
-        ),
-    ),
-    LidcIdriPipeline(
-        path_args=PathArgs(
-            source_path="",  # Path to LIDC-IDRI/ directory
-            target_path=TARGET_PATH,
-            masks_path="",  # Path to extracted LIDC-XML-only/ directory (from LIDC-XML-only.zip)
-        ),
-    ),
-    CmmdPipeline(
-        path_args=PathArgs(
-            source_path="",  # Path to 'manifest-{xxxxxxxxxxxxx}/CMMD' folder
-            target_path=TARGET_PATH,
-            labels_path="",  # Path to 'CMMD_clinicaldata_revision.xlsx' file
-        ),
-    ),
+    # KneeOsteoarthritisPipeline(
+    #     path_args=PathArgs(
+    #         source_path="",
+    #         target_path=TARGET_PATH,
+    #     ),
+    # ),
+    # BrainTumorProgressionPipeline(
+    #     path_args=PathArgs(
+    #         source_path="",
+    #         target_path=TARGET_PATH,
+    #         masks_path="",
+    #     )
+    # ),
+    # ChestXray14Pipeline(
+    #     path_args=PathArgs(
+    #         source_path="",  # path to images/
+    #         target_path=TARGET_PATH,
+    #         labels_path="",  # Path to Data_Entry_2017_v2020.csv
+    #     ),
+    # ),
+    # COCAPipeline(
+    #     path_args=PathArgs(
+    #         source_path="",  # Path to Gated_release_final/patient
+    #         target_path=TARGET_PATH,
+    #         masks_path="",  # Path to Gated_release_final/calcium_xml
+    #     ),
+    # ),
+    # BrainMETSharePipeline(
+    #     path_args=PathArgs(
+    #         source_path="",
+    #         target_path=TARGET_PATH,
+    #     ),
+    # ),
+    # CtOrgPipeline(
+    #     path_args=PathArgs(
+    #         source_path="",
+    #         target_path=TARGET_PATH,
+    #         masks_path="",
+    #     ),
+    # ),
+    # LidcIdriPipeline(
+    #     path_args=PathArgs(
+    #         source_path="",  # Path to LIDC-IDRI/ directory
+    #         target_path=TARGET_PATH,
+    #         masks_path="",  # Path to extracted LIDC-XML-only/ directory (from LIDC-XML-only.zip)
+    #     ),
+    # ),
+    # CmmdPipeline(
+    #     path_args=PathArgs(
+    #         source_path="",  # Path to 'manifest-{xxxxxxxxxxxxx}/CMMD' folder
+    #         target_path=TARGET_PATH,
+    #         labels_path="",  # Path to 'CMMD_clinicaldata_revision.xlsx' file
+    #     ),
+    # ),
 ]
