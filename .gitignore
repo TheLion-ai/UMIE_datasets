@@ -13,4 +13,4 @@ dist/
 
 
 *-env
-dataset/*
+datasets/*

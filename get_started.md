@@ -16,10 +16,11 @@
 
 ------------------------
 
-## Dataset setup
+## Dataset preparation
 
 0. create new directory for project datasets: `mkdir datasets`
 1. to clone submodules run: `git submodule update --init --recursive`
     - This command initializes any uninitialized submodules, updates existing ones to the correct commit, and fetches new commits from their remotes. The `--init` flag ensures new submodules are registered and cloned, while `--recursive` handles nested submodules. 
 
 
+2. download from Kaggle run: `python download_kaggle.py`
