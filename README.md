@@ -122,7 +122,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   <summary>3. Brain Tumor Classification (MRI</summary>
 
 **3. Brain Tumor Classification (MRI)**
-1. Go to [Brain Tumor Classification](https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels) page on Kaggle.
+1. Go to [Brain Tumor Classification](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset) page on Kaggle.
   2. Login to your Kaggle account.
   3. Download the data.
   4. Extract `archive.zip`.
