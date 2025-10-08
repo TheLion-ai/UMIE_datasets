@@ -16,7 +16,8 @@ datasets = [
     "name": "ALZHEIMER"
   },
   {
-    "dataset": "nikhilpandey360/chest-xray-masks-and-labels", # 3. Brain Tumor Classification (MRI)
+    "dataset": "masoudnickparvar/brain-tumor-mri-dataset",
+    # "dataset": "nikhilpandey360/chest-xray-masks-and-labels", # 3. Brain Tumor Classification (MRI)
     "name": "BRAIN_TUMOR"
   },
   {

@@ -34,4 +34,4 @@
 
 
 3. download from Kaggle run: `python download_kaggle.py`
-    - console will output the path where the datasets are stored. They are need for `config/runner_config.py`
+    - this script will download all kaggle's repo and generate a `.pipeline.env`

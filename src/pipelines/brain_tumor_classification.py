@@ -40,10 +40,10 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     This fact is used to assign unique ids
     """
     unique_id_conversion_dict = {
-        "glioma_tumor": "00",
-        "meningioma_tumor": "01",
-        "pituitary_tumor": "10",
-        "no_tumor": "11",
+        "glioma": "00",
+        "meningioma": "01",
+        "pituitary": "10",
+        "notumor": "11",
     }
 
     def _extract(self, img_path: str) -> str:
@@ -56,6 +56,7 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         parent_directory = self._extract_parent_dir(img_path, parent_dir_level=1)
 
         image_folder = self._extract_filename(parent_directory)
+       
         unique_id = unique_id + self.unique_id_conversion_dict[image_folder]
 
         # after conversion to png there are additional png files

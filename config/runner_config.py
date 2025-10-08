@@ -33,27 +33,27 @@ from src.pipelines import (
 load_dotenv(dotenv_path=".pipeline.env")
 
 datasets = [
-    KITS23Pipeline(
-        path_args=PathArgs(
-            source_path=os.getenv("KITS23"),  # Path to the "dataset" directory in KITS23 repo
-            masks_path=os.getenv("KITS23"),  # Path to the "dataset" directory in KITS23 repo
-            target_path=TARGET_PATH,
-            labels_path=os.getenv("KITS23") + "/kits23.json",  # Path to kits23.json
-        ),
-    ),
-    CoronaHackPipeline(
-        path_args=PathArgs(
-            source_path=os.getenv("CORONA_HACK"),
-            target_path=TARGET_PATH,
-            labels_path=os.getenv("CORONA_HACK") + "/Chest_xray_Corona_Metadata.csv",  # Path to Chest_xray_Corona_Metadata.csv
-        ),
-    ),
-    AlzheimersPipeline(
-        path_args=PathArgs(
-            source_path=os.getenv("ALZHEIMER"),  # Path to archive directory from kaggle
-            target_path=TARGET_PATH,
-        ),
-    ),
+    # KITS23Pipeline(
+    #     path_args=PathArgs(
+    #         source_path=os.getenv("KITS23"),  # Path to the "dataset" directory in KITS23 repo
+    #         masks_path=os.getenv("KITS23"),  # Path to the "dataset" directory in KITS23 repo
+    #         target_path=TARGET_PATH,
+    #         labels_path=os.getenv("KITS23") + "/kits23.json",  # Path to kits23.json
+    #     ),
+    # ),
+    # CoronaHackPipeline(
+    #     path_args=PathArgs(
+    #         source_path=os.getenv("CORONA_HACK"),
+    #         target_path=TARGET_PATH,
+    #         labels_path=os.getenv("CORONA_HACK") + "/Chest_xray_Corona_Metadata.csv",  # Path to Chest_xray_Corona_Metadata.csv
+    #     ),
+    # ),
+    # AlzheimersPipeline(
+    #     path_args=PathArgs(
+    #         source_path=os.getenv("ALZHEIMER"),  # Path to archive directory from kaggle
+    #         target_path=TARGET_PATH,
+    #     ),
+    # ),
     BrainTumorClassificationPipeline(
         path_args=PathArgs(
             source_path=os.getenv("BRAIN_TUMOR"),
