@@ -32,7 +32,6 @@ from src.pipelines import (
 
 load_dotenv(dotenv_path=".pipeline.env")
 
-print(os.getcwd())
 datasets = [
     KITS23Pipeline(
         path_args=PathArgs(
