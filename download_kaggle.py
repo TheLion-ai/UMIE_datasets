@@ -39,7 +39,11 @@ datasets = [
   {
     "dataset": "jjprotube/brain-mri-images-for-brain-tumor-detection", # 8. Brain MRI Images for Brain Tumor Detection
     "name": "BRAIN_MRI"
-  }  
+  },
+  {
+    "dataset": "shashwatwork/knee-osteoarthritis-dataset-with-severity", # 9. Knee Osteoarthrithis Dataset with Severity Grading
+    "name": "KNEE_OSTEO"
+  }
   
 ]
 

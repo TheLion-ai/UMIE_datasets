@@ -95,11 +95,11 @@ datasets = [
     ),
     # KneeOsteoarthritisPipeline(
     #     path_args=PathArgs(
-    #         source_path="",
+    #         source_path=os.getenv("KNEE_OSTEO"),
     #         target_path=TARGET_PATH,
     #     ),
     # ),
-    # BrainTumorProgressionPipeline(
+    # BrainTumorProgressionPipeline( # data collection removed
     #     path_args=PathArgs(
     #         source_path="",
     #         target_path=TARGET_PATH,

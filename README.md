@@ -208,6 +208,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   <summary>10. Brain-Tumor-Progression</summary>
 
 **10. Brain-Tumor-Progression**
+  **UPDATE: Some data in this collection contains images that could potentially be used to reconstruct a human face. The data collection is removed.**
   1. Go to [Brain Tumor Progression](https://wiki.cancerimagingarchive.net/display/Public/Brain-Tumor-Progression#339481190e2ccc0d07d7455ab87b3ebb625adf48) dataset from the cancer imaging archive.
 
 </details>
