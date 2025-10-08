@@ -6,6 +6,8 @@ The dataset with empty source_path is not transformed.
 If the dataset has a labels_path or masks path, it needs to be filled in too in order to transform the dataset.
 Each dataset should have a comment suggesting the name of the source file the path should point to, e.g. # Path to kits23.json.
 """
+import os
+from dotenv import load_dotenv
 from src.base.pipeline import PathArgs
 from src.constants import TARGET_PATH
 from src.pipelines import (
@@ -28,64 +30,67 @@ from src.pipelines import (
     LITSPipeline,
 )
 
+load_dotenv(dotenv_path=".config.env")
+
+print(os.getcwd())
 datasets = [
     KITS23Pipeline(
         path_args=PathArgs(
-            source_path="../datasets/kits23/dataset",  # Path to the "dataset" directory in KITS23 repo
-            masks_path="../datasets/kits23/dataset",  # Path to the "dataset" directory in KITS23 repo
+            source_path=os.getenv("KITS23"),  # Path to the "dataset" directory in KITS23 repo
+            masks_path=os.getenv("KITS23"),  # Path to the "dataset" directory in KITS23 repo
             target_path=TARGET_PATH,
-            labels_path="../datasets/kits23/dataset/kits23.json",  # Path to kits23.json
+            labels_path=os.getenv("KITS23") + "/kits23.json",  # Path to kits23.json
         ),
     ),
     CoronaHackPipeline(
         path_args=PathArgs(
-            source_path="../datasets/praveengovi/coronahack-chest-xraydataset/versions/3",
+            source_path=os.getenv("CORONA_HACK"),
             target_path=TARGET_PATH,
-            labels_path="./datasets/praveengovi/coronahack-chest-xraydataset/versions/3/Chest_xray_Corona_Metadata.csv",  # Path to Chest_xray_Corona_Metadata.csv
+            labels_path=os.getenv("CORONA_HACK") + "/Chest_xray_Corona_Metadata.csv",  # Path to Chest_xray_Corona_Metadata.csv
         ),
     ),
     AlzheimersPipeline(
         path_args=PathArgs(
-            source_path=".../datasets/preetpalsingh25/alzheimers-dataset-4-class-of-images/versions/1",  # Path to archive directory from kaggle
+            source_path=os.getenv("ALZHEIMER"),  # Path to archive directory from kaggle
             target_path=TARGET_PATH,
         ),
     ),
     BrainTumorClassificationPipeline(
         path_args=PathArgs(
-            source_path="../datasets/nikhilpandey360/chest-xray-masks-and-labels/versions/1",
+            source_path=os.getenv("BRAIN_TUMOR"),
             target_path=TARGET_PATH,
         ),
     ),
     COVID19DetectionPipeline(
         path_args=PathArgs(
-            source_path="../datasets/darshan1504/covid19-detection-xray-dataset/versions/1",
+            source_path=os.getenv("COVID19_DETECTION"),
             target_path=TARGET_PATH,
         ),
     ),
     FindingAndMeasuringLungsPipeline(
         path_args=PathArgs(
-            source_path="../datasets/kmader/finding-lungs-in-ct-data/versions/2",  # Path to 2d_images directory
+            source_path=os.getenv("FAM_LUNGS"),  # Path to 2d_images directory
             target_path=TARGET_PATH,
             masks_path="",  # Path to 2d_masks directory
         ),
     ),
     BrainWithIntracranialHemorrhagePipeline(
         path_args=PathArgs(
-            source_path="../datasets/vbookshelf/computed-tomography-ct-images/versions/1",
+            source_path=os.getenv("BRAIN_CT"),
             target_path=TARGET_PATH,
             masks_path="",  # same as source path
         ),
     ),
     LITSPipeline(
         path_args=PathArgs(
-            source_path="",
+            source_path=os.getenv("LITS"),
             target_path=TARGET_PATH,
             masks_path="",  # same as source_path
         ),
     ),
     BrainTumorDetectionPipeline(
         path_args=PathArgs(
-            source_path="./datasets/jjprotube/brain-mri-images-for-brain-tumor-detection/versions/1",
+            source_path=os.getenv("BRAIN_MRI"),
             target_path=TARGET_PATH,
         ),
     ),
