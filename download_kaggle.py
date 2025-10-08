@@ -42,7 +42,7 @@ datasets = [
   
 ]
 
-config_file="./.config.env"
+config_file="./.pipeline.env"
 with open(config_file, "w") as file:
 
   for item in datasets:

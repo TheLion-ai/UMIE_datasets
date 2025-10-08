@@ -30,7 +30,7 @@ from src.pipelines import (
     LITSPipeline,
 )
 
-load_dotenv(dotenv_path=".config.env")
+load_dotenv(dotenv_path=".pipeline.env")
 
 print(os.getcwd())
 datasets = [
