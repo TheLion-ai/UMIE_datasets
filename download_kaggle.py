@@ -52,6 +52,6 @@ with open(config_file, "w") as file:
     file.write(dataset_path)
 
 
-  file.write(f"KITS23={os.getcwd()}/datasets/kits23/datasets\n")
+  file.write(f"KITS23={os.getcwd()}/datasets/kits23/dataset\n")
   
   file.close()
