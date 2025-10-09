@@ -91,3 +91,9 @@
             ex: `CMMD_MANIFEST=/home/user/UMIE_datasets/datasets/cmmd/manifest-1616439774456/CMMD`
         - define `CMMD_CLINICAL` variable with the full path to `datasets/cmmd` in `.pipeline.env` file:
             ex: `CMMD_CLINICAL=/home/user/UMIE_datasets/datasets/cmmd/CMMD_clinicaldata_revision.xlsx`
+
+
+
+----------------
+
+#### See `pipeline.env.example` 
