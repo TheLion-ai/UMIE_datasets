@@ -77,12 +77,8 @@ class LabelExtractor(BaseLabelExtractor):
     """Extractor for labels specific to the Brain Tumor Classification dataset."""
 
     def _extract(self, source_img_path: str, *args: Any) -> tuple[list, list]:
-        print(source_img_path)
         image_folder = os.path.basename(os.path.dirname(source_img_path))
         source_label = image_folder
-        print('-------------------------------')
-        print(self.labels)
-        print(source_label)
         return self.labels[image_folder], [source_label]
 
 
