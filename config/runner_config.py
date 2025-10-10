@@ -73,21 +73,21 @@ datasets = [
         path_args=PathArgs(
             source_path=os.getenv("FAM_LUNGS", ""),  # Path to 2d_images directory
             target_path=TARGET_PATH,
-            masks_path="",  # Path to 2d_masks directory
+            masks_path=os.getenv("FAM_LUNGS", ""),  # Path to 2d_masks directory
         ),
     ),
     BrainWithIntracranialHemorrhagePipeline(
         path_args=PathArgs(
             source_path=os.getenv("BRAIN_CT", ""),
             target_path=TARGET_PATH,
-            masks_path="",  # same as source path
+            masks_path=os.getenv("BRAIN_CT", ""),  # same as source path
         ),
     ),
     LITSPipeline(
         path_args=PathArgs(
             source_path=os.getenv("LITS", ""),
             target_path=TARGET_PATH,
-            masks_path="",  # same as source_path
+            masks_path=os.getenv("LITS", ""),  # same as source_path
         ),
     ),
     BrainTumorDetectionPipeline(
