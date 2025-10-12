@@ -71,9 +71,9 @@ datasets = [
     ),
     FindingAndMeasuringLungsPipeline(
         path_args=PathArgs(
-            source_path=os.getenv("FAM_LUNGS", ""),  # Path to 2d_images directory
+            source_path=os.getenv("FAM_LUNGS", "") + "/2d_images",  # Path to 2d_images directory
             target_path=TARGET_PATH,
-            masks_path=os.getenv("FAM_LUNGS", ""),  # Path to 2d_masks directory
+            masks_path=os.getenv("FAM_LUNGS", "") + "/2d_masks",  # Path to 2d_masks directory
         ),
     ),
     BrainWithIntracranialHemorrhagePipeline(
@@ -131,13 +131,13 @@ datasets = [
     #         target_path=TARGET_PATH,
     #     ),
     # ),
-    # CtOrgPipeline(
-    #     path_args=PathArgs(
-    #         source_path="",
-    #         target_path=TARGET_PATH,
-    #         masks_path="",
-    #     ),
-    # ),
+    CtOrgPipeline(
+        path_args=PathArgs(
+            source_path=os.getenv("CTORG", ""),
+            target_path=TARGET_PATH,
+            masks_path=os.getenv("CTORG", ""),
+        ),
+    ),
     LidcIdriPipeline(
         path_args=PathArgs(
             source_path=os.getenv("LIDC_MANIFEST", ""),  # Path to LIDC-IDRI/ directory

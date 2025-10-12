@@ -68,10 +68,13 @@
         1. Log in or sign up for a Stanford AIMI account.
         2. Fill in your contact details.
 
-3. CT-ORG (unable to verify because IBM Aspera Client is broken)
+3. CT-ORG
   1. Go to [CT-ORG](https://www.cancerimagingarchive.net/collection/ct-org/) page on Cancer imaging archive.
   2. Download the data.
   3. Extract `PKG - CT-ORG`.
+  4. define `CTORG` variable with the full path to `datasets/LIDC` in `.pipeline.env` file:
+            ex: `CTORG=/home/user/UMIE_datasets/datasets/ct-org/PKG - CT-ORG`
+
 
 4. Install [NBIA Data Retriever](https://wiki.cancerimagingarchive.net/display/NBIA/Downloading+TCIA+Images)
     A. **LIDC-IDRI**
