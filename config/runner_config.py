@@ -26,6 +26,7 @@ from src.pipelines import (
     KneeOsteoarthritisPipeline,
     LidcIdriPipeline,
     LITSPipeline,
+    Promise12Pipeline,
 )
 
 datasets = [
@@ -141,6 +142,13 @@ datasets = [
             source_path="",  # Path to 'manifest-{xxxxxxxxxxxxx}/CMMD' folder
             target_path=TARGET_PATH,
             labels_path="",  # Path to 'CMMD_clinicaldata_revision.xlsx' file
+        ),
+    ),
+    Promise12Pipeline(
+        path_args=PathArgs(
+            source_path="",  # Path to 'manifest-{xxxxxxxxxxxxx}/CMMD' folder
+            target_path=TARGET_PATH,
+            masks_path="",  # Path to 'CMMD_clinicaldata_revision.xlsx' file
         ),
     ),
 ]
