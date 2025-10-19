@@ -35,9 +35,17 @@
 
 
 
-3. download from Kaggle run: `python download_kaggle.py`
+3. download from Kaggle run: `python util/download_kaggle.py`
     - this script will download all kaggle's repo and generate a `.pipeline.env`
 
+4. download from TCIA run: `python util/download_tcia.py`
+    - this script will download from TCIA's site and generate a `.pipeline.env` 
+    - Download ['Radiologist Annotations/Segmentations'](https://www.cancerimagingarchive.net/collection/lidc-idri/)
+        - extract to `datasets/LIDC` and update `LIDC_XML` variable with the full path to `datasets/LIDC` in `.pipeline.env` file:
+            ex: `LIDC_XML=/home/user/UMIE_datasets/datasets/LIDC/LIDC-XML-Only`
+    - Download ['Clinical Data'](https://www.cancerimagingarchive.net/collection/cmmd/)
+        - define `CMMD_CLINICAL` variable with the full path to `datasets/CMMD` in `.pipeline.env` file:
+            ex: `CMMD_CLINICAL=/home/user/UMIE_datasets/datasets/cmmd/CMMD_clinicaldata_revision.xlsx`    
 
 ----
     Manual downloads
@@ -79,8 +87,7 @@
 4. Install [NBIA Data Retriever](https://wiki.cancerimagingarchive.net/display/NBIA/Downloading+TCIA+Images)
     A. **LIDC-IDRI**
         - run/click: `nbia_manifests/TCIA_LIDC-IDRI_20200921.tcia` to download ['Images'](https://www.cancerimagingarchive.net/collection/lidc-idri/)
-        - Download ['Radiologist Annotations/Segmentations'](https://www.cancerimagingarchive.net/collection/lidc-idri/)
-        - extract to `datasets/LIDC`
+        
         - define `LIDC_MANIFEST` variable with the full path to `datasets/LIDC` in `.pipeline.env` file:
             ex: `LIDC_MANIFEST=/home/user/UMIE_datasets/datasets/LIDC/manifest-1600709154662/LIDC-IDRI`
         - define `LIDC_XML` variable with the full path to `datasets/LIDC` in `.pipeline.env` file:
