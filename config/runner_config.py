@@ -102,13 +102,13 @@ datasets = [
             target_path=TARGET_PATH,
         ),
     ),
-    # BrainTumorProgressionPipeline( # data collection removed
-    #     path_args=PathArgs(
-    #         source_path="",
-    #         target_path=TARGET_PATH,
-    #         masks_path="",
-    #     )
-    # ),
+    BrainTumorProgressionPipeline( # data collection removed
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+            masks_path="",
+        )
+    ),
     ChestXray14Pipeline(
         path_args=PathArgs(
             source_path=os.getenv("CHESTXRAY14", "") + "/images",  # path to images/
@@ -117,20 +117,20 @@ datasets = [
             + "/Data_Entry_2017_v2020.csv",  # Path to Data_Entry_2017_v2020.csv
         ),
     ),
-    # unverified datasets
-    # COCAPipeline(
-    #     path_args=PathArgs(
-    #         source_path="",  # Path to Gated_release_final/patient
-    #         target_path=TARGET_PATH,
-    #         masks_path="",  # Path to Gated_release_final/calcium_xml
-    #     ),
-    # ),
-    # BrainMETSharePipeline(
-    #     path_args=PathArgs(
-    #         source_path="",
-    #         target_path=TARGET_PATH,
-    #     ),
-    # ),
+    unverified datasets
+    COCAPipeline(
+        path_args=PathArgs(
+            source_path="",  # Path to Gated_release_final/patient
+            target_path=TARGET_PATH,
+            masks_path="",  # Path to Gated_release_final/calcium_xml
+        ),
+    ),
+    BrainMETSharePipeline(
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+        ),
+    ),
     CtOrgPipeline(
         path_args=PathArgs(
             source_path=os.getenv("CTORG", ""),
