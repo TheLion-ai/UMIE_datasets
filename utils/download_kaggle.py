@@ -1,8 +1,10 @@
 import os
 
 import kagglehub
+
 from src.constants import DATASETS_DOWNLOAD_PATH
-os.environ["KAGGLEHUB_CACHE"] =  DATASETS_DOWNLOAD_PATH # automatically will put in the /datasets directory
+
+os.environ["KAGGLEHUB_CACHE"] = DATASETS_DOWNLOAD_PATH  # automatically will put in the /datasets directory
 # Download latest version
 
 
