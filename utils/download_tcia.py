@@ -5,8 +5,7 @@ import shutil
 from pathlib import Path
 from typing import Callable, Optional
 
-from tcia_utils import nbia_v4 as nbia
-
+from tcia_utils import nbia
 
 class Dataset:
   def __init__(
