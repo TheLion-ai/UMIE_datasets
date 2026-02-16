@@ -58,8 +58,16 @@ def test_promise12_verify_images_correct():
 
 def test_promise12_verify_jsonl_correct():
     """Test to verify whether all json files have contents as expected."""
-    expected_jsonl_path = glob.glob(f"{expected_output_path}/**/**.jsonl", recursive=True)[0]
-    current_jsonl_path = glob.glob(f"{target_path}/**/**.jsonl", recursive=True)[0]
+    expected_jsonl_files = glob.glob(f"{expected_output_path}/**/**.jsonl", recursive=True)
+    current_jsonl_files = glob.glob(f"{target_path}/**/**.jsonl", recursive=True)
+
+    if not expected_jsonl_files:
+        pytest.fail(f"No .jsonl files found in expected output path: {expected_output_path}")
+    if not current_jsonl_files:
+        pytest.fail(f"No .jsonl files found in current output path: {target_path}")
+
+    expected_jsonl_path = expected_jsonl_files[0]
+    current_jsonl_path = current_jsonl_files[0]
     with open(expected_jsonl_path, "r") as file:
         expected_jsonl = [json.loads(line) for line in file]
     with open(current_jsonl_path, "r") as file:
