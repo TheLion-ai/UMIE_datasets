@@ -122,3 +122,11 @@ Mass = Mask(
     radlex_id="RID3874",
     source_names={"ChestX-ray14": ["Mass"], "cmmd": ["mass"]},
 )
+
+Prostate = Mask(
+    id=99,
+    radlex_name="Prostate",
+    color=99,
+    radlex_id="RIDxxxx",
+    source_names={"Promise12": ["prostate"]},
+)

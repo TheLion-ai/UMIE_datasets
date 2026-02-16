@@ -36,3 +36,4 @@ from .kits23 import KITS23Pipeline
 from .knee_osteoarthritis import KneeOsteoarthritisPipeline
 from .lidc_idri import LidcIdriPipeline
 from .lits import LITSPipeline
+from .promise12 import Promise12Pipeline

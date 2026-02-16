@@ -322,4 +322,13 @@ cmmd = DatasetArgs(
         "Malignant": [{labels.Malignant.radlex_name: 1}],
     },
 )
+
+promise12 = DatasetArgs(
+    dataset_uid="27",
+    dataset_name="promise12",
+    phases={"0": "MRI"},
+    masks={
+        masks.Prostate.radlex_name: MaskColor(source_color=255, target_color=masks.Prostate.color),
+    },
+)
 all_datasets = [obj for name, obj in globals().items() if isinstance(obj, DatasetArgs)]
