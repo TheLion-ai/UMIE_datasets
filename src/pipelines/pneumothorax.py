@@ -54,7 +54,7 @@ class LabelExtractor(BaseLabelExtractor):
     def _extract(self, img_path: os.PathLike, *args: Any) -> tuple[list, list]:
         """Extract label from img path."""
         img_name = os.path.basename(img_path)
-        pneumotrax_label = bool(img_name.split("_")[-1][0])
+        pneumotrax_label = img_name.split("_")[-1][0] == "1"
         if pneumotrax_label:
             labels = ["Pneumothorax"]
         else:
