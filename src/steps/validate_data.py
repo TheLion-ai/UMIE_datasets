@@ -12,6 +12,10 @@ from config import labels
 class ValidateData(BaseStep):
     """Validate the dataset output data."""
 
+    def fit(self, X, y=None):
+        # for sklearn compatibility
+        return self
+
     def transform(
         self,
         X: list,  # img_paths

@@ -11,6 +11,10 @@ from base.step import BaseStep
 class DeleteTempPng(BaseStep):
     """Delete temporary png files created by other steps in the source directory."""
 
+    def fit(self, X, y=None):
+        # for sklearn compatibility
+        return self
+
     def transform(
         self,
         X: list,  # img_paths
