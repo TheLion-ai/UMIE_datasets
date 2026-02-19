@@ -27,6 +27,9 @@ openpyxl = "^3.1.5"
 bs4 = "^0.0.2"
 lxml = "^5.3.0"
 webdataset = "^0.2.100"
+kagglehub = "^0.3.13"
+python-dotenv = "^1.1.1"
+tcia-utils = "^3.0.4"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"

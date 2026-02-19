@@ -41,7 +41,7 @@ NormalityDecriptor = Label(
         "alzheimers": ["NonDemented"],
         "covid19_detection": ["normal"],
         "chestX-ray14": ["No Finding"],
-        "brain_tumor_classification": ["no_tumor"],
+        "brain_tumor_classification": ["notumor"],
         "brain_with_intracranial_hemorrhage": ["normal"],
         "brain_tumor_detection": ["N"],
         "lits": ["NormalityDescriptor"],
@@ -337,21 +337,21 @@ Adenocarcinoma = Label(
 )
 
 Glioma = Label(
-    id=39, radlex_name="Glioma", radlex_id="RID4026", source_names={"brain_tumor_classification": ["glioma_tumor"]}
+    id=39, radlex_name="Glioma", radlex_id="RID4026", source_names={"brain_tumor_classification": ["glioma"]}
 )
 
 Meningioma = Label(
     id=40,
     radlex_name="Meningioma",
     radlex_id="RID4088",
-    source_names={"brain_tumor_classification": ["meningioma_tumor"]},
+    source_names={"brain_tumor_classification": ["meningioma"]},
 )
 
 Pituitary = Label(
     id=41,
     radlex_name="Pituitary",
     radlex_id="RID28679",
-    source_names={"brain_tumor_classification": ["pituitary_tumor"]},
+    source_names={"brain_tumor_classification": ["pituitary"]},
 )
 
 Osteoarthritis = Label(

@@ -121,8 +121,8 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>3. Brain Tumor Classification (MRI)</summary>
 
-  ### Brain Tumor Classification (MRI)
-  1. Go to [Brain Tumor Classification](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri) page on Kaggle.
+**3. Brain Tumor Classification (MRI)**
+1. Go to [Brain Tumor Classification](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset) page on Kaggle.
   2. Login to your Kaggle account.
   3. Download the data.
   4. Extract `archive.zip`.
@@ -207,7 +207,8 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>10. Brain-Tumor-Progression</summary>
 
-  ### Brain-Tumor-Progression
+**10. Brain-Tumor-Progression**
+  **UPDATE: Some data in this collection contains images that could potentially be used to reconstruct a human face. The data collection is removed.**
   1. Go to [Brain Tumor Progression](https://wiki.cancerimagingarchive.net/display/Public/Brain-Tumor-Progression#339481190e2ccc0d07d7455ab87b3ebb625adf48) dataset from the cancer imaging archive.
 
 </details>
@@ -266,6 +267,12 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   3. Extract `LIDC-XML-only.zip`.
   4. Fill in the `source_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `manifest-{xxxxxxxxxxxxx}/LIDC-IDRI` directory.
   5. Fill in the `masks_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `LIDC-XML-only/` directory.
+
+   ```
+      Data Citation
+      Armato III, S. G., McLennan, G., Bidaut, L., McNitt-Gray, M. F., Meyer, C. R., Reeves, A. P., Zhao, B., Aberle, D. R., Henschke, C. I., Hoffman, E. A., Kazerooni, E. A., MacMahon, H., Van Beek, E. J. R., Yankelevitz, D., Biancardi, A. M., Bland, P. H., Brown, M. S., Engelmann, R. M., Laderach, G. E., Max, D., Pais, R. C. , Qing, D. P. Y. , Roberts, R. Y., Smith, A. R., Starkey, A., Batra, P., Caligiuri, P., Farooqi, A., Gladish, G. W., Jude, C. M., Munden, R. F., Petkovska, I., Quint, L. E., Schwartz, L. H., Sundaram, B., Dodd, L. E., Fenimore, C., Gur, D., Petrick, N., Freymann, J., Kirby, J., Hughes, B., Casteele, A. V., Gupte, S., Sallam, M., Heath, M. D., Kuhn, M. H., Dharaiya, E., Burns, R., Fryd, D. S., Salganicoff, M., Anand, V., Shreter, U., Vastagh, S., Croft, B. Y., Clarke, L. P. (2015). Data From LIDC-IDRI [Data set]. The Cancer Imaging Archive. https://doi.org/10.7937/K9/TCIA.2015.LO9QL9SX
+  ```
+
 </details>
 
 
@@ -279,6 +286,12 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   4. Download CMMD_clinicaldata_revision.xlsx from Data Access table for labels information.
   5. Fill in the `source_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `manifest-{xxxxxxxxxxxxx}/CMMD` folder.
   6. Fill in the `labels_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `CMMD_clinicaldata_revision.xlsx` file.
+
+
+   ```
+      Data Citation
+      ui, Chunyan; Li Li; Cai, Hongmin; Fan, Zhihao; Zhang, Ling; Dan, Tingting; Li, Jiao; Wang, Jinghua. (2021) The Chinese Mammography Database (CMMD): An online mammography database with biopsy confirmed types for machine diagnosis of breast. The Cancer Imaging Archive. DOI: https://doi.org/10.7937/tcia.eqde-4b16
+  ```
 </details>
 
 

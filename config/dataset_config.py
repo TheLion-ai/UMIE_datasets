@@ -143,10 +143,10 @@ brain_tumor_classification = DatasetArgs(
         "0": "T1_weighted_postCM"
     },  # occasionally T2_weighted! (but no way to distinguish them in the dataset easily)
     labels={
-        "no_tumor": [{labels.NormalityDecriptor.radlex_name: 1}],
-        "glioma_tumor": [{labels.Glioma.radlex_name: 1}],
-        "meningioma_tumor": [{labels.Meningioma.radlex_name: 1}],
-        "pituitary_tumor": [{labels.Pituitary.radlex_name: 1}],
+        "notumor": [{labels.NormalityDecriptor.radlex_name: 1}],
+        "glioma": [{labels.Glioma.radlex_name: 1}],
+        "meningioma": [{labels.Meningioma.radlex_name: 1}],
+        "pituitary": [{labels.Pituitary.radlex_name: 1}],
     },
 )
 

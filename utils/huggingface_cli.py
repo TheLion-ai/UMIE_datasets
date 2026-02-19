@@ -4,9 +4,9 @@ import os
 
 import click
 import pandas as pd
-from datasets import Dataset, Image, Value
 
 from config.dataset_config import all_datasets
+from datasets import Dataset, Image, Value
 
 hf_repo_name = "lion-ai/umie_datasets"
 
