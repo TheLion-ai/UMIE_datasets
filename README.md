@@ -56,6 +56,7 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 | 14  |                                      [CT-ORG](https://www.cancerimagingarchive.net/collection/ct-org/)                                       |    CT    |         Segmentation         |
 | 17  |                                   [LIDC-IDRI](https://www.cancerimagingarchive.net/collection/lidc-idri/)                                    |    CT    |         Segmentation         |
 | 18  |                                        [CMMD](https://www.cancerimagingarchive.net/collection/cmmd/)                                         |    MG    |        Classification        |
+| 20  |                                        [Chest Xray Masks and Labels](https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels)                                         |  X-Ray   | Segmentation, Classification |
 
 
 # **Using the datasets**
@@ -279,6 +280,17 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
   4. Download CMMD_clinicaldata_revision.xlsx from Data Access table for labels information.
   5. Fill in the `source_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `manifest-{xxxxxxxxxxxxx}/CMMD` folder.
   6. Fill in the `labels_path` in `CmmdPipeline()` in `config/runner_config.py` with the location of the `CMMD_clinicaldata_revision.xlsx` file.
+</details>
+
+<details>
+  <summary>20. Chest X-Ray Masks and Labels Dataset</summary>
+
+**20. Chest X-Ray Masks and Labels Dataset**
+  1. Go to [Chest Xray Masks and Labels](https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels) page on Kaggle.
+  2. Login to your Kaggle account.
+  3. Download the data.
+  4. Extract `archive.zip`.
+  5. Fill in the `source_path`, `masks_path` and `labels_path` to the location of the `archive` folder in `config/runner_config.py`.
 </details>
 
 

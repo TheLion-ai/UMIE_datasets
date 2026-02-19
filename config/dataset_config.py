@@ -322,4 +322,17 @@ cmmd = DatasetArgs(
         "Malignant": [{labels.Malignant.radlex_name: 1}],
     },
 )
+
+chest_xray_masks_and_labels = DatasetArgs(
+    dataset_uid="20",
+    dataset_name="chest_xray_masks_and_labels",
+    phases={"0": "Xray"},
+    labels={
+        "normal": [{labels.NormalityDecriptor.radlex_name: 1}],
+        "TB": [{labels.Tuberculosis.radlex_name: 1}],
+        "tuberculosis": [{labels.Tuberculosis.radlex_name: 1}],
+    },
+)
+
+
 all_datasets = [obj for name, obj in globals().items() if isinstance(obj, DatasetArgs)]
