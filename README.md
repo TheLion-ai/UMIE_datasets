@@ -97,7 +97,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>1. Xray CoronaHack -Chest X-Ray-Dataset</summary>
 
-**1. Xray CoronaHack -Chest X-Ray-Dataset**
+  ### Xray CoronaHack -Chest X-Ray-Dataset
   1. Go to [CoronaHack](https://www.kaggle.com/datasets/praveengovi/coronahack-chest-xraydataset) page on Kaggle.
   2. Login to your Kaggle account.
   3. Download the data.
@@ -108,21 +108,21 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>2. Alzheimer's Dataset</summary>
 
-**2. Alzheimer's Dataset ( 4 class of Images)**
-1. Go to [Alzheimer's Dataset](https://www.kaggle.com/datasets/tourist55/alzheimers-dataset-4-class-of-images) page on Kaggle.
-2. Login to your Kaggle account.
-3. Download the data.
-4. Extract `archive.zip`.
-5. Fill in the `source_path` to the location of the `archive` folder in `AlzheimersPipeline()` in `config/runner_config.py`.
+  ### Alzheimer's Dataset (4 class of Images)
+  1. Go to [Alzheimer's Dataset](https://www.kaggle.com/datasets/tourist55/alzheimers-dataset-4-class-of-images) page on Kaggle.
+  2. Login to your Kaggle account.
+  3. Download the data.
+  4. Extract `archive.zip`.
+  5. Fill in the `source_path` to the location of the `archive` folder in `AlzheimersPipeline()` in `config/runner_config.py`.
 
 </details>
 
 
 <details>
-  <summary>3. Brain Tumor Classification (MRI</summary>
+  <summary>3. Brain Tumor Classification (MRI)</summary>
 
-**3. Brain Tumor Classification (MRI)**
-1. Go to [Brain Tumor Classification](https://www.kaggle.com/datasets/nikhilpandey360/chest-xray-masks-and-labels) page on Kaggle.
+  ### Brain Tumor Classification (MRI)
+  1. Go to [Brain Tumor Classification](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri) page on Kaggle.
   2. Login to your Kaggle account.
   3. Download the data.
   4. Extract `archive.zip`.
@@ -133,7 +133,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>4. COVID-19 Detection X-Ray</summary>
 
-**4. COVID-19 Detection X-Ray**
+  ### COVID-19 Detection X-Ray
   1. Go to [COVID-19 Detection X-Ray](https://www.kaggle.com/datasets/darshan1504/covid19-detection-xray-dataset) page on Kaggle.
   2. Login to your Kaggle account.
   3. Download the data.
@@ -146,7 +146,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>5. Finding and Measuring Lungs in CT Dat</summary>
 
-**5. Finding and Measuring Lungs in CT Data**
+  ### Finding and Measuring Lungs in CT Data
   1.  Go to [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/datasets/kmader/finding-lungs-in-ct-data) page on Kaggle.
   2. Login to your Kaggle account.
   3. Download the data.
@@ -158,7 +158,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>6. Brain CT Images with Intracranial Hemorrhage Masks</summary>
 
-**6. Brain CT Images with Intracranial Hemorrhage Masks**
+  ### Brain CT Images with Intracranial Hemorrhage Masks
   1. Go to [Brain With Intracranial Hemorrhage](https://www.kaggle.com/datasets/vbookshelf/computed-tomography-ct-images) page on Kaggle.
   2. Login to your Kaggle account.
   3. Download the data.
@@ -170,7 +170,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>7. Liver and Liver Tumor Segmentation (LITS)</summary>
 
-**7. Liver and Liver Tumor Segmentation (LITS)**
+  ### Liver and Liver Tumor Segmentation (LITS)
   1. Go to   [Liver and Liver Tumor Segmentation](https://www.kaggle.com/datasets/andrewmvd/lits-png).
   2. Login to your Kaggle account.
   3. Download the data.
@@ -182,7 +182,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>8. Brain MRI Images for Brain Tumor Detection</summary>
 
-**8. Brain MRI Images for Brain Tumor Detection**
+  ### Brain MRI Images for Brain Tumor Detection
   1. Go to [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/jjprotube/brain-mri-images-for-brain-tumor-detection) page on Kaggle.
   2. Login to your Kaggle account.
   3. Download the data.
@@ -194,12 +194,12 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>9. Knee Osteoarthrithis Dataset with Severity Grading</summary>
 
-**9. Knee Osteoarthrithis Dataset with Severity Grading**
-    1. Go to [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/datasets/shashwatwork/knee-osteoarthritis-dataset-with-severity).
-    2. Login to your Kaggle account.
-    3. Download the data.
-    4. Extract `archive.zip`.
-    5. Fill in the `source_path` to the location of the `archive` folder in `COVID19DetectionPipeline()` in `config/runner_config.py`.
+  ### Knee Osteoarthrithis Dataset with Severity Grading
+  1. Go to [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/datasets/shashwatwork/knee-osteoarthritis-dataset-with-severity).
+  2. Login to your Kaggle account.
+  3. Download the data.
+  4. Extract `archive.zip`.
+  5. Fill in the `source_path` to the location of the `archive` folder in `COVID19DetectionPipeline()` in `config/runner_config.py`.
 
 </details>
 
@@ -207,7 +207,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>10. Brain-Tumor-Progression</summary>
 
-**10. Brain-Tumor-Progression**
+  ### Brain-Tumor-Progression
   1. Go to [Brain Tumor Progression](https://wiki.cancerimagingarchive.net/display/Public/Brain-Tumor-Progression#339481190e2ccc0d07d7455ab87b3ebb625adf48) dataset from the cancer imaging archive.
 
 </details>
@@ -215,7 +215,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>11. Chest X-ray 14</summary>
 
-**11. Chest X-ray 14**
+  ### Chest X-ray 14
   1. Go to [Chest X-ray 14](https://nihcc.app.box.com/v/ChestXray-NIHCC/folder/36938765345).
   2. Create an account.
   3. Download the `images` folder and `DataEntry2017_v2020.csv`.
@@ -226,7 +226,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>12. COCA- Coronary Calcium and chest CTs</summary>
 
-**12. COCA- Coronary Calcium and chest CTs**
+  ### COCA- Coronary Calcium and chest CTs
   1. Go to [COCA- Coronary Calcium and chest CTs](https://stanfordaimi.azurewebsites.net/datasets/e8ca74dc-8dd4-4340-815a-60b41f6cb2aa).
   2. Log in or sign up for a Stanford AIMI account.
   3. Fill in your contact details.
@@ -238,7 +238,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>13. BrainMetShare</summary>
 
-**13. BrainMetShare**
+  ### BrainMetShare
   1. Go to [BrainMetShare](https://aimi.stanford.edu/brainmetshare).
   2. Log in or sign up for a Stanford AIMI account.
   3. Fill in your contact details.
@@ -249,7 +249,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>14. CT-ORG</summary>
 
-**14. CT-ORG**
+  ### CT-ORG
   1. Go to [CT-ORG](https://www.cancerimagingarchive.net/collection/ct-org/) page on Cancer imaging archive.
   2. Download the data.
   3. Extract `PKG - CT-ORG`.
@@ -260,7 +260,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>17. LIDC-IDRI</summary>
 
-**17. LIDC-IDRI**
+  ### LIDC-IDRI
   1. Go to [LIDC-IDRI](https://www.cancerimagingarchive.net/collection/lidc-idri/).
   2. Download "Images" using [NBIA Data Retriever](https://wiki.cancerimagingarchive.net/display/NBIA/Downloading+TCIA+Images), and "Radiologist Annotations/Segmentations".
   3. Extract `LIDC-XML-only.zip`.
@@ -272,7 +272,7 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 <details>
   <summary>18. CMMD - The Chinese Mammography Database</summary>
 
-**18. CMMD**
+  ### CMMD
   1. Go to [CMMD](https://www.cancerimagingarchive.net/collection/cmmd/).
   2. Download .tcia file from Data Access table.
   3. Download [NBIA Data Retriver](https://wiki.cancerimagingarchive.net/display/NBIA/Downloading+TCIA+Images) to be able to download images.
