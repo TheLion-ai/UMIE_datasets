@@ -23,10 +23,10 @@ class DatasetTestingLibrary:
         differences = expected_set.symmetric_difference(current_set)
         if differences:
             expected_differences = expected_set - current_set
+            current_differences = current_set - expected_set
             if expected_differences:
                 print(f"Expected but not in current: {expected_differences}\n")
-            else:
-                current_differences = current_set - expected_set
+            if current_differences:
                 print(f"Found in current but not expected: {current_differences}")
             return False
         return True
