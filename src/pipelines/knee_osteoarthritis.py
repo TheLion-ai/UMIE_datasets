@@ -13,6 +13,7 @@ from steps import (
     AddLabels,
     AddUmieIds,
     CreateFileTree,
+    DeleteOldPreprocessedData,
     DeleteTempFiles,
     GetFilePaths,
     StoreSourcePaths,
@@ -73,6 +74,8 @@ class KneeOsteoarthritisPipeline(BasePipeline):
 
     name: str = "Knee_Osteoarthritis"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("create_file_tree", CreateFileTree),
         ("get_file_paths", GetFilePaths),
         ("get_source_paths", StoreSourcePaths),

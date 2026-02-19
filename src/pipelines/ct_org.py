@@ -23,6 +23,7 @@ from steps import (
     CreateBlankMasks,
     CreateFileTree,
     DeleteImgsWithNoAnnotations,
+    DeleteOldPreprocessedData,
     DeleteTempPng,
     GetFilePaths,
     RecolorMasks,
@@ -61,6 +62,8 @@ class CtOrgPipeline(BasePipeline):
 
     name: str = "ct_org"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("create_file_tree", CreateFileTree),
         ("get_file_paths", GetFilePaths),
         ("convert_nii2png", ConvertNii2Png),
