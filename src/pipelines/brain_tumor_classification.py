@@ -10,11 +10,13 @@ from base.pipeline import BasePipeline, PipelineArgs
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
 from config.dataset_config import DatasetArgs, brain_tumor_classification
+from constants import IMG_FOLDER_NAME
 from steps import (
     AddLabels,
     AddUmieIds,
     ConvertJpg2Png,
     CreateFileTree,
+    DeleteOldPreprocessedData,
     DeleteTempFiles,
     DeleteTempPng,
     GetFilePaths,
@@ -103,6 +105,8 @@ class BrainTumorClassificationPipeline(BasePipeline):
 
     name: str = "Brain_Tumor_Classification"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("create_file_tree", CreateFileTree),
         ("get_file_paths", GetFilePaths),
         ("store_source_paths", StoreSourcePaths),
@@ -116,7 +120,7 @@ class BrainTumorClassificationPipeline(BasePipeline):
     dataset_args: DatasetArgs = field(default_factory=lambda: brain_tumor_classification)
     pipeline_args: PipelineArgs = field(
         default_factory=lambda: PipelineArgs(
-            image_folder_name="Images",
+            image_folder_name=IMG_FOLDER_NAME,
             img_id_extractor=ImgIdExtractor(),
             study_id_extractor=StudyIdExtractor(),
             img_prefix="",

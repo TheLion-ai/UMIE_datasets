@@ -23,10 +23,10 @@ class DatasetTestingLibrary:
         differences = expected_set.symmetric_difference(current_set)
         if differences:
             expected_differences = expected_set - current_set
+            current_differences = current_set - expected_set
             if expected_differences:
                 print(f"Expected but not in current: {expected_differences}\n")
-            else:
-                current_differences = current_set - expected_set
+            if current_differences:
                 print(f"Found in current but not expected: {current_differences}")
             return False
         return True
@@ -38,7 +38,10 @@ class DatasetTestingLibrary:
         current_file_tree.sort()
 
         if len(expected_file_tree) != len(current_file_tree):
+            print(f"Mismatch in number of files: {len(expected_file_tree)} expected vs {len(current_file_tree)} found.")
             return False
+
+        all_identical = True
 
         for i in range(len(expected_file_tree)):
             expected_image_path = expected_file_tree[i]
@@ -46,13 +49,20 @@ class DatasetTestingLibrary:
 
             expected_image = cv2.imread(expected_image_path)
             current_image = cv2.imread(current_image_path)
+            if expected_image.shape != current_image.shape:
+                print(f"These images are not identical: {expected_image_path}, {current_image_path}")
+                all_identical = False
 
             diff = cv2.subtract(expected_image, current_image)
-
             if np.any(diff):
-                return False
+                mismatch_coords = np.column_stack(np.where(diff != 0))
+                first_mismatch = mismatch_coords[0] if len(mismatch_coords) > 0 else None
+                print(f"These images are not identical: {expected_image_path}, {current_image_path}")
+                print("Additional details:")
+                print(f"Pixel mismatch: {current_image_path} (differs at coordinates {tuple(first_mismatch)})")
+                all_identical = False
 
-        return True
+        return all_identical
 
     @staticmethod
     def verify_jsonl_identical(expected_jsonl: list[dict], current_jsonl: list[dict]) -> bool:

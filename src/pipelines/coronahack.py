@@ -18,6 +18,7 @@ from steps import (
     CreateBlankMasks,
     CreateFileTree,
     DeleteImgsWithNoAnnotations,
+    DeleteOldPreprocessedData,
     GetFilePaths,
     ValidateData,
 )
@@ -102,6 +103,8 @@ class CoronaHackPipeline(BasePipeline):
 
     name: str = "coronahack"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("create_file_tree", CreateFileTree),
         ("get_file_paths", GetFilePaths),
         # add_new_ids is used here to also add labels

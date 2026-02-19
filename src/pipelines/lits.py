@@ -19,6 +19,7 @@ from steps import (
     CopyMasks,
     CreateFileTree,
     DeleteImgsWithNoAnnotations,
+    DeleteOldPreprocessedData,
     GetFilePaths,
     RecolorMasks,
     ValidateData,
@@ -80,6 +81,8 @@ class LITSPipeline(BasePipeline):
 
     name: str = "Liver_And_Liver_Tumor"  # dataset name used in configs
     steps: tuple = (
+        # Optionally delete previously preprocessed data
+        # ("delete_old_preprocessed_data", DeleteOldPreprocessedData),
         ("get_file_paths", GetFilePaths),
         ("create_file_tree", CreateFileTree),
         ("combine_multiple_masks", CombineMultipleMasks),
