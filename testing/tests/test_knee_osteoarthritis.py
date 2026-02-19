@@ -68,7 +68,7 @@ def test_knee_osteoarthritis_verify_jsonl_correct():
         current_jsonl = [json.loads(line) for line in file]
 
     if not DatasetTestingLibrary.verify_jsonl_identical(expected_jsonl, current_jsonl):
-        pytest.fail("Brain Tumor Progression pipeline created jsonl contents different than expected.")
+        pytest.fail("Knee Osteoarthritis pipeline created jsonl contents different than expected.")
 
 
 def test_clean_up_knee_osteoarthritis():
