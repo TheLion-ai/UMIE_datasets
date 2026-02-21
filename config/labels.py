@@ -395,14 +395,58 @@ Benign = Label(
     id=46,
     radlex_name="Benign",
     radlex_id="RID15654",
-    source_names={"cmmd": ["Benign"]},
+    source_names={"cmmd": ["Benign"], "cbis_ddsm": ["BENIGN", "BENIGN_WITHOUT_CALLBACK"]},
 )
 
 Malignant = Label(
     id=47,
     radlex_name="Malignant",
     radlex_id="RID15655",
-    source_names={"cmmd": ["Malignant"]},
+    source_names={"cmmd": ["Malignant"], "cbis_ddsm": ["MALIGNANT"]},
 )
+
+
+BI_RADS_1 = Label(
+    id=49,
+    radlex_name="BI-RADS 1",
+    radlex_id="RID36028",
+    source_names={"cbis_ddsm": ["0"]},
+)
+
+BI_RADS_2 = Label(
+    id=50,
+    radlex_name="BI-RADS 2",
+    radlex_id="RID36029",
+    source_names={"cbis_ddsm": ["1"]},
+)
+
+BI_RADS_3 = Label(
+    id=51,
+    radlex_name="BI-RADS 3",
+    radlex_id="RID36041",
+    source_names={"cbis_ddsm": ["2"]},
+)
+
+BI_RADS_4 = Label(
+    id=52,
+    radlex_name="BI-RADS 4",
+    radlex_id="RID36030",
+    source_names={"cbis_ddsm": ["3"]},
+)
+
+BI_RADS_5 = Label(
+    id=53,
+    radlex_name="BI-RADS 5",
+    radlex_id="RID36034",
+    source_names={"cbis_ddsm": ["4"]},
+)
+
+BI_RADS_6 = Label(
+    id=54,
+    radlex_name="BI-RADS 6",
+    radlex_id="RID36035",
+    source_names={"cbis_ddsm": ["5"]},
+)
+
 
 all_labels = [obj for name, obj in globals().items() if isinstance(obj, Label)]

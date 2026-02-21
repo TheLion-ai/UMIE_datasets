@@ -100,7 +100,7 @@ class MaskSelector(BaseMaskSelector):
 
     def _is_mask_file(self, path: str) -> bool:
         """Check if the file is the intended mask."""
-        return True
+        return "segmentation" in path
 
 
 @dataclass

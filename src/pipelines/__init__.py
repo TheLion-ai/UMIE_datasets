@@ -25,6 +25,7 @@ from .brain_tumor_classification import BrainTumorClassificationPipeline
 from .brain_tumor_detection import BrainTumorDetectionPipeline
 from .brain_tumor_progression import BrainTumorProgressionPipeline
 from .brain_with_intracranial_hemorrhage import BrainWithIntracranialHemorrhagePipeline
+from .cbis_ddsm import CbisDdsmPipeline
 from .chest_xray14 import ChestXray14Pipeline
 from .cmmd import CmmdPipeline
 from .coca import COCAPipeline
