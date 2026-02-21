@@ -30,6 +30,7 @@ from src.pipelines import (
     KneeOsteoarthritisPipeline,
     LidcIdriPipeline,
     LITSPipeline,
+    PneumothoraxPipeline,
 )
 
 load_dotenv(dotenv_path=".pipeline.env")
@@ -150,6 +151,14 @@ datasets = [
             source_path=os.getenv("CMMD_MANIFEST", ""),  # Path to 'manifest-{xxxxxxxxxxxxx}/CMMD' folder
             target_path=TARGET_PATH,
             labels_path=os.getenv("CMMD_CLINICAL", ""),  # Path to 'CMMD_clinicaldata_revision.xlsx' file
+        ),
+    ),
+    PneumothoraxPipeline(
+        path_args=PathArgs(
+            source_path="",
+            target_path=TARGET_PATH,
+            labels_path="",
+            masks_path="",
         ),
     ),
 ]

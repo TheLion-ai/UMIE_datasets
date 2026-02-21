@@ -322,4 +322,16 @@ cmmd = DatasetArgs(
         "Malignant": [{labels.Malignant.radlex_name: 1}],
     },
 )
+
+siim_acr_pneumothorax = DatasetArgs(
+    dataset_uid="29",
+    dataset_name="siim_acr_pneumothorax",
+    phases={"0": "Xray"},
+    masks={
+        masks.Pneumothorax.radlex_name: MaskColor(source_color=255, target_color=masks.Pneumothorax.color),
+    },
+    labels={
+        "Pneumothorax": [{labels.Pneumothorax.radlex_name: 1}],
+    },
+)
 all_datasets = [obj for name, obj in globals().items() if isinstance(obj, DatasetArgs)]

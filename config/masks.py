@@ -122,3 +122,11 @@ Mass = Mask(
     radlex_id="RID3874",
     source_names={"ChestX-ray14": ["Mass"], "cmmd": ["mass"]},
 )
+
+Pneumothorax = Mask(
+    id=29,
+    radlex_name="Pneumothorax",
+    color=29,
+    radlex_id="RID5352",
+    source_names={"siim_acr_pneumothorax": ["Pneumothorax"]},
+)

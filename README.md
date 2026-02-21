@@ -44,8 +44,8 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 |  2  |                    [Alzheimers Dataset](https://www.kaggle.com/datasets/tourist55/alzheimers-dataset-4-class-of-images)	                     |   MRI    |        Classification        |
 |  3  |                  [Brain Tumor Classification](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri)                  |   MRI    |        Classification        |
 |  4  |                    [COVID-19 Detection X-Ray](https://www.kaggle.com/datasets/darshan1504/covid19-detection-xray-dataset)                    |   XRAY   |        Classification        |
-|  5  |                  [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/datasets/kmader/finding-lungs-in-ct-data)	                 |    CT    |         Segmentation         |
-|  6  |       [Brain CT Images with Intracranial Hemorrhage Masks](https://www.kaggle.com/datasets/vbookshelf/computed-tomography-ct-images)	       |    CT    |        Classification        |
+|  5  |                  [Finding and Measuring Lungs in CT Data](https://www.kaggle.com/datasets/kmader/finding-lungs-in-ct-data)	                  |    CT    |         Segmentation         |
+|  6  |       [Brain CT Images with Intracranial Hemorrhage Masks](https://www.kaggle.com/datasets/vbookshelf/computed-tomography-ct-images)	        |    CT    |        Classification        |
 |  7  |                           [Liver and Liver Tumor Segmentation](https://www.kaggle.com/datasets/andrewmvd/lits-png)                           |    CT    | Classification, Segmentation |
 |  8  |      [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/jjprotube/brain-mri-images-for-brain-tumor-detection)      |   MRI    |        Classification        |
 |  9  | [Knee Osteoarthritis Dataset with Severity Grading](https://www.kaggle.com/datasets/shashwatwork/knee-osteoarthritis-dataset-with-severity)	 |   XRAY   |        Classification        |
@@ -56,6 +56,8 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 | 14  |                                      [CT-ORG](https://www.cancerimagingarchive.net/collection/ct-org/)                                       |    CT    |         Segmentation         |
 | 17  |                                   [LIDC-IDRI](https://www.cancerimagingarchive.net/collection/lidc-idri/)                                    |    CT    |         Segmentation         |
 | 18  |                                        [CMMD](https://www.cancerimagingarchive.net/collection/cmmd/)                                         |    MG    |        Classification        |
+| 29  |                                    [Pneumothorax](https://www.kaggle.com/datasets/vbookshelf/pneumothorax-chest-xray-images-and-masks)                                     |  X-ray   | Classification, Segmentation |
+
 
 
 # **Using the datasets**
@@ -292,6 +294,19 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
       Data Citation
       ui, Chunyan; Li Li; Cai, Hongmin; Fan, Zhihao; Zhang, Ling; Dan, Tingting; Li, Jiao; Wang, Jinghua. (2021) The Chinese Mammography Database (CMMD): An online mammography database with biopsy confirmed types for machine diagnosis of breast. The Cancer Imaging Archive. DOI: https://doi.org/10.7937/tcia.eqde-4b16
   ```
+</details>
+
+
+<details>
+  <summary>29. Pneumothorax</summary>
+
+**29. Pneumothorax**
+  1. Go to [Pneumothorax](https://www.kaggle.com/datasets/vbookshelf/pneumothorax-chest-xray-images-and-masks).
+  2. Download zip file with all data.
+  3. Unpack file.
+  4. Fill in the `source_path` in `PneumothoraxPipeline()` in `config/runner_config.py` with the location of the `siim-acr-pneumothorax` folder.
+  5. Fill in the `labels_path` in `PneumothoraxPipeline()` in `config/runner_config.py` with the location of the `siim-acr-pneumothorax` folder.
+  6. Fill in the `masks_path` in `PneumothoraxPipeline()` in `config/runner_config.py` with the location of the `siim-acr-pneumothorax` folder.
 </details>
 
 
