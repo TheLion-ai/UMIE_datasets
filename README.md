@@ -61,7 +61,7 @@ The labels and segmentation masks were unified to be compliant with RadLex ontol
 # **Using the datasets**
 ## Installing requirements
 ```bash
-poetry install
+uv sync
 ```
 ## Creating the dataset
 Due to the copyright restrictions of the source datasets, we can't share the files directly. To obtain the full dataset you have to download the source datasets yourself and run the preprocessing scripts.
@@ -328,9 +328,9 @@ pre-commit run --all-files
 
 
 ## Adding python packages
-Dependencies are handeled by `poetry` framework, to add new dependency run
+Dependencies are managed by `uv`, to add a new dependency run
 ```
-poetry add <package_name>
+uv add <package_name>
 ```
 
 ## Debugging
