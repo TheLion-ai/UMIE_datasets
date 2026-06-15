@@ -12,6 +12,7 @@ from sklearn.base import TransformerMixin
 from base.creators.xml_mask import BaseXmlMaskCreator
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
+from constants import OutputMode
 
 if TYPE_CHECKING:
     from base.pipeline import PipelineContext
@@ -60,6 +61,11 @@ class BaseStep(TransformerMixin):
     def masks_path(self) -> Optional[str]:
         """Path to the source masks, if required."""
         return self.ctx.paths.masks_path
+
+    @property
+    def output_mode(self) -> OutputMode:
+        """Output format for this run: 2D PNG slices (default) or 3D NIfTI volumes."""
+        return self.ctx.paths.output_mode
 
     @property
     def dataset_uid(self) -> str:

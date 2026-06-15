@@ -24,7 +24,7 @@ from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
 from base.step import BaseStep
 from config.dataset_config import DatasetArgs
-from src.constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
+from src.constants import DEFAULT_OUTPUT_MODE, IMG_FOLDER_NAME, MASK_FOLDER_NAME, OutputMode
 
 
 @dataclass
@@ -35,6 +35,7 @@ class PathArgs:
     target_path: str  # path to the directory where the processed dataset will be saved, usually TARGET_PATH
     labels_path: Optional[str] = None  # path to the labels file if it is required
     masks_path: Optional[str] = None  # path to the source masks file if it is required
+    output_mode: OutputMode = DEFAULT_OUTPUT_MODE  # 2D PNG slices (default) or 3D NIfTI volumes
 
 
 @dataclass
