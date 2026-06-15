@@ -3,7 +3,7 @@
 import os
 import plistlib
 import re
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from typing import Any
 
 import cv2
@@ -137,5 +137,3 @@ class COCAPipeline(BasePipeline):
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        # Add dataset specific arguments to the pipeline arguments
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

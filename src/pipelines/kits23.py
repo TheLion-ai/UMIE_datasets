@@ -3,7 +3,7 @@
 import json
 import os
 import re
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from typing import Any
 
 import cv2
@@ -142,8 +142,6 @@ class KITS23Pipeline(BasePipeline):
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        # Update args with pipeline_args
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
         # Read inputs from the structured context instead of the flat args dict (Task 3).
         kidney_findings_colors = [
             self.ctx.dataset.masks["Neoplasm"].target_color,
@@ -152,5 +150,3 @@ class KITS23Pipeline(BasePipeline):
         label_extractor = LabelExtractor(self.ctx.dataset.labels, self.ctx.paths.labels_path, kidney_findings_colors)
         # Populate the structured config (consumed once steps read from ctx in Task 4)...
         self.ctx.identity.label_extractor = label_extractor
-        # ...while the flat args dict still drives the steps until then.
-        self.args["label_extractor"] = label_extractor

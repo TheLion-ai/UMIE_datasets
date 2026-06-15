@@ -1,7 +1,7 @@
 """Preprocessing pipeline for the Stanford COCA dataset."""
 
 import os
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from typing import Any
 
 from base.extractors import (
@@ -116,5 +116,4 @@ class BrainTumorProgressionPipeline(BasePipeline):
         # self.pipeline_args.study_id_extractor = lambda x: self.study_id_extractor(x)
         # self.pipeline_args.img_id_extractor = lambda x: img_id_extractor(x)
         # Add dataset specific arguments to the pipeline arguments
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
-        self.args["phase_id_extractor"] = PhaseIdExtractor(self.args["phases"])
+        self.ctx.identity.phase_id_extractor = PhaseIdExtractor(self.ctx.dataset.phases)

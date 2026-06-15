@@ -1,6 +1,6 @@
 """Preprocessing pipeline for Finding_and_Measuring_Lungs_in_CT_Data dataset."""
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseStudyIdExtractor
@@ -94,5 +94,3 @@ class FindingAndMeasuringLungsPipeline(BasePipeline):
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        # Add dataset specific arguments to the pipeline arguments
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

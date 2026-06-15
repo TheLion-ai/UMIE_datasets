@@ -1,7 +1,7 @@
 """Preprocessing pipeline for Brain with hemorrhage dataset."""
 
 import os
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from typing import Any
 
 import cv2
@@ -66,7 +66,7 @@ class LabelExtractor(BaseLabelExtractor):
     def __init__(self, labels: dict, masks: dict):
         """Initialize the extractor."""
         super().__init__(labels)
-        self.target_colors = [mask["target_color"] for mask in masks.values()]
+        self.target_colors = [mask.target_color for mask in masks.values()]
 
     def _extract(self, img_path: str, mask_path: str) -> tuple[list, list]:
         """Extract label from img path."""
@@ -132,6 +132,5 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
         # Update args with pipeline_args
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
-        self.args["phase_id_extractor"] = PhaseExtractor(self.args["phases"])
-        self.args["label_extractor"] = LabelExtractor(self.args["labels"], self.args["masks"])
+        self.ctx.identity.phase_id_extractor = PhaseExtractor(self.ctx.dataset.phases)
+        self.ctx.identity.label_extractor = LabelExtractor(self.ctx.dataset.labels, self.ctx.dataset.masks)

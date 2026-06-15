@@ -1,7 +1,7 @@
 """Preprocessing pipeline for ChestX-ray14 dataset."""
 
 import os
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from typing import Any
 
 import pandas as pd
@@ -116,5 +116,4 @@ class ChestXray14Pipeline(BasePipeline):
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
         # Add dataset specific arguments to the pipeline arguments
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
-        self.args["label_extractor"] = LabelExtractor(self.args["labels"], self.args["labels_path"])
+        self.ctx.identity.label_extractor = LabelExtractor(self.ctx.dataset.labels, self.ctx.paths.labels_path)

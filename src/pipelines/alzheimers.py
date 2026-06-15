@@ -2,7 +2,7 @@
 
 import os
 import re
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from typing import Any
 
 from base.extractors import BaseImgIdExtractor, BaseLabelExtractor, BaseStudyIdExtractor
@@ -138,5 +138,4 @@ class AlzheimersPipeline(BasePipeline):
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
         # Add dataset specific arguments to the pipeline arguments
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
-        self.args["label_extractor"] = LabelExtractor(self.args["labels"])
+        self.ctx.identity.label_extractor = LabelExtractor(self.ctx.dataset.labels)

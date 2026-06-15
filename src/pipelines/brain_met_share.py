@@ -1,6 +1,6 @@
 """Preprocessing pipeline for the Stanford Brain MET dataset."""
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from typing import Any
 
 from base.extractors import BasePhaseIdExtractor, BaseStudyIdExtractor
@@ -86,5 +86,4 @@ class BrainMETSharePipeline(BasePipeline):
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
         # Add dataset specific arguments to the pipeline arguments
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
-        self.args["phase_id_extractor"] = PhaseIdExtractor(self.args["phases"])
+        self.ctx.identity.phase_id_extractor = PhaseIdExtractor(self.ctx.dataset.phases)

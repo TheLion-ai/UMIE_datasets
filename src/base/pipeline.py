@@ -203,10 +203,9 @@ class BasePipeline:
 
     @property
     def pipeline(self) -> Pipeline:
-        """Create a pipeline based on the steps and args."""
-        args = self.args
-        # Create pipeline and pass args to each step
-        return Pipeline(steps=[(step[0], step[1](**args)) for step in self.steps])
+        """Create a pipeline based on the steps and the shared context."""
+        # Each step now receives the structured PipelineContext (no flat-dict / asdict).
+        return Pipeline(steps=[(step[0], step[1](self.ctx)) for step in self.steps])
 
     @abstractmethod
     def prepare_pipeline(self) -> None:
