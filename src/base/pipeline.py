@@ -38,6 +38,47 @@ class PathArgs:
 
 
 @dataclass
+class IdentityConfig:
+    """How to extract UMIE ids (and per-image labels) from source file paths."""
+
+    img_id_extractor: BaseImgIdExtractor = BaseImgIdExtractor()  # function to extract image id from the image path
+    study_id_extractor: BaseStudyIdExtractor = BaseStudyIdExtractor()  # function to extract study id
+    phase_id_extractor: BasePhaseIdExtractor = BasePhaseIdExtractor({})  # function to extract phase
+    label_extractor: Optional[Callable] = None  # function to get label for the individual image
+    zfill: Optional[int] = None  # number of digits to pad the image id with
+
+
+@dataclass
+class DicomConfig:
+    """DICOM-specific windowing / mapping parameters."""
+
+    window_center: Optional[int] = None  # value used to process DICOM images
+    window_width: Optional[int] = None  # value used to process DICOM images
+    dicom_mapping_attribute: Optional[str] = None  # dicom attribute to map paths to
+
+
+@dataclass
+class FileSelectionConfig:
+    """How to identify images vs. masks in the source dataset."""
+
+    img_prefix: Optional[str] = None  # prefix of the source image file names
+    segmentation_prefix: Optional[str] = None  # prefix of the source mask file names
+    mask_prefix: Optional[str] = None  # string included only in masks names
+    img_selector: Optional[BaseImageSelector] = None  # function to select intended images by path
+    mask_selector: Optional[BaseMaskSelector] = None  # function to select intended masks by path
+    multiple_masks_selector: Optional[dict] = None  # selector + meaning per mask when there are several
+    xml_mask_creator: Optional[BaseXmlMaskCreator] = None  # function to create masks from xml files
+
+
+@dataclass
+class OutputConfig:
+    """Target directory naming."""
+
+    image_folder_name: str = IMG_FOLDER_NAME  # name of folder, where images will be stored
+    mask_folder_name: str = MASK_FOLDER_NAME  # name of folder, where masks will be stored
+
+
+@dataclass
 class PipelineArgs:
     """
     Arguments required by the processing pipeline of a given dataset.
@@ -74,22 +115,58 @@ class PipelineArgs:
     xml_mask_creator: Optional[BaseXmlMaskCreator] = None  # function to create masks from xml files
     dicom_mapping_attribute: Optional[str] = None  # dicom attribute to map paths to
 
+    def to_configs(self) -> tuple[IdentityConfig, DicomConfig, FileSelectionConfig, OutputConfig]:
+        """Group the flat pipeline args into the four focused sub-configs (no value change).
+
+        This lets pipelines keep building a single flat ``PipelineArgs`` (backwards
+        compatible) while ``PipelineContext`` exposes the purpose-driven views.
+        """
+        return (
+            IdentityConfig(
+                img_id_extractor=self.img_id_extractor,
+                study_id_extractor=self.study_id_extractor,
+                phase_id_extractor=self.phase_id_extractor,
+                label_extractor=self.label_extractor,
+                zfill=self.zfill,
+            ),
+            DicomConfig(
+                window_center=self.window_center,
+                window_width=self.window_width,
+                dicom_mapping_attribute=self.dicom_mapping_attribute,
+            ),
+            FileSelectionConfig(
+                img_prefix=self.img_prefix,
+                segmentation_prefix=self.segmentation_prefix,
+                mask_prefix=self.mask_prefix,
+                img_selector=self.img_selector,
+                mask_selector=self.mask_selector,
+                multiple_masks_selector=self.multiple_masks_selector,
+                xml_mask_creator=self.xml_mask_creator,
+            ),
+            OutputConfig(
+                image_folder_name=self.image_folder_name,
+                mask_folder_name=self.mask_folder_name,
+            ),
+        )
+
 
 @dataclass
 class PipelineContext:
-    """Structured wrapper grouping the three pipeline argument dataclasses.
+    """Structured wrapper exposing the pipeline args as purpose-driven sub-configs.
 
-    This is the first step of the pipeline-args reorganization (see
-    ``New pipeline args organization.md``). It simply holds the existing ``PathArgs``,
-    ``DatasetArgs`` and ``PipelineArgs`` as named fields so that later refactors can move
-    steps from the flat ``args`` dict onto ``ctx.<group>.<field>`` access. Introducing it
-    does not change any behavior - the flat-dict path built in ``BasePipeline`` is still
-    the source of truth used by the steps.
+    Part of the pipeline-args reorganization (see ``New pipeline args organization.md``).
+    The sub-configs (``identity``, ``dicom``, ``file_selection``, ``output``) are derived
+    from the pipeline's flat ``PipelineArgs`` so steps can be moved onto
+    ``ctx.<group>.<field>`` access. Introducing it does not change behavior - the flat
+    ``args`` dict built in ``BasePipeline`` is still what the steps consume until Task 4.
     """
 
     paths: PathArgs
     dataset: DatasetArgs
-    pipeline_args: PipelineArgs
+    identity: IdentityConfig
+    dicom: DicomConfig
+    file_selection: FileSelectionConfig
+    output: OutputConfig
 
 
 @dataclass  # type: ignore[misc]
@@ -107,12 +184,15 @@ class BasePipeline:
     def __post_init__(self) -> None:
         """Prepare args for the pipeline."""
         # Structured view of the args (no behavior change; the flat dict below is still what
-        # the steps consume). Holds references to the original dataclasses, so any later
-        # mutation of pipeline_args is reflected here too.
+        # the steps consume). The sub-configs are decomposed from pipeline_args.
+        identity, dicom, file_selection, output = self.pipeline_args.to_configs()
         self.ctx = PipelineContext(
             paths=self.path_args,
             dataset=self.dataset_args,
-            pipeline_args=self.pipeline_args,
+            identity=identity,
+            dicom=dicom,
+            file_selection=file_selection,
+            output=output,
         )
 
         self.args: dict = dict(**asdict(self.path_args), **asdict(self.dataset_args))
