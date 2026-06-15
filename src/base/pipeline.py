@@ -75,6 +75,23 @@ class PipelineArgs:
     dicom_mapping_attribute: Optional[str] = None  # dicom attribute to map paths to
 
 
+@dataclass
+class PipelineContext:
+    """Structured wrapper grouping the three pipeline argument dataclasses.
+
+    This is the first step of the pipeline-args reorganization (see
+    ``New pipeline args organization.md``). It simply holds the existing ``PathArgs``,
+    ``DatasetArgs`` and ``PipelineArgs`` as named fields so that later refactors can move
+    steps from the flat ``args`` dict onto ``ctx.<group>.<field>`` access. Introducing it
+    does not change any behavior - the flat-dict path built in ``BasePipeline`` is still
+    the source of truth used by the steps.
+    """
+
+    paths: PathArgs
+    dataset: DatasetArgs
+    pipeline_args: PipelineArgs
+
+
 @dataclass  # type: ignore[misc]
 class BasePipeline:
     """The base class for constructing a pipeline for an individual dataset."""
@@ -89,6 +106,15 @@ class BasePipeline:
 
     def __post_init__(self) -> None:
         """Prepare args for the pipeline."""
+        # Structured view of the args (no behavior change; the flat dict below is still what
+        # the steps consume). Holds references to the original dataclasses, so any later
+        # mutation of pipeline_args is reflected here too.
+        self.ctx = PipelineContext(
+            paths=self.path_args,
+            dataset=self.dataset_args,
+            pipeline_args=self.pipeline_args,
+        )
+
         self.args: dict = dict(**asdict(self.path_args), **asdict(self.dataset_args))
 
         # Run prepare_pipeline only if source path exists.
