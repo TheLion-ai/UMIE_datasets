@@ -2,8 +2,6 @@
 
 import json
 import os
-from calendar import c
-from logging import config
 
 import cv2
 import jsonlines
@@ -11,7 +9,9 @@ import numpy as np
 
 from config.dataset_config import all_datasets
 from config.labels import all_labels
-from config.masks import all_masks
+from config.masks import (  # type: ignore[attr-defined]  # stale util: config.masks has no all_masks (pending Task 22 rework)
+    all_masks,
+)
 from src.constants import TARGET_PATH
 
 
@@ -63,8 +63,8 @@ def calculate_labels_and_mask_ratios() -> None:
             for obj in reader:
                 if len(obj["labels"]) >= 0:
                     for label in obj["labels"]:
-                        label = list(label.keys())[0]
-                        label_counts[label] += 1
+                        label = list(label.keys())[0]  # type: ignore[attr-defined]
+                        label_counts[label] += 1  # type: ignore[index]
                 if obj["mask_path"]:
                     mask_path = os.path.join(TARGET_PATH, obj["mask_path"])
                     mask = cv2.imread(mask_path)
@@ -77,8 +77,8 @@ def calculate_labels_and_mask_ratios() -> None:
 
     print(f"Total images: {all_imgs_count}")
     print("Labels:")
-    for label in label_counts:
-        print(f"{label}: {label_counts[label]}")
+    for label in label_counts:  # type: ignore[assignment]
+        print(f"{label}: {label_counts[label]}")  # type: ignore[index]
     print("Masks:")
     for mask in mask_counts:
         print(f"{mask}: {mask_counts[mask]}")

@@ -1,3 +1,5 @@
+"""Download Kaggle datasets and generate the pipeline .env entries."""
+
 import os
 
 import kagglehub
@@ -41,7 +43,6 @@ datasets = [
 
 config_file = "./.pipeline.env"
 with open(config_file, "a") as file:
-
     for item in datasets:
         path = kagglehub.dataset_download(item["dataset"])
         dataset_path = item["name"] + "=" + path.replace(".", os.getcwd()) + "\n"

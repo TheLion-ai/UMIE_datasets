@@ -59,18 +59,18 @@ class PipelineArgs:
     window_center: Optional[int] = None  # value used to process DICOM images
     window_width: Optional[int] = None  # value used to process DICOM images
     label_extractor: Optional[Callable] = None  # function to get label for the individual image
-    img_prefix: Optional[
-        str
-    ] = None  # prefix of the source image file names, used to differentiate between images and masks
-    segmentation_prefix: Optional[
-        str
-    ] = None  # prefix of the source mask file names, used to differentiate between images and masks
-    mask_prefix: Optional[
-        str
-    ] = None  # string included only in masks names, used to differentiate between images and masks
-    multiple_masks_selector: Optional[
-        dict
-    ] = None  # dict including mask selector and its meaning for each mask, used when there are multiple masks and each mask has a different selector
+    img_prefix: Optional[str] = (
+        None  # prefix of the source image file names, used to differentiate between images and masks
+    )
+    segmentation_prefix: Optional[str] = (
+        None  # prefix of the source mask file names, used to differentiate between images and masks
+    )
+    mask_prefix: Optional[str] = (
+        None  # string included only in masks names, used to differentiate between images and masks
+    )
+    multiple_masks_selector: Optional[dict] = (
+        None  # dict including mask selector and its meaning for each mask, used when there are multiple masks and each mask has a different selector
+    )
     xml_mask_creator: Optional[BaseXmlMaskCreator] = None  # function to create masks from xml files
     dicom_mapping_attribute: Optional[str] = None  # dicom attribute to map paths to
 
@@ -82,7 +82,9 @@ class BasePipeline:
     path_args: PathArgs  # arguments passed to the pipeline, user defines them at each run of the pipeline
     dataset_args: DatasetArgs
     name: str  # name of the dataset
-    pipeline_args: PipelineArgs  # arguments passed to sklearn pipeline required to process a specific dataset # defined in config
+    pipeline_args: (
+        PipelineArgs  # arguments passed to sklearn pipeline required to process a specific dataset # defined in config
+    )
     steps: tuple[tuple[str, BaseStep]]
 
     def __post_init__(self) -> None:

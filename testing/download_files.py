@@ -20,6 +20,7 @@ Functions:
 
 import os
 import zipfile
+from typing import Optional
 
 import boto3
 from botocore.config import Config
@@ -40,7 +41,7 @@ client = boto3.client(
 )
 
 
-def download_s3_folder(bucket_name: str, local_dir: str = None) -> None:
+def download_s3_folder(bucket_name: str, local_dir: Optional[str] = None) -> None:
     """
     Download all files from a specified S3 bucket to a local directory.
 

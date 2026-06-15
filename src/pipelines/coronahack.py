@@ -69,6 +69,8 @@ class LabelExtractor(BaseLabelExtractor):
         source_label = img_row["Label"].values[0]
 
         radlex_labels = []
+        # NOTE: the upstream CoronaHack metadata CSV spells this label "Pnemonia" (sic).
+        # Matched verbatim against the source data on purpose - do not "correct" the spelling.
         if source_label == "Pnemonia":
             if img_row["Label_1_Virus_category"].values[0] == "bacteria":
                 source_label = "PneumoniaBacteria"

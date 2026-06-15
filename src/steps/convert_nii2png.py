@@ -45,7 +45,7 @@ class ConvertNii2Png(BaseStep):
         """
         try:
             nii_img = nib.load(img_path)
-            nii_data = nii_img.get_fdata()
+            nii_data = nii_img.get_fdata()  # type: ignore[attr-defined]
             slices = nii_data.shape[0]
             for idx in range(slices):
                 root_path = os.path.dirname(img_path)
@@ -57,7 +57,7 @@ class ConvertNii2Png(BaseStep):
 
                 cv2.imwrite(new_path, img)
         except Exception as e:
-            print(f"Error {e} occured while converting {img_path}")
+            print(f"Error {e} occurred while converting {img_path}")
             if self.on_error_remove:
                 os.remove(img_path)
 

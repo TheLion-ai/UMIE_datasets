@@ -1,4 +1,5 @@
 """Temporary store paths to images in source directory and their new names."""
+
 import json
 import os
 

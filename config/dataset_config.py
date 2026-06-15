@@ -5,6 +5,7 @@ The datasets are defined as dataset dataclasses.
 Each dataset dataclass contains information about the dataset, such as the dataset name, the phases and annotations provided in the source dataset.
 It also contains information about how to translate source labels and masks into UMIE format.
 """
+
 from dataclasses import dataclass, field
 
 from config import labels, masks

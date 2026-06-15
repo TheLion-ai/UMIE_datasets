@@ -1,4 +1,5 @@
 """Add labels to the images and masks based on the labels.json file. The step requires the pipeline to specify the function for mapping the images with annotations."""
+
 import glob
 import json
 import os
@@ -63,12 +64,12 @@ class AddLabels(BaseStep):
         mask_path = self.get_umie_mask_path_from_img_path(img_path)
         if source_path_dict:
             if img_path in source_path_dict.keys():
-                labels, source_labels = self.label_extractor(source_path_dict[img_path], mask_path)
+                labels, source_labels = self.label_extractor(source_path_dict[img_path], mask_path)  # type: ignore[misc]  # label_extractor is set per-pipeline at runtime
             else:
                 print(f"Image path {img_path} not in source_paths.json")
                 labels, source_labels = [], []
         else:
-            labels, source_labels = self.label_extractor(img_path, mask_path)
+            labels, source_labels = self.label_extractor(img_path, mask_path)  # type: ignore[misc]  # label_extractor is set per-pipeline at runtime
         if labels:
             key = self.get_path_without_target_path(img_path)
             self.json_updates[key] = {"labels": labels, "source_labels": source_labels}

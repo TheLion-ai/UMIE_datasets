@@ -5,7 +5,6 @@ Each step is a class that performs a specific operation, such as converting imag
 These steps are used to construct the pipelines defined in the `pipelines` module.
 """
 
-
 from .add_labels import AddLabels
 from .add_umie_ids import AddUmieIds
 from .combine_multiple_masks import CombineMultipleMasks

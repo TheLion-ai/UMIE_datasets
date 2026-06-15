@@ -1,4 +1,5 @@
 """Hugging Face CLI for uploading datasets to the Hub."""
+
 import json
 import os
 
@@ -6,7 +7,7 @@ import click
 import pandas as pd
 
 from config.dataset_config import all_datasets
-from datasets import Dataset, Image, Value
+from datasets import Dataset, Image, Value  # type: ignore[attr-defined]
 
 hf_repo_name = "lion-ai/umie_datasets"
 

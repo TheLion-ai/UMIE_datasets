@@ -1,4 +1,5 @@
 """Delete old preprocessed data."""
+
 import os
 import shutil
 

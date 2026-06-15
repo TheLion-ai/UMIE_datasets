@@ -6,11 +6,12 @@ The dataset with empty source_path is not transformed.
 If the dataset has a labels_path or masks path, it needs to be filled in too in order to transform the dataset.
 Each dataset should have a comment suggesting the name of the source file the path should point to, e.g. # Path to kits23.json.
 """
+
 import os
 
 from dotenv import load_dotenv
 
-from src.base.pipeline import PathArgs
+from src.base.pipeline import BasePipeline, PathArgs
 from src.constants import TARGET_PATH
 from src.pipelines import (
     AlzheimersPipeline,
@@ -34,7 +35,7 @@ from src.pipelines import (
 
 load_dotenv(dotenv_path=".pipeline.env")
 
-datasets = [
+datasets: list[BasePipeline] = [
     KITS23Pipeline(
         path_args=PathArgs(
             source_path=os.getenv("KITS23", ""),  # Path to the "dataset" directory in KITS23 repo
@@ -102,7 +103,7 @@ datasets = [
             target_path=TARGET_PATH,
         ),
     ),
-    BrainTumorProgressionPipeline( # data collection removed
+    BrainTumorProgressionPipeline(  # data collection removed
         path_args=PathArgs(
             source_path="",
             target_path=TARGET_PATH,
@@ -117,7 +118,7 @@ datasets = [
             + "/Data_Entry_2017_v2020.csv",  # Path to Data_Entry_2017_v2020.csv
         ),
     ),
-    unverified datasets
+    # unverified datasets
     COCAPipeline(
         path_args=PathArgs(
             source_path="",  # Path to Gated_release_final/patient

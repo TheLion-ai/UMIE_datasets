@@ -1,4 +1,5 @@
 """Change img ids to match the format of the rest of the dataset."""
+
 import glob
 import json
 import os
@@ -46,7 +47,6 @@ class AddUmieIds(BaseStep):
         return new_paths
 
     def _update_json(self, umie_path: str, mask_path: str) -> None:
-
         phase_name, study_id, img_id = self.decode_umie_img_path(umie_path)
 
         """Update JSON file with the infomration about the images."""

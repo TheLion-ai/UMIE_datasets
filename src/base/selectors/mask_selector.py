@@ -4,6 +4,7 @@ This module contains the definition of the BaseMaskSelector class.
 The BaseMaskSelector class is a base class for Masks selection. It provides a default implementation
 for checking whether a file is the intended mask based on the given path.
 """
+
 from abc import ABC, abstractmethod
 
 

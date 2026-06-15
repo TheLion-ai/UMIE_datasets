@@ -1,22 +1,17 @@
+# Python lint + format is consolidated onto Ruff here (replacing black/isort/flake8).
+# .trunk/trunk.yaml deliberately no longer runs black/isort/ruff so the two toolchains do not
+# fight over Python formatting; trunk keeps the non-Python and security linters.
 repos:
-  - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.6
     hooks:
-      - id: isort
-        name: isort (python)
-        args: ["--profile", "black", "--filter-files"]
-  - repo: https://github.com/ambv/black
-    rev: 22.6.0
-    hooks:
-      - id: black
-        args: [--line-length=120]
-  - repo: https://github.com/PyCQA/flake8
-    rev: 5.0.2
-    hooks:
-      - id: flake8
-        args: ["--ignore=E501,F401,W503", "--max-line-length=120"]
+      - id: ruff
+        name: ruff (lint)
+        args: [--fix]
+      - id: ruff-format
+        name: ruff (format)
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v0.981
+    rev: v1.14.1
     hooks:
       - id: mypy
         args:
@@ -26,27 +21,28 @@ repos:
             --disallow-untyped-calls,
             --ignore-missing-imports,
             --install-types,
+            --non-interactive,
           ]
-        exclude: tests/
+        exclude: ^testing/tests/
         additional_dependencies:
           - types-click
           - types-requests
           - types-pyyaml
   - repo: https://github.com/PyCQA/pydocstyle
-    rev: 6.1.1
+    rev: 6.3.0
     hooks:
       - id: pydocstyle
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.3.1
+    rev: v1.5.5
     hooks:
       - id: forbid-crlf
       - id: remove-crlf
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-merge-conflict
       - id: check-yaml
         args: [--unsafe]
-exclude: backend/tests/files/
+exclude: ^testing/test_dummy_data/

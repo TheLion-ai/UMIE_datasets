@@ -59,7 +59,7 @@ class DatasetTestingLibrary:
                 first_mismatch = mismatch_coords[0] if len(mismatch_coords) > 0 else None
                 print(f"These images are not identical: {expected_image_path}, {current_image_path}")
                 print("Additional details:")
-                print(f"Pixel mismatch: {current_image_path} (differs at coordinates {tuple(first_mismatch)})")
+                print(f"Pixel mismatch: {current_image_path} (differs at coordinates {tuple(first_mismatch)})")  # type: ignore[arg-type]
                 all_identical = False
 
         return all_identical

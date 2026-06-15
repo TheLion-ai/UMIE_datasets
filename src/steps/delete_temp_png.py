@@ -2,6 +2,7 @@
 
 import glob
 import os
+from typing import Optional
 
 from tqdm import tqdm
 
@@ -11,7 +12,8 @@ from base.step import BaseStep
 class DeleteTempPng(BaseStep):
     """Delete temporary png files created by other steps in the source directory."""
 
-    def fit(self, X, y=None):
+    def fit(self, X: list, y: Optional[list] = None) -> "DeleteTempPng":
+        """Fit method, no-op for sklearn pipeline compatibility; returns self."""
         # for sklearn compatibility
         return self
 

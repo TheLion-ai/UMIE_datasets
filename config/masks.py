@@ -8,6 +8,7 @@ Each mask has the following attributes:
 - radlex_id: str - the id of the mask in RadLex
 - source_names: dict - the names of the mask in other datasets, meant to be helpful when translating new source dataset masks to UMIE.
 """
+
 from dataclasses import dataclass, field
 from typing import Optional
 

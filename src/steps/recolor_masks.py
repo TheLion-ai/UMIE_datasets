@@ -44,6 +44,6 @@ class RecolorMasks(BaseStep):
         for mask_color in self.masks.values():
             np.place(mask, mask == mask_color["source_color"], mask_color["target_color"] + 255)
 
-        mask[mask > 255] -= 255
+        mask[mask > 255] -= 255  # type: ignore[misc]  # numpy stub false positive on in-place subtract
         mask = mask.astype("uint8")
         cv2.imwrite(mask_path, mask)

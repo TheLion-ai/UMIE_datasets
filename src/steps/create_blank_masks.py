@@ -1,4 +1,5 @@
 """Create blank masks for images that don't have masks."""
+
 import glob
 import os
 

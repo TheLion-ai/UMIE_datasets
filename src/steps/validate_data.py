@@ -1,5 +1,7 @@
 """Validate the dataset output data."""
+
 import os
+from typing import Optional
 
 import cv2
 import jsonlines
@@ -12,7 +14,8 @@ from config import labels
 class ValidateData(BaseStep):
     """Validate the dataset output data."""
 
-    def fit(self, X, y=None):
+    def fit(self, X: list, y: Optional[list] = None) -> "ValidateData":
+        """Fit method, no-op for sklearn pipeline compatibility; returns self."""
         # for sklearn compatibility
         return self
 
