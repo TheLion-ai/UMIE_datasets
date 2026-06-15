@@ -72,8 +72,8 @@ class ConvertNii2Nii(BaseStep):
         data = nii_img.get_fdata()  # type: ignore[attr-defined]
         windowed = self._apply_window(data)
         new_header = nii_img.header.copy()  # type: ignore[attr-defined]
-        new_header.set_data_dtype(windowed.dtype)
-        out = nib.Nifti1Image(windowed, affine=nii_img.affine, header=new_header)
+        new_header.set_data_dtype(windowed.dtype)  # type: ignore[attr-defined]  # nibabel stub gap
+        out = nib.Nifti1Image(windowed, affine=nii_img.affine, header=new_header)  # type: ignore[no-untyped-call,attr-defined]
         nib.save(out, img_path)
 
     def _apply_window(self, pixel_data: np.ndarray) -> np.ndarray:
