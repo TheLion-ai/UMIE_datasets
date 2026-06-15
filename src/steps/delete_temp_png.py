@@ -7,6 +7,7 @@ from typing import Optional
 from tqdm import tqdm
 
 from base.step import BaseStep
+from constants import OutputMode
 
 
 class DeleteTempPng(BaseStep):
@@ -28,6 +29,9 @@ class DeleteTempPng(BaseStep):
         Returns:
             list: List of paths to the target images.
         """
+        # In 3D mode no temporary PNGs are produced (volumes stay as .nii.gz), so this is a no-op.
+        if self.output_mode == OutputMode.VOLUMES_3D:
+            return X
         print("Removing temporary PNG files...")
         png_paths = glob.glob(os.path.join(self.source_path, "**", "*.png"), recursive=True)
         for png_path in tqdm(png_paths):

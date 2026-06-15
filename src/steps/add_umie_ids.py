@@ -7,11 +7,13 @@ import shutil
 from typing import Callable, Optional
 
 import jsonlines
+import nibabel as nib
 import numpy as np
 from tqdm import tqdm
 
 from base.extractors.img_id import BaseImgIdExtractor
 from base.step import BaseStep
+from constants import OutputMode
 
 
 class AddUmieIds(BaseStep):
@@ -43,7 +45,8 @@ class AddUmieIds(BaseStep):
                 writer.write(obj)
 
         root_path = os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
-        new_paths = glob.glob(os.path.join(root_path, f"**/{self.image_folder_name}/*.png"), recursive=True)
+        extension = "nii.gz" if self.output_mode == OutputMode.VOLUMES_3D else "png"
+        new_paths = glob.glob(os.path.join(root_path, f"**/{self.image_folder_name}/*.{extension}"), recursive=True)
         return new_paths
 
     def _update_json(self, umie_path: str, mask_path: str) -> None:
@@ -73,7 +76,33 @@ class AddUmieIds(BaseStep):
             "source_labels": [],
         }
 
+        # In 3D mode, enrich the record with volumetric metadata (additive - existing fields
+        # are untouched, so 2D JSONL output is byte-identical).
+        if self.output_mode == OutputMode.VOLUMES_3D:
+            img_info["output_mode"] = OutputMode.VOLUMES_3D.value
+            img_info["volume_metadata"] = self._volume_metadata(umie_path)
+
         self.new_json.append(img_info)
+
+    def _volume_metadata(self, umie_path: str) -> dict:
+        """Extract spatial metadata (shape, voxel spacing, orientation, affine) from a volume.
+
+        Args:
+            umie_path (str): Path to the ``.nii.gz`` volume.
+
+        Returns:
+            dict: Volume metadata, or an empty dict if the file cannot be read.
+        """
+        if not os.path.exists(umie_path):
+            return {}
+        nii = nib.load(umie_path)
+        affine = nii.affine  # type: ignore[attr-defined]
+        return {
+            "shape": [int(d) for d in nii.shape],
+            "voxel_spacing_mm": [float(z) for z in nii.header.get_zooms()[:3]],  # type: ignore[attr-defined]
+            "orientation": "".join(nib.aff2axcodes(affine)),
+            "affine": [[float(v) for v in row] for row in affine],
+        }
 
     def add_umie_ids(self, img_path: str) -> None:
         """Change img ids to match the format of the rest of the dataset.

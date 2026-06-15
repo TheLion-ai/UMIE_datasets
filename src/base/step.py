@@ -206,8 +206,16 @@ class BaseStep(TransformerMixin):
             str: Unique identifier for the image.
         """
         img_id = self.img_id_extractor(img_path)
-        ext = os.path.splitext(img_path)[1]
-        img_id = img_id.replace(ext, ".png")
+        if self.output_mode == OutputMode.VOLUMES_3D and img_path.endswith(".nii.gz"):
+            # 3D mode: preserve the volumetric extension instead of forcing .png.
+            for ext in (".nii.gz", ".gz", ".nii", ".png"):
+                if img_id.endswith(ext):
+                    img_id = img_id[: -len(ext)]
+                    break
+            img_id = f"{img_id}.nii.gz"
+        else:
+            ext = os.path.splitext(img_path)[1]
+            img_id = img_id.replace(ext, ".png")
 
         study_id = self.study_id_extractor(img_path)
         phase_id = self.phase_id_extractor(img_path)
