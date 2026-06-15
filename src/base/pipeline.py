@@ -8,9 +8,10 @@ The pipeline is constructed from the steps and arguments passed to the pipeline.
 The pipeline is used to process the dataset and save the processed dataset to the target directory.
 """
 
+import warnings
 from abc import abstractmethod
 from dataclasses import asdict, dataclass
-from typing import Callable, Optional
+from typing import Callable, ClassVar, Optional
 
 from sklearn.pipeline import Pipeline
 
@@ -182,6 +183,13 @@ class BasePipeline:
     )
     steps: tuple[tuple[str, BaseStep]]
 
+    # 2D conversion step name -> its 3D equivalent step name. The 3D classes are resolved
+    # lazily (see _resolve_3d_step) to avoid an import cycle with the steps package.
+    STEP_3D_ALTERNATIVES: ClassVar[dict[str, str]] = {
+        "convert_nii2png": "convert_nii2nii",
+        "convert_dcm2png": "convert_dcm2nii",
+    }
+
     def __post_init__(self) -> None:
         """Prepare args for the pipeline."""
         # Structured view of the args (no behavior change; the flat dict below is still what
@@ -196,17 +204,52 @@ class BasePipeline:
             output=output,
         )
 
+        # Inherently-2D datasets (X-ray, pre-sliced) have no volumetric conversion step and
+        # cannot honor a 3D request: warn and fall back to 2D so the run neither crashes nor
+        # produces empty output.
+        if self.ctx.paths.output_mode == OutputMode.VOLUMES_3D and not self._supports_3d():
+            warnings.warn(
+                f"Dataset '{self.name}' has no volumetric conversion step; "
+                "output_mode=VOLUMES_3D is ignored and falls back to 2D slices.",
+                stacklevel=2,
+            )
+            self.ctx.paths.output_mode = OutputMode.SLICES_2D
+
         self.args: dict = dict(**asdict(self.path_args), **asdict(self.dataset_args))
 
         # Run prepare_pipeline only if source path exists.
         if self.args["source_path"]:
             self.prepare_pipeline()
 
+    def _supports_3d(self) -> bool:
+        """Return True if any step has a registered 3D alternative (i.e. dataset is volumetric)."""
+        return any(step_name in self.STEP_3D_ALTERNATIVES for step_name, _ in self.steps)
+
+    @staticmethod
+    def _resolve_3d_step(step_name: str) -> type:
+        """Resolve a 3D step name to its class (lazy import avoids a base<->steps import cycle)."""
+        from steps import ConvertDcm2Nii, ConvertNii2Nii
+
+        registry = {"convert_nii2nii": ConvertNii2Nii, "convert_dcm2nii": ConvertDcm2Nii}
+        return registry[step_name]
+
     @property
     def pipeline(self) -> Pipeline:
-        """Create a pipeline based on the steps and the shared context."""
-        # Each step now receives the structured PipelineContext (no flat-dict / asdict).
-        return Pipeline(steps=[(step[0], step[1](self.ctx)) for step in self.steps])
+        """Create a pipeline, swapping 2D conversion steps for 3D ones in VOLUMES_3D mode.
+
+        Each step receives the structured PipelineContext (no flat-dict / asdict). When
+        ``output_mode == VOLUMES_3D``, ``convert_nii2png``/``convert_dcm2png`` are replaced by
+        ``convert_nii2nii``/``convert_dcm2nii`` per ``STEP_3D_ALTERNATIVES``.
+        """
+        use_3d = self.ctx.paths.output_mode == OutputMode.VOLUMES_3D
+        steps = []
+        for step_name, step_cls in self.steps:
+            if use_3d and step_name in self.STEP_3D_ALTERNATIVES:
+                step_name_3d = self.STEP_3D_ALTERNATIVES[step_name]
+                steps.append((step_name_3d, self._resolve_3d_step(step_name_3d)(self.ctx)))
+            else:
+                steps.append((step_name, step_cls(self.ctx)))
+        return Pipeline(steps=steps)
 
     @abstractmethod
     def prepare_pipeline(self) -> None:
