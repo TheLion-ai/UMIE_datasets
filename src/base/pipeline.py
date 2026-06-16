@@ -10,7 +10,7 @@ The pipeline is used to process the dataset and save the processed dataset to th
 
 import warnings
 from abc import abstractmethod
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from typing import Callable, ClassVar, Optional
 
 from sklearn.pipeline import Pipeline
@@ -81,6 +81,114 @@ class OutputConfig:
 
 
 @dataclass
+class QualityConfig:
+    """Optional settings for the data-quality / validation steps (Theme D).
+
+    Every field has a safe default so the steps are opt-in and behave predictably when a
+    pipeline does not configure them. None of these steps alter UMIE ids or folder layout.
+    """
+
+    # Task 10 - duplicate / near-duplicate detection
+    duplicate_hash_size: int = 8  # side length of the perceptual-hash grid (hash is hash_size**2 bits)
+    duplicate_threshold: int = 5  # max Hamming distance between hashes to treat two images as near-duplicates
+    flag_duplicates_in_jsonl: bool = False  # additionally write a duplicate_group_id field into the JSONL
+    duplicate_reference_hashes: Optional[str] = None  # path to a JSON of {umie_path: hash} for cross-dataset overlap
+
+    # Task 11 - corrupt image detection
+    blank_std_threshold: float = 1.0  # pixel-std below which a frame is considered blank (all-black/all-white)
+    expected_min_size: Optional[tuple] = None  # (height, width) minimum; smaller images are reported as suspicious
+
+    # Task 13 - DICOM metadata validation
+    required_dicom_tags: Optional[dict] = None  # {tag_name: expected_value_or_None}; checked before conversion
+    exclude_invalid_dicom: bool = False  # drop files failing the DICOM-tag check from the returned file list
+
+
+@dataclass
+class PreprocessingConfig:
+    """Optional, opt-in image preprocessing settings (Theme E).
+
+    All transforms are off by default; they only touch pixel data, never naming/layout, and
+    never masks unless explicitly noted. Masks are always resampled/resized nearest-neighbour.
+    """
+
+    # Task 14 - intensity windowing / normalization
+    window_preset: Optional[str] = None  # named CT preset: lung | bone | soft_tissue | brain | abdomen | mediastinum
+
+    # Task 15 - CLAHE / histogram equalization
+    clahe_enabled: bool = False
+    clahe_clip_limit: float = 2.0
+    clahe_tile_grid_size: tuple = (8, 8)
+
+    # Task 16 - resolution / pixel-spacing normalization
+    target_spacing_mm: Optional[tuple] = None  # e.g. (1.0, 1.0, 1.0) for 1mm isotropic
+
+    # Task 17 - resize with aspect-ratio preservation
+    target_size: Optional[tuple] = None  # (height, width)
+    resize_strategy: str = "letterbox"  # pad | crop | letterbox | stretch
+
+    # Task 18 - bit-depth standardization
+    target_bit_depth: Optional[int] = None  # 8 or 16
+
+    # Task 19 - background / border auto-crop
+    autocrop_enabled: bool = False
+    autocrop_tolerance: int = 0  # pixels up to this value are treated as background when detecting borders
+
+
+@dataclass
+class MetadataConfig:
+    """Optional metadata-enrichment settings (Theme F). All JSONL additions are additive."""
+
+    # Task 20 - structured DICOM metadata extraction
+    dicom_tags: Optional[list] = None  # DICOM tag names to extract into the JSONL (PHI tags are skipped)
+    deidentify: bool = True  # never write known-PHI tags; shift dates by study_date_offset_days
+    metadata_sidecar: bool = False  # write a sidecar json instead of enriching the JSONL records
+
+    # Task 21 - patient-level reproducible splits
+    split_ratios: tuple = (0.7, 0.15, 0.15)  # train / val / test
+    split_seed: int = 42
+    split_manifest_only: bool = False  # write a split manifest only, do not add a `split` field to the JSONL
+    stratify_by_label: bool = True  # keep label distribution similar across splits where possible
+
+    # Task 23 - license / provenance tracking
+    add_provenance: bool = True  # populate license/source_dataset fields from config/provenance.py
+
+
+@dataclass
+class FormatConfig:
+    """Optional settings for the additional format / mask conversion steps (Theme G)."""
+
+    # Task 24 - DICOM-SEG / RTSTRUCT extraction
+    segmentation_structure_map: Optional[dict] = None  # {source_structure_name: target_mask_color}
+
+    # Task 25 - bbox (COCO / YOLO / VOC) -> mask conversion
+    bbox_format: Optional[str] = None  # coco | yolo | voc
+    bbox_class_map: Optional[dict] = None  # {source_class_id_or_name: target_mask_color}
+    bbox_as_filled: bool = True  # filled boxes (True) vs. outline only (False)
+
+    # Task 26 - multi-class mask merging
+    overlap_policy: str = "report"  # report | first | last | priority
+    merge_priority: Optional[list] = None  # mask colors in descending priority for overlap_policy="priority"
+
+
+@dataclass
+class ExportConfig:
+    """Optional reproducibility / export settings (Themes H & I)."""
+
+    # Task 27 - checksums + manifest
+    write_manifest: bool = True  # write a sha256 manifest of all outputs
+    verify_manifest: bool = False  # re-check outputs against an existing manifest instead of writing one
+
+    # Task 28 - incremental processing
+    force_reprocess: bool = False  # ignore existing outputs and reprocess everything
+
+    # Task 29 - parallel execution
+    num_workers: int = 1  # >1 enables multiprocessing in steps that support it (deterministic regardless of count)
+
+    # Task 30 - HuggingFace export
+    hf_export_path: Optional[str] = None  # local directory to write the Arrow dataset + card to
+
+
+@dataclass
 class PipelineArgs:
     """
     Arguments required by the processing pipeline of a given dataset.
@@ -116,6 +224,13 @@ class PipelineArgs:
     )
     xml_mask_creator: Optional[BaseXmlMaskCreator] = None  # function to create masks from xml files
     dicom_mapping_attribute: Optional[str] = None  # dicom attribute to map paths to
+    # Optional sub-configs for the additive, opt-in steps (Themes D-I). Passed as whole objects
+    # (rather than flat fields) to keep PipelineArgs from ballooning; default to None -> defaults.
+    quality: Optional[QualityConfig] = None
+    preprocessing: Optional[PreprocessingConfig] = None
+    metadata: Optional[MetadataConfig] = None
+    format_conversion: Optional[FormatConfig] = None
+    export: Optional[ExportConfig] = None
 
     def to_configs(self) -> tuple[IdentityConfig, DicomConfig, FileSelectionConfig, OutputConfig]:
         """Group the flat pipeline args into the four focused sub-configs (no value change).
@@ -169,6 +284,13 @@ class PipelineContext:
     dicom: DicomConfig
     file_selection: FileSelectionConfig
     output: OutputConfig
+    # Optional, opt-in sub-configs for Themes D-I. Defaulted so every existing direct
+    # construction of PipelineContext (e.g. in unit tests) keeps working unchanged.
+    quality: QualityConfig = field(default_factory=QualityConfig)
+    preprocessing: PreprocessingConfig = field(default_factory=PreprocessingConfig)
+    metadata: MetadataConfig = field(default_factory=MetadataConfig)
+    format_conversion: FormatConfig = field(default_factory=FormatConfig)
+    export: ExportConfig = field(default_factory=ExportConfig)
 
 
 @dataclass  # type: ignore[misc]
@@ -202,6 +324,12 @@ class BasePipeline:
             dicom=dicom,
             file_selection=file_selection,
             output=output,
+            # Opt-in Theme D-I sub-configs: use what the pipeline supplied, else safe defaults.
+            quality=self.pipeline_args.quality or QualityConfig(),
+            preprocessing=self.pipeline_args.preprocessing or PreprocessingConfig(),
+            metadata=self.pipeline_args.metadata or MetadataConfig(),
+            format_conversion=self.pipeline_args.format_conversion or FormatConfig(),
+            export=self.pipeline_args.export or ExportConfig(),
         )
 
         # Inherently-2D datasets (X-ray, pre-sliced) have no volumetric conversion step and

@@ -123,3 +123,8 @@ Mass = Mask(
     radlex_id="RID3874",
     source_names={"ChestX-ray14": ["Mass"], "cmmd": ["mass"]},
 )
+
+# Registry of every defined mask, mirroring ``config/labels.py``'s ``all_labels``. Consumed by the
+# cross-dataset distribution report (Task 22) and the mask-quality check (Task 12); also fixes the
+# previously-missing ``config.masks.all_masks`` reference in ``utils/data_counter.py``.
+all_masks = [obj for name, obj in list(globals().items()) if isinstance(obj, Mask)]
