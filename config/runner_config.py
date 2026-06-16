@@ -51,9 +51,7 @@ datasets: list[BasePipeline] = [
             source_path=os.getenv("CORONA_HACK", ""),
             target_path=TARGET_PATH,
             labels_path=(
-                os.getenv("CORONA_HACK", "") + "/Chest_xray_Corona_Metadata.csv"
-                if os.getenv("CORONA_HACK", "")
-                else ""
+                os.getenv("CORONA_HACK", "") + "/Chest_xray_Corona_Metadata.csv" if os.getenv("CORONA_HACK", "") else ""
             ),  # Path to Chest_xray_Corona_Metadata.csv
         ),
     ),
@@ -126,9 +124,7 @@ datasets: list[BasePipeline] = [
             ),  # path to images/
             target_path=TARGET_PATH,
             labels_path=(
-                os.getenv("CHESTXRAY14", "") + "/Data_Entry_2017_v2020.csv"
-                if os.getenv("CHESTXRAY14", "")
-                else ""
+                os.getenv("CHESTXRAY14", "") + "/Data_Entry_2017_v2020.csv" if os.getenv("CHESTXRAY14", "") else ""
             ),  # Path to Data_Entry_2017_v2020.csv
         ),
     ),
