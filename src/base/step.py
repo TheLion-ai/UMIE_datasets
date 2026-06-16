@@ -97,6 +97,11 @@ class BaseStep(TransformerMixin, BaseEstimator):
         return self.ctx.paths.output_mode
 
     @property
+    def schema_version(self) -> str:
+        """JSONL metadata schema for this run: ``"1.0"`` flat (default) or ``"2.0"`` hierarchical."""
+        return self.ctx.paths.schema_version
+
+    @property
     def dataset_uid(self) -> str:
         """Unique identifier of the dataset in UMIE."""
         return self.ctx.dataset.dataset_uid
@@ -107,9 +112,9 @@ class BaseStep(TransformerMixin, BaseEstimator):
         return self.ctx.dataset.dataset_name
 
     @property
-    def phases(self) -> dict[str, str]:
-        """Mapping of phase_id to phase_name."""
-        return self.ctx.dataset.phases
+    def modalities(self) -> dict[str, str]:
+        """Mapping of modality_id to modality_name."""
+        return self.ctx.dataset.modalities
 
     @property
     def labels(self) -> dict[str, list[dict[str, float]]]:
@@ -150,9 +155,9 @@ class BaseStep(TransformerMixin, BaseEstimator):
         return self.ctx.identity.study_id_extractor
 
     @property
-    def phase_id_extractor(self) -> Callable:
-        """Callable extracting the phase id from a source path."""
-        return self.ctx.identity.phase_id_extractor
+    def modality_id_extractor(self) -> Callable:
+        """Callable extracting the modality id from a source path."""
+        return self.ctx.identity.modality_id_extractor
 
     @property
     def label_extractor(self) -> Optional[Callable]:
@@ -289,9 +294,9 @@ class BaseStep(TransformerMixin, BaseEstimator):
             img_id = img_id.replace(ext, ".png")
 
         study_id = self.study_id_extractor(img_path)
-        phase_id = self.phase_id_extractor(img_path)
+        modality_id = self.modality_id_extractor(img_path)
 
-        umie_id = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
+        umie_id = f"{self.dataset_uid}_{modality_id}_{study_id}_{img_id}"
         return umie_id
 
     def validate_umie_path(self, img_path: str) -> bool:
@@ -305,9 +310,9 @@ class BaseStep(TransformerMixin, BaseEstimator):
         """
         img_id = self.img_id_extractor(img_path)
         study_id = self.study_id_extractor(img_path)
-        phase_id = self.phase_id_extractor(img_path)
+        modality_id = self.modality_id_extractor(img_path)
 
-        if img_id == "" or study_id == "" or phase_id == "":
+        if img_id == "" or study_id == "" or modality_id == "":
             return False
         return True
 
@@ -322,16 +327,16 @@ class BaseStep(TransformerMixin, BaseEstimator):
         """
         umie_id = self.get_umie_id(img_path)
 
-        phase_id = self.phase_id_extractor(img_path)
+        modality_id = self.modality_id_extractor(img_path)
 
-        if phase_id not in self.phases.keys():
-            raise ValueError(f"Phase id {phase_id} not in the list of phases.")
-        phase_name = self.phases[phase_id]
+        if modality_id not in self.modalities.keys():
+            raise ValueError(f"Modality id {modality_id} not in the list of modalities.")
+        modality_name = self.modalities[modality_id]
 
         new_path = os.path.join(
             self.target_path,
             f"{self.dataset_uid}_{self.dataset_name}",
-            phase_name,
+            modality_name,
             self.image_folder_name,
             umie_id,
         )
@@ -347,16 +352,16 @@ class BaseStep(TransformerMixin, BaseEstimator):
             str: Unique path for the mask.
         """
         umie_id = self.get_umie_id(mask_path)
-        phase_id = self.phase_id_extractor(mask_path)
+        modality_id = self.modality_id_extractor(mask_path)
 
-        if phase_id not in self.phases.keys():
-            raise ValueError(f"Phase id {phase_id} not in the list of phases.")
-        phase_name = self.phases[phase_id]
+        if modality_id not in self.modalities.keys():
+            raise ValueError(f"Modality id {modality_id} not in the list of modalities.")
+        modality_name = self.modalities[modality_id]
 
         new_path = os.path.join(
             self.target_path,
             f"{self.dataset_uid}_{self.dataset_name}",
-            phase_name,
+            modality_name,
             self.mask_folder_name,
             umie_id,
         )
@@ -371,12 +376,12 @@ class BaseStep(TransformerMixin, BaseEstimator):
             str: Unique path for the mask.
         """
         umie_id = os.path.basename(img_path)
-        phase_name = self.decode_umie_img_path(img_path)[0]
+        modality_name = self.decode_umie_img_path(img_path)[0]
 
         new_path = os.path.join(
             self.target_path,
             f"{self.dataset_uid}_{self.dataset_name}",
-            phase_name,
+            modality_name,
             self.mask_folder_name,
             umie_id,
         )
@@ -389,14 +394,14 @@ class BaseStep(TransformerMixin, BaseEstimator):
             umie_path (str): Unique image path.
 
         Returns:
-            tuple: Tuple containing the phase name, study id, and image id.
+            tuple: Tuple containing the modality name, study id, and image id.
         """
         umie_id = os.path.basename(umie_path)
         umie_path_elements = umie_id.split("_")
-        phase_name = self.phases[umie_path_elements[1]]
+        modality_name = self.modalities[umie_path_elements[1]]
         study_id = umie_path_elements[2]
         img_id = umie_path_elements[3]
-        return phase_name, study_id, img_id
+        return modality_name, study_id, img_id
 
     def get_path_without_target_path(self, path: str) -> str:
         """Get the path without the target path.

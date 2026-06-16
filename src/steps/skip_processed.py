@@ -20,8 +20,8 @@ Placement / interaction with ``DeleteOldPreprocessedData``:
     delete-old step always wins and the resume optimisation simply becomes a no-op.
 
 Robustness:
-    ``get_umie_img_path`` can raise (e.g. a source whose phase id is not in the configured
-    phases). Such sources are treated as not-yet-processed and kept in ``X`` so they flow on
+    ``get_umie_img_path`` can raise (e.g. a source whose modality id is not in the configured
+    modalities). Such sources are treated as not-yet-processed and kept in ``X`` so they flow on
     to the normal conversion steps rather than being silently dropped.
 """
 
@@ -55,7 +55,7 @@ class SkipProcessed(BaseStep):
 
         A source counts as processed only when its mapped output path exists and (when
         :attr:`_REQUIRE_NONZERO_SIZE`) is non-empty. If the path cannot be mapped (e.g. an
-        unmapped phase makes ``get_umie_img_path`` raise) the source is treated as
+        unmapped modality makes ``get_umie_img_path`` raise) the source is treated as
         not-yet-processed so it is kept for normal processing.
 
         Args:

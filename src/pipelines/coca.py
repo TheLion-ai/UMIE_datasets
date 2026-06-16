@@ -89,13 +89,13 @@ class XmlMaskCreator(BaseXmlMaskCreator):
                     color = list(caller.masks.values())[0]["target_color"]
                     cv2.fillPoly(img, [np.array(points)], (color))
 
-            for phase_id, phase_name in caller.phases.items():
-                filename_prefix = f"{caller.dataset_uid}_{phase_id}_{study_id}"
+            for modality_id, modality_name in caller.modalities.items():
+                filename_prefix = f"{caller.dataset_uid}_{modality_id}_{study_id}"
 
                 new_path = os.path.join(
                     caller.target_path,
                     f"{caller.dataset_uid}_{caller.dataset_name}",
-                    phase_name,
+                    modality_name,
                     caller.mask_folder_name,
                     f"{filename_prefix}_{str(img_id).zfill(caller.zfill)}.png",
                 )

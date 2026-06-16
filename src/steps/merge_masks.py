@@ -30,7 +30,7 @@ class MergeMasks(BaseStep):
     ) -> list:
         """Merge multiple per-structure masks of each image into one multi-class mask.
 
-        Masks are grouped by their output basename (the UMIE id) within each phase's
+        Masks are grouped by their output basename (the UMIE id) within each modality's
         ``Masks`` folder. A group with several distinct mask arrays is merged with the
         configured overlap policy and written back over the group's masks. A per-group
         overlap summary is written to ``reports_dir()/mask_merge_report.json``. ``X`` is
@@ -77,7 +77,7 @@ class MergeMasks(BaseStep):
             dict[str, list[str]]: Mapping of mask basename to the sorted paths sharing it.
         """
         # Single-structure masks for the same image share a UMIE-id basename; they live either
-        # directly in a phase's Masks folder or in per-structure subfolders beneath it. Match
+        # directly in a modality's Masks folder or in per-structure subfolders beneath it. Match
         # both by globbing every PNG at any depth under a Masks folder.
         pattern = os.path.join(self.dataset_root, f"**/{self.mask_folder_name}/**/*.png")
         groups: dict[str, list[str]] = defaultdict(list)

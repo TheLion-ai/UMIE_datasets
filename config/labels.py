@@ -11,6 +11,9 @@ Here in "grades", we store the information about how many grades the label has.
 from dataclasses import dataclass, field
 from typing import Optional
 
+from config import ontology
+from config.ontology import OntologyTerm
+
 
 @dataclass
 class Label:  # Name of the label should match RadLex name
@@ -25,6 +28,14 @@ class Label:  # Name of the label should match RadLex name
     source_names: Optional[dict] = field(
         default_factory=dict
     )  # Names used by other datasets, key - dataset name, value - source label name in this dataset
+    # --- Theme L additions (all optional; never affect ``id``/``radlex_name`` or emitted labels) ---
+    radlex_parent_id: Optional[str] = None  # RadLex id of the parent concept (Task 36 hierarchy)
+    anatomy: Optional[OntologyTerm] = None  # multi-axis decomposition (Task 37): the body part
+    pathology: Optional[OntologyTerm] = None  # multi-axis decomposition (Task 37): the abnormality
+    modifier: Optional[OntologyTerm] = None  # multi-axis decomposition (Task 37): grade / qualifier
+    snomed_id: Optional[str] = None  # secondary ontology cross-code (Task 39): SNOMED CT
+    fma_id: Optional[str] = None  # secondary ontology cross-code (Task 39): Foundational Model of Anatomy
+    uberon_id: Optional[str] = None  # secondary ontology cross-code (Task 39): Uberon
 
 
 # Use camel case for the labels names
@@ -52,6 +63,8 @@ Neoplasm = Label(
     id=1,
     radlex_name="Neoplasm",
     radlex_id="RID3957",
+    radlex_parent_id=None,  # root of the neoplasm subtree (Task 36)
+    snomed_id="108369006",  # SNOMED CT: Neoplasm and/or hamartoma (Task 39)
     source_names={
         "kits23": [
             "angiomyolipoma",
@@ -78,6 +91,7 @@ RenalAdenocarcinoma = Label(
     id=2,
     radlex_name="RenalAdenocarcinoma",
     radlex_id="RID4234",
+    radlex_parent_id="RID4226",  # parent: Adenocarcinoma (Task 36)
     source_names={
         "kits23": [
             "clear_cell_rcc",
@@ -94,17 +108,26 @@ ClearCellAdenocarcinoma = Label(
     id=3,
     radlex_name="ClearCellAdenocarcinoma",
     radlex_id="RID4235",
+    radlex_parent_id="RID4234",  # parent: RenalAdenocarcinoma (Task 36)
+    anatomy=OntologyTerm(radlex_name="Kidney", radlex_id="RID205", source_name="kidney"),  # Task 37
+    pathology=OntologyTerm(radlex_name="Neoplasm", radlex_id="RID3957", source_name="clear_cell_rcc"),
+    modifier=OntologyTerm(radlex_name="Malignant", radlex_id="RID15655"),
     source_names={"kits23": ["clear_cell_rcc", "clear_cell_papillary"]},
 )
 
 ChromophobeAdenocarcinoma = Label(
-    id=4, radlex_name="ChromophobeAdenocarcinoma", radlex_id="RID4236", source_names={"kits23": ["chromophobe_rcc"]}
+    id=4,
+    radlex_name="ChromophobeAdenocarcinoma",
+    radlex_id="RID4236",
+    radlex_parent_id="RID4234",  # parent: RenalAdenocarcinoma (Task 36)
+    source_names={"kits23": ["chromophobe_rcc"]},
 )
 
 TransitionalCellCarcinoma = Label(
     id=5,
     radlex_name="TransitionalCellCarcinoma",
-    radlex_id="",
+    radlex_id="",  # no verified RadLex id for this concept (flagged by config.ontology.validate)
+    radlex_parent_id="RID15655",  # parent: Malignant (Task 36)
     source_names={"kits23": ["transitional_cell_carcinoma"]},
 )
 
@@ -112,6 +135,7 @@ PapillaryRenalAdenocarcinoma = Label(
     id=6,
     radlex_name="PapillaryRenalAdenocarcinoma",
     radlex_id="RID4233",
+    radlex_parent_id="RID4234",  # parent: RenalAdenocarcinoma (Task 36)
     source_names={"kits23": ["papillary_rcc", "clear_cell_papillary"]},
 )
 
@@ -119,18 +143,46 @@ MultilocularCysticRenalTumor = Label(
     id=7,
     radlex_name="MultilocularCysticRenalTumor",
     radlex_id="RID4538",
+    radlex_parent_id="RID4234",  # parent: RenalAdenocarcinoma (Task 36)
     source_names={"kits23": ["multilocular_cystic_rcc"]},
 )
 
-WilmsTumor = Label(id=8, radlex_name="WilmsTumor", radlex_id="RID4553", source_names={"kits23": ["wilms"]})
-
-Angiomyolipoma = Label(
-    id=9, radlex_name="Angiomyolipoma", radlex_id="RID4343", source_names={"kits23": ["angiomyolipoma"]}
+WilmsTumor = Label(
+    id=8,
+    radlex_name="WilmsTumor",
+    radlex_id="RID4553",
+    radlex_parent_id="RID3957",  # parent: Neoplasm (Task 36)
+    anatomy=OntologyTerm(radlex_name="Kidney", radlex_id="RID205", source_name="kidney"),  # Task 37
+    pathology=OntologyTerm(radlex_name="Neoplasm", radlex_id="RID3957", source_name="wilms"),
+    source_names={"kits23": ["wilms"]},
 )
 
-Oncocytoma = Label(id=10, radlex_name="Oncocytoma", radlex_id="RID4515", source_names={"kits23": ["oncocytoma"]})
+Angiomyolipoma = Label(
+    id=9,
+    radlex_name="Angiomyolipoma",
+    radlex_id="RID4343",
+    radlex_parent_id="RID15654",  # parent: Benign (Task 36)
+    anatomy=OntologyTerm(radlex_name="Kidney", radlex_id="RID205", source_name="kidney"),  # Task 37
+    pathology=OntologyTerm(radlex_name="Neoplasm", radlex_id="RID3957", source_name="angiomyolipoma"),
+    modifier=OntologyTerm(radlex_name="Benign", radlex_id="RID15654"),
+    source_names={"kits23": ["angiomyolipoma"]},
+)
 
-RenalCyst = Label(id=11, radlex_name="RenalCyst", radlex_id="RID35811", source_names={"kits23": ["cyst"]})
+Oncocytoma = Label(
+    id=10,
+    radlex_name="Oncocytoma",
+    radlex_id="RID4515",
+    radlex_parent_id="RID15654",  # parent: Benign (Task 36)
+    source_names={"kits23": ["oncocytoma"]},
+)
+
+RenalCyst = Label(
+    id=11,
+    radlex_name="RenalCyst",
+    radlex_id="RID35811",
+    radlex_parent_id="RID3957",  # parent: Neoplasm (Task 36)
+    source_names={"kits23": ["cyst"]},
+)
 
 ViralInfection = Label(
     id=12,
@@ -160,6 +212,7 @@ PneumoniaViral = Label(
     id=14,
     radlex_name="PneumoniaViral",
     radlex_id="RID34769",
+    radlex_parent_id="RID5350",  # parent: Pneumonia (Task 36 chest-pathology subtree)
     source_names={"coronahack": ["PneumoniaVirus"], "covid19_detection": ["pneumonia_viral"]},
 )
 
@@ -323,6 +376,8 @@ Adenocarcinoma = Label(
     id=38,
     radlex_name="Adenocarcinoma",
     radlex_id="RID4226",
+    radlex_parent_id="RID15655",  # parent: Malignant (Task 36)
+    snomed_id="35917007",  # SNOMED CT: Adenocarcinoma, no subtype (Task 39)
     source_names={
         "kits23": [
             "clear_cell_rcc",
@@ -359,6 +414,7 @@ Osteoarthritis = Label(
     radlex_name="Osteoarthritis",
     radlex_id="RID3555",
     grades=4,
+    modifier=OntologyTerm(source_name="Kellgren-Lawrence grade"),  # Task 37: grade axis (4 grades)
     source_names={
         "knee_osteoarthritis": [
             "DoubtfulOsteoarthritis",
@@ -395,6 +451,7 @@ Benign = Label(
     id=46,
     radlex_name="Benign",
     radlex_id="RID15654",
+    radlex_parent_id="RID3957",  # parent: Neoplasm (Task 36)
     source_names={"cmmd": ["Benign"]},
 )
 
@@ -402,7 +459,48 @@ Malignant = Label(
     id=47,
     radlex_name="Malignant",
     radlex_id="RID15655",
+    radlex_parent_id="RID3957",  # parent: Neoplasm (Task 36)
     source_names={"cmmd": ["Malignant"]},
 )
 
 all_labels = [obj for name, obj in globals().items() if isinstance(obj, Label)]
+
+
+# --- Theme L ontology query helpers (Task 36), scoped to the label registry -------------------
+# Thin wrappers over the generic functions in ``config.ontology`` so callers can query the label
+# hierarchy without re-passing ``all_labels`` every time. Examples:
+#   label_descendants("Neoplasm")  -> every tumour subtype below Neoplasm
+#   label_ancestors(ClearCellAdenocarcinoma)  -> [RenalAdenocarcinoma, Adenocarcinoma, Malignant, Neoplasm]
+def label_by_name(name: str) -> Optional[Label]:
+    """Return the label with the given RadLex name, or ``None``."""
+    return ontology.get_by_name(name, all_labels)
+
+
+def label_ancestors(label: Label) -> list[Label]:
+    """Return ``label``'s ancestors, nearest parent first."""
+    return ontology.ancestors(label, all_labels)
+
+
+def label_descendants(label: Label) -> list[Label]:
+    """Return every transitive descendant of ``label``."""
+    return ontology.descendants(label, all_labels)
+
+
+def label_descendants_of(name: str) -> list[Label]:
+    """Return every transitive descendant of the label named ``name``."""
+    return ontology.descendants_of(name, all_labels)
+
+
+def label_children(label: Label) -> list[Label]:
+    """Return ``label``'s direct children."""
+    return ontology.children(label, all_labels)
+
+
+def labels_grouped_by_level() -> dict[int, list[Label]]:
+    """Group all labels by their depth in the RadLex hierarchy (0 == roots)."""
+    return ontology.group_by_level(all_labels)
+
+
+def validate_labels() -> list[str]:
+    """Audit the label registry (duplicate / empty / dangling RadLex ids, cycles). Empty == clean."""
+    return ontology.validate(all_labels)

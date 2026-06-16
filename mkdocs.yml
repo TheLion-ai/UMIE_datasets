@@ -1,0 +1,20 @@
+site_name: UMIE datasets
+site_description: Unified Medical Imaging dataset — pipeline, conventions and schema reference
+repo_url: https://github.com/TheLion-ai/UMIE_datasets
+docs_dir: docs
+
+theme:
+  name: readthedocs
+
+nav:
+  - Home: index.md
+  - Conventions: conventions.md
+  - Step catalog: steps.md
+  - Add a dataset: add_a_dataset.md
+  - JSONL schema: schema.md
+  - Citation: citation.md
+  - TCIA submission: tcia_submission.md
+  - Migrations:
+      - phase → modality: migrations/phase_to_modality.md
+
+# Build with:  pip install mkdocs && mkdocs build   (or `mkdocs serve` for live preview)

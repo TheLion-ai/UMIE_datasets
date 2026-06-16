@@ -42,13 +42,13 @@ class CreateFileTree(BaseStep):
         self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
         self._create_json()
 
-        for phase in self.phases.values():
-            self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}", phase)
+        for modality in self.modalities.values():
+            self._create_dir(self.target_path, f"{self.dataset_uid}_{self.dataset_name}", modality)
 
             self._create_dir(
                 self.target_path,
                 f"{self.dataset_uid}_{self.dataset_name}",
-                phase,
+                modality,
                 self.image_folder_name,
             )
 
@@ -56,6 +56,6 @@ class CreateFileTree(BaseStep):
                 self._create_dir(
                     self.target_path,
                     f"{self.dataset_uid}_{self.dataset_name}",
-                    phase,
+                    modality,
                     self.mask_folder_name,
                 )

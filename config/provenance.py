@@ -39,6 +39,7 @@ PROVENANCE: dict[str, Provenance] = {
         license="CC-BY-NC-SA-4.0",
         source_dataset="KiTS23 (Kidney Tumor Segmentation Challenge 2023)",
         source_url="https://kits-challenge.org/kits23/",
+        source_citation="Heller et al., The KiTS21 Challenge, arXiv:2307.01984 (KiTS23).",
         redistributable=True,
     ),
     "coronahack": Provenance(
@@ -93,6 +94,7 @@ PROVENANCE: dict[str, Provenance] = {
         license="No restriction (NIH public)",
         source_dataset="NIH ChestX-ray14",
         source_url="https://nihcc.app.box.com/v/ChestXray-NIHCC",
+        source_citation="Wang et al., ChestX-ray8, CVPR 2017.",
         redistributable=True,
     ),
     "coca": Provenance(

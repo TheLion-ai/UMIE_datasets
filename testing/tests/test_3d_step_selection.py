@@ -77,7 +77,7 @@ def _ctx(tmp: str, output_mode: OutputMode) -> PipelineContext:
     identity, dicom, file_selection, output = pa.to_configs()
     return PipelineContext(
         paths=PathArgs(source_path=tmp, target_path=tmp, output_mode=output_mode),
-        dataset=DatasetArgs(dataset_uid="99", dataset_name="synthetic", phases={"0": "CT"}),
+        dataset=DatasetArgs(dataset_uid="99", dataset_name="synthetic", modalities={"0": "CT"}),
         identity=identity,
         dicom=dicom,
         file_selection=file_selection,
