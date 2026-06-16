@@ -5,8 +5,8 @@ the UMIE corpus **and** every source dataset whose data you used.
 
 ## Cite UMIE
 
-Use the metadata in [`CITATION.cff`](../CITATION.cff) (GitHub renders a "Cite this repository" button
-from it):
+Use the metadata in [`CITATION.cff`](https://github.com/TheLion-ai/UMIE_datasets/blob/main/CITATION.cff)
+(GitHub renders a "Cite this repository" button from it):
 
 > Klaudel, Obuchowski, Frąckowski, Komor, Bober, Badyra. *Towards Medical Foundational Model — a
 > Unified Dataset for Pretraining Medical Imaging Models.* https://github.com/TheLion-ai/UMIE_datasets
@@ -14,7 +14,8 @@ from it):
 ## Cite the source datasets
 
 Each integrated dataset carries its licence, source attribution and (where recorded) a citation in
-[`config/provenance.py`](../config/provenance.py), the single source of truth. These are surfaced
+[`config/provenance.py`](https://github.com/TheLion-ai/UMIE_datasets/blob/main/config/provenance.py),
+the single source of truth. These are surfaced
 automatically in:
 
 - the per-dataset **datasheets** (`python -m utils.datasheet <name>`, Task 43), and
