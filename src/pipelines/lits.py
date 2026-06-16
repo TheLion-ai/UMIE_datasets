@@ -1,6 +1,7 @@
 """Preprocessing pipeline for Liver and liver tumor dataset."""
+
 import os
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from functools import partial
 from typing import Any
 
@@ -112,7 +113,6 @@ class LITSPipeline(BasePipeline):
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
         # Update args with dataset_args
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
-        self.args["label_extractor"] = LabelExtractor(
-            self.args["labels"], self.args["masks"]["Neoplasm"]["target_color"]
+        self.ctx.identity.label_extractor = LabelExtractor(
+            self.ctx.dataset.labels, self.ctx.dataset.masks["Neoplasm"].target_color
         )

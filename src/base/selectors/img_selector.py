@@ -4,6 +4,7 @@ This module contains the definition of the BaseImageSelector class.
 The BaseImageSelector class is a base class for Images selection. It provides a default implementation
 for checking whether a file is the intended image based on the given path.
 """
+
 from abc import ABC, abstractmethod
 
 

@@ -1,11 +1,13 @@
 """Converts tif files to png images."""
+
 import glob
 import os
 import shutil
 from typing import Callable
 
 import numpy as np
-import PIL
+import PIL.Image
+import PIL.ImageOps
 from tqdm import tqdm
 
 from base.extractors.img_id import BaseImgIdExtractor
@@ -57,7 +59,6 @@ class ConvertTif2Png(BaseStep):
             img_path (str): Path to the image.
         """
         if self.mask_folder_name not in img_path:
-
             phase_id = self.phase_id_extractor(img_path)
             if phase_id not in self.phases.keys():
                 return None
@@ -85,9 +86,9 @@ class ConvertTif2Png(BaseStep):
         try:
             image = PIL.Image.open(tiff_path)
             invert = True if np.min(np.array(image)) < 0 else False
-            image = image.convert("L")
+            image = image.convert("L")  # type: ignore[assignment]  # pre-existing, behavior-neutral waiver
             if invert:
-                image = PIL.ImageOps.invert(image)
+                image = PIL.ImageOps.invert(image)  # type: ignore[assignment]  # pre-existing, behavior-neutral waiver
             image.save(new_path, format="png")
             if self.target_path in tiff_path:
                 os.remove(tiff_path)

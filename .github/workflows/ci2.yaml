@@ -6,6 +6,26 @@ jobs:
     pre-commit:
         runs-on: ubuntu-latest
         steps:
-        - uses: actions/checkout@v3
-        - uses: actions/setup-python@v3
-        - uses: pre-commit/action@v3.0.0
+        - uses: actions/checkout@v4
+
+        - name: Set up uv
+          uses: astral-sh/setup-uv@v5
+          with:
+            enable-cache: true
+
+        - name: Set up Python 3.12
+          run: uv python install 3.12
+
+        - name: Install dependencies
+          run: uv sync --dev
+
+        # Cache the cloned pre-commit hook environments across runs (keyed on the config).
+        - name: Cache pre-commit
+          uses: actions/cache@v4
+          with:
+            path: ~/.cache/pre-commit
+            key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
+
+        # Run pre-commit through uv so CI uses the exact version pinned in uv.lock.
+        - name: Run pre-commit
+          run: uv run pre-commit run --all-files --show-diff-on-failure --color=always

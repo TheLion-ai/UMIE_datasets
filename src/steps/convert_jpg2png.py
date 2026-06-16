@@ -1,4 +1,5 @@
 """Converts jpg and jpeg files to png images."""
+
 import glob
 import os
 from typing import Callable

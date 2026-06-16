@@ -4,6 +4,7 @@ This module contains the definition of the BaseIdExtractor class.
 The BaseIdExtractor class is an abstract base class for extraction of information from image path.
 It provides a default implementation as well as helper methods for its children.
 """
+
 from abc import ABC, abstractmethod
 from pathlib import Path
 

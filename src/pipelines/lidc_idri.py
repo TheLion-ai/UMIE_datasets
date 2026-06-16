@@ -1,7 +1,8 @@
 """Preprocessing pipeline for LIDC-IDRI dataset."""
+
 import json
 import os
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from typing import Any
 
 import bs4 as bs
@@ -105,13 +106,13 @@ class XmlMaskCreator(BaseXmlMaskCreator):
         for lesion in lesions:
             rois = lesion.find_all("roi")
             for roi in rois:
-                corresponding_mask_path = self.get_mask_path(roi, caller)
+                corresponding_mask_path = self.get_mask_path(roi, caller)  # type: ignore[arg-type]
                 if corresponding_mask_path is None:
                     continue
 
                 points = list()
                 for locus in roi.find_all("locus"):
-                    points.append([int(locus.find("xCoord").get_text()), int(locus.find("yCoord").get_text())])
+                    points.append([int(locus.find("xCoord").get_text()), int(locus.find("yCoord").get_text())])  # type: ignore[union-attr]
 
                 if os.path.exists(corresponding_mask_path):
                     color = caller.masks["Lesion"]["target_color"]
@@ -122,7 +123,7 @@ class XmlMaskCreator(BaseXmlMaskCreator):
         for nodule in nodules:
             rois = nodule.find_all("roi")
             for roi in rois:
-                corresponding_mask_path = self.get_mask_path(roi, caller)
+                corresponding_mask_path = self.get_mask_path(roi, caller)  # type: ignore[arg-type]
                 if corresponding_mask_path is None:
                     continue
 
@@ -130,10 +131,10 @@ class XmlMaskCreator(BaseXmlMaskCreator):
                     points = list()
                     for edge_map in roi.find_all("edgeMap"):
                         points.append(
-                            [int(edge_map.find("xCoord").get_text()), int(edge_map.find("yCoord").get_text())]
+                            [int(edge_map.find("xCoord").get_text()), int(edge_map.find("yCoord").get_text())]  # type: ignore[union-attr]
                         )
 
-                    inclusion_string = roi.find("inclusion").get_text()
+                    inclusion_string = roi.find("inclusion").get_text()  # type: ignore[union-attr]
                     if inclusion_string == "TRUE":
                         color = caller.masks["Nodule"]["target_color"]
                     elif inclusion_string == "FALSE":
@@ -180,5 +181,3 @@ class LidcIdriPipeline(BasePipeline):
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        # Add dataset specific arguments to the pipeline arguments
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

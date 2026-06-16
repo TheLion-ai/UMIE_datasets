@@ -25,7 +25,8 @@ def test_runner_config_nontarget_paths_empty():
     """Test that checks if paths other than target_path are empty."""
     for dataset in datasets:
         for path_type in fields(dataset.path_args):
-            if path_type.name == "target_path":
+            # target_path is expected to be set; output_mode is a non-path config field, not a path.
+            if path_type.name in ("target_path", "output_mode"):
                 continue
             if (
                 getattr(dataset.path_args, path_type.name) != ""

@@ -1,18 +1,18 @@
 # Project setup
 
 0. `git clone https://github.com/TheLion-ai/UMIE_datasets`
-1. Install `poetry`
+1. Install `uv`
 
-    - [`poetry` official source](https://python-poetry.org/docs/#installing-with-the-official-installer)
+    - [`uv` official source](https://docs.astral.sh/uv/getting-started/installation/)
 
-2. Add `poetry` to PATH
-    - default path on Unix `$HOME/local/bin`, add it to `.bashrc`
-    - default path on windows `%APPDATA%\Python\Scripts` on Windows
-3. run `poetry install`
-4. create python virtual environment:
-    - with `poetry env use python3.12` or `python -m venv .local-venv`
-5. activate the virtual environment
-    - `poetry env activate` or `source ./.local-venv/bin/activate`
+2. Install the project's Python (3.12) and all dependencies:
+    - `uv python install 3.12`
+    - `uv sync` — creates a `.venv`, installs the runtime + dev dependencies from `uv.lock`,
+      and installs the project itself in editable mode.
+3. Run commands inside the environment with `uv run`, e.g.:
+    - `uv run python main.py`
+    - `uv run pytest testing/tests`
+    - (optionally) activate the venv directly with `source .venv/bin/activate`
 
 ------------------------
 

@@ -1,4 +1,5 @@
 """Recolors masks from shades of gray to 2 colors."""
+
 import glob
 import os
 from typing import Callable

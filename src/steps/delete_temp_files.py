@@ -1,4 +1,5 @@
 """Delete temporary files."""
+
 import os
 
 from base.step import BaseStep

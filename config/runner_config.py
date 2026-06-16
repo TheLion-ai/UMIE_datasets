@@ -6,11 +6,12 @@ The dataset with empty source_path is not transformed.
 If the dataset has a labels_path or masks path, it needs to be filled in too in order to transform the dataset.
 Each dataset should have a comment suggesting the name of the source file the path should point to, e.g. # Path to kits23.json.
 """
+
 import os
 
 from dotenv import load_dotenv
 
-from src.base.pipeline import PathArgs
+from src.base.pipeline import BasePipeline, PathArgs
 from src.constants import TARGET_PATH
 from src.pipelines import (
     AlzheimersPipeline,
@@ -34,21 +35,24 @@ from src.pipelines import (
 
 load_dotenv(dotenv_path=".pipeline.env")
 
-datasets = [
+datasets: list[BasePipeline] = [
     KITS23Pipeline(
         path_args=PathArgs(
             source_path=os.getenv("KITS23", ""),  # Path to the "dataset" directory in KITS23 repo
             masks_path=os.getenv("KITS23", ""),  # Path to the "dataset" directory in KITS23 repo
             target_path=TARGET_PATH,
-            labels_path=os.getenv("KITS23", "") + "/kits23.json",  # Path to kits23.json
+            labels_path=(
+                os.getenv("KITS23", "") + "/kits23.json" if os.getenv("KITS23", "") else ""
+            ),  # Path to kits23.json
         ),
     ),
     CoronaHackPipeline(
         path_args=PathArgs(
             source_path=os.getenv("CORONA_HACK", ""),
             target_path=TARGET_PATH,
-            labels_path=os.getenv("CORONA_HACK", "")
-            + "/Chest_xray_Corona_Metadata.csv",  # Path to Chest_xray_Corona_Metadata.csv
+            labels_path=(
+                os.getenv("CORONA_HACK", "") + "/Chest_xray_Corona_Metadata.csv" if os.getenv("CORONA_HACK", "") else ""
+            ),  # Path to Chest_xray_Corona_Metadata.csv
         ),
     ),
     AlzheimersPipeline(
@@ -71,9 +75,13 @@ datasets = [
     ),
     FindingAndMeasuringLungsPipeline(
         path_args=PathArgs(
-            source_path=os.getenv("FAM_LUNGS", "") + "/2d_images",  # Path to 2d_images directory
+            source_path=(
+                os.getenv("FAM_LUNGS", "") + "/2d_images" if os.getenv("FAM_LUNGS", "") else ""
+            ),  # Path to 2d_images directory
             target_path=TARGET_PATH,
-            masks_path=os.getenv("FAM_LUNGS", "") + "/2d_masks",  # Path to 2d_masks directory
+            masks_path=(
+                os.getenv("FAM_LUNGS", "") + "/2d_masks" if os.getenv("FAM_LUNGS", "") else ""
+            ),  # Path to 2d_masks directory
         ),
     ),
     BrainWithIntracranialHemorrhagePipeline(
@@ -102,7 +110,7 @@ datasets = [
             target_path=TARGET_PATH,
         ),
     ),
-    BrainTumorProgressionPipeline( # data collection removed
+    BrainTumorProgressionPipeline(  # data collection removed
         path_args=PathArgs(
             source_path="",
             target_path=TARGET_PATH,
@@ -111,13 +119,16 @@ datasets = [
     ),
     ChestXray14Pipeline(
         path_args=PathArgs(
-            source_path=os.getenv("CHESTXRAY14", "") + "/images",  # path to images/
+            source_path=(
+                os.getenv("CHESTXRAY14", "") + "/images" if os.getenv("CHESTXRAY14", "") else ""
+            ),  # path to images/
             target_path=TARGET_PATH,
-            labels_path=os.getenv("CHESTXRAY14", "")
-            + "/Data_Entry_2017_v2020.csv",  # Path to Data_Entry_2017_v2020.csv
+            labels_path=(
+                os.getenv("CHESTXRAY14", "") + "/Data_Entry_2017_v2020.csv" if os.getenv("CHESTXRAY14", "") else ""
+            ),  # Path to Data_Entry_2017_v2020.csv
         ),
     ),
-    unverified datasets
+    # unverified datasets
     COCAPipeline(
         path_args=PathArgs(
             source_path="",  # Path to Gated_release_final/patient

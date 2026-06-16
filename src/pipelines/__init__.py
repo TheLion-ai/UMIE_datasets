@@ -19,6 +19,7 @@ The pipelines included in this module are:
 - KneeOsteoarthritisPipeline
 - LITSPipeline
 """
+
 from .alzheimers import AlzheimersPipeline
 from .brain_met_share import BrainMETSharePipeline
 from .brain_tumor_classification import BrainTumorClassificationPipeline

@@ -5,12 +5,13 @@ Each step is a class that performs a specific operation, such as converting imag
 These steps are used to construct the pipelines defined in the `pipelines` module.
 """
 
-
 from .add_labels import AddLabels
 from .add_umie_ids import AddUmieIds
 from .combine_multiple_masks import CombineMultipleMasks
+from .convert_dcm2nii import ConvertDcm2Nii
 from .convert_dcm2png import ConvertDcm2Png
 from .convert_jpg2png import ConvertJpg2Png
+from .convert_nii2nii import ConvertNii2Nii
 from .convert_nii2png import ConvertNii2Png
 from .convert_tif2png import ConvertTif2Png
 from .copy_masks import CopyMasks

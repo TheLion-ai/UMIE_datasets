@@ -1,4 +1,5 @@
 """Converts dicom files to png images with appropriate color encoding.""" ""
+
 import glob
 import os
 import warnings
@@ -72,7 +73,7 @@ class ConvertDcm2Png(BaseStep):
             cv2.imwrite(new_path, output)
 
         except Exception as e:
-            print(f"Error {e} occured while converting {img_path} {ds.is_little_endian}")
+            print(f"Error {e} occurred while converting {img_path} {ds.is_little_endian}")
             os.remove(img_path)
 
     def _convert2little_endian(self, ds: pydicom.dataset.FileDataset, img_path: str) -> pydicom.dataset.FileDataset:
@@ -114,7 +115,7 @@ class ConvertDcm2Png(BaseStep):
                 # Using middle of Hounsfield Unit Scale
                 window_center = 1023
                 print(
-                    f"There is no WindowCenter Attribute in {ds.filename} file. Using {window_center} as window center."
+                    f"There is no WindowCenter Attribute in {ds.filename} file. Using {window_center} as window center."  # type: ignore[str-bytes-safe]
                 )
         else:
             window_center = self.window_center
@@ -130,7 +131,7 @@ class ConvertDcm2Png(BaseStep):
                 # There is no WindowWidth Attribute in dicom file
                 # Using half of Hounsfield Unit Range
                 window_width = 2048
-                print(f"There is no WindowWidth Attribute in {ds.filename} file. Using {window_width} as window width.")
+                print(f"There is no WindowWidth Attribute in {ds.filename} file. Using {window_width} as window width.")  # type: ignore[str-bytes-safe]
 
         else:
             window_width = self.window_width

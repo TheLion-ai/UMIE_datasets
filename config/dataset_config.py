@@ -5,6 +5,7 @@ The datasets are defined as dataset dataclasses.
 Each dataset dataclass contains information about the dataset, such as the dataset name, the phases and annotations provided in the source dataset.
 It also contains information about how to translate source labels and masks into UMIE format.
 """
+
 from dataclasses import dataclass, field
 
 from config import labels, masks
@@ -143,10 +144,10 @@ brain_tumor_classification = DatasetArgs(
         "0": "T1_weighted_postCM"
     },  # occasionally T2_weighted! (but no way to distinguish them in the dataset easily)
     labels={
-        "notumor": [{labels.NormalityDecriptor.radlex_name: 1}],
-        "glioma": [{labels.Glioma.radlex_name: 1}],
-        "meningioma": [{labels.Meningioma.radlex_name: 1}],
-        "pituitary": [{labels.Pituitary.radlex_name: 1}],
+        "no_tumor": [{labels.NormalityDecriptor.radlex_name: 1}],
+        "glioma_tumor": [{labels.Glioma.radlex_name: 1}],
+        "meningioma_tumor": [{labels.Meningioma.radlex_name: 1}],
+        "pituitary_tumor": [{labels.Pituitary.radlex_name: 1}],
     },
 )
 

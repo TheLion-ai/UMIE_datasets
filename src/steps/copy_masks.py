@@ -5,6 +5,7 @@ import os
 import shutil
 
 from base.step import BaseStep
+from constants import OutputMode
 
 
 class CopyMasks(BaseStep):
@@ -24,7 +25,8 @@ class CopyMasks(BaseStep):
         print("Copying masks...")
         if len(X) == 0:
             raise ValueError("No list of files provided.")
-        mask_paths = glob.glob(os.path.join(self.masks_path, "**/*.png"), recursive=True)
+        extension = "nii.gz" if self.output_mode == OutputMode.VOLUMES_3D else "png"
+        mask_paths = glob.glob(os.path.join(self.masks_path, f"**/*.{extension}"), recursive=True)
         for mask_path in mask_paths:
             if (
                 os.path.exists(mask_path)
@@ -55,7 +57,8 @@ class CopyMasks(BaseStep):
             phase_name = self.phases[phase_id]
             new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
             if "." not in new_file_name:
-                new_file_name = new_file_name + ".png"
+                default_ext = ".nii.gz" if self.output_mode == OutputMode.VOLUMES_3D else ".png"
+                new_file_name = new_file_name + default_ext
             new_path = os.path.join(
                 self.target_path,
                 f"{self.dataset_uid}_{self.dataset_name}",

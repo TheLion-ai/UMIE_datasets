@@ -1,7 +1,7 @@
 """Preprocessing pipeline for brain tumor classification dataset."""
 
 import os
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -42,10 +42,10 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     This fact is used to assign unique ids
     """
     unique_id_conversion_dict = {
-        "glioma": "00",
-        "meningioma": "01",
-        "pituitary": "10",
-        "notumor": "11",
+        "glioma_tumor": "00",
+        "meningioma_tumor": "01",
+        "pituitary_tumor": "10",
+        "no_tumor": "11",
     }
 
     def _extract(self, img_path: str) -> str:
@@ -132,6 +132,4 @@ class BrainTumorClassificationPipeline(BasePipeline):
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        self.pipeline_args.label_extractor = LabelExtractor(self.args["labels"])
-
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))
+        self.ctx.identity.label_extractor = LabelExtractor(self.ctx.dataset.labels)

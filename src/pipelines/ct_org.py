@@ -2,7 +2,7 @@
 
 import os
 import re
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from functools import partial
 from typing import Any
 
@@ -95,4 +95,3 @@ class CtOrgPipeline(BasePipeline):
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
-        self.args: dict[str, Any] = dict(**self.args, **asdict(self.pipeline_args))

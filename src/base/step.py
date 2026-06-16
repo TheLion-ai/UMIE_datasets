@@ -1,116 +1,189 @@
 """Change img ids to match the format of the rest of the dataset."""
+
+from __future__ import annotations
+
 import os
 from pathlib import PureWindowsPath
-from typing import Callable, Optional
+from typing import TYPE_CHECKING, Callable, Optional
 
 import numpy as np
 from sklearn.base import TransformerMixin
 
 from base.creators.xml_mask import BaseXmlMaskCreator
-from base.extractors.img_id import BaseImgIdExtractor
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
-from config.dataset_config import MaskColor
-from constants import IMG_FOLDER_NAME, MASK_FOLDER_NAME
+from constants import OutputMode
+
+if TYPE_CHECKING:
+    from base.pipeline import PipelineContext
 
 
 class BaseStep(TransformerMixin):
     """Change img ids to match the format of the rest of the dataset."""
 
-    def __init__(
-        self,
-        source_path: str,  # path to the dataset that is being processed
-        target_path: str,  # path to the directory where the processed dataset will be saved path to the source masks file
-        dataset_uid: str,  # unique identifier for the dataset
-        dataset_name: str,  # name of the dataset
-        phases: dict[
-            str, str
-        ],  # phase_id used for encoding the phase in img name, phase_name used for naming the folder
-        image_folder_name: str = IMG_FOLDER_NAME,  # name of folder, where images will be stored
-        mask_folder_name: str = MASK_FOLDER_NAME,  # name of folder, where masks will be stored
-        img_id_extractor: BaseImgIdExtractor = BaseImgIdExtractor(),  # function to extract image id from the image path
-        study_id_extractor: Callable = lambda x: x,  # function to extract study id from the image path
-        phase_id_extractor: Callable = lambda x: "0",  # function to extract phase from the image path
-        zfill: Optional[int] = None,  # number of digits to pad the image id with
-        window_center: Optional[int] = None,  # value used to process DICOM images
-        window_width: Optional[int] = None,  # value used to process DICOM images
-        label_extractor: Optional[Callable] = None,  # function to get label for the individual image
-        img_prefix: Optional[str] = None,  # prefix of the source image file names
-        img_selector: BaseImageSelector = None,  # function to select image intended mask by path
-        segmentation_prefix: Optional[str] = None,  # prefix of the source mask file names
-        mask_prefix: Optional[str] = None,  # string included only in masks names
-        mask_selector: BaseMaskSelector = None,  # function to select masks intended mask by path
-        multiple_masks_selector: Optional[dict] = None,
-        labels: dict[str, list[dict[str, float]]] = {},  # some labels have multiple RadLex codes
-        masks: dict[str, MaskColor] = {},
-        labels_path: Optional[str] = None,  # path to the labels file
-        masks_path: Optional[str] = None,  #
-        xml_mask_creator: Optional[BaseXmlMaskCreator] = None,  # function to create masks from xml files
-        dicom_mapping_attribute: Optional[str] = None,  # dicom attribute to map paths to
-    ):
-        """
-        Initialize a Step object.
+    def __init__(self, ctx: PipelineContext):
+        """Initialize a Step from the shared pipeline context.
+
+        All formerly-flat arguments are resolved from the named sub-configs on ``ctx``
+        (``ctx.paths``, ``ctx.dataset``, ``ctx.identity``, ``ctx.dicom``,
+        ``ctx.file_selection``, ``ctx.output``) through the read-only properties below.
+        This replaces the previous ~25-parameter signature fed from an ``asdict`` flatten,
+        so extractors/selectors are passed as live objects with no serialization round-trip.
 
         Args:
-            source_path (str): Path to the dataset that is being processed.
-            target_path (str): Path to the directory where the processed dataset will be saved.
-            labels_path (Optional[str]): Path to the labels file.
-            masks_path (Optional[str]): Path to the source masks file.
-            dataset_uid (str): Unique identifier for the dataset.
-            dataset_name (str): Name of the dataset.
-            phases (dict[str, str]): Dictionary containing phase_id used for encoding the phase in img name and phase_name used for naming the folder.
-            image_folder_name (str, optional): Name of the folder where images will be stored. Defaults to IMG_FOLDER_NAME.
-            mask_folder_name (str, optional): Name of the folder where masks will be stored. Defaults to MASK_FOLDER_NAME.
-            img_id_extractor (BaseImgIdExtractor, optional): Function to extract image id from the image path. Defaults to BaseImgIdExtractor().
-            study_id_extractor (Callable, optional): Function to extract study id from the image path. Defaults to lambda x: x.
-            phase_id_extractor (Callable, optional): Function to extract phase from the image path. Defaults to lambda x: "0".
-            zfill (Optional[int], optional): Number of digits to pad the image id with. Defaults to None.
-            window_center (Optional[int], optional): Value used to process DICOM images. Defaults to None.
-            window_width (Optional[int], optional): Value used to process DICOM images. Defaults to None.
-            label_extractor (Optional[Callable], optional): Function to get label for the individual image. Defaults to None.
-            img_prefix (Optional[str], optional): Prefix of the source image file names. Defaults to None.
-            img_selector (BaseImageSelector, optional): Function to select intended images by path. Defaults to None
-            segmentation_prefix (Optional[str], optional): Prefix of the source mask file names. Defaults to None.
-            mask_prefix (Optional[str], optional): String included only in masks names. Defaults to None.
-            mask_selector (BaseMaskSelector, optional): Function to select intended masks by path. Defaults to None.
-            multiple_masks_selector (Optional[dict], optional): Dictionary containing multiple masks selectors. Defaults to None.
-            labels (dict[str, list[dict[str, float]]], optional): Dictionary containing labels with multiple RadLex codes. Defaults to {}.
-            masks (dict[str, MaskColor], optional): Dictionary containing masks. Defaults to {}.
-            xml_mask_creator (BaseXmlMaskCreator, optional): Function to create masks from xml files. Defaults to None.
-            dicom_mapping_attribute (str, optional): Dicom attribute to map paths to. Defaults to None.
+            ctx (PipelineContext): Structured pipeline configuration shared by all steps.
         """
-        self.target_path = target_path
-        self.dataset_name = dataset_name
-        self.dataset_uid = dataset_uid
-        self.phases = phases
-        self.image_folder_name = image_folder_name
-        self.mask_folder_name = mask_folder_name
-        self.img_id_extractor = img_id_extractor
-        self.study_id_extractor = study_id_extractor
-        self.phase_id_extractor = phase_id_extractor
-        self.segmentation_prefix = segmentation_prefix
+        self.ctx = ctx
         self.paths_data = np.array([])
-        self.source_path = source_path
-        self.labels_path = labels_path
-        self.masks_path = masks_path
-        self.zfill = zfill
-        self.window_center = window_center
-        self.window_width = window_width
-        self.label_extractor = label_extractor
-        self.img_prefix = img_prefix
-        self.mask_prefix = mask_prefix
-        self.multiple_masks_selector = multiple_masks_selector
-        self.labels = labels
-        self.masks = masks
-        self.img_selector = img_selector
-        self.mask_selector = mask_selector
         self.json_path = os.path.join(
-            self.target_path,
-            f"{self.dataset_uid}_{self.dataset_name}",
-            f"{self.dataset_uid}_{self.dataset_name}.jsonl",
+            self.ctx.paths.target_path,
+            f"{self.ctx.dataset.dataset_uid}_{self.ctx.dataset.dataset_name}",
+            f"{self.ctx.dataset.dataset_uid}_{self.ctx.dataset.dataset_name}.jsonl",
         )
-        self.xml_mask_creator = xml_mask_creator
-        self.dicom_mapping_attribute = dicom_mapping_attribute
+
+    # --- Accessors bound to the named sub-configs (the single source of truth) ---
+    @property
+    def source_path(self) -> str:
+        """Path to the source dataset being processed."""
+        return self.ctx.paths.source_path
+
+    @property
+    def target_path(self) -> str:
+        """Path to the directory where the processed dataset is saved."""
+        return self.ctx.paths.target_path
+
+    @property
+    def labels_path(self) -> Optional[str]:
+        """Path to the labels file, if required."""
+        return self.ctx.paths.labels_path
+
+    @property
+    def masks_path(self) -> Optional[str]:
+        """Path to the source masks, if required."""
+        return self.ctx.paths.masks_path
+
+    @property
+    def output_mode(self) -> OutputMode:
+        """Output format for this run: 2D PNG slices (default) or 3D NIfTI volumes."""
+        return self.ctx.paths.output_mode
+
+    @property
+    def dataset_uid(self) -> str:
+        """Unique identifier of the dataset in UMIE."""
+        return self.ctx.dataset.dataset_uid
+
+    @property
+    def dataset_name(self) -> str:
+        """Name of the dataset in UMIE."""
+        return self.ctx.dataset.dataset_name
+
+    @property
+    def phases(self) -> dict[str, str]:
+        """Mapping of phase_id to phase_name."""
+        return self.ctx.dataset.phases
+
+    @property
+    def labels(self) -> dict[str, list[dict[str, float]]]:
+        """Source-label to RadLex-label translation table."""
+        return self.ctx.dataset.labels
+
+    @property
+    def masks(self) -> dict[str, dict[str, int]]:
+        """Mask recolor table as a ``{name: {source_color, target_color}}`` dict view.
+
+        Exposed as plain dicts (rather than the underlying ``MaskColor`` objects) so the
+        existing mask-handling code and ``caller.masks[...]`` accesses keep working
+        byte-identically with the previous ``asdict`` output.
+        """
+        return {
+            name: {"source_color": mc.source_color, "target_color": mc.target_color}
+            for name, mc in self.ctx.dataset.masks.items()
+        }
+
+    @property
+    def image_folder_name(self) -> str:
+        """Name of the folder where images are stored."""
+        return self.ctx.output.image_folder_name
+
+    @property
+    def mask_folder_name(self) -> str:
+        """Name of the folder where masks are stored."""
+        return self.ctx.output.mask_folder_name
+
+    @property
+    def img_id_extractor(self) -> Callable:
+        """Callable extracting the image id from a source path."""
+        return self.ctx.identity.img_id_extractor
+
+    @property
+    def study_id_extractor(self) -> Callable:
+        """Callable extracting the study id from a source path."""
+        return self.ctx.identity.study_id_extractor
+
+    @property
+    def phase_id_extractor(self) -> Callable:
+        """Callable extracting the phase id from a source path."""
+        return self.ctx.identity.phase_id_extractor
+
+    @property
+    def label_extractor(self) -> Optional[Callable]:
+        """Callable producing per-image labels, if any."""
+        return self.ctx.identity.label_extractor
+
+    @property
+    def zfill(self) -> Optional[int]:
+        """Number of digits to pad the image id with."""
+        return self.ctx.identity.zfill
+
+    @property
+    def window_center(self) -> Optional[int]:
+        """DICOM window center used to process images."""
+        return self.ctx.dicom.window_center
+
+    @property
+    def window_width(self) -> Optional[int]:
+        """DICOM window width used to process images."""
+        return self.ctx.dicom.window_width
+
+    @property
+    def dicom_mapping_attribute(self) -> Optional[str]:
+        """DICOM attribute used to map source paths."""
+        return self.ctx.dicom.dicom_mapping_attribute
+
+    @property
+    def img_prefix(self) -> Optional[str]:
+        """Prefix identifying source image file names."""
+        return self.ctx.file_selection.img_prefix
+
+    @property
+    def segmentation_prefix(self) -> Optional[str]:
+        """Prefix identifying source mask file names."""
+        return self.ctx.file_selection.segmentation_prefix
+
+    @property
+    def mask_prefix(self) -> Optional[str]:
+        """String included only in mask file names."""
+        return self.ctx.file_selection.mask_prefix
+
+    @property
+    def img_selector(self) -> Optional[BaseImageSelector]:
+        """Selector identifying intended images."""
+        return self.ctx.file_selection.img_selector
+
+    @property
+    def mask_selector(self) -> Optional[BaseMaskSelector]:
+        """Selector identifying intended masks."""
+        return self.ctx.file_selection.mask_selector
+
+    @property
+    def multiple_masks_selector(self) -> Optional[dict]:
+        """Per-mask selector mapping when there are several masks."""
+        return self.ctx.file_selection.multiple_masks_selector
+
+    @property
+    def xml_mask_creator(self) -> Optional[BaseXmlMaskCreator]:
+        """Creator that builds masks from XML annotations."""
+        return self.ctx.file_selection.xml_mask_creator
 
     def transform(
         self,
@@ -133,8 +206,16 @@ class BaseStep(TransformerMixin):
             str: Unique identifier for the image.
         """
         img_id = self.img_id_extractor(img_path)
-        ext = os.path.splitext(img_path)[1]
-        img_id = img_id.replace(ext, ".png")
+        if self.output_mode == OutputMode.VOLUMES_3D and img_path.endswith(".nii.gz"):
+            # 3D mode: preserve the volumetric extension instead of forcing .png.
+            for ext in (".nii.gz", ".gz", ".nii", ".png"):
+                if img_id.endswith(ext):
+                    img_id = img_id[: -len(ext)]
+                    break
+            img_id = f"{img_id}.nii.gz"
+        else:
+            ext = os.path.splitext(img_path)[1]
+            img_id = img_id.replace(ext, ".png")
 
         study_id = self.study_id_extractor(img_path)
         phase_id = self.phase_id_extractor(img_path)

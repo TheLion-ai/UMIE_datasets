@@ -1,8 +1,11 @@
 """Validate the dataset output data."""
+
 import os
+from typing import Optional
 
 import cv2
 import jsonlines
+import nibabel as nib
 from tqdm import tqdm
 
 from base.step import BaseStep
@@ -12,7 +15,8 @@ from config import labels
 class ValidateData(BaseStep):
     """Validate the dataset output data."""
 
-    def fit(self, X, y=None):
+    def fit(self, X: list, y: Optional[list] = None) -> "ValidateData":
+        """Fit method, no-op for sklearn pipeline compatibility; returns self."""
         # for sklearn compatibility
         return self
 
@@ -65,10 +69,19 @@ class ValidateData(BaseStep):
             if not isinstance(obj[str_key], str) or len(obj[str_key]) == 0:
                 print(f"{str_key} is not a string or is empty in {obj['umie_path']}")
 
+    def _is_readable(self, path: str) -> bool:
+        """Check that an output file is a readable image (.png) or volume (.nii.gz)."""
+        if path.endswith(".nii.gz"):
+            try:
+                nib.load(path).shape  # type: ignore[attr-defined]  # touches the header to validate
+                return True
+            except Exception:
+                return False
+        return cv2.imread(path) is not None
+
     def _validate_image(self, obj: dict) -> None:
         umie_path = os.path.join(self.target_path, obj["umie_path"])
-        img = cv2.imread(umie_path)
-        if img is None:
+        if not self._is_readable(umie_path):
             print(f"Image {obj['umie_path']} is not found.")
 
     def _validate_mask(self, obj: dict) -> None:
@@ -76,8 +89,7 @@ class ValidateData(BaseStep):
             print("mask_path is not a string.")
         elif len(obj["mask_path"]) != 0:
             mask_path = os.path.join(self.target_path, obj["mask_path"])
-            mask = cv2.imread(mask_path)
-            if mask is None:
+            if not self._is_readable(mask_path):
                 print(f"Mask {obj['mask_path']} is not found.")
 
     def _validate_labels(self, obj: dict) -> None:
