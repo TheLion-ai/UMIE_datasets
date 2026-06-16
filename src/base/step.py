@@ -7,7 +7,7 @@ from pathlib import PureWindowsPath
 from typing import TYPE_CHECKING, Callable, Optional
 
 import numpy as np
-from sklearn.base import TransformerMixin
+from sklearn.base import BaseEstimator, TransformerMixin
 
 from base.creators.xml_mask import BaseXmlMaskCreator
 from base.selectors.img_selector import BaseImageSelector
@@ -25,8 +25,30 @@ if TYPE_CHECKING:
     )
 
 
-class BaseStep(TransformerMixin):
-    """Change img ids to match the format of the rest of the dataset."""
+class BaseStep(TransformerMixin, BaseEstimator):
+    """Change img ids to match the format of the rest of the dataset.
+
+    Inherits ``BaseEstimator`` (in addition to ``TransformerMixin``) so the steps implement the
+    ``__sklearn_tags__`` protocol introduced in scikit-learn 1.6 - without it, ``Pipeline.transform``
+    raises ``AttributeError: 'super' object has no attribute '__sklearn_tags__'`` on 1.6+.
+
+    UMIE steps do stateless work in ``transform`` and are run via ``pipeline.transform(...)`` without a
+    preceding ``fit``; ``__sklearn_is_fitted__`` therefore reports ``True`` so scikit-learn 1.6+'s
+    ``check_is_fitted`` in ``Pipeline.transform`` passes.
+    """
+
+    def __sklearn_is_fitted__(self) -> bool:
+        """Report the step as fitted (its ``transform`` is stateless and needs no prior ``fit``)."""
+        return True
+
+    def fit(self, X: list, y: Optional[list] = None) -> "BaseStep":
+        """No-op fit for sklearn ``Pipeline`` compatibility; ``transform`` does the stateless work.
+
+        Provided on the base class so every step exposes ``fit`` - scikit-learn 1.6+'s
+        ``check_is_fitted`` (called from ``Pipeline.transform``) rejects a final step that has no
+        ``fit`` method as "not an estimator instance".
+        """
+        return self
 
     def __init__(self, ctx: PipelineContext):
         """Initialize a Step from the shared pipeline context.
