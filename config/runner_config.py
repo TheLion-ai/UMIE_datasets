@@ -41,15 +41,20 @@ datasets: list[BasePipeline] = [
             source_path=os.getenv("KITS23", ""),  # Path to the "dataset" directory in KITS23 repo
             masks_path=os.getenv("KITS23", ""),  # Path to the "dataset" directory in KITS23 repo
             target_path=TARGET_PATH,
-            labels_path=os.getenv("KITS23", "") + "/kits23.json",  # Path to kits23.json
+            labels_path=(
+                os.getenv("KITS23", "") + "/kits23.json" if os.getenv("KITS23", "") else ""
+            ),  # Path to kits23.json
         ),
     ),
     CoronaHackPipeline(
         path_args=PathArgs(
             source_path=os.getenv("CORONA_HACK", ""),
             target_path=TARGET_PATH,
-            labels_path=os.getenv("CORONA_HACK", "")
-            + "/Chest_xray_Corona_Metadata.csv",  # Path to Chest_xray_Corona_Metadata.csv
+            labels_path=(
+                os.getenv("CORONA_HACK", "") + "/Chest_xray_Corona_Metadata.csv"
+                if os.getenv("CORONA_HACK", "")
+                else ""
+            ),  # Path to Chest_xray_Corona_Metadata.csv
         ),
     ),
     AlzheimersPipeline(
@@ -72,9 +77,13 @@ datasets: list[BasePipeline] = [
     ),
     FindingAndMeasuringLungsPipeline(
         path_args=PathArgs(
-            source_path=os.getenv("FAM_LUNGS", "") + "/2d_images",  # Path to 2d_images directory
+            source_path=(
+                os.getenv("FAM_LUNGS", "") + "/2d_images" if os.getenv("FAM_LUNGS", "") else ""
+            ),  # Path to 2d_images directory
             target_path=TARGET_PATH,
-            masks_path=os.getenv("FAM_LUNGS", "") + "/2d_masks",  # Path to 2d_masks directory
+            masks_path=(
+                os.getenv("FAM_LUNGS", "") + "/2d_masks" if os.getenv("FAM_LUNGS", "") else ""
+            ),  # Path to 2d_masks directory
         ),
     ),
     BrainWithIntracranialHemorrhagePipeline(
@@ -112,10 +121,15 @@ datasets: list[BasePipeline] = [
     ),
     ChestXray14Pipeline(
         path_args=PathArgs(
-            source_path=os.getenv("CHESTXRAY14", "") + "/images",  # path to images/
+            source_path=(
+                os.getenv("CHESTXRAY14", "") + "/images" if os.getenv("CHESTXRAY14", "") else ""
+            ),  # path to images/
             target_path=TARGET_PATH,
-            labels_path=os.getenv("CHESTXRAY14", "")
-            + "/Data_Entry_2017_v2020.csv",  # Path to Data_Entry_2017_v2020.csv
+            labels_path=(
+                os.getenv("CHESTXRAY14", "") + "/Data_Entry_2017_v2020.csv"
+                if os.getenv("CHESTXRAY14", "")
+                else ""
+            ),  # Path to Data_Entry_2017_v2020.csv
         ),
     ),
     # unverified datasets
