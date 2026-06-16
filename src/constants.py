@@ -4,6 +4,7 @@ from enum import Enum
 
 IMG_FOLDER_NAME = "Images"  # name of the folder with images in each target dataset
 MASK_FOLDER_NAME = "Masks"  # name of the folder with masks in each target dataset
+REPORTS_FOLDER_NAME = "reports"  # folder under each dataset's target dir for optional analysis reports
 
 TARGET_PATH = "./data/"  # name of the folder, where processed outputs will be placed
 

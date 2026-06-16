@@ -12,10 +12,17 @@ from sklearn.base import TransformerMixin
 from base.creators.xml_mask import BaseXmlMaskCreator
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
-from constants import OutputMode
+from constants import REPORTS_FOLDER_NAME, OutputMode
 
 if TYPE_CHECKING:
-    from base.pipeline import PipelineContext
+    from base.pipeline import (
+        ExportConfig,
+        FormatConfig,
+        MetadataConfig,
+        PipelineContext,
+        PreprocessingConfig,
+        QualityConfig,
+    )
 
 
 class BaseStep(TransformerMixin):
@@ -184,6 +191,48 @@ class BaseStep(TransformerMixin):
     def xml_mask_creator(self) -> Optional[BaseXmlMaskCreator]:
         """Creator that builds masks from XML annotations."""
         return self.ctx.file_selection.xml_mask_creator
+
+    # --- Opt-in Theme D-I sub-configs (additive; every step inherits read-only views) ---
+    @property
+    def quality(self) -> "QualityConfig":
+        """Settings for the optional data-quality / validation steps (Theme D)."""
+        return self.ctx.quality
+
+    @property
+    def preprocessing(self) -> "PreprocessingConfig":
+        """Settings for the optional image-preprocessing steps (Theme E)."""
+        return self.ctx.preprocessing
+
+    @property
+    def metadata_config(self) -> "MetadataConfig":
+        """Settings for the optional metadata-enrichment steps (Theme F)."""
+        return self.ctx.metadata
+
+    @property
+    def format_config(self) -> "FormatConfig":
+        """Settings for the optional format / mask conversion steps (Theme G)."""
+        return self.ctx.format_conversion
+
+    @property
+    def export_config(self) -> "ExportConfig":
+        """Settings for the optional reproducibility / export steps (Themes H & I)."""
+        return self.ctx.export
+
+    @property
+    def dataset_root(self) -> str:
+        """Absolute path to this dataset's output root (``{target}/{uid}_{name}``)."""
+        return os.path.join(self.target_path, f"{self.dataset_uid}_{self.dataset_name}")
+
+    def reports_dir(self) -> str:
+        """Return (creating if needed) the per-dataset folder for optional analysis reports.
+
+        Used by the opt-in analysis steps (duplicate / corrupt-image / mask-quality / DICOM
+        validation / distribution). The folder lives outside ``Images``/``Masks`` so it never
+        affects the UMIE id, folder layout, or the golden file-tree of existing pipelines.
+        """
+        path = os.path.join(self.dataset_root, REPORTS_FOLDER_NAME)
+        os.makedirs(path, exist_ok=True)
+        return path
 
     def transform(
         self,

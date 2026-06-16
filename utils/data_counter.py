@@ -9,9 +9,7 @@ import numpy as np
 
 from config.dataset_config import all_datasets
 from config.labels import all_labels
-from config.masks import (  # type: ignore[attr-defined]  # stale util: config.masks has no all_masks (pending Task 22 rework)
-    all_masks,
-)
+from config.masks import all_masks
 from src.constants import TARGET_PATH
 
 
@@ -49,8 +47,8 @@ def calculate_labels_and_mask_ratios() -> None:
     all_imgs_count = 0
     for label in all_labels:
         label_counts[label.radlex_name] = 0
-    for mask in all_masks:
-        mask_counts[mask.radlex_name] = 0
+    for mask_def in all_masks:
+        mask_counts[mask_def.radlex_name] = 0
     for dataset in all_datasets:
         print(f"Checking {dataset.dataset_name}...")
         name_with_id = dataset.dataset_uid + "_" + dataset.dataset_name
@@ -67,12 +65,12 @@ def calculate_labels_and_mask_ratios() -> None:
                         label_counts[label] += 1  # type: ignore[index]
                 if obj["mask_path"]:
                     mask_path = os.path.join(TARGET_PATH, obj["mask_path"])
-                    mask = cv2.imread(mask_path)
-                    for color in list(np.unique(mask)):
+                    mask_img = cv2.imread(mask_path)
+                    for color in list(np.unique(mask_img)):
                         if color != 0:
-                            for mask in all_masks:
-                                if mask.color == color:
-                                    mask_counts[mask.radlex_name] += 1
+                            for mask_def in all_masks:
+                                if mask_def.color == color:
+                                    mask_counts[mask_def.radlex_name] += 1
                 all_imgs_count += 1
 
     print(f"Total images: {all_imgs_count}")
@@ -80,8 +78,8 @@ def calculate_labels_and_mask_ratios() -> None:
     for label in label_counts:  # type: ignore[assignment]
         print(f"{label}: {label_counts[label]}")  # type: ignore[index]
     print("Masks:")
-    for mask in mask_counts:
-        print(f"{mask}: {mask_counts[mask]}")
+    for mask_name in mask_counts:
+        print(f"{mask_name}: {mask_counts[mask_name]}")
     counts = {"label_counts": label_counts, "mask_counts": mask_counts, "all_imgs_count": all_imgs_count}
     with open("data/counts.json", "w") as f:
         json.dump(counts, f)

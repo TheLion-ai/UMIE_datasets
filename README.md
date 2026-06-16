@@ -297,6 +297,40 @@ Due to the copyright restrictions of the source datasets, we can't share the fil
 
 To preprocess the dataset that is not among the above, search the preprocessing folder. It contains the reusable steps for changing imaging formats, extracting masks, creating file trees, etc. Go to the config file to check which masks and label encodings are available. Append new labels and mask encodings if needed.
 
+### Optional pipeline steps (data quality, preprocessing, metadata, formats, infra & export)
+
+Beyond the core conversion steps, the pipeline ships a set of **optional, opt-in** steps that plug
+into any `BasePipeline` via its `steps` tuple. They are **additive**: when not configured they are a
+no-op, and they never change UMIE ids, the `{uid}_{name}/{phase}/Images|Masks/` layout, or existing
+JSONL fields. Configuration is supplied per-pipeline through new sub-configs on `PipelineArgs`
+(`quality=`, `preprocessing=`, `metadata=`, `format_conversion=`, `export=`). Analysis steps write
+their findings to a `reports/` folder next to `Images`/`Masks`.
+
+| Step | Purpose | Config |
+|------|---------|--------|
+| `DetectDuplicates` | perceptual-hash duplicate / near-duplicate & cross-dataset overlap report | `quality` |
+| `DetectCorruptImages` | flag unreadable / truncated / blank / undersized images | `quality` |
+| `CheckMaskQuality` | mask↔image dim match, in-vocabulary colors, empty-mask report | `quality` |
+| `ValidateDicomMetadata` | verify required DICOM tags **before** conversion | `quality` |
+| `ApplyWindowing` | named CT HU window presets (lung/bone/brain/…) | `preprocessing` |
+| `ApplyClahe` | optional CLAHE contrast enhancement (images only) | `preprocessing` |
+| `NormalizeSpacing` | resample NIfTI volumes to a target voxel spacing | `preprocessing` |
+| `ResizeImages` | resize to a standard size (pad/crop/letterbox/stretch); masks nearest-neighbour | `preprocessing` |
+| `StandardizeBitDepth` | standardize 8/16-bit sources | `preprocessing` |
+| `AutocropBorders` | crop uniform black borders; mask cropped identically | `preprocessing` |
+| `ExtractDicomMetadata` | extract de-identified DICOM tags into the JSONL | `metadata` |
+| `CreateSplits` | reproducible **patient/study-level** train/val/test splits | `metadata` |
+| `AddProvenance` | additive license / source-attribution fields (`config/provenance.py`) | `metadata` |
+| `ConvertDicomSeg` | DICOM-SEG / RTSTRUCT → UMIE masks | `format_conversion` |
+| `ConvertBboxToMask` | COCO / YOLO / VOC bounding boxes → UMIE masks | `format_conversion` |
+| `MergeMasks` | merge single-structure masks into one multi-class mask | `format_conversion` |
+| `CreateManifest` | SHA-256 manifest of outputs + a `verify` mode | `export` |
+| `SkipProcessed` | incremental processing: skip already-converted files | `export` |
+| `ExportHuggingFace` | write an HF `datasets` Arrow dataset (with splits) + auto dataset card | `export` |
+
+Cross-cutting utilities: `utils/distribution_report.py` (cross-dataset label/modality/imbalance
+report from the JSONL) and `utils/parallel.py` (deterministic, order-preserving parallel map).
+
 Overall the dataset should have **882,774** images in **.png** format
 * **CT - 500k+**
 * **X-Ray - 250k+**
