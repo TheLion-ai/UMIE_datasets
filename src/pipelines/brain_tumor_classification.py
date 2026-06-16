@@ -42,10 +42,10 @@ class StudyIdExtractor(BaseStudyIdExtractor):
     This fact is used to assign unique ids
     """
     unique_id_conversion_dict = {
-        "glioma": "00",
-        "meningioma": "01",
-        "pituitary": "10",
-        "notumor": "11",
+        "glioma_tumor": "00",
+        "meningioma_tumor": "01",
+        "pituitary_tumor": "10",
+        "no_tumor": "11",
     }
 
     def _extract(self, img_path: str) -> str:
