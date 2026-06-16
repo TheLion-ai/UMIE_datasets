@@ -53,12 +53,17 @@ def download_s3_folder(bucket_name: str, local_dir: Optional[str] = None) -> Non
         None
     """
     print(f"Downloading files from {bucket_name} to {local_dir}...")
-    paginator = client.get_paginator("list_objects")
+    # Use list_objects_v2 (the v1 list_objects is deprecated and several S3-compatible providers
+    # return an empty result for it even when the bucket has objects). Guard ``Contents`` so an
+    # empty page does not raise ``KeyError`` - it just yields nothing.
+    paginator = client.get_paginator("list_objects_v2")
     pages = paginator.paginate(Bucket=bucket_name)
 
+    total_objects = 0
     for i, page in enumerate(pages):
         print(f"Downloading page {i + 1}...")
-        for obj in tqdm(page["Contents"]):
+        for obj in tqdm(page.get("Contents", [])):
+            total_objects += 1
             target = obj["Key"] if local_dir is None else os.path.join(local_dir, obj["Key"])
             if not os.path.exists(os.path.dirname(target)):
                 os.makedirs(os.path.dirname(target))
@@ -71,6 +76,14 @@ def download_s3_folder(bucket_name: str, local_dir: Optional[str] = None) -> Non
             if target.endswith(".zip"):
                 with zipfile.ZipFile(target, "r") as zip_ref:
                     zip_ref.extractall(os.path.dirname(target))  # Unzip to the same directory
+
+    if total_objects == 0:
+        raise RuntimeError(
+            f"No objects found in bucket '{bucket_name}' at endpoint {os.environ.get('S3_ENDPOINT')!r}. "
+            "Check the bucket name, endpoint and credentials, and that the test data was uploaded to the "
+            "bucket root (not a sub-prefix)."
+        )
+    print(f"Downloaded {total_objects} objects from {bucket_name}.")
 
 
 if __name__ == "__main__":
