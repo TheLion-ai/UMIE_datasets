@@ -43,7 +43,17 @@ The expected outputs that the `testing/tests/` golden suite compares against wer
 - **S3 (`umie-tests` bucket):** the same regenerated expected JSONLs must be re-uploaded so CI is green
   on the new convention. **This step needs S3 credentials and is performed by a maintainer** (run the
   pipelines, then push the regenerated `expected_output` JSONLs). The file-tree and image golden checks
-  are unaffected by the rename.
+  are unaffected by the rename. Because the rename only flips one JSONL key, the goldens can be
+  converted in place instead of re-running every pipeline:
+
+  ```bash
+  # download the bucket, flip phase_name -> modality_name in every golden jsonl, re-upload
+  python testing/migrate_jsonl_convention.py <downloaded_test_data>            # forward
+  python testing/migrate_jsonl_convention.py <downloaded_test_data> --reverse  # back to phase_name
+  ```
+
+  The script parses each record as JSON and renames only the key (a `phase_name` inside a value is
+  never touched), so the result is identical to re-running the pipelines under the new convention.
 
 ## Opt-in additions (not forced by this migration)
 
