@@ -50,7 +50,7 @@ class AddUmieIds(BaseStep):
         return new_paths
 
     def _update_json(self, umie_path: str, mask_path: str) -> None:
-        phase_name, study_id, img_id = self.decode_umie_img_path(umie_path)
+        modality_name, study_id, img_id = self.decode_umie_img_path(umie_path)
 
         """Update JSON file with the infomration about the images."""
         comparative = ""
@@ -67,7 +67,7 @@ class AddUmieIds(BaseStep):
             "umie_path": self.get_path_without_target_path(umie_path),
             "dataset_name": self.dataset_name,
             "dataset_uid": self.dataset_uid,
-            "phase_name": phase_name,
+            "modality_name": modality_name,
             "comparative": comparative,
             "study_id": str(study_id),
             "umie_id": os.path.basename(umie_path),
@@ -98,9 +98,9 @@ class AddUmieIds(BaseStep):
         nii = nib.load(umie_path)
         affine = nii.affine  # type: ignore[attr-defined]
         return {
-            "shape": [int(d) for d in nii.shape],
+            "shape": [int(d) for d in nii.shape],  # type: ignore[attr-defined]
             "voxel_spacing_mm": [float(z) for z in nii.header.get_zooms()[:3]],  # type: ignore[attr-defined]
-            "orientation": "".join(nib.aff2axcodes(affine)),
+            "orientation": "".join(nib.aff2axcodes(affine)),  # type: ignore[no-untyped-call]
             "affine": [[float(v) for v in row] for row in affine],
         }
 

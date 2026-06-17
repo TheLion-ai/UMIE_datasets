@@ -414,9 +414,9 @@ class ConvertDicomSeg(BaseStep):
         Returns:
             int: 1 when a mask was written, 0 otherwise.
         """
-        phase_id = next(iter(self.phases))
-        phase_name = self.phases[phase_id]
-        masks_dir = os.path.join(self.dataset_root, phase_name, self.mask_folder_name)
+        modality_id = next(iter(self.modalities))
+        modality_name = self.modalities[modality_id]
+        masks_dir = os.path.join(self.dataset_root, modality_name, self.mask_folder_name)
         os.makedirs(masks_dir, exist_ok=True)
         cv2.imwrite(os.path.join(masks_dir, f"{reference}.png"), mask)
         return 1

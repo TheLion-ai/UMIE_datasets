@@ -55,7 +55,7 @@ class ValidateData(BaseStep):
         self._validate_labels(obj)
 
     def _validate_string_keys(self, obj: dict) -> None:
-        str_keys = ["umie_path", "dataset_name", "dataset_uid", "phase_name", "study_id", "umie_id"]
+        str_keys = ["umie_path", "dataset_name", "dataset_uid", "modality_name", "study_id", "umie_id"]
         for str_key in str_keys:
             if str_key not in obj.keys():
                 print(f"Key {str_key} not in {obj['umie_path']}")

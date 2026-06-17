@@ -6,7 +6,7 @@ from typing import Any
 
 from base.extractors import (
     BaseImgIdExtractor,
-    BasePhaseIdExtractor,
+    BaseModalityIdExtractor,
     BaseStudyIdExtractor,
 )
 from base.pipeline import BasePipeline, PipelineArgs
@@ -46,16 +46,18 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         return self._extract_parent_dir(img_path, parent_dir_level=-2, include_path=False)[-5:]
 
 
-class PhaseIdExtractor(BasePhaseIdExtractor):
-    """Extractor for phase IDs specific to the Brain Tumor Progression dataset."""
+class ModalityIdExtractor(BaseModalityIdExtractor):
+    """Extractor for modality IDs specific to the Brain Tumor Progression dataset."""
 
     def _extract(self, img_path: str, *args: Any) -> str:
-        """Extract phase id from img path."""
+        """Extract modality id from img path."""
         # dot in folder name breaks the code
         img_path = img_path.replace(".", "-")
-        phase_name = self._extract_parent_dir(img_path=img_path, parent_dir_level=1, include_path=False).split("-")[-2]
+        modality_name = self._extract_parent_dir(img_path=img_path, parent_dir_level=1, include_path=False).split("-")[
+            -2
+        ]
 
-        return self._get_phase_id_from_dict(phase_name)
+        return self._get_modality_id_from_dict(modality_name)
 
 
 class ImageSelector(BaseImageSelector):
@@ -116,4 +118,4 @@ class BrainTumorProgressionPipeline(BasePipeline):
         # self.pipeline_args.study_id_extractor = lambda x: self.study_id_extractor(x)
         # self.pipeline_args.img_id_extractor = lambda x: img_id_extractor(x)
         # Add dataset specific arguments to the pipeline arguments
-        self.ctx.identity.phase_id_extractor = PhaseIdExtractor(self.ctx.dataset.phases)
+        self.ctx.identity.modality_id_extractor = ModalityIdExtractor(self.ctx.dataset.modalities)

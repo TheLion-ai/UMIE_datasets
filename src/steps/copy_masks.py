@@ -49,20 +49,20 @@ class CopyMasks(BaseStep):
             return None
         if self.mask_prefix is not None and self.mask_selector(img_id):
             img_id = img_id.replace(self.mask_prefix, "")
-        for phase_id in self.phases.keys():
+        for modality_id in self.modalities.keys():
             if self.multiple_masks_selector and any(
                 original_mask_selector in img_path for original_mask_selector in self.multiple_masks_selector.keys()
             ):
                 continue
-            phase_name = self.phases[phase_id]
-            new_file_name = f"{self.dataset_uid}_{phase_id}_{study_id}_{img_id}"
+            modality_name = self.modalities[modality_id]
+            new_file_name = f"{self.dataset_uid}_{modality_id}_{study_id}_{img_id}"
             if "." not in new_file_name:
                 default_ext = ".nii.gz" if self.output_mode == OutputMode.VOLUMES_3D else ".png"
                 new_file_name = new_file_name + default_ext
             new_path = os.path.join(
                 self.target_path,
                 f"{self.dataset_uid}_{self.dataset_name}",
-                phase_name,
+                modality_name,
                 self.mask_folder_name,
                 new_file_name,
             )

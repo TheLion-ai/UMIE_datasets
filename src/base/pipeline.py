@@ -18,14 +18,21 @@ from sklearn.pipeline import Pipeline
 from base.creators import BaseXmlMaskCreator
 from base.extractors import (
     BaseImgIdExtractor,
-    BasePhaseIdExtractor,
+    BaseModalityIdExtractor,
     BaseStudyIdExtractor,
 )
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
 from base.step import BaseStep
 from config.dataset_config import DatasetArgs
-from src.constants import DEFAULT_OUTPUT_MODE, IMG_FOLDER_NAME, MASK_FOLDER_NAME, OutputMode
+from src.constants import (
+    DEFAULT_OUTPUT_MODE,
+    DEFAULT_SCHEMA_VERSION,
+    IMG_FOLDER_NAME,
+    MASK_FOLDER_NAME,
+    SCHEMA_VERSION_V2,
+    OutputMode,
+)
 
 
 @dataclass
@@ -37,6 +44,7 @@ class PathArgs:
     labels_path: Optional[str] = None  # path to the labels file if it is required
     masks_path: Optional[str] = None  # path to the source masks file if it is required
     output_mode: OutputMode = DEFAULT_OUTPUT_MODE  # 2D PNG slices (default) or 3D NIfTI volumes
+    schema_version: str = DEFAULT_SCHEMA_VERSION  # JSONL schema: "1.0" flat (default) or "2.0" hierarchical
 
 
 @dataclass
@@ -45,7 +53,7 @@ class IdentityConfig:
 
     img_id_extractor: BaseImgIdExtractor = BaseImgIdExtractor()  # function to extract image id from the image path
     study_id_extractor: BaseStudyIdExtractor = BaseStudyIdExtractor()  # function to extract study id
-    phase_id_extractor: BasePhaseIdExtractor = BasePhaseIdExtractor({})  # function to extract phase
+    modality_id_extractor: BaseModalityIdExtractor = BaseModalityIdExtractor({})  # function to extract modality
     label_extractor: Optional[Callable] = None  # function to get label for the individual image
     zfill: Optional[int] = None  # number of digits to pad the image id with
 
@@ -133,6 +141,10 @@ class PreprocessingConfig:
     autocrop_enabled: bool = False
     autocrop_tolerance: int = 0  # pixels up to this value are treated as background when detecting borders
 
+    # Task 40 - orientation-preserving 2D slicing: write a per-volume geometry sidecar (affine,
+    # sform/qform, voxel sizes, slicing axis) next to the slices so they map back to 3D space.
+    preserve_slice_geometry: bool = False
+
 
 @dataclass
 class MetadataConfig:
@@ -203,7 +215,9 @@ class PipelineArgs:
     study_id_extractor: BaseStudyIdExtractor = (
         BaseStudyIdExtractor()
     )  # function to extract study id from the image path
-    phase_id_extractor: BasePhaseIdExtractor = BasePhaseIdExtractor({})  # function to extract phase from the image path
+    modality_id_extractor: BaseModalityIdExtractor = BaseModalityIdExtractor(
+        {}
+    )  # function to extract modality from the image path
     mask_selector: BaseMaskSelector = None  # function to select intended masks by path
     img_selector: BaseImageSelector = None  # function to select intended images by path
     zfill: Optional[int] = None  # number of digits to pad the **image id** with
@@ -242,7 +256,7 @@ class PipelineArgs:
             IdentityConfig(
                 img_id_extractor=self.img_id_extractor,
                 study_id_extractor=self.study_id_extractor,
-                phase_id_extractor=self.phase_id_extractor,
+                modality_id_extractor=self.modality_id_extractor,
                 label_extractor=self.label_extractor,
                 zfill=self.zfill,
             ),
@@ -332,13 +346,14 @@ class BasePipeline:
             export=self.pipeline_args.export or ExportConfig(),
         )
 
-        # Inherently-2D datasets (X-ray, pre-sliced) have no volumetric conversion step and
-        # cannot honor a 3D request: warn and fall back to 2D so the run neither crashes nor
-        # produces empty output.
-        if self.ctx.paths.output_mode == OutputMode.VOLUMES_3D and not self._supports_3d():
+        # Inherently-2D datasets (X-ray, pre-sliced) have no volumetric conversion step and cannot
+        # honor a 3D or combined request: warn and fall back to 2D so the run neither crashes nor
+        # produces empty output. Combined mode (Task 41) also needs volumetric source data.
+        volumetric_modes = (OutputMode.VOLUMES_3D, OutputMode.SLICES_2D_AND_VOLUMES_3D)
+        if self.ctx.paths.output_mode in volumetric_modes and not self._supports_3d():
             warnings.warn(
                 f"Dataset '{self.name}' has no volumetric conversion step; "
-                "output_mode=VOLUMES_3D is ignored and falls back to 2D slices.",
+                f"output_mode={self.ctx.paths.output_mode.value} is ignored and falls back to 2D slices.",
                 stacklevel=2,
             )
             self.ctx.paths.output_mode = OutputMode.SLICES_2D
@@ -367,7 +382,9 @@ class BasePipeline:
 
         Each step receives the structured PipelineContext (no flat-dict / asdict). When
         ``output_mode == VOLUMES_3D``, ``convert_nii2png``/``convert_dcm2png`` are replaced by
-        ``convert_nii2nii``/``convert_dcm2nii`` per ``STEP_3D_ALTERNATIVES``.
+        ``convert_nii2nii``/``convert_dcm2nii`` per ``STEP_3D_ALTERNATIVES``. When
+        ``schema_version == "2.0"``, a final ``convert_jsonl_to_v2`` step is appended so the emitted
+        JSONL is upgraded to the hierarchical v2 schema (no-op / not appended in the v1 default).
         """
         use_3d = self.ctx.paths.output_mode == OutputMode.VOLUMES_3D
         steps = []
@@ -377,7 +394,20 @@ class BasePipeline:
                 steps.append((step_name_3d, self._resolve_3d_step(step_name_3d)(self.ctx)))
             else:
                 steps.append((step_name, step_cls(self.ctx)))
+        # Combined mode (Task 41): keep the 2D PNG conversion above and additionally preserve the
+        # volumetric .nii.gz alongside the slices.
+        if self.ctx.paths.output_mode == OutputMode.SLICES_2D_AND_VOLUMES_3D:
+            steps.append(("store_volumes_alongside", self._resolve_step("StoreVolumesAlongside")(self.ctx)))
+        if self.ctx.paths.schema_version == SCHEMA_VERSION_V2:
+            steps.append(("convert_jsonl_to_v2", self._resolve_step("ConvertJsonlToV2")(self.ctx)))
         return Pipeline(steps=steps)
+
+    @staticmethod
+    def _resolve_step(class_name: str) -> type:
+        """Resolve an optional step class by name lazily (avoids a base<->steps import cycle)."""
+        import steps as steps_module
+
+        return getattr(steps_module, class_name)
 
     @abstractmethod
     def prepare_pipeline(self) -> None:

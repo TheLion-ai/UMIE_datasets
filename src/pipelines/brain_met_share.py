@@ -3,7 +3,7 @@
 from dataclasses import dataclass, field
 from typing import Any
 
-from base.extractors import BasePhaseIdExtractor, BaseStudyIdExtractor
+from base.extractors import BaseModalityIdExtractor, BaseStudyIdExtractor
 from base.pipeline import BasePipeline, PipelineArgs
 from base.selectors.img_selector import BaseImageSelector
 from base.selectors.mask_selector import BaseMaskSelector
@@ -28,15 +28,15 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         return self._extract_parent_dir(img_path, parent_dir_level=-2, include_path=False).split("_")[-1]
 
 
-class PhaseIdExtractor(BasePhaseIdExtractor):
-    """Extractor for phase IDs specific to the Brain MET dataset."""
+class ModalityIdExtractor(BaseModalityIdExtractor):
+    """Extractor for modality IDs specific to the Brain MET dataset."""
 
     def _extract(self, img_path: str) -> str:
-        """Extract phase id from img path."""
-        # Phase name is the folder one level above the image
-        phase_name = self._extract_parent_dir(img_path=img_path, parent_dir_level=1, include_path=False)
+        """Extract modality id from img path."""
+        # Modality name is the folder one level above the image
+        modality_name = self._extract_parent_dir(img_path=img_path, parent_dir_level=1, include_path=False)
 
-        return self._get_phase_id_from_dict(phase_name=phase_name)
+        return self._get_modality_id_from_dict(modality_name=modality_name)
 
 
 class ImageSelector(BaseImageSelector):
@@ -79,11 +79,11 @@ class BrainMETSharePipeline(BasePipeline):
             study_id_extractor=StudyIdExtractor(),
             img_selector=ImageSelector(),
             mask_selector=MaskSelector(),
-            # Phase name is the folder one level above the image
+            # Modality name is the folder one level above the image
         )
     )
 
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
         # Add dataset specific arguments to the pipeline arguments
-        self.ctx.identity.phase_id_extractor = PhaseIdExtractor(self.ctx.dataset.phases)
+        self.ctx.identity.modality_id_extractor = ModalityIdExtractor(self.ctx.dataset.modalities)

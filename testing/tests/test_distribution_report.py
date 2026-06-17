@@ -18,13 +18,13 @@ def _write_dataset(data_dir: str, uid: str, name: str, records: list) -> None:
             writer.write(record)
 
 
-def _record(study_id: str, phase_name: str, labels: list) -> dict:
+def _record(study_id: str, modality_name: str, labels: list) -> dict:
     """Build a minimal JSONL record."""
     return {
         "umie_path": f"x/{study_id}.png",
         "dataset_name": "ds",
         "dataset_uid": "00",
-        "phase_name": phase_name,
+        "modality_name": modality_name,
         "comparative": "",
         "study_id": study_id,
         "umie_id": f"{study_id}.png",

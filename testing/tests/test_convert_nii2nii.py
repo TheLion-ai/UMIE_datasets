@@ -23,7 +23,7 @@ class _ImgSelector(BaseImageSelector):
 
 
 def _make_ctx(tmp: str, output_mode: OutputMode = OutputMode.VOLUMES_3D) -> PipelineContext:
-    """Build a minimal PipelineContext for the step (window 40/400, CT phase)."""
+    """Build a minimal PipelineContext for the step (window 40/400, CT modality)."""
     pipeline_args = PipelineArgs(
         window_center=40,
         window_width=400,
@@ -34,7 +34,7 @@ def _make_ctx(tmp: str, output_mode: OutputMode = OutputMode.VOLUMES_3D) -> Pipe
     identity, dicom, file_selection, output = pipeline_args.to_configs()
     return PipelineContext(
         paths=PathArgs(source_path=tmp, target_path=tmp, output_mode=output_mode),
-        dataset=DatasetArgs(dataset_uid="99", dataset_name="synthetic", phases={"0": "CT"}),
+        dataset=DatasetArgs(dataset_uid="99", dataset_name="synthetic", modalities={"0": "CT"}),
         identity=identity,
         dicom=dicom,
         file_selection=file_selection,

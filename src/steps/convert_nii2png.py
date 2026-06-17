@@ -11,6 +11,7 @@ from tqdm import tqdm
 
 from base.extractors.img_id import BaseImgIdExtractor
 from base.step import BaseStep
+from geometry import build_slice_geometry, write_slice_geometry_sidecar
 
 
 class ConvertNii2Png(BaseStep):
@@ -56,10 +57,27 @@ class ConvertNii2Png(BaseStep):
                     img = self._apply_window(img)
 
                 cv2.imwrite(new_path, img)
+
+            # Task 40 (opt-in): persist the source 3D geometry so the PNG slices can be mapped back
+            # to physical space. Sidecar only - the PNG pixels/filenames above are unchanged.
+            if self.preprocessing.preserve_slice_geometry and self.segmentation_prefix not in img_path:
+                self._write_geometry_sidecar(img_path)
         except Exception as e:
             print(f"Error {e} occurred while converting {img_path}")
             if self.on_error_remove:
                 os.remove(img_path)
+
+    def _write_geometry_sidecar(self, img_path: str) -> None:
+        """Write the orientation sidecar for a sliced volume next to its slices (Task 40)."""
+        basename = os.path.basename(img_path).split(".")[0]
+        geometry = build_slice_geometry(
+            img_path,
+            slicing_axis=0,  # ConvertNii2Png slices along axis 0
+            png_slice_pattern=f"{basename}_{{:0{self.zfill}d}}.png",
+            original_nifti_filename=os.path.basename(img_path),
+        )
+        sidecar_path = os.path.join(os.path.dirname(img_path), f"{basename}_geometry.json")
+        write_slice_geometry_sidecar(sidecar_path, geometry)
 
     def _apply_window(self, pixel_data: np.ndarray) -> np.ndarray:
         """Apply window to the image.

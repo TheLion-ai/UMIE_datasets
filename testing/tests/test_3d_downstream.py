@@ -36,7 +36,7 @@ def test_get_umie_id_preserves_nii_gz_in_3d_and_png_in_2d():
         step_3d = RecolorMasks(_pipeline(tmp, OutputMode.VOLUMES_3D).ctx)
         # 2D behavior is unchanged (regression): extension forced to .png
         assert step_2d.get_umie_id(src) == "00_0_00123_imaging.nii.png"
-        # 3D preserves the volumetric extension; uid/phase/study structure identical
+        # 3D preserves the volumetric extension; uid/modality/study structure identical
         assert step_3d.get_umie_id(src) == "00_0_00123_imaging.nii.gz"
 
 

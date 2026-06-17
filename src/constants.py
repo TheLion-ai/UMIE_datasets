@@ -25,7 +25,19 @@ class OutputMode(str, Enum):
 
     SLICES_2D = "slices_2d"
     VOLUMES_3D = "volumes_3d"
+    # Combined mode (Theme M, Task 41): write BOTH the 2D PNG slices and the volumetric .nii.gz
+    # for the same study, cross-referenced in the JSONL. Default stays SLICES_2D.
+    SLICES_2D_AND_VOLUMES_3D = "slices_2d_and_volumes_3d"
 
 
 # Default keeps every existing dataset on the 2D PNG-per-slice workflow (fully backwards compatible).
 DEFAULT_OUTPUT_MODE = OutputMode.SLICES_2D
+
+
+# JSONL metadata schema versions (Theme K, Task 33). v1 is the flat record currently emitted by
+# ``AddUmieIds``; v2 is the richer hierarchical record described in ``JSONlines.md``. The schema is
+# selected per-run via ``PathArgs.schema_version`` and defaults to v1, so existing output is
+# byte-identical unless a pipeline explicitly opts in to v2.
+SCHEMA_VERSION_V1 = "1.0"
+SCHEMA_VERSION_V2 = "2.0"
+DEFAULT_SCHEMA_VERSION = SCHEMA_VERSION_V1

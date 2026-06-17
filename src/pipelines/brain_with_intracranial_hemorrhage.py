@@ -9,7 +9,7 @@ import cv2
 from base.extractors import (
     BaseImgIdExtractor,
     BaseLabelExtractor,
-    BasePhaseIdExtractor,
+    BaseModalityIdExtractor,
     BaseStudyIdExtractor,
 )
 from base.pipeline import BasePipeline, PipelineArgs
@@ -50,14 +50,14 @@ class StudyIdExtractor(BaseStudyIdExtractor):
         return self._extract_parent_dir(img_path, parent_dir_level=-2, include_path=False)
 
 
-class PhaseExtractor(BasePhaseIdExtractor):
-    """Extractor for phase specific to the Brain with hemorrhage dataset."""
+class ModalityExtractor(BaseModalityIdExtractor):
+    """Extractor for modality specific to the Brain with hemorrhage dataset."""
 
     def _extract(self, img_path: str) -> str:
-        """Extract phase from img path."""
-        # Phase is the name of folder 1 level above image in source directory
-        phase_name = self._extract_parent_dir(img_path=img_path, parent_dir_level=1, include_path=False)
-        return self._get_phase_id_from_dict(phase_name)
+        """Extract modality from img path."""
+        # Modality is the name of folder 1 level above image in source directory
+        modality_name = self._extract_parent_dir(img_path=img_path, parent_dir_level=1, include_path=False)
+        return self._get_modality_id_from_dict(modality_name)
 
 
 class LabelExtractor(BaseLabelExtractor):
@@ -132,5 +132,5 @@ class BrainWithIntracranialHemorrhagePipeline(BasePipeline):
     def prepare_pipeline(self) -> None:
         """Post initialization actions."""
         # Update args with pipeline_args
-        self.ctx.identity.phase_id_extractor = PhaseExtractor(self.ctx.dataset.phases)
+        self.ctx.identity.modality_id_extractor = ModalityExtractor(self.ctx.dataset.modalities)
         self.ctx.identity.label_extractor = LabelExtractor(self.ctx.dataset.labels, self.ctx.dataset.masks)

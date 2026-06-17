@@ -25,7 +25,7 @@ def _make_ctx(tmp: str, dataset_name: str = DATASET_NAME) -> PipelineContext:
     identity, dicom, file_selection, output = pa.to_configs()
     return PipelineContext(
         paths=PathArgs(source_path=tmp, target_path=tmp),
-        dataset=DatasetArgs(dataset_uid=DATASET_UID, dataset_name=dataset_name, phases={"0": "CT"}),
+        dataset=DatasetArgs(dataset_uid=DATASET_UID, dataset_name=dataset_name, modalities={"0": "CT"}),
         identity=identity,
         dicom=dicom,
         file_selection=file_selection,
@@ -55,7 +55,7 @@ def _build_tiny_dataset(tmp: str) -> list:
                 "umie_path": umie_path,
                 "dataset_name": DATASET_NAME,
                 "dataset_uid": DATASET_UID,
-                "phase_name": "CT",
+                "modality_name": "CT",
                 "comparative": "",
                 "study_id": str(index),
                 "umie_id": umie_id,

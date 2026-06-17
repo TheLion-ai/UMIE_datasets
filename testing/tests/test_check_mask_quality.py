@@ -21,7 +21,7 @@ def _make_ctx(tmp: str) -> PipelineContext:
         dataset=DatasetArgs(
             dataset_uid="99",
             dataset_name="synthetic",
-            phases={"0": "CT"},
+            modalities={"0": "CT"},
             masks={
                 "Kidney": MaskColor(source_color=1, target_color=1),
                 "Neoplasm": MaskColor(source_color=2, target_color=2),

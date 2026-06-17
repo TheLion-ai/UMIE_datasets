@@ -5,7 +5,7 @@ more processed datasets, each laid out as ``{data_dir}/{uid}_{name}/{uid}_{name}
 reads every dataset JSONL and computes:
 
 - per-dataset and global label frequencies (labels are lists of ``{radlex_name: grade}`` dicts),
-- a modality breakdown by ``phase_name``,
+- a modality breakdown by ``modality_name``,
 - per-dataset class-imbalance ratios (``max_count / min_count`` over that dataset's labels),
 - a segmentation-mask size distribution (nonzero-pixel counts per mask) for masks that exist
   and are readable with OpenCV.
@@ -155,18 +155,18 @@ def _count_labels(records: list[dict]) -> Counter:
 
 
 def _count_modalities(records: list[dict]) -> Counter:
-    """Count modality occurrences by ``phase_name``.
+    """Count modality occurrences by ``modality_name``.
 
     Args:
         records (list[dict]): Dataset records.
     Returns:
-        Counter: ``{phase_name: count}``.
+        Counter: ``{modality_name: count}``.
     """
     counter: Counter = Counter()
     for record in records:
-        phase_name = record.get("phase_name")
-        if phase_name:
-            counter[str(phase_name)] += 1
+        modality_name = record.get("modality_name")
+        if modality_name:
+            counter[str(modality_name)] += 1
     return counter
 
 
@@ -254,7 +254,7 @@ def _write_markdown(stats: dict, path: str) -> None:
         lines.append(f"| {name} | {count} |")
     lines.append("")
 
-    lines.append("## Global modality breakdown (by phase_name)")
+    lines.append("## Global modality breakdown (by modality_name)")
     lines.append("")
     lines.append("| Modality | Count |")
     lines.append("| --- | --- |")

@@ -146,7 +146,7 @@ class ExportHuggingFace(BaseStep):
         if has_masks:
             feature_map["mask"] = Image()
 
-        # Keep every remaining scalar field (e.g. dataset_name, phase_name, comparative,
+        # Keep every remaining scalar field (e.g. dataset_name, modality_name, comparative,
         # umie_id, split, license, source_dataset, source_labels) as a string Value. Keys that
         # become the image/mask columns are remapped from umie_path / mask_path below.
         skip = {"umie_path", "mask_path", "labels"}
@@ -219,19 +219,19 @@ class ExportHuggingFace(BaseStep):
         splits = {split: Dataset.from_list(grouped[split], features=features) for split in ordered_splits}
         return DatasetDict(splits)
 
-    def _modality_phase_breakdown(self, records: list[dict[str, Any]]) -> dict[str, int]:
-        """Count records per ``phase_name`` (modality / phase) for the dataset card.
+    def _modality_breakdown(self, records: list[dict[str, Any]]) -> dict[str, int]:
+        """Count records per ``modality_name`` for the dataset card.
 
         Args:
             records (list[dict[str, Any]]): All JSONL records.
 
         Returns:
-            dict[str, int]: Record count keyed by phase name (deterministically ordered).
+            dict[str, int]: Record count keyed by modality name (deterministically ordered).
         """
         counts: dict[str, int] = {}
         for record in records:
-            phase = str(record.get("phase_name") or "unknown")
-            counts[phase] = counts.get(phase, 0) + 1
+            modality = str(record.get("modality_name") or "unknown")
+            counts[modality] = counts.get(modality, 0) + 1
         return dict(sorted(counts.items()))
 
     def _write_card(
@@ -280,11 +280,11 @@ class ExportHuggingFace(BaseStep):
 
         lines += [
             "",
-            "## Modality / phase breakdown",
+            "## Modality breakdown",
             "",
         ]
-        for phase, count in self._modality_phase_breakdown(records).items():
-            lines.append(f"- **{phase}:** {count}")
+        for modality, count in self._modality_breakdown(records).items():
+            lines.append(f"- **{modality}:** {count}")
         lines.append("")
 
         with open(os.path.join(export_dir, "README.md"), mode="w", encoding="utf-8") as card:

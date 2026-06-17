@@ -59,10 +59,10 @@ class ConvertTif2Png(BaseStep):
             img_path (str): Path to the image.
         """
         if self.mask_folder_name not in img_path:
-            phase_id = self.phase_id_extractor(img_path)
-            if phase_id not in self.phases.keys():
+            modality_id = self.modality_id_extractor(img_path)
+            if modality_id not in self.modalities.keys():
                 return None
-            phase_name = self.phases[phase_id]
+            modality_name = self.modalities[modality_id]
             # Changing .tif to .tiff, so images will be readable for PIL
             if self.img_id_extractor(img_path).endswith(".tif"):
                 png_filename = self.img_id_extractor(img_path).replace(".tif", ".tiff")
@@ -72,7 +72,7 @@ class ConvertTif2Png(BaseStep):
             tiff_path = os.path.join(
                 self.target_path,
                 f"{self.dataset_uid}_{self.dataset_name}",
-                phase_name,
+                modality_name,
                 self.image_folder_name,
                 png_filename,
             )

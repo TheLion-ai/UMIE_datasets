@@ -2,7 +2,7 @@
 This module contains information about datasets used in the project.
 
 The datasets are defined as dataset dataclasses.
-Each dataset dataclass contains information about the dataset, such as the dataset name, the phases and annotations provided in the source dataset.
+Each dataset dataclass contains information about the dataset, such as the dataset name, the modalities and annotations provided in the source dataset.
 It also contains information about how to translate source labels and masks into UMIE format.
 """
 
@@ -25,9 +25,9 @@ class DatasetArgs:
 
     dataset_uid: str  # unique identifier for the dataset in UMIE
     dataset_name: str  # name of the dataset in UMIE
-    phases: dict[
+    modalities: dict[
         str, str
-    ]  # phase_id is used for encoding the phase in umie img name, phase_name is used for naming the folder
+    ]  # modality_id is used for encoding the modality in umie img name, modality_name names the folder
     labels: dict[str, list[dict[str, float]]] = field(
         default_factory=dict
     )  # we allow many-to-many label translations, some labels have multiple RadLex codes
@@ -39,7 +39,7 @@ class DatasetArgs:
 kits23 = DatasetArgs(
     dataset_uid="00",
     dataset_name="kits23",
-    phases={"0": "CT"},  # arterial or nephrogenic CT phase (no way to distinguish them in the dataset easily)
+    modalities={"0": "CT"},  # arterial or nephrogenic CT phase (no way to distinguish them in the dataset easily)
     labels={
         "normal": [{labels.NormalityDecriptor.radlex_name: 1}],
         "angiomyolipoma": [
@@ -109,7 +109,7 @@ kits23 = DatasetArgs(
 coronahack = DatasetArgs(
     dataset_uid="01",
     dataset_name="coronahack",
-    phases={"0": "Xray"},
+    modalities={"0": "Xray"},
     labels={
         "Normal": [{labels.NormalityDecriptor.radlex_name: 1}],
         "PneumoniaBacteria": [{labels.Pneumonia.radlex_name: 1}],
@@ -124,7 +124,7 @@ coronahack = DatasetArgs(
 alzheimers = DatasetArgs(
     dataset_uid="02",
     dataset_name="alzheimers",
-    phases={"0": "MRI"},
+    modalities={"0": "MRI"},
     labels={
         "MildDemented": [{labels.Dementia.radlex_name: round(2 / 3, 2)}],
         "ModerateDemented": [{labels.Dementia.radlex_name: 1}],
@@ -140,7 +140,7 @@ alzheimers = DatasetArgs(
 brain_tumor_classification = DatasetArgs(
     dataset_uid="03",
     dataset_name="brain_tumor_classification",
-    phases={
+    modalities={
         "0": "T1_weighted_postCM"
     },  # occasionally T2_weighted! (but no way to distinguish them in the dataset easily)
     labels={
@@ -154,7 +154,7 @@ brain_tumor_classification = DatasetArgs(
 covid19_detection = DatasetArgs(
     dataset_uid="04",
     dataset_name="covid19_detection",
-    phases={"0": "Xray"},
+    modalities={"0": "Xray"},
     labels={
         "Normal": [{labels.NormalityDecriptor.radlex_name: 1}],
         "BacterialPneumonia": [{labels.Pneumonia.radlex_name: 1}],
@@ -174,14 +174,14 @@ covid19_detection = DatasetArgs(
 finding_and_measuring_lungs = DatasetArgs(
     dataset_uid="05",
     dataset_name="finding_and_measuring_lungs",
-    phases={"0": "CT"},
+    modalities={"0": "CT"},
     masks={masks.Lung.radlex_name: MaskColor(source_color=255, target_color=masks.Lung.color)},
 )
 
 brain_with_intracranial_hemorrhage = DatasetArgs(
     dataset_uid="06",
     dataset_name="brain_with_intracranial_hemorrhage",
-    phases={"0": "Bone", "1": "Brain"},
+    modalities={"0": "Bone", "1": "Brain"},
     labels={
         "brain_hemorrhage": [{labels.Hemorrhage.radlex_name: 1}],
         "normal": [{labels.NormalityDecriptor.radlex_name: 1}],
@@ -192,7 +192,7 @@ brain_with_intracranial_hemorrhage = DatasetArgs(
 lits = DatasetArgs(
     dataset_uid="07",
     dataset_name="lits",
-    phases={"0": "CT"},
+    modalities={"0": "CT"},
     labels={
         "Neoplasm": [{labels.Neoplasm.radlex_name: 1}],
         "NormalityDescriptor": [{labels.NormalityDecriptor.radlex_name: 1}],
@@ -206,7 +206,7 @@ lits = DatasetArgs(
 brain_tumor_detection = DatasetArgs(
     dataset_uid="08",
     dataset_name="brain_tumor_detection",
-    phases={"0": "MRI"},
+    modalities={"0": "MRI"},
     labels={
         "Y": [{labels.NormalityDecriptor.radlex_name: 1}],
         "N": [{labels.Neoplasm.radlex_name: 1}],
@@ -216,7 +216,7 @@ brain_tumor_detection = DatasetArgs(
 knee_osteoarthritis = DatasetArgs(
     dataset_uid="09",
     dataset_name="knee_osteoarthritis",
-    phases={"0": "CT"},
+    modalities={"0": "CT"},
     labels={
         "0": [{labels.NormalityDecriptor.radlex_name: 1}],
         "1": [{labels.Osteoarthritis.radlex_name: round(0.25, 2)}],
@@ -229,7 +229,7 @@ knee_osteoarthritis = DatasetArgs(
 brain_tumor_progression = DatasetArgs(
     dataset_uid="10",
     dataset_name="brain_tumor_progression",
-    phases={
+    modalities={
         "0": "T1post",
         "1": "dT1",
         "2": "T1prereg",
@@ -248,7 +248,7 @@ brain_tumor_progression = DatasetArgs(
 chest_xray14 = DatasetArgs(
     dataset_uid="11",
     dataset_name="chest_xray14",
-    phases={"0": "Xray"},
+    modalities={"0": "Xray"},
     labels={
         "No Finding": [{labels.NormalityDecriptor.radlex_name: 1}],
         "Atelectasis": [{labels.Atelectasis.radlex_name: 1}],
@@ -271,14 +271,14 @@ chest_xray14 = DatasetArgs(
 coca = DatasetArgs(
     dataset_uid="12",
     dataset_name="coca",
-    phases={"0": "CT"},
+    modalities={"0": "CT"},
     masks={masks.CalciumScore.radlex_name: MaskColor(source_color=20, target_color=masks.CalciumScore.color)},
 )
 
 brain_met_share = DatasetArgs(
     dataset_uid="13",
     dataset_name="brain_met_share",
-    phases={
+    modalities={
         "0": "T1_weighted_preCM_spin-echo_pre-contrast",
         "1": "T1_weighted_postCM",  # This one was used to generate the masks
         "2": "T1_gradient_echo_postCM",  # using an IR-prepped FSPGR sequence
@@ -290,7 +290,7 @@ brain_met_share = DatasetArgs(
 ct_org = DatasetArgs(
     dataset_uid="14",
     dataset_name="ct_org",
-    phases={"0": "CT"},
+    modalities={"0": "CT"},
     masks={
         masks.Liver.radlex_name: MaskColor(source_color=1, target_color=masks.Liver.color),
         masks.UrinaryBladder.radlex_name: MaskColor(source_color=2, target_color=masks.UrinaryBladder.color),
@@ -304,7 +304,7 @@ ct_org = DatasetArgs(
 lidc_idri = DatasetArgs(
     dataset_uid="17",
     dataset_name="lidc_idri",
-    phases={"0": "CT"},
+    modalities={"0": "CT"},
     masks={
         masks.Nodule.radlex_name: MaskColor(source_color=1, target_color=masks.Nodule.color),
         masks.Lesion.radlex_name: MaskColor(source_color=2, target_color=masks.Lesion.color),
@@ -314,7 +314,7 @@ lidc_idri = DatasetArgs(
 cmmd = DatasetArgs(
     dataset_uid="18",
     dataset_name="cmmd",
-    phases={"0": "MG"},
+    modalities={"0": "MG"},
     labels={
         "calcification": [{labels.Calcification.radlex_name: 1}],
         "mass": [{labels.Mass.radlex_name: 1}, {labels.Lesion.radlex_name: 1}],

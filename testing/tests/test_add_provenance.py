@@ -16,7 +16,7 @@ def _make_ctx(tmp: str, dataset_name: str = "synthetic") -> PipelineContext:
     identity, dicom, file_selection, output = pa.to_configs()
     return PipelineContext(
         paths=PathArgs(source_path=tmp, target_path=tmp),
-        dataset=DatasetArgs(dataset_uid="99", dataset_name=dataset_name, phases={"0": "CT"}),
+        dataset=DatasetArgs(dataset_uid="99", dataset_name=dataset_name, modalities={"0": "CT"}),
         identity=identity,
         dicom=dicom,
         file_selection=file_selection,
@@ -35,7 +35,7 @@ def _write_jsonl(tmp: str, dataset_name: str) -> str:
                 "umie_path": f"99_{dataset_name}/CT/Images/99_0_1_0.png",
                 "dataset_name": dataset_name,
                 "dataset_uid": "99",
-                "phase_name": "CT",
+                "modality_name": "CT",
                 "comparative": "",
                 "study_id": "1",
                 "umie_id": "99_0_1_0.png",

@@ -47,6 +47,9 @@ dev = [
     "boto3>=1.34.126,<2.0.0",
     "ipykernel>=6.29.5,<7.0.0",
 ]
+docs = [
+    "mkdocs>=1.6,<2.0",
+]
 
 [build-system]
 requires = ["hatchling"]

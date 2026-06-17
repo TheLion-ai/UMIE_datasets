@@ -22,6 +22,7 @@ from .convert_dcm2nii import ConvertDcm2Nii
 from .convert_dcm2png import ConvertDcm2Png
 from .convert_dicom_seg import ConvertDicomSeg
 from .convert_jpg2png import ConvertJpg2Png
+from .convert_jsonl_to_v2 import ConvertJsonlToV2
 from .convert_nii2nii import ConvertNii2Nii
 from .convert_nii2png import ConvertNii2Png
 from .convert_tif2png import ConvertTif2Png
@@ -49,5 +50,6 @@ from .resize_images import ResizeImages
 from .skip_processed import SkipProcessed
 from .standardize_bit_depth import StandardizeBitDepth
 from .store_source_paths import StoreSourcePaths
+from .store_volumes_alongside import StoreVolumesAlongside
 from .validate_data import ValidateData
 from .validate_dicom_metadata import ValidateDicomMetadata
