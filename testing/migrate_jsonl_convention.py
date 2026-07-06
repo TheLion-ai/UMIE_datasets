@@ -29,6 +29,11 @@ def rename_key(record: dict, old: str, new: str) -> tuple[dict, bool]:
     """Return ``record`` with key ``old`` renamed to ``new`` (order preserved) and whether it changed."""
     if old not in record:
         return record, False
+    if new in record:
+        # Already partially migrated: keep the existing (correct) target value and just drop the
+        # stale source key, rather than letting the comprehension collapse both keys onto ``new``
+        # and silently overwrite the good value with the stale one.
+        return {key: value for key, value in record.items() if key != old}, True
     return {new if key == old else key: value for key, value in record.items()}, True
 
 

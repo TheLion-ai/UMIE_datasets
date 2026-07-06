@@ -43,7 +43,14 @@ class ConvertJsonlToV2(BaseStep):
         return X
 
     def _to_v2(self, record: dict) -> dict:
-        """Convert a single v1 record to v2, recording the actual PNG intensity transform."""
+        """Convert a single v1 record to v2, recording the actual PNG intensity transform.
+
+        Idempotent: a record already in v2 (``schema_version == '2.0'``) is returned unchanged, so
+        re-running the step - or a second ``transform`` call - never re-reads absent v1 keys as empty
+        defaults and destroys the paths/labels/modality.
+        """
+        if record.get("schema_version") == SCHEMA_VERSION_V2:
+            return record
         png_representation = None
         is_volume = record.get("umie_path", "").endswith(".nii.gz") or bool(record.get("volume_metadata"))
         if not is_volume and (self.window_center is not None or self.window_width is not None):

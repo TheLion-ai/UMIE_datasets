@@ -33,7 +33,9 @@ def _dhash(image: np.ndarray, hash_size: int = DEFAULT_HASH_SIZE) -> Optional[in
     """Return a difference-hash of ``image`` as an int, or ``None`` if it cannot be hashed."""
     if image is None:
         return None
-    resized = cv2.resize(image, (hash_size + 1, hash_size))
+    # INTER_AREA matches src/steps/detect_duplicates.py so the audit's hashes (and therefore its
+    # near-duplicate clusters) agree with the pipeline's own DetectDuplicates output.
+    resized = cv2.resize(image, (hash_size + 1, hash_size), interpolation=cv2.INTER_AREA)
     diff = resized[:, 1:] > resized[:, :-1]
     bits = 0
     for bit in diff.flatten():
@@ -121,7 +123,9 @@ def audit_datasets(data_dir: str) -> dict:
             "num_images": len(images),
             "duplicates": {"num_clusters": len(duplicates), "clusters": duplicates},
             "corrupt": corrupt,
-            "num_flagged": len(corrupt["unreadable"]) + len(corrupt["blank"]) + len(corrupt["undersized"]),
+            # Distinct flagged images: an image that is both undersized and blank is one flagged
+            # image, so count the union rather than summing the (overlapping) per-category lists.
+            "num_flagged": len(set(corrupt["unreadable"]) | set(corrupt["blank"]) | set(corrupt["undersized"])),
         }
     return report
 

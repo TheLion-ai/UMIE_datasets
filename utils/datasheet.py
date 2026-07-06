@@ -42,14 +42,28 @@ def _jsonl_stats(jsonl_path: Optional[str]) -> dict:
     with jsonlines.open(jsonl_path) as reader:
         for record in reader:
             num_images += 1
-            if record.get("modality_name"):
-                modalities[str(record["modality_name"])] += 1
+            series = record.get("series_level_info", {})
+            # v1 flat ``modality_name`` or v2 ``series_level_info.modality``.
+            modality = record.get("modality_name") or series.get("modality")
+            if modality:
+                modalities[str(modality)] += 1
+            # v1 flat ``labels`` (list of ``{term: grade}``) or v2 image-level classification.
             record_labels = record.get("labels") or []
-            if record_labels or record.get("mask_path"):
+            v2_classification = record.get("annotations", {}).get("image_level_classification", []) or []
+            has_mask = bool(
+                record.get("mask_path")
+                or series.get("png_representation", {}).get("single_mask_path")
+                or series.get("nifti_files", {}).get("mask_path")
+            )
+            if record_labels or v2_classification or has_mask:
                 num_annotated += 1
             for label_dict in record_labels:
                 for term in label_dict:
                     labels[term] += 1
+            for entry in v2_classification:
+                term = entry.get("radlex_label", {}).get("term")
+                if term:
+                    labels[str(term)] += 1
     return {"num_images": num_images, "num_annotated": num_annotated, "modalities": modalities, "labels": labels}
 
 

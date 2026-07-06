@@ -151,6 +151,11 @@ def _count_labels(records: list[dict]) -> Counter:
             if isinstance(label, dict):
                 for radlex_name in label.keys():
                     counter[str(radlex_name)] += 1
+        # v2 hierarchical records carry labels under annotations.image_level_classification.
+        for entry in record.get("annotations", {}).get("image_level_classification", []) or []:
+            term = entry.get("radlex_label", {}).get("term")
+            if term:
+                counter[str(term)] += 1
     return counter
 
 
@@ -164,7 +169,8 @@ def _count_modalities(records: list[dict]) -> Counter:
     """
     counter: Counter = Counter()
     for record in records:
-        modality_name = record.get("modality_name")
+        # v1 flat ``modality_name`` or v2 ``series_level_info.modality``.
+        modality_name = record.get("modality_name") or record.get("series_level_info", {}).get("modality")
         if modality_name:
             counter[str(modality_name)] += 1
     return counter
@@ -196,6 +202,12 @@ def _mask_sizes(records: list[dict], data_dir: str) -> list[int]:
     sizes: list[int] = []
     for record in records:
         mask_path = record.get("mask_path")
+        if not mask_path:
+            # v2 records keep the mask path under the png/nifti representation blocks.
+            series = record.get("series_level_info", {})
+            mask_path = series.get("png_representation", {}).get("single_mask_path") or series.get(
+                "nifti_files", {}
+            ).get("mask_path")
         if not mask_path:
             continue
         resolved = mask_path if os.path.isabs(mask_path) else os.path.join(data_dir, mask_path)

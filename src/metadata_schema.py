@@ -214,18 +214,20 @@ def build_segmentations(segmentations: list[dict]) -> list[dict]:
         ValueError: If a structure name or mask value is not present in ``config/masks.py``.
     """
     valid_names = {m.radlex_name for m in masks_config.all_masks}
-    valid_values = {m.id for m in masks_config.all_masks}
     out: list[dict] = []
     for seg in segmentations:
         structure = seg["structure"]
         if structure not in valid_names:
             raise ValueError(f"Segmentation structure {structure!r} is not in config/masks.py")
         mask = masks_config.mask_by_name(structure)
+        # A structure's mask value must be *its own* id/color, not merely some value valid for any
+        # other mask - otherwise a Kidney segmentation could carry Liver's pixel value undetected.
+        valid_values = {mask.id, mask.color} if mask else set()
         mask_value_nifti = seg.get("mask_value_in_nifti", seg.get("mask_value", mask.id if mask else None))
         mask_value_pngs = seg.get("mask_value_in_pngs", seg.get("mask_value", mask.id if mask else None))
         for value in (mask_value_nifti, mask_value_pngs):
             if value is not None and value not in valid_values:
-                raise ValueError(f"Mask value {value} for {structure!r} is not a valid value in config/masks.py")
+                raise ValueError(f"Mask value {value} for {structure!r} is not its mask value in config/masks.py")
         entry: dict[str, Any] = {
             "structure_radlex": {"term": structure, "id": mask.radlex_id if mask else ""},
             "structure_source": seg.get("structure_source", ""),
@@ -240,6 +242,25 @@ def build_segmentations(segmentations: list[dict]) -> list[dict]:
 
 
 # --- Task 33: v1 <-> v2 record serializer -------------------------------------------------------
+
+#: v1 keys that ``build_v2_record`` maps into a named v2 block. Any v1 key NOT in this set is carried
+#: verbatim in ``additional_v1_fields`` so the round-trip never drops data written by optional steps
+#: (e.g. ``split``, ``duplicate_group_id``, ``dicom_metadata``, ``pixel_spacing_mm``).
+_V1_MAPPED_KEYS: frozenset[str] = frozenset(
+    {
+        "dataset_name",
+        "dataset_uid",
+        "study_id",
+        "umie_id",
+        "umie_path",
+        "mask_path",
+        "modality_name",
+        "comparative",
+        "labels",
+        "source_labels",
+        "volume_metadata",
+    }
+)
 
 
 def _image_level_classification(v1_labels: list) -> list[dict]:
@@ -317,14 +338,14 @@ def build_v2_record(
         series_level_info["png_representation"] = png_representation
 
     annotations: dict[str, Any] = {
-        "image_level_classification": _image_level_classification(v1_record.get("labels", [])),
+        "image_level_classification": _image_level_classification(v1_record.get("labels") or []),
         # ``source_labels`` is kept verbatim alongside the classification so the v1 list (which may
         # not be 1:1 with ``labels``) round-trips exactly.
-        "source_labels": list(v1_record.get("source_labels", [])),
+        "source_labels": list(v1_record.get("source_labels") or []),
         "segmentations": build_segmentations(segmentations) if segmentations else [],
     }
 
-    return {
+    record: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION_V2,
         "entry_id": umie_id,
         "dataset_source_details": {
@@ -346,6 +367,13 @@ def build_v2_record(
         "annotations": annotations,
     }
 
+    # Carry any v1 field this serializer does not map into a named v2 block, so nothing is dropped
+    # on a v1 -> v2 -> v1 round-trip (honours the module invariant "never drops a v1 field").
+    additional_v1_fields = {key: value for key, value in v1_record.items() if key not in _V1_MAPPED_KEYS}
+    if additional_v1_fields:
+        record["additional_v1_fields"] = additional_v1_fields
+    return record
+
 
 def v2_to_v1(v2_record: dict) -> dict:
     """Regenerate the flat v1 record from a v2 record (Task 33 round-trip).
@@ -365,7 +393,7 @@ def v2_to_v1(v2_record: dict) -> dict:
 
     source = v2_record.get("dataset_source_details", {})
     study = v2_record.get("study_level_info", {})
-    return {
+    restored = {
         "umie_path": umie_path,
         "dataset_name": source.get("dataset_name", source.get("name", "")),
         "dataset_uid": source.get("dataset_uid", ""),
@@ -377,3 +405,6 @@ def v2_to_v1(v2_record: dict) -> dict:
         "labels": labels,
         "source_labels": list(annotations.get("source_labels", [])),
     }
+    # Restore any v1 fields that build_v2_record parked in ``additional_v1_fields`` (see there).
+    restored.update(v2_record.get("additional_v1_fields", {}))
+    return restored

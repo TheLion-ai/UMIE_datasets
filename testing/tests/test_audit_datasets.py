@@ -75,3 +75,18 @@ def test_audit_markdown_written():
         text = open(out).read()
         assert "## 00_synthetic" in text
         assert "Near-duplicate clusters:" in text
+
+
+def test_num_flagged_counts_an_undersized_blank_image_once():
+    """An image that is both undersized and blank is one flagged image, not two (no double-count)."""
+    with tempfile.TemporaryDirectory() as tmp:
+        images_dir = os.path.join(tmp, "01_synthetic", "CT", "Images")
+        _write_png(os.path.join(images_dir, "01_0_001_1.png"), np.full((8, 8), 50, np.uint8))  # tiny AND blank
+        report = audit_datasets(tmp)
+
+        findings = report["datasets"]["01_synthetic"]
+        # it legitimately appears in both category lists ...
+        assert [os.path.basename(p) for p in findings["corrupt"]["undersized"]] == ["01_0_001_1.png"]
+        assert [os.path.basename(p) for p in findings["corrupt"]["blank"]] == ["01_0_001_1.png"]
+        # ... but is counted once in the flagged total.
+        assert findings["num_flagged"] == 1

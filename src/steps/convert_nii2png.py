@@ -57,15 +57,23 @@ class ConvertNii2Png(BaseStep):
                     img = self._apply_window(img)
 
                 cv2.imwrite(new_path, img)
-
-            # Task 40 (opt-in): persist the source 3D geometry so the PNG slices can be mapped back
-            # to physical space. Sidecar only - the PNG pixels/filenames above are unchanged.
-            if self.preprocessing.preserve_slice_geometry and self.segmentation_prefix not in img_path:
-                self._write_geometry_sidecar(img_path)
         except Exception as e:
             print(f"Error {e} occurred while converting {img_path}")
-            if self.on_error_remove:
+            # ``on_error_remove`` is an optional, defensively-read flag (not every ctx defines it);
+            # only drop the source volume when it is explicitly enabled.
+            if getattr(self, "on_error_remove", False):
                 os.remove(img_path)
+            return
+
+        # Task 40 (opt-in): persist the source 3D geometry so the PNG slices can be mapped back to
+        # physical space. Sidecar only - the PNG pixels/filenames above are unchanged. Kept out of the
+        # conversion try/except so an optional-sidecar failure never masks a successful conversion or
+        # triggers the source-file removal path above.
+        if self.preprocessing.preserve_slice_geometry and self.segmentation_prefix not in img_path:
+            try:
+                self._write_geometry_sidecar(img_path)
+            except Exception as e:  # noqa: BLE001 - best-effort sidecar; conversion already succeeded
+                print(f"Warning: could not write geometry sidecar for {img_path}: {e}")
 
     def _write_geometry_sidecar(self, img_path: str) -> None:
         """Write the orientation sidecar for a sliced volume next to its slices (Task 40)."""

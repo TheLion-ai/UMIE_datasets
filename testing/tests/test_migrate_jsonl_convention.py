@@ -74,3 +74,11 @@ def test_dry_run_writes_nothing():
         result = migrate_tree(tmp, dry_run=True)
         assert result == {"files_changed": 1, "records_changed": 1}
         assert _read(path) == [{"phase_name": "CT"}]  # unchanged on disk
+
+
+def test_rename_key_does_not_clobber_existing_target():
+    """A partially-migrated record keeps the correct target value and only drops the stale source key."""
+    record = {"modality_name": "CT", "phase_name": "OLD", "study_id": "1"}
+    migrated, changed = rename_key(record, "phase_name", "modality_name")
+    assert changed is True
+    assert migrated == {"modality_name": "CT", "study_id": "1"}  # 'CT' preserved, not overwritten by 'OLD'
