@@ -62,6 +62,11 @@ class StoreVolumesAlongside(BaseStep):
         modality_id = self.modality_id_extractor(volume_path)
         umie_volume_id = f"{self.dataset_uid}_{modality_id}_{study_id}_{img_id}.nii.gz"
 
+        # validate_umie_path only checks the id components are non-empty; guard the modality lookup
+        # so a non-empty-but-unmapped id raises the same descriptive error as the path builders in
+        # BaseStep rather than a bare KeyError that aborts the run.
+        if modality_id not in self.modalities.keys():
+            raise ValueError(f"Modality id {modality_id} not in the list of modalities.")
         modality_name = self.modalities[modality_id]
         volumes_dir = os.path.join(self.dataset_root, modality_name, VOLUMES_FOLDER_NAME)
         os.makedirs(volumes_dir, exist_ok=True)

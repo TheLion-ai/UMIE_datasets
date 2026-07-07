@@ -72,6 +72,23 @@ def test_reconstruct_volume_matches_original():
     assert geometry_matches(geometry, reconstructed)
 
 
+def test_reconstruct_prefers_affine_over_degenerate_sform():
+    """When the stored sform is degenerate (sform_code == 0), reconstruction uses the valid affine."""
+    data = np.arange(4 * 5 * 6, dtype=np.float32).reshape(4, 5, 6)
+    valid_affine = [[0.7, 0.0, 0.0, 5.0], [0.0, 0.8, 0.0, -3.0], [0.0, 0.0, 3.0, 10.0], [0.0, 0.0, 0.0, 1.0]]
+    geometry = {
+        "affine_matrix": valid_affine,
+        "sform_matrix": [[0.0, 0.0, 0.0, 0.0]] * 4,  # all-zero sform, as get_sform() returns when sform_code == 0
+        "sform_code": 0,
+        "slicing_axis": 0,
+        "original_dimensions": [4, 5, 6],
+    }
+    slices = [data[i, :, :] for i in range(4)]
+    reconstructed = reconstruct_volume_from_slices(slices, geometry)
+    assert np.allclose(np.asarray(reconstructed.affine), np.asarray(valid_affine))  # not the zero sform
+    assert geometry_matches(geometry, reconstructed)
+
+
 # --- Task 41: combined 2D + 3D output mode ------------------------------------------------------
 
 

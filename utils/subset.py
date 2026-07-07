@@ -52,6 +52,26 @@ def _record_modality(record: dict) -> Optional[str]:
     return record.get("modality_name") or record.get("series_level_info", {}).get("modality")
 
 
+def _record_image_path(record: dict) -> Optional[str]:
+    """Return a record's image path (v1 ``umie_path`` or the v2 png/nifti representation)."""
+    if record.get("umie_path"):
+        return record["umie_path"]
+    series = record.get("series_level_info", {})
+    png = series.get("png_representation", {})
+    nifti = series.get("nifti_files", {})
+    return png.get("single_image_path") or nifti.get("image_path")
+
+
+def _record_mask_path(record: dict) -> Optional[str]:
+    """Return a record's mask path (v1 ``mask_path`` or the v2 png/nifti representation)."""
+    if record.get("mask_path"):
+        return record["mask_path"]
+    series = record.get("series_level_info", {})
+    png = series.get("png_representation", {})
+    nifti = series.get("nifti_files", {})
+    return png.get("single_mask_path") or nifti.get("mask_path")
+
+
 def _record_license(record: dict) -> str:
     """Return a record's licence (explicit ``license`` field, else looked up from provenance)."""
     if record.get("license"):
@@ -103,9 +123,9 @@ def query_subset(
 
 
 def build_manifest(subset: list[dict]) -> dict:
-    """Build a downloadable manifest (file list + JSONL slice) from a queried subset."""
-    files = [r.get("umie_path") for r in subset if r.get("umie_path")]
-    masks = [r.get("mask_path") for r in subset if r.get("mask_path")]
+    """Build a downloadable manifest (file list + JSONL slice) from a queried subset (v1 or v2)."""
+    files = [path for path in (_record_image_path(r) for r in subset) if path]
+    masks = [path for path in (_record_mask_path(r) for r in subset) if path]
     return {"num_records": len(subset), "files": files, "masks": masks, "records": subset}
 
 

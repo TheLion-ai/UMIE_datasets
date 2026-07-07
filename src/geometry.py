@@ -19,12 +19,12 @@ from typing import Any, Union
 import nibabel as nib
 import numpy as np
 
-NiftiLike = Union[str, "nib.Nifti1Image"]
+NiftiLike = Union[str, "os.PathLike", "nib.Nifti1Image"]
 
 
 def _load(nii: NiftiLike) -> "nib.Nifti1Image":
-    """Return a NIfTI image, loading from a path if needed."""
-    return nib.load(nii) if isinstance(nii, str) else nii  # type: ignore[return-value]
+    """Return a NIfTI image, loading from a path if needed (accepts str or os.PathLike)."""
+    return nib.load(nii) if isinstance(nii, (str, os.PathLike)) else nii  # type: ignore[return-value]
 
 
 def extract_nifti_geometry(nii: NiftiLike) -> dict:
@@ -85,10 +85,26 @@ def build_slice_geometry(
 
 def write_slice_geometry_sidecar(sidecar_path: str, geometry: dict) -> str:
     """Write the slice-geometry record to ``sidecar_path`` (creating parent dirs). Returns the path."""
-    os.makedirs(os.path.dirname(sidecar_path), exist_ok=True)
+    os.makedirs(os.path.dirname(sidecar_path) or ".", exist_ok=True)
     with open(sidecar_path, "w") as handle:
         json.dump(geometry, handle, indent=2)
     return sidecar_path
+
+
+def _select_affine(geometry: dict) -> np.ndarray:
+    """Return the canonical affine for reconstruction/comparison.
+
+    Prefer ``affine_matrix`` - nibabel's already-resolved best affine (the sform when
+    ``sform_code`` > 0, otherwise the qform) - and fall back to the raw ``sform_matrix``. A raw
+    sform can be all-zeros when ``sform_code == 0``; selecting on ``is not None`` (rather than
+    truthiness of a populated list, or ``a or b`` which raises on NumPy arrays) avoids treating
+    that degenerate matrix as authoritative.
+    """
+    for key in ("affine_matrix", "sform_matrix"):
+        matrix = geometry.get(key)
+        if matrix is not None:
+            return np.asarray(matrix)
+    raise KeyError("geometry has neither 'affine_matrix' nor 'sform_matrix'")
 
 
 def reconstruct_volume_from_slices(slices: Union[list, np.ndarray], geometry: dict) -> "nib.Nifti1Image":
@@ -105,13 +121,13 @@ def reconstruct_volume_from_slices(slices: Union[list, np.ndarray], geometry: di
     """
     axis = geometry.get("slicing_axis", 0)
     volume = np.asarray(slices) if isinstance(slices, np.ndarray) else np.stack(list(slices), axis=axis)
-    affine = np.asarray(geometry.get("sform_matrix") or geometry.get("affine_matrix"))
+    affine = _select_affine(geometry)
     return nib.Nifti1Image(volume, affine)  # type: ignore[no-untyped-call]
 
 
 def geometry_matches(geometry: dict, reconstructed: "nib.Nifti1Image", atol: float = 1e-4) -> bool:
     """Return True if a reconstructed volume's shape and affine match the stored geometry."""
     same_shape = list(reconstructed.shape) == list(geometry["original_dimensions"])
-    expected_affine = np.asarray(geometry.get("sform_matrix") or geometry.get("affine_matrix"))
+    expected_affine = _select_affine(geometry)
     same_affine: bool = bool(np.allclose(np.asarray(reconstructed.affine), expected_affine, atol=atol))
     return same_shape and same_affine

@@ -31,6 +31,7 @@ import pandas as pd
 
 from base.step import BaseStep
 from config.provenance import get_provenance
+from constants import SCHEMA_VERSION_V2
 from datasets import (  # type: ignore[attr-defined]
     Dataset,
     DatasetDict,
@@ -38,6 +39,7 @@ from datasets import (  # type: ignore[attr-defined]
     Image,
     Value,
 )
+from metadata_schema import v2_to_v1
 
 # Canonical ordering of splits when a "split" field is present in the JSONL (Task 21).
 SPLIT_ORDER = ("train", "val", "test")
@@ -91,13 +93,19 @@ class ExportHuggingFace(BaseStep):
         return X
 
     def _read_records(self) -> list[dict[str, Any]]:
-        """Read the dataset JSONL into a list of plain dict records via pandas.
+        """Read the dataset JSONL into a list of flat v1 dict records via pandas.
+
+        Records already written in the hierarchical v2 schema (``schema_version == '2.0'``) are
+        flattened back to v1 via :func:`metadata_schema.v2_to_v1` so the rest of the exporter can
+        keep reading ``umie_path`` / ``mask_path`` / ``labels`` uniformly instead of KeyError-ing on
+        a v2 JSONL.
 
         Returns:
-            list[dict[str, Any]]: One dict per JSONL line, in file order.
+            list[dict[str, Any]]: One flat v1 dict per JSONL line, in file order.
         """
         df = pd.read_json(self.json_path, lines=True)
-        return df.to_dict(orient="records")
+        records = df.to_dict(orient="records")
+        return [v2_to_v1(record) if record.get("schema_version") == SCHEMA_VERSION_V2 else record for record in records]
 
     @staticmethod
     def _flatten_labels(labels: Any) -> str:

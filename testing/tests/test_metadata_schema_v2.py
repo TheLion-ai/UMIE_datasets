@@ -192,7 +192,15 @@ def test_nifti_files_reuse_volume_metadata():
 def test_segmentations_dual_label_and_validation():
     """Segmentations carry dual labels + mask-value mapping + provenance, validated vs config/masks.py."""
     segs = build_segmentations(
-        [{"structure": "Kidney", "structure_source": "kidney", "mask_value": 1, "provenance": "manual", "volume_cc": 120.5}]
+        [
+            {
+                "structure": "Kidney",
+                "structure_source": "kidney",
+                "mask_value": 1,
+                "provenance": "manual",
+                "volume_cc": 120.5,
+            }
+        ]
     )
     assert segs[0]["structure_radlex"] == {"term": "Kidney", "id": "RID205"}
     assert segs[0]["mask_value_in_nifti"] == 1 and segs[0]["mask_value_in_pngs"] == 1
@@ -265,3 +273,47 @@ def test_step_emits_v2_when_opted_in():
         assert png["png_window_center"] == 50
         # and the emitted v2 still round-trips back to the v1 flat fields
         assert v2_to_v1(records[0]) == _v1_record()
+
+
+def test_step_is_idempotent_on_already_v2():
+    """Running the conversion twice must not re-read absent v1 keys as empty and destroy the record."""
+    with tempfile.TemporaryDirectory() as tmp:
+        step = ConvertJsonlToV2(_ctx(tmp, SCHEMA_VERSION_V2))
+        path = _write_v1_jsonl(step, [_v1_record()])
+        step.transform(["x"])
+        with jsonlines.open(path) as reader:
+            after_first = list(reader)
+        step.transform(["x"])  # second pass over the now-v2 JSONL
+        with jsonlines.open(path) as reader:
+            after_second = list(reader)
+        assert after_second == after_first  # unchanged, not wiped to empty defaults
+        assert v2_to_v1(after_second[0]) == _v1_record()
+
+
+def test_round_trip_preserves_unmapped_v1_fields():
+    """Fields written by optional steps (split, dicom_metadata, ...) survive a v1->v2->v1 round-trip."""
+    original = _v1_record(split="train", duplicate_group_id=7, dicom_metadata={"Modality": "CT"})
+    v2 = build_v2_record(original)
+    assert v2["additional_v1_fields"] == {
+        "split": "train",
+        "duplicate_group_id": 7,
+        "dicom_metadata": {"Modality": "CT"},
+    }
+    assert v2_to_v1(v2) == original
+
+
+def test_build_v2_record_tolerates_null_labels():
+    """A record whose labels / source_labels are JSON null does not crash the serializer."""
+    v2 = build_v2_record(_v1_record(labels=None, source_labels=None))
+    assert v2["annotations"]["image_level_classification"] == []
+    assert v2["annotations"]["source_labels"] == []
+
+
+def test_segmentations_reject_value_from_a_different_structure():
+    """A mask value that belongs to a *different* structure is rejected, not merely 'some valid value'."""
+    from config.masks import all_masks, mask_by_name
+
+    kidney = mask_by_name("Kidney")
+    other_value = next(m.id for m in all_masks if m.id not in {kidney.id, kidney.color})
+    with pytest.raises(ValueError):
+        build_segmentations([{"structure": "Kidney", "mask_value": other_value}])

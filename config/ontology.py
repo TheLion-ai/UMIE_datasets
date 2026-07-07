@@ -121,7 +121,7 @@ def descendants(entry: T, entries: Iterable[T]) -> list[T]:
 
 
 def descendants_of(name: str, entries: Iterable[T]) -> list[T]:
-    """Convenience: all descendants of the entry named ``name`` (empty list if the name is unknown)."""
+    """Return all descendants of the entry named ``name`` (empty list if the name is unknown)."""
     entries = list(entries)
     root = get_by_name(name, entries)
     return descendants(root, entries) if root is not None else []
