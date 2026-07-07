@@ -192,7 +192,15 @@ def test_nifti_files_reuse_volume_metadata():
 def test_segmentations_dual_label_and_validation():
     """Segmentations carry dual labels + mask-value mapping + provenance, validated vs config/masks.py."""
     segs = build_segmentations(
-        [{"structure": "Kidney", "structure_source": "kidney", "mask_value": 1, "provenance": "manual", "volume_cc": 120.5}]
+        [
+            {
+                "structure": "Kidney",
+                "structure_source": "kidney",
+                "mask_value": 1,
+                "provenance": "manual",
+                "volume_cc": 120.5,
+            }
+        ]
     )
     assert segs[0]["structure_radlex"] == {"term": "Kidney", "id": "RID205"}
     assert segs[0]["mask_value_in_nifti"] == 1 and segs[0]["mask_value_in_pngs"] == 1
@@ -286,7 +294,11 @@ def test_round_trip_preserves_unmapped_v1_fields():
     """Fields written by optional steps (split, dicom_metadata, ...) survive a v1->v2->v1 round-trip."""
     original = _v1_record(split="train", duplicate_group_id=7, dicom_metadata={"Modality": "CT"})
     v2 = build_v2_record(original)
-    assert v2["additional_v1_fields"] == {"split": "train", "duplicate_group_id": 7, "dicom_metadata": {"Modality": "CT"}}
+    assert v2["additional_v1_fields"] == {
+        "split": "train",
+        "duplicate_group_id": 7,
+        "dicom_metadata": {"Modality": "CT"},
+    }
     assert v2_to_v1(v2) == original
 
 
